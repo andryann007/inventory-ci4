@@ -100,7 +100,7 @@
         <div class="sidebar-heading">Laporan</div>
 
         <!-- Nav Item - Laporan Barang Masuk -->
-        <li class="nav-item">
+        <li class="nav-item active">
           <a class="nav-link" href="/user/laporan_masuk">
             <i class="fas fa-file-invoice"></i>
             <span>Laporan Barang Masuk</span></a

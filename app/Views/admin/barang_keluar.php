@@ -100,7 +100,7 @@
         </li>
 
         <!-- Nav Item - Data Barang Keluar -->
-        <li class="nav-item">
+        <li class="nav-item active">
           <a class="nav-link" href="/admin/keluar">
             <i class="fas fa-arrow-right"></i>
             <span>Data Barang Keluar</span></a

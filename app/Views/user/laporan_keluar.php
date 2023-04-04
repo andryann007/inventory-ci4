@@ -108,7 +108,7 @@
         </li>
 
         <!-- Nav Item - Laporan Barang Keluar -->
-        <li class="nav-item">
+        <li class="nav-item active">
           <a class="nav-link" href="/user/laporan_keluar">
             <i class="fas fa-file-invoice"></i>
             <span>Laporan Barang Keluar</span></a

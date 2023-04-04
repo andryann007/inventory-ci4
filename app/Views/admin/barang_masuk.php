@@ -93,7 +93,7 @@
         <div class="sidebar-heading">Data Transaksi</div>
 
         <!-- Nav Item - Data Barang Masuk -->
-        <li class="nav-item">
+        <li class="nav-item active">
           <a class="nav-link" href="/admin/masuk">
             <i class="fas fa-arrow-left"></i>
             <span>Data Barang Masuk</span></a
