@@ -92,7 +92,7 @@
         <div class="sidebar-heading">Data Transaksi</div>
 
         <!-- Nav Item - Data Barang Masuk -->
-        <li class="nav-item active">
+        <li class="nav-item">
           <a class="nav-link" href="/admin/masuk">
             <i class="fas fa-arrow-left"></i>
             <span>Data Barang Masuk</span></a
@@ -122,7 +122,7 @@
         <div class="sidebar-heading">Laporan</div>
 
         <!-- Nav Item - Laporan Barang Masuk -->
-        <li class="nav-item">
+        <li class="nav-item active">
           <a class="nav-link" href="/admin/laporan_masuk">
             <i class="fas fa-file-invoice"></i>
             <span>Laporan Barang Masuk</span></a
