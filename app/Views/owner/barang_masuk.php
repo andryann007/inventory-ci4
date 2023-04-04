@@ -49,7 +49,7 @@
         <!-- Sidebar - Brand -->
         <a
           class="sidebar-brand d-flex align-items-center justify-content-center"
-          href="/admin"
+          href="/owner"
         >
           <img src="<?= base_url(); ?>/img/logo.png" style="width: 25%" />
           <div class="sidebar-brand-text mx-2">Toko Sukses</div>
@@ -57,7 +57,7 @@
 
         <!-- Nav Item - Dashboard -->
         <li class="nav-item">
-          <a class="nav-link" href="/admin">
+          <a class="nav-link" href="/owner">
             <i class="fas fa-home"></i>
             <span>Dashboard</span></a
           >
@@ -85,14 +85,6 @@
           >
         </li>
 
-        <!-- Nav Item - Data Customer -->
-        <li class="nav-item">
-          <a class="nav-link" href="/owner/customer">
-            <i class="fas fa-users"></i>
-            <span>Data Customer</span></a
-          >
-        </li>
-
         <!-- Nav Item - Data Stock -->
         <li class="nav-item">
           <a class="nav-link" href="/owner/stock">
@@ -104,13 +96,14 @@
         <!-- Divider -->
         <hr class="sidebar-divider" />
 
+       
         <!-- Heading Data Master -->
         <div class="sidebar-heading">Data Transaksi</div>
 
         <!-- Nav Item - Data Barang Masuk -->
-        <li class="nav-item active">
+        <li class="nav-item">
           <a class="nav-link" href="/owner/masuk">
-            <i class="fas fa-cube"></i>
+            <i class="fas fa-arrow-left"></i>
             <span>Data Barang Masuk</span></a
           >
         </li>
@@ -118,8 +111,16 @@
         <!-- Nav Item - Data Barang Keluar -->
         <li class="nav-item">
           <a class="nav-link" href="/owner/keluar">
-            <i class="fas fa-cube"></i>
+            <i class="fas fa-arrow-right"></i>
             <span>Data Barang Keluar</span></a
+          >
+        </li>
+
+        <!-- Nav Item - Data Retur Barang -->
+        <li class="nav-item">
+          <a class="nav-link" href="">
+          <i class="fas fa-reply"></i>
+            <span>Data Retur Barang</span></a
           >
         </li>
 
@@ -142,6 +143,14 @@
           <a class="nav-link" href="/owner/laporan_keluar">
             <i class="fas fa-file-invoice"></i>
             <span>Laporan Barang Keluar</span></a
+          >
+        </li>
+
+        <!-- Nav Item - Laporan Retur Barang -->
+        <li class="nav-item">
+          <a class="nav-link" href="">
+            <i class="fas fa-file-invoice"></i>
+            <span>Laporan Retur Barang</span></a
           >
         </li>
 
@@ -177,19 +186,6 @@
               class="d-sm-flex align-items-center justify-content-between mb-4"
             >
               <h2 class="h3 mb-0 text-gray-800 col-md-8">Data Barang Masuk</h2>
-              <a
-                href="/owner/retur_masuk"
-                class="btn btn-info btn-sm"
-                role="button"
-                ><i class="fas fa-file"></i> Data Retur</a
-              >
-
-              <a
-                href="export_masuk.php"
-                class="btn btn-primary btn-sm"
-                role="button"
-                ><i class="fas fa-file-export"></i> Export Data</a
-              >
 
               <button
                 type="button"
@@ -233,6 +229,7 @@
                     <tbody>
                     <?php $i =1; ?>
                       <?php foreach ($masuk as $msk) : ?>
+                        
                       <tr>
                         <td>
                           <?= $i++; ?>
@@ -244,7 +241,7 @@
                           <?= $msk['id_masuk']; ?>
                         </td>
                         <td>
-                          <?= ucwords($msk['id_barang']); ?>
+                          <?= $msk['id_barang']; ?>
                         </td>
                         <td>
                           <?= ucwords($msk['id_supplier']); ?>
@@ -253,7 +250,7 @@
                           <?= $msk['qty_masuk']; ?>
                         </td>
                         <td>
-                          <?= $msk['harga_satuan']; ?>
+                          <?= "Rp. " . number_format($msk['harga_satuan'], 2, ',', '.'); ?>
                         </td>
                         <td>
                           <?= $msk['keterangan']; ?>
@@ -279,7 +276,6 @@
                             data-harga="<?= $msk['harga_satuan'];?>"
                             data-total_harga="<?= $msk['total_harga'];?>"
                             data-keterangan="<?= $msk['keterangan'];?>"
-                            data-jenis_transaksi="<?= $msk['jenis_transaksi'];?>"
                           >
                             <i class="fas fa-edit"></i>
                           </button>
@@ -391,7 +387,6 @@
         $('.modal-body #jumlahBarang').val($(this).data('qty_masuk'));
         $('.modal-body #hargaSatuan').val($(this).data('harga'));
         $('.modal-body #keterangan').val($(this).data('keterangan'));
-        $('.modal-body #jenisTransaksi').val($(this).data('jenis_transaksi'));
       })
 
       $(document).on('click', '#btnDelete', function(){
@@ -535,18 +530,6 @@
                 class="form-control"
                 required
               />
-            </div>
-
-            <div class="form-group">
-              <label for="status">Jenis Transaksi</label>
-              <select
-                class="form-control"
-                name="jenisTransaksi"
-                id="jenisTransaksi"
-              >
-                <option>pembelian</option>
-                <option>retur_pembelian</option>
-              </select>
             </div>
           </div>
 
@@ -701,18 +684,6 @@
                 required
               />
             </div>
-
-            <div class="form-group">
-              <label for="status">Jenis Transaksi</label>
-              <select
-                class="form-control"
-                name="jenisTransaksi"
-                id="jenisTransaksi"
-              >
-                <option>pembelian</option>
-                <option>retur_pembelian</option>
-              </select>
-            </div>
           </div>
 
           <div class="d-sm-flex modal-footer justify-content-between mb-4">
@@ -763,8 +734,8 @@
           <div class="d-sm-flex modal-footer mb-4">
             <input
               type="hidden"
-              id="idBarang"
-              name="idBarang"
+              id="idMasuk"
+              name="idMasuk"
             />
 
             <button

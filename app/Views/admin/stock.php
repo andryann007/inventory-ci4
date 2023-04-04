@@ -77,14 +77,6 @@
           >
         </li>
 
-        <!-- Nav Item - Data Customer -->
-        <li class="nav-item">
-          <a class="nav-link" href="/admin/customer">
-            <i class="fas fa-users"></i>
-            <span>Data Customer</span></a
-          >
-        </li>
-
         <!-- Nav Item - Data Stock -->
         <li class="nav-item active">
           <a class="nav-link" href="/admin/stock">
@@ -102,7 +94,7 @@
         <!-- Nav Item - Data Barang Masuk -->
         <li class="nav-item">
           <a class="nav-link" href="/admin/masuk">
-            <i class="fas fa-cube"></i>
+            <i class="fas fa-arrow-left"></i>
             <span>Data Barang Masuk</span></a
           >
         </li>
@@ -110,8 +102,16 @@
         <!-- Nav Item - Data Barang Keluar -->
         <li class="nav-item">
           <a class="nav-link" href="/admin/keluar">
-            <i class="fas fa-cube"></i>
+            <i class="fas fa-arrow-right"></i>
             <span>Data Barang Keluar</span></a
+          >
+        </li>
+
+        <!-- Nav Item - Data Retur Barang -->
+        <li class="nav-item">
+          <a class="nav-link" href="">
+          <i class="fas fa-reply"></i>
+            <span>Data Retur Barang</span></a
           >
         </li>
 
@@ -134,6 +134,14 @@
           <a class="nav-link" href="/admin/laporan_keluar">
             <i class="fas fa-file-invoice"></i>
             <span>Laporan Barang Keluar</span></a
+          >
+        </li>
+
+        <!-- Nav Item - Laporan Retur Barang -->
+        <li class="nav-item">
+          <a class="nav-link" href="">
+            <i class="fas fa-file-invoice"></i>
+            <span>Laporan Retur Barang</span></a
           >
         </li>
 
@@ -169,14 +177,7 @@
               class="d-sm-flex align-items-center justify-content-between mb-4"
             >
               <h2 class="h3 mb-0 text-gray-800 col-md-9">Data Stock</h2>
-
-              <a
-                href="export_stock.php"
-                class="btn btn-primary btn-sm"
-                role="button"
-                ><i class="fas fa-file-export"></i> Export Data</a
-              >
-
+              
               <button
                 type="button"
                 class="btn btn-success btn-sm"
@@ -245,43 +246,31 @@
                         <th>Nama Barang</th>
                         <th>Kategori</th>
                         <th>Jumlah</th>
-                        <th>Harga</th>
+                        <th>Harga Satuan</th>
                         <th class="text-center">Aksi</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <?php
-                      $conn = mysqli_connect("localhost", "root", "", "database_inventory");
-                      $dataStock = mysqli_query($conn, "SELECT * FROM data_stock");
-                      $i = 1;
-                      while ($data = mysqli_fetch_array($dataStock)) {
-                        $idBarang = $data['id_barang'];
-                        $namaBarang = $data['nama_barang'];
-                        $kategoriBarang = $data['kategori'];
-                        $jumlahBarang = $data['qty_stock'];
-                        $hargaSatuan = $data['harga_satuan'];
-                        $totalHarga = $data['total_harga'];
-                        $statusBarang = $data['status'];
-                        $hargaSatuanRp = "Rp. " . number_format($hargaSatuan, 2, ',', '.');
-                        ?>
+                    <?php $i =1; ?>
+                      <?php foreach ($stock as $stk) : ?>
                       <tr>
                         <td>
                           <?= $i++; ?>
                         </td>
                         <td>
-                          <?= $idBarang; ?>
+                          <?= $stk['id_barang']; ?>
                         </td>
                         <td>
-                          <?= ucwords($namaBarang); ?>
+                          <?= ucwords($stk['nama_barang']); ?>
                         </td>
                         <td>
-                          <?= ucwords($kategoriBarang); ?>
+                          <?= ucwords($stk['kategori']); ?>
                         </td>
                         <td>
-                          <?= $jumlahBarang; ?>
+                          <?= $stk['qty_stock']; ?>
                         </td>
                         <td>
-                          <?= $hargaSatuanRp; ?>
+                          <?= "Rp. " . number_format($stk['harga_satuan'], 2, ',', '.'); ?>
                         </td>
 
                         <td
@@ -294,208 +283,33 @@
                           <button
                             type="button"
                             class="btn btn-warning"
+                            id="btnEdit"
                             data-toggle="modal"
-                            data-target="#editStockModal<?= $idBarang ?>"
+                            data-target="#editStockModal"
+                            data-id="<?= $stk['id_barang'];?>"
+                            data-nama="<?= $stk['nama_barang'];?>"
+                            data-kategori="<?= $stk['kategori'];?>"
+                            data-qty="<?= $stk['qty_stock'];?>"
+                            data-harga="<?= $stk['harga_satuan'];?>"
+                            data-total_harga="<?= $stk['total_harga'];?>"
+                            data-status="<?= $stk['status'];?>"
                           >
                             <i class="fas fa-edit"></i>
                           </button>
-                          <input
-                            type="hidden"
-                            name="idHapus"
-                            value="<?= $idBarang; ?>"
-                          />
+
                           <button
                             type="button"
                             class="btn btn-danger"
+                            id="btnDelete"
                             data-toggle="modal"
-                            data-target="#deleteStockModal<?= $idBarang ?>"
+                            data-target="#deleteStockModal"
+                            data-id="<?= $stk['id_barang'];?>"
                           >
                             <i class="fas fa-trash"></i>
                           </button>
                         </td>
                       </tr>
-
-                      <!-- Edit Data Modal -->
-                      <div
-                        class="modal fade"
-                        id="editStockModal<?= $idBarang ?>"
-                        tabindex="-1"
-                        aria-labelledby="addModalLabel"
-                        aria-hidden="true"
-                      >
-                        <div class="modal-dialog modal-dialog-centered">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h5 class="modal-title" id="addModalLabel">
-                                Edit Data Stock Barang
-                              </h5>
-                              <button
-                                type="button"
-                                class="close"
-                                data-dismiss="modal"
-                                aria-label="Close"
-                              >
-                                <span aria-hidden="true">&times;</span>
-                              </button>
-                            </div>
-                            <form method="post">
-                              <div class="modal-body">
-                                <input
-                                  type="hidden"
-                                  name="idStock"
-                                  value="<?= $idBarang; ?>"
-                                />
-                                <div class="form-group">
-                                  <label for="idBarang">ID Barang</label>
-                                  <input
-                                    type="text"
-                                    name="idBarang"
-                                    id="idBarang"
-                                    value="<?= $idBarang ?>"
-                                    class="form-control"
-                                    required
-                                  />
-                                </div>
-
-                                <div class="form-group">
-                                  <label for="namaBarang">Nama Barang</label>
-                                  <input
-                                    type="text"
-                                    name="namaBarang"
-                                    id="namaBarang"
-                                    value="<?= $namaBarang ?>"
-                                    class="form-control"
-                                    required
-                                  />
-                                </div>
-
-                                <div class="form-group">
-                                  <label for="kategoriBarang"
-                                    >Kategori Barang</label
-                                  >
-                                  <select
-                                    class="form-control"
-                                    name="kategoriBarang"
-                                    id="kategoriBarang"
-                                  >
-                                    <option>Sembako</option>
-                                    <option>Makanan Ringan</option>
-                                    <option>Minuman</option>
-                                    <option>
-                                      Perlengkapan Mandi & Mencuci
-                                    </option>
-                                    <option>Perlengkapan Rumah Tangga</option>
-                                    <option>Obat - Obatan</option>
-                                    <option>Bumbu Dapur</option>
-                                    <option>Makanan Instan</option>
-                                  </select>
-                                </div>
-
-                                <div class="form-group">
-                                  <label for="jumlahBarang"
-                                    >Jumlah Barang</label
-                                  >
-                                  <input
-                                    type="number"
-                                    name="jumlahBarang"
-                                    id="jumlahBarang"
-                                    placeholder="<?= $jumlahBarang ?>"
-                                    value="<?= $jumlahBarang ?>"
-                                    class="form-control"
-                                    required
-                                  />
-                                </div>
-
-                                <div class="form-group">
-                                  <label for="hargaSatuan">Harga Satuan</label>
-                                  <input
-                                    type="number"
-                                    name="hargaSatuan"
-                                    id="hargaSatuan"
-                                    placeholder="<?= $hargaSatuan ?>"
-                                    value="<?= $hargaSatuan ?>"
-                                    class="form-control"
-                                    required
-                                  />
-                                </div>
-                              </div>
-
-                              <div class="d-sm-flex modal-footer mb-4">
-                                <button
-                                  type="button"
-                                  class="btn btn-danger"
-                                  data-dismiss="modal"
-                                >
-                                  <i class="fas fa-trash"></i> Batal
-                                </button>
-                                <button
-                                  type="submit"
-                                  class="btn btn-warning"
-                                  name="editStock"
-                                >
-                                  <i class="fas fa-edit"></i> Edit
-                                </button>
-                              </div>
-                            </form>
-                          </div>
-                        </div>
-                      </div>
-
-                      <!-- Delete Data Modal -->
-                      <div
-                        class="modal fade"
-                        tabindex="-1"
-                        aria-labelledby="deleteModalLabel"
-                        aria-hidden="true"
-                        id="deleteStockModal<?= $idBarang; ?>"
-                      >
-                        <div class="modal-dialog modal-dialog-centered">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h5 class="modal-title" id="deleteModalLabel">
-                                Hapus Stock Barang ?
-                              </h5>
-                              <button
-                                type="button"
-                                class="close"
-                                data-dismiss="modal"
-                                aria-label="Close"
-                              >
-                                <span aria-hidden="true">&times;</span>
-                              </button>
-                            </div>
-                            <form method="post">
-                              <div class="modal-body text-center">
-                                Apakah anda yakin ingin menghapus stock
-                                <b>
-                                  <?= $namaBarang ?>
-                                </b>
-                                ?
-                              </div>
-                              <input
-                                type="hidden"
-                                name="idHapus"
-                                value="<?= $idBarang; ?>"
-                              />
-
-                              <div class="d-sm-flex modal-footer mb-4">
-                                <button
-                                  type=" submit"
-                                  class="btn btn-danger"
-                                  name="deleteStock"
-                                >
-                                  <i class="fas fa-trash"></i> Hapus
-                                </button>
-                              </div>
-                            </form>
-                          </div>
-                        </div>
-                      </div>
-
-                      <?php
-
-                      }
-                      ?>
+                      <?php endforeach; ?>
                     </tbody>
                   </table>
                 </div>
@@ -581,6 +395,22 @@
     <!-- Page level custom scripts -->
     <script src="<?= base_url(); ?>/js/demo/chart-area-demo.js"></script>
     <script src="<?= base_url(); ?>/js/demo/chart-pie-demo.js"></script>
+
+    <script>
+      $(document).on('click', '#btnEdit', function(){
+        $('.modal-body #idBarang').val($(this).data('id'));
+        $('.modal-body #namaBarang').val($(this).data('nama'));
+        $('.modal-body #kategoriBarang').val($(this).data('kategori'));
+        $('.modal-body #jumlahBarang').val($(this).data('qty'));
+        $('.modal-body #hargaSatuan').val($(this).data('harga'));
+        $('.modal-body #totalHarga').val($(this).data('total_harga'));
+        $('.modal-body #status').val($(this).data('status'));
+      })
+
+      $(document).on('click', '#btnDelete', function(){
+        $('.modal-footer #idBarang').val($(this).data('id'));
+      })
+    </script>
   </body>
 
   <!-- Add Data Modal -->
@@ -606,7 +436,7 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <form method="post">
+        <form action='/admin/update_stock' method="post">
           <div class="modal-body">
             <div class="form-group">
               <label for="idBarang">ID Barang</label>
@@ -673,6 +503,18 @@
                 required
               />
             </div>
+
+            <div class="form-group">
+              <label for="status">Status Barang</label>
+              <select
+                class="form-control"
+                name="status"
+                id="status"
+              >
+                <option>Tersedia</option>
+                <option>Habis</option>
+              </select>
+            </div>
           </div>
 
           <div class="d-sm-flex modal-footer justify-content-between mb-4">
@@ -681,6 +523,171 @@
             </button>
             <button type="submit" class="btn btn-primary" name="addNewStock">
               <i class="fas fa-plus"></i> Tambah
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Data Modal -->
+  <div
+    class="modal fade"
+    id="editStockModal"
+    tabindex="-1"
+    aria-labelledby="editModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editModalLabel">
+            Edit Data Stock Barang
+          </h5>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action='/admin/update_stock' method="post">
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="idBarang">ID Barang</label>
+              <input
+                type="text"
+                name="idBarang"
+                id="idBarang"
+                placeholder="ID Barang"
+                class="form-control"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="namaBarang">Nama Barang</label>
+              <input
+                type="text"
+                name="namaBarang"
+                id="namaBarang"
+                placeholder="Nama Barang"
+                class="form-control"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="kategoriBarang">Kategori Barang</label>
+              <select
+                class="form-control"
+                name="kategoriBarang"
+                id="kategoriBarang"
+              >
+                <option>Sembako</option>
+                <option>Makanan Ringan</option>
+                <option>Minuman</option>
+                <option>Perlengkapan Mandi & Mencuci</option>
+                <option>Perlengkapan Rumah Tangga</option>
+                <option>Obat - Obatan</option>
+                <option>Bumbu Dapur</option>
+                <option>Makanan Instan</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="jumlahBarang">Jumlah Barang</label>
+              <input
+                type="number"
+                name="jumlahBarang"
+                id="jumlahBarang"
+                placeholder="Jumlah Barang"
+                class="form-control"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="hargaSatuan">Harga Satuan</label>
+              <input
+                type="number"
+                name="hargaSatuan"
+                id="hargaSatuan"
+                placeholder="Harga/Pcs"
+                class="form-control"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="status">Status Barang</label>
+              <select
+                class="form-control"
+                name="status"
+                id="status"
+              >
+                <option>Tersedia</option>
+                <option>Habis</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="d-sm-flex modal-footer justify-content-between mb-4">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">
+              <i class="fas fa-trash"></i> Batal
+            </button>
+            <button type="submit" class="btn btn-warning" name="editStock">
+              <i class="fas fa-edit"></i> Edit
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Data Modal -->
+  <div
+    class="modal fade"
+    tabindex="-1"
+    aria-labelledby="deleteModalLabel"
+    aria-hidden="true"
+    id="deleteStockModal"
+  >
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteModalLabel">
+            Hapus Stock ?
+          </h5>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="/admin/delete_stock" method="post">
+          <div class="modal-body text-center">
+            Apakah anda yakin ingin menghapus stock ini ?
+          </div>
+
+          <div class="d-sm-flex modal-footer mb-4">
+            <input
+              type="hidden"
+              id="idBarang"
+              name="idBarang"
+            />
+
+            <button
+              type=" submit"
+              class="btn btn-danger"
+              name="deleteStock"
+            >
+              <i class="fas fa-trash"></i> Hapus
             </button>
           </div>
         </form>

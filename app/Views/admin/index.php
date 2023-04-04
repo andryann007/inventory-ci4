@@ -61,13 +61,6 @@
           <span>Data Supplier</span></a>
       </li>
 
-      <!-- Nav Item - Data Customer -->
-      <li class="nav-item">
-        <a class="nav-link" href="/admin/customer">
-          <i class="fas fa-users"></i>
-          <span>Data Customer</span></a>
-      </li>
-
       <!-- Divider -->
       <hr class="sidebar-divider" />
 
@@ -77,15 +70,25 @@
       <!-- Nav Item - Data Barang Masuk -->
       <li class="nav-item">
         <a class="nav-link" href="/admin/masuk">
-          <i class="fas fa-cube"></i>
-          <span>Data Barang Masuk</span></a>
+          <i class="fas fa-arrow-left"></i>
+          <span>Data Barang Masuk</span></a
+        >
       </li>
 
       <!-- Nav Item - Data Barang Keluar -->
       <li class="nav-item">
         <a class="nav-link" href="/admin/keluar">
-          <i class="fas fa-cube"></i>
-          <span>Data Barang Keluar</span></a>
+          <i class="fas fa-arrow-right"></i>
+          <span>Data Barang Keluar</span></a
+        >
+      </li>
+
+      <!-- Nav Item - Data Retur Barang -->
+      <li class="nav-item">
+        <a class="nav-link" href="">
+        <i class="fas fa-reply"></i>
+          <span>Data Retur Barang</span></a
+        >
       </li>
 
       <!-- Divider -->
@@ -98,14 +101,24 @@
       <li class="nav-item">
         <a class="nav-link" href="/admin/laporan_masuk">
           <i class="fas fa-file-invoice"></i>
-          <span>Laporan Barang Masuk</span></a>
+          <span>Laporan Barang Masuk</span></a
+        >
       </li>
 
       <!-- Nav Item - Laporan Barang Keluar -->
       <li class="nav-item">
         <a class="nav-link" href="/admin/laporan_keluar">
           <i class="fas fa-file-invoice"></i>
-          <span>Laporan Barang Keluar</span></a>
+          <span>Laporan Barang Keluar</span></a
+        >
+      </li>
+
+      <!-- Nav Item - Laporan Retur Barang -->
+      <li class="nav-item">
+        <a class="nav-link" href="">
+          <i class="fas fa-file-invoice"></i>
+          <span>Laporan Retur Barang</span></a
+        >
       </li>
 
       <!-- Divider -->

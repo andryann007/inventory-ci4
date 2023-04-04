@@ -245,14 +245,16 @@ class Owner extends BaseController
 
     public function update_masuk(){
         $masuk = $this->masukModel;
-        $id = $this->request->getPost('idBarang');
+        $id = $this->request->getPost('idMasuk');
         $data = array(
-            'nama_barang' => $this->request->getPost('namaBarang'),
-            'kategori'=> $this->request->getPost('kategoriBarang'),
-            'qty_stock' => $this->request->getPost('jumlahBarang'),
+            'id_barang' => $this->request->getPost('namaBarang'),
+            'id_supplier'=> $this->request->getPost('namaSupplier'),
+            'tgl_keluar' => $this->request->getPost('tglKeluar'),
+            'qty_keluar' => $this->request->getPost('jumlahBarang'),
             'harga_satuan' => $this->request->getPost('hargaSatuan'),
             'total_harga' => $this->request->getPost('hargaSatuan') * $this->request->getPost('jumlahBarang'),
-            'status' => $this->request->getPost('status')
+            'keterangan' => $this->request->getPost('keterangan'),
+            'jenis_transaksi' =>$this->request->getPost('jenisTransaksi')
         );
         $masuk->updateData($data, $id);
         return redirect()->to('/owner/masuk');
@@ -260,13 +262,60 @@ class Owner extends BaseController
 
     public function delete_masuk(){
         $masuk = $this->masukModel;
-        $id = $this->request->getPost('idBarang');
+        $id = $this->request->getPost('idMasuk');
         $masuk->deleteData($id);
         return redirect()->to('/owner/masuk');
     }
 
     public function keluar(){
-        return view('owner/barang_keluar');
+        $keluar = $this->keluarModel->findAll();
+        $data = [
+            'title' => 'Daftar Barang Keluar',
+            'keluar' => $keluar
+        ];
+
+        return view('owner/barang_keluar', $data);
+    }
+
+    public function save_keluar(){
+        $masuk = $this->masukModel;
+        $data = array(
+            'id_masuk' => $this->request->getPost('idMasuk'),
+            'id_barang' => $this->request->getPost('namaBarang'),
+            'id_supplier'=> $this->request->getPost('namaSupplier'),
+            'tgl_keluar' => $this->request->getPost('tglKeluar'),
+            'qty_keluar' => $this->request->getPost('jumlahBarang'),
+            'harga_satuan' => $this->request->getPost('hargaSatuan'),
+            'total_harga' => $this->request->getPost('hargaSatuan') * $this->request->getPost('jumlahBarang'),
+            'keterangan' => $this->request->getPost('keterangan'),
+            'jenis_transaksi' =>$this->request->getPost('jenisTransaksi')
+        );
+        $masuk->saveData($data);
+        return redirect()->to('/owner/masuk');
+    }
+
+    public function update_keluar(){
+        $keluar = $this->keluarModel;
+        $id = $this->request->getPost('idKeluar');
+        $data = array(
+            'id_barang' => $this->request->getPost('namaBarang'),
+            'id_supplier'=> $this->request->getPost('namaSupplier'),
+            'tgl_keluar' => $this->request->getPost('tglKeluar'),
+            'qty_keluar' => $this->request->getPost('jumlahBarang'),
+            'harga_satuan' => $this->request->getPost('hargaSatuan'),
+            'total_harga' => $this->request->getPost('hargaSatuan') * $this->request->getPost('jumlahBarang'),
+            'keterangan' => $this->request->getPost('keterangan'),
+            'jenis_transaksi' =>$this->request->getPost('jenisTransaksi')
+        );
+        $keluar->updateData($data, $id);
+        return redirect()->to('/owner/keluar');
+    }
+
+    public function delete_keluar(){
+        $keluar = $this->keluarModel;
+        $id = $this->request->getPost('idKeluar');
+        $keluar->deleteData($id);
+        return redirect()->to('/owner/keluar');
     }
 
     public function retur_masuk(){

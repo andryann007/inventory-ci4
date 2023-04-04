@@ -49,7 +49,7 @@
         <!-- Sidebar - Brand -->
         <a
           class="sidebar-brand d-flex align-items-center justify-content-center"
-          href="/admin"
+          href="/owner"
         >
           <img src="<?= base_url(); ?>/img/logo.png" style="width: 25%" />
           <div class="sidebar-brand-text mx-2">Toko Sukses</div>
@@ -57,7 +57,7 @@
 
         <!-- Nav Item - Dashboard -->
         <li class="nav-item">
-          <a class="nav-link" href="/admin">
+          <a class="nav-link" href="/owner">
             <i class="fas fa-home"></i>
             <span>Dashboard</span></a
           >
@@ -85,14 +85,6 @@
           >
         </li>
 
-        <!-- Nav Item - Data Customer -->
-        <li class="nav-item">
-          <a class="nav-link" href="/owner/customer">
-            <i class="fas fa-users"></i>
-            <span>Data Customer</span></a
-          >
-        </li>
-
         <!-- Nav Item - Data Stock -->
         <li class="nav-item">
           <a class="nav-link" href="/owner/stock">
@@ -110,7 +102,7 @@
         <!-- Nav Item - Data Barang Masuk -->
         <li class="nav-item">
           <a class="nav-link" href="/owner/masuk">
-            <i class="fas fa-cube"></i>
+            <i class="fas fa-arrow-left"></i>
             <span>Data Barang Masuk</span></a
           >
         </li>
@@ -118,8 +110,16 @@
         <!-- Nav Item - Data Barang Keluar -->
         <li class="nav-item">
           <a class="nav-link" href="/owner/keluar">
-            <i class="fas fa-cube"></i>
+            <i class="fas fa-arrow-right"></i>
             <span>Data Barang Keluar</span></a
+          >
+        </li>
+
+        <!-- Nav Item - Data Retur Barang -->
+        <li class="nav-item">
+          <a class="nav-link" href="">
+          <i class="fas fa-reply"></i>
+            <span>Data Retur Barang</span></a
           >
         </li>
 
@@ -130,7 +130,7 @@
         <div class="sidebar-heading">Laporan</div>
 
         <!-- Nav Item - Laporan Barang Masuk -->
-        <li class="nav-item active">
+        <li class="nav-item">
           <a class="nav-link" href="/owner/laporan_masuk">
             <i class="fas fa-file-invoice"></i>
             <span>Laporan Barang Masuk</span></a
@@ -142,6 +142,14 @@
           <a class="nav-link" href="/owner/laporan_keluar">
             <i class="fas fa-file-invoice"></i>
             <span>Laporan Barang Keluar</span></a
+          >
+        </li>
+
+        <!-- Nav Item - Laporan Retur Barang -->
+        <li class="nav-item">
+          <a class="nav-link" href="">
+            <i class="fas fa-file-invoice"></i>
+            <span>Laporan Retur Barang</span></a
           >
         </li>
 

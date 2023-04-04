@@ -29,7 +29,7 @@
     />
 
     <!-- Custom styles for this template-->
-    <link href="<?= base_url(); ?>/css/sb-admin-2.min.css" rel="stylesheet" />
+    <link href="<?= base_url(); ?>/css/sb-user-2.min.css" rel="stylesheet" />
 
     <!-- template table bootstrap 4 -->
     <link
@@ -42,75 +42,101 @@
     <!-- Page Wrapper -->
     <div id="wrapper">
       <!-- Sidebar -->
-      <ul class="navbar-nav bg-dark sidebar sidebar-dark accordion" id="accordionSidebar">
-      <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.php">
-        <img src="<?= base_url(); ?>/img/logo.png" style="width: 25%" />
-        <div class="sidebar-brand-text mx-2">Toko Sukses</div>
-      </a>
+      <ul
+        class="navbar-nav bg-dark sidebar sidebar-dark accordion"
+        id="accordionSidebar"
+      >
+        <!-- Sidebar - Brand -->
+        <a
+          class="sidebar-brand d-flex align-items-center justify-content-center"
+          href="/user"
+        >
+          <img src="<?= base_url(); ?>/img/logo.png" style="width: 25%" />
+          <div class="sidebar-brand-text mx-2">Toko Sukses</div>
+        </a>
 
-      <!-- Nav Item - Dashboard -->
-      <li class="nav-item">
-        <a class="nav-link" href="/user">
-          <i class="fas fa-home"></i>
-          <span>Dashboard</span></a>
-      </li>
+        <!-- Nav Item - Dashboard -->
+        <li class="nav-item">
+          <a class="nav-link" href="/user">
+            <i class="fas fa-home"></i>
+            <span>Dashboard</span></a
+          >
+        </li>
 
-      <!-- Divider -->
-      <hr class="sidebar-divider" />
+        <!-- Divider -->
+        <hr class="sidebar-divider" />
 
-       <!-- Heading Data Master -->
-       <div class="sidebar-heading">Data Transaksi</div>
+        <!-- Heading Data Master -->
+        <div class="sidebar-heading">Data Transaksi</div>
 
         <!-- Nav Item - Data Barang Masuk -->
         <li class="nav-item">
-            <a class="nav-link" href="/user/masuk">
-            <i class="fas fa-cube"></i>
-            <span>Data Barang Masuk</span></a>
+          <a class="nav-link" href="/user/masuk">
+            <i class="fas fa-arrow-left"></i>
+            <span>Data Barang Masuk</span></a
+          >
         </li>
 
         <!-- Nav Item - Data Barang Keluar -->
         <li class="nav-item">
-            <a class="nav-link" href="/user/keluar">
-            <i class="fas fa-cube"></i>
-            <span>Data Barang Keluar</span></a>
+          <a class="nav-link" href="/user/keluar">
+            <i class="fas fa-arrow-right"></i>
+            <span>Data Barang Keluar</span></a
+          >
         </li>
-    <!-- Divider -->
-<hr class="sidebar-divider" />
 
-<!-- Divider -->
-<hr class="sidebar-divider" />
+        <!-- Nav Item - Data Retur Barang -->
+        <li class="nav-item">
+          <a class="nav-link" href="">
+          <i class="fas fa-reply"></i>
+            <span>Data Retur Barang</span></a
+          >
+        </li>
 
-<!-- Heading -->
-<div class="sidebar-heading">Laporan</div>
+        <!-- Divider -->
+        <hr class="sidebar-divider" />
 
-<!-- Nav Item - Laporan Barang Masuk -->
-<li class="nav-item">
-  <a class="nav-link" href="/user/laporan_masuk">
-    <i class="fas fa-file-invoice"></i>
-    <span>Laporan Barang Masuk</span></a>
-</li>
+        <!-- Heading -->
+        <div class="sidebar-heading">Laporan</div>
 
-<!-- Nav Item - Laporan Barang Keluar -->
-<li class="nav-item active">
-  <a class="nav-link" href="/user/laporan_keluar">
-    <i class="fas fa-file-invoice"></i>
-    <span>Laporan Barang Keluar</span></a>
-</li>
+        <!-- Nav Item - Laporan Barang Masuk -->
+        <li class="nav-item">
+          <a class="nav-link" href="/user/laporan_masuk">
+            <i class="fas fa-file-invoice"></i>
+            <span>Laporan Barang Masuk</span></a
+          >
+        </li>
 
-<!-- Divider -->
-<hr class="sidebar-divider" />
+        <!-- Nav Item - Laporan Barang Keluar -->
+        <li class="nav-item">
+          <a class="nav-link" href="/user/laporan_keluar">
+            <i class="fas fa-file-invoice"></i>
+            <span>Laporan Barang Keluar</span></a
+          >
+        </li>
 
-<!-- Heading -->
-<div class="sidebar-heading">Logout</div>
+        <!-- Nav Item - Laporan Retur Barang -->
+        <li class="nav-item">
+          <a class="nav-link" href="">
+            <i class="fas fa-file-invoice"></i>
+            <span>Laporan Retur Barang</span></a
+          >
+        </li>
 
-<!-- Nav Item - Laporan Stok Barang -->
-<li class="nav-item">
-  <a class="nav-link" href="<?php echo site_url('/user/logout');?>">
-    <i class="fas fa-power-off"></i>
-    <span>Logout</span></a>
-</li>
-</ul>
+        <!-- Divider -->
+        <hr class="sidebar-divider" />
+
+        <!-- Heading -->
+        <div class="sidebar-heading">Logout</div>
+
+        <!-- Nav Item - Laporan Stok Barang -->
+        <li class="nav-item">
+          <a class="nav-link" href="<?php echo site_url('/user/logout');?>">
+            <i class="fas fa-power-off"></i>
+            <span>Logout</span></a
+          >
+        </li>
+      </ul>
       <!-- End of Sidebar -->
 
       <!-- Content Wrapper -->
@@ -405,12 +431,11 @@
                                     required
                                   >
                                     <?php
-                                                                                      $dataNamaBarang = mysqli_query($conn, "SELECT * FROM data_stock");
-                                                                                      while ($fetchArray = mysqli_fetch_array($dataNamaBarang)) {
-                                                                                          $idBarang = $fetchArray['id_barang'];
-                                                                                          $namaBarang = $fetchArray['nama_barang'];
-                                                                                          ?>
-
+                                      $dataNamaBarang = mysqli_query($conn, "SELECT * FROM data_stock");
+                                      while ($fetchArray = mysqli_fetch_array($dataNamaBarang)) {
+                                          $idBarang = $fetchArray['id_barang'];
+                                          $namaBarang = $fetchArray['nama_barang'];
+                                          ?>
                                     <option value="<?= $idBarang; ?>">
                                       <?=
                                                                                                                                               ucwords($namaBarang); ?>
@@ -463,12 +488,11 @@
                                     required
                                   >
                                     <?php
-                                                                                      $dataNamaSupplier = mysqli_query($conn, "SELECT * FROM data_supplier");
-                                                                                      while ($fetchArray = mysqli_fetch_array($dataNamaSupplier)) {
-                                                                                          $idSupplier = $fetchArray['id_supplier'];
-                                                                                          $namaSupplier = $fetchArray['nama_supplier'];
-                                                                                          ?>
-
+                                      $dataNamaSupplier = mysqli_query($conn, "SELECT * FROM data_supplier");
+                                      while ($fetchArray = mysqli_fetch_array($dataNamaSupplier)) {
+                                          $idSupplier = $fetchArray['id_supplier'];
+                                          $namaSupplier = $fetchArray['nama_supplier'];
+                                          ?>
                                     <option value="<?= $idSupplier; ?>">
                                       <?=
                                                                                                                                               ucwords($namaSupplier); ?>
@@ -591,7 +615,7 @@
     <script src="<?= base_url(); ?>/vendor/jquery-easing/jquery.easing.min.js"></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="<?= base_url(); ?>/js/sb-admin-2.min.js"></script>
+    <script src="<?= base_url(); ?>/js/sb-user-2.min.js"></script>
 
     <script src="<?= base_url(); ?>/vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="<?= base_url(); ?>/vendor/datatables/dataTables.bootstrap4.min.js"></script>
