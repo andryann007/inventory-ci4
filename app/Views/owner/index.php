@@ -8,6 +8,12 @@
   <meta name="description" content="Dashboard untuk Owner" />
   <meta name="author" content="Andryan" />
 
+  <link
+      rel="icon"
+      type="image/png"
+      href="<?= base_url(); ?>/img/logo.png"
+  />
+
   <title>Dashboard Owner</title>
 
   <!-- Custom fonts for this template-->

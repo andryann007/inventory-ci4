@@ -8,11 +8,11 @@
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
     <meta name="description" content="" />
-    <meta name="author" content="" />
+    <meta name="author" content="Andryan" />
     <link
       rel="icon"
       type="image/png"
-      href="<?= base_url(); ?>/img/icons/favicon.ico"
+      href="<?= base_url(); ?>/img/logo.png"
     />
 
     <title>Aplikasi Inventory - Toko Sukses</title>
@@ -130,7 +130,7 @@
         <div class="sidebar-heading">Laporan</div>
 
         <!-- Nav Item - Laporan Barang Masuk -->
-        <li class="nav-item">
+        <li class="nav-item active">
           <a class="nav-link" href="/owner/laporan_masuk">
             <i class="fas fa-file-invoice"></i>
             <span>Laporan Barang Masuk</span></a

@@ -8,8 +8,8 @@
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
     <meta name="description" content="" />
-    <meta name="author" content="" />
-    <link rel="icon" type="<?= base_url(); ?>/image/png" href="<?= base_url(); ?>/img/icons/favicon.ico" />
+    <meta name="author" content="Andryan" />
+    <link rel="icon" type="<?= base_url(); ?>/image/png" href="<?= base_url(); ?>/img/logo.png" />
 
     <title>Aplikasi Inventory - Toko Sukses</title>
 

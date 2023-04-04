@@ -8,6 +8,12 @@
   <meta name="description" content="Dashboard untuk User" />
   <meta name="author" content="Andryan" />
 
+  <link
+      rel="icon"
+      type="image/png"
+      href="<?= base_url(); ?>/img/logo.png"
+  />
+
   <title>Dashboard User</title>
 
   <!-- Custom fonts for this template-->
