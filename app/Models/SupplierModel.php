@@ -7,6 +7,10 @@ class SupplierModel extends Model{
     protected $table = 'data_supplier';
     protected $primaryKey = 'id_supplier';
 
+    public function getData(){
+        return $this->db->table('data_supplier');
+    }
+
     public function saveData($data){
         $query = $this->db->table('data_supplier')->insert($data);
         return $query;

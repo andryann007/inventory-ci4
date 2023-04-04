@@ -11,19 +11,11 @@ use App\Models\SupplierModel;
 
 class User extends BaseController
 {
-    protected $akunModel;
-    protected $supplierModel;
-    protected $customerModel;
-    protected $stockModel;
     protected $masukModel;
     protected $keluarModel;
 
     public function __construct()
     {
-        $this->akunModel = new AkunModel();
-        $this->supplierModel = new SupplierModel();
-        $this->customerModel = new CustomerModel();
-        $this->stockModel = new StockModel();
         $this->masukModel = new MasukModel();
         $this->keluarModel = new KeluarModel();
     }
@@ -33,10 +25,9 @@ class User extends BaseController
     }
 
     public function masuk(){
-        $masuk = $this->masukModel->findAll();
         $data = [
             'title' => 'Daftar Barang Masuk',
-            'masuk' => $masuk
+            'masuk' => $this->masukModel->getData()
         ];
 
         return view('user/barang_masuk', $data);
@@ -52,8 +43,7 @@ class User extends BaseController
             'qty_masuk' => $this->request->getPost('jumlahBarang'),
             'harga_satuan' => $this->request->getPost('hargaSatuan'),
             'total_harga' => $this->request->getPost('hargaSatuan') * $this->request->getPost('jumlahBarang'),
-            'keterangan' => $this->request->getPost('keterangan'),
-            'jenis_transaksi' =>$this->request->getPost('jenisTransaksi')
+            'keterangan' => $this->request->getPost('keterangan')
         );
         $masuk->saveData($data);
         return redirect()->to('/user/masuk');
@@ -69,8 +59,7 @@ class User extends BaseController
             'qty_keluar' => $this->request->getPost('jumlahBarang'),
             'harga_satuan' => $this->request->getPost('hargaSatuan'),
             'total_harga' => $this->request->getPost('hargaSatuan') * $this->request->getPost('jumlahBarang'),
-            'keterangan' => $this->request->getPost('keterangan'),
-            'jenis_transaksi' =>$this->request->getPost('jenisTransaksi')
+            'keterangan' => $this->request->getPost('keterangan')
         );
         $masuk->updateData($data, $id);
         return redirect()->to('/user/masuk');
@@ -84,29 +73,26 @@ class User extends BaseController
     }
 
     public function keluar(){
-        $keluar = $this->keluarModel->findAll();
         $data = [
             'title' => 'Daftar Barang Keluar',
-            'keluar' => $keluar
+            'keluar' => $this->keluarModel->getData()
         ];
 
         return view('user/barang_keluar', $data);
     }
 
     public function save_keluar(){
-        $masuk = $this->masukModel;
+        $keluar = $this->keluarModel;
         $data = array(
-            'id_masuk' => $this->request->getPost('idMasuk'),
+            'id_keluar' => $this->request->getPost('idKeluar'),
             'id_barang' => $this->request->getPost('namaBarang'),
-            'id_supplier'=> $this->request->getPost('namaSupplier'),
             'tgl_keluar' => $this->request->getPost('tglKeluar'),
             'qty_keluar' => $this->request->getPost('jumlahBarang'),
             'harga_satuan' => $this->request->getPost('hargaSatuan'),
             'total_harga' => $this->request->getPost('hargaSatuan') * $this->request->getPost('jumlahBarang'),
-            'keterangan' => $this->request->getPost('keterangan'),
-            'jenis_transaksi' =>$this->request->getPost('jenisTransaksi')
+            'keterangan' => $this->request->getPost('keterangan')
         );
-        $masuk->saveData($data);
+        $keluar->saveData($data);
         return redirect()->to('/user/masuk');
     }
 
@@ -115,13 +101,11 @@ class User extends BaseController
         $id = $this->request->getPost('idKeluar');
         $data = array(
             'id_barang' => $this->request->getPost('namaBarang'),
-            'id_supplier'=> $this->request->getPost('namaSupplier'),
             'tgl_keluar' => $this->request->getPost('tglKeluar'),
             'qty_keluar' => $this->request->getPost('jumlahBarang'),
             'harga_satuan' => $this->request->getPost('hargaSatuan'),
             'total_harga' => $this->request->getPost('hargaSatuan') * $this->request->getPost('jumlahBarang'),
-            'keterangan' => $this->request->getPost('keterangan'),
-            'jenis_transaksi' =>$this->request->getPost('jenisTransaksi')
+            'keterangan' => $this->request->getPost('keterangan')
         );
         $keluar->updateData($data, $id);
         return redirect()->to('/user/keluar');
@@ -132,10 +116,6 @@ class User extends BaseController
         $id = $this->request->getPost('idKeluar');
         $keluar->deleteData($id);
         return redirect()->to('/user/keluar');
-    }
-
-    public function retur_masuk(){
-        return view('user/retur_masuk');
     }
 
     public function laporan_masuk(){

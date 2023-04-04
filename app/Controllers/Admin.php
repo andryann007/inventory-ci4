@@ -12,7 +12,6 @@ use App\Models\SupplierModel;
 class Admin extends BaseController
 {
     protected $supplierModel;
-    protected $customerModel;
     protected $stockModel;
     protected $masukModel;
     protected $keluarModel;
@@ -20,7 +19,6 @@ class Admin extends BaseController
     public function __construct()
     {
         $this->supplierModel = new SupplierModel();
-        $this->customerModel = new CustomerModel();
         $this->stockModel = new StockModel();
         $this->masukModel = new MasukModel();
         $this->keluarModel = new KeluarModel();
@@ -31,10 +29,9 @@ class Admin extends BaseController
     }
 
     public function supplier(){
-        $supplier = $this->supplierModel->findAll();
         $data = [
             'title' => 'Daftar Supplier',
-            'supplier' => $supplier
+            'supplier' => $this->supplierModel->getData()
         ];
         return view('admin/supplier', $data);
     }
@@ -73,54 +70,10 @@ class Admin extends BaseController
         return redirect()->to('/admin/supplier');
     }
 
-    public function customer(){
-        $customer = $this->customerModel->findAll();
-        $data = [
-            'title' => 'Daftar Customer',
-            'customer' => $customer
-        ];
-
-        return view('admin/customer', $data);
-    }
-
-    public function save_customer(){
-        $customer = $this->customerModel;
-        $data = array(
-            'id_customer' => $this->request->getPost('idCustomer'),
-            'nama_customer' => $this->request->getPost('namaCustomer'),
-            'alamat'=> $this->request->getPost('alamatCustomer'),
-            'email' => $this->request->getPost('emailCustomer'),
-            'telp' => $this->request->getPost('telpCustomer')
-        );
-        $customer->saveData($data);
-        return redirect()->to('/admin/customer');
-    }
-
-    public function update_customer(){
-        $customer = $this->customerModel;
-        $id = $this->request->getPost('idCustomer');
-        $data = array(
-            'nama_customer' => $this->request->getPost('namaCustomer'),
-            'alamat'=> $this->request->getPost('alamatCustomer'),
-            'email' => $this->request->getPost('emailCustomer'),
-            'telp' => $this->request->getPost('telpCustomer')
-        );
-        $customer->updateData($data, $id);
-        return redirect()->to('/admin/customer');
-    }
-
-    public function delete_customer(){
-        $customer = $this->customerModel;
-        $id = $this->request->getPost('idCustomer');
-        $customer->deleteData($id);
-        return redirect()->to('/admin/customer');
-    }
-
     public function stock(){
-        $stock = $this->stockModel->findAll();
         $data = [
             'title' => 'Daftar Stock Barang',
-            'stock' => $stock
+            'stock' => $this->stockModel->getData()
         ];
 
         return view('admin/stock', $data);
@@ -164,10 +117,9 @@ class Admin extends BaseController
     }
 
     public function masuk(){
-        $masuk = $this->masukModel->findAll();
         $data = [
             'title' => 'Daftar Barang Masuk',
-            'masuk' => $masuk
+            'masuk' => $this->masukModel->getData()
         ];
 
         return view('admin/barang_masuk', $data);
@@ -215,10 +167,9 @@ class Admin extends BaseController
     }
 
     public function keluar(){
-        $keluar = $this->keluarModel->findAll();
         $data = [
             'title' => 'Daftar Barang Keluar',
-            'keluar' => $keluar
+            'keluar' => $this->keluarModel->getData()
         ];
 
         return view('admin/barang_keluar', $data);

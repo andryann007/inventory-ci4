@@ -65,6 +65,37 @@
 
         <!-- Divider -->
         <hr class="sidebar-divider" />
+
+        <!-- Heading Data Master -->
+        <div class="sidebar-heading">Data Master</div>
+
+        <!-- Nav Item - Data Akun -->
+        <li class="nav-item">
+          <a class="nav-link" href="/user/akun">
+            <i class="fas fa-id-card"></i>
+            <span>Data Akun</span></a
+          >
+        </li>
+
+        <!-- Nav Item - Data Supplier -->
+        <li class="nav-item">
+          <a class="nav-link" href="/user/supplier">
+            <i class="fas fa-truck"></i>
+            <span>Data Supplier</span></a
+          >
+        </li>
+
+        <!-- Nav Item - Data Stock -->
+        <li class="nav-item">
+          <a class="nav-link" href="/user/stock">
+            <i class="fas fa-cubes"></i>
+            <span>Data Stock Barang</span></a
+          >
+        </li>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider" />
+
        
         <!-- Heading Data Master -->
         <div class="sidebar-heading">Data Transaksi</div>
@@ -185,12 +216,13 @@
                     <thead class="thead-dark">
                       <tr>
                         <th>No</th>
-                        <th>Tanggal</th>
-                        <th>ID Masuk</th>
-                        <th>ID Barang</th>
-                        <th>ID Supplier</th>
-                        <th>Jumlah</th>
-                        <th>Harga Satuan</th>
+                        <th>Tgl Masuk</th>
+                        <th>Nama Barang</th>
+                        <th>Nama Supplier</th>
+                        <th>Kategori</th>
+                        <th>Harga/Pcs</th>
+                        <th>QTY</th>
+                        <th>Total Harga</th>
                         <th>Keterangan</th>
                         <th class="text-center">Aksi</th>
                       </tr>
@@ -207,19 +239,22 @@
                           <?= $msk['tgl_masuk']; ?>
                         </td>
                         <td>
-                          <?= $msk['id_masuk']; ?>
+                          <?= $msk['nama_barang']; ?>
                         </td>
                         <td>
-                          <?= $msk['id_barang']; ?>
+                          <?= ucwords($msk['nama_supplier']); ?>
                         </td>
                         <td>
-                          <?= ucwords($msk['id_supplier']); ?>
+                          <?= $msk['kategori']; ?>
+                        </td>
+                        <td>
+                          <?= "Rp. " . number_format($msk['harga_satuan'], 2, ',', '.'); ?>
                         </td>
                         <td>
                           <?= $msk['qty_masuk']; ?>
                         </td>
                         <td>
-                          <?= "Rp. " . number_format($msk['harga_satuan'], 2, ',', '.'); ?>
+                          <?= "Rp. " . number_format($msk['total_harga'], 2, ',', '.'); ?>
                         </td>
                         <td>
                           <?= $msk['keterangan']; ?>
@@ -227,9 +262,6 @@
                         <td
                           class="d-sm-flex justify-content-around align-items-center"
                         >
-                          <a href="" class="btn btn-primary" role="button"
-                            ><i class="fas fa-info"></i
-                          ></a>
 
                           <button
                             type="button"

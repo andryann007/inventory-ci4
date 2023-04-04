@@ -13,7 +13,6 @@ class Owner extends BaseController
 {
     protected $akunModel;
     protected $supplierModel;
-    protected $customerModel;
     protected $stockModel;
     protected $masukModel;
     protected $keluarModel;
@@ -22,7 +21,6 @@ class Owner extends BaseController
     {
         $this->akunModel = new AkunModel();
         $this->supplierModel = new SupplierModel();
-        $this->customerModel = new CustomerModel();
         $this->stockModel = new StockModel();
         $this->masukModel = new MasukModel();
         $this->keluarModel = new KeluarModel();
@@ -33,12 +31,9 @@ class Owner extends BaseController
     }
 
     public function akun(){
-        helper(['form']);
-        $akun = $this->akunModel->findAll();
-
         $data = [
             'title' => 'Daftar Akun',
-            'akun' => $akun
+            'akun' => $this->akunModel->getData()
         ];
         return view('owner/akun', $data);
     }
@@ -84,10 +79,9 @@ class Owner extends BaseController
     }
 
     public function supplier(){
-        $supplier = $this->supplierModel->findAll();
         $data = [
             'title' => 'Daftar Supplier',
-            'supplier' => $supplier
+            'supplier' => $this->supplierModel->getData()
         ];
         return view('owner/supplier', $data);
     }
@@ -126,54 +120,10 @@ class Owner extends BaseController
         return redirect()->to('/owner/supplier');
     }
 
-    public function customer(){
-        $customer = $this->customerModel->findAll();
-        $data = [
-            'title' => 'Daftar Customer',
-            'customer' => $customer
-        ];
-
-        return view('owner/customer', $data);
-    }
-
-    public function save_customer(){
-        $customer = $this->customerModel;
-        $data = array(
-            'id_customer' => $this->request->getPost('idCustomer'),
-            'nama_customer' => $this->request->getPost('namaCustomer'),
-            'alamat'=> $this->request->getPost('alamatCustomer'),
-            'email' => $this->request->getPost('emailCustomer'),
-            'telp' => $this->request->getPost('telpCustomer')
-        );
-        $customer->saveData($data);
-        return redirect()->to('/owner/customer');
-    }
-
-    public function update_customer(){
-        $customer = $this->customerModel;
-        $id = $this->request->getPost('idCustomer');
-        $data = array(
-            'nama_customer' => $this->request->getPost('namaCustomer'),
-            'alamat'=> $this->request->getPost('alamatCustomer'),
-            'email' => $this->request->getPost('emailCustomer'),
-            'telp' => $this->request->getPost('telpCustomer')
-        );
-        $customer->updateData($data, $id);
-        return redirect()->to('/owner/customer');
-    }
-
-    public function delete_customer(){
-        $customer = $this->customerModel;
-        $id = $this->request->getPost('idCustomer');
-        $customer->deleteData($id);
-        return redirect()->to('/owner/customer');
-    }
-
     public function stock(){
-        $stock = $this->stockModel->findAll();
         $data = [
             'title' => 'Daftar Stock Barang',
-            'stock' => $stock
+            'stock' => $this->stockModel->getData()
         ];
 
         return view('owner/stock', $data);
@@ -217,10 +167,9 @@ class Owner extends BaseController
     }
 
     public function masuk(){
-        $masuk = $this->masukModel->findAll();
         $data = [
             'title' => 'Daftar Barang Masuk',
-            'masuk' => $masuk
+            'masuk' => $this->masukModel->getData()
         ];
 
         return view('owner/barang_masuk', $data);
@@ -236,8 +185,7 @@ class Owner extends BaseController
             'qty_masuk' => $this->request->getPost('jumlahBarang'),
             'harga_satuan' => $this->request->getPost('hargaSatuan'),
             'total_harga' => $this->request->getPost('hargaSatuan') * $this->request->getPost('jumlahBarang'),
-            'keterangan' => $this->request->getPost('keterangan'),
-            'jenis_transaksi' =>$this->request->getPost('jenisTransaksi')
+            'keterangan' => $this->request->getPost('keterangan')
         );
         $masuk->saveData($data);
         return redirect()->to('/owner/masuk');
@@ -253,8 +201,7 @@ class Owner extends BaseController
             'qty_keluar' => $this->request->getPost('jumlahBarang'),
             'harga_satuan' => $this->request->getPost('hargaSatuan'),
             'total_harga' => $this->request->getPost('hargaSatuan') * $this->request->getPost('jumlahBarang'),
-            'keterangan' => $this->request->getPost('keterangan'),
-            'jenis_transaksi' =>$this->request->getPost('jenisTransaksi')
+            'keterangan' => $this->request->getPost('keterangan')
         );
         $masuk->updateData($data, $id);
         return redirect()->to('/owner/masuk');
@@ -268,29 +215,26 @@ class Owner extends BaseController
     }
 
     public function keluar(){
-        $keluar = $this->keluarModel->findAll();
         $data = [
             'title' => 'Daftar Barang Keluar',
-            'keluar' => $keluar
+            'keluar' => $this->keluarModel->getData()
         ];
 
         return view('owner/barang_keluar', $data);
     }
 
     public function save_keluar(){
-        $masuk = $this->masukModel;
+        $keluar = $this->keluarModel;
         $data = array(
-            'id_masuk' => $this->request->getPost('idMasuk'),
+            'id_keluar' => $this->request->getPost('idKeluar'),
             'id_barang' => $this->request->getPost('namaBarang'),
-            'id_supplier'=> $this->request->getPost('namaSupplier'),
             'tgl_keluar' => $this->request->getPost('tglKeluar'),
             'qty_keluar' => $this->request->getPost('jumlahBarang'),
             'harga_satuan' => $this->request->getPost('hargaSatuan'),
             'total_harga' => $this->request->getPost('hargaSatuan') * $this->request->getPost('jumlahBarang'),
-            'keterangan' => $this->request->getPost('keterangan'),
-            'jenis_transaksi' =>$this->request->getPost('jenisTransaksi')
+            'keterangan' => $this->request->getPost('keterangan')
         );
-        $masuk->saveData($data);
+        $keluar->saveData($data);
         return redirect()->to('/owner/masuk');
     }
 
@@ -299,13 +243,11 @@ class Owner extends BaseController
         $id = $this->request->getPost('idKeluar');
         $data = array(
             'id_barang' => $this->request->getPost('namaBarang'),
-            'id_supplier'=> $this->request->getPost('namaSupplier'),
             'tgl_keluar' => $this->request->getPost('tglKeluar'),
             'qty_keluar' => $this->request->getPost('jumlahBarang'),
             'harga_satuan' => $this->request->getPost('hargaSatuan'),
             'total_harga' => $this->request->getPost('hargaSatuan') * $this->request->getPost('jumlahBarang'),
-            'keterangan' => $this->request->getPost('keterangan'),
-            'jenis_transaksi' =>$this->request->getPost('jenisTransaksi')
+            'keterangan' => $this->request->getPost('keterangan')
         );
         $keluar->updateData($data, $id);
         return redirect()->to('/owner/keluar');

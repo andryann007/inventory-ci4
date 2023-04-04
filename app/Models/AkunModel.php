@@ -7,6 +7,10 @@ class AkunModel extends Model{
     protected $table = 'data_user';
     protected $primaryKey = 'id_user';
 
+    public function getData(){
+        return $this->db->table('data_user');
+    }
+
     public function saveData($data){
         $query = $this->db->table('data_user')->insert($data);
         return $query;

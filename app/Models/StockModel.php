@@ -7,6 +7,10 @@ class StockModel extends Model{
     protected $table = 'data_stock';
     protected $primaryKey = 'id_barang';
 
+    public function getData(){
+        return $this->db->table('data_stock');
+    }
+
     public function saveData($data){
         $query = $this->db->table('data_stock')->insert($data);
         return $query;

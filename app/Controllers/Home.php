@@ -8,7 +8,7 @@ class Home extends BaseController
 {
     public function index()
     {
-        $ModelUser = new \App\Models\UserModel();
+        $ModelAkun = new \App\Models\AkunModel();
         $login = $this -> request -> getPost('btnLogin');
 
         if($login){
@@ -20,24 +20,24 @@ class Home extends BaseController
             }
             
             if(empty($err)){
-                $dataUser = $ModelUser -> where("email", $email) -> first();
-                if($dataUser['password'] != $password){
+                $dataAkun = $ModelAkun -> where("email", $email) -> first();
+                if($dataAkun['password'] != $password){
                     $err = "Password Tidak Sesuai !!!";
                 }
             }
             
             if(empty($err)){
                 $dataSesi = [
-                    'id' => $dataUser['id_user'],
-                    'email' => $dataUser['email'],
-                    'password' => $dataUser['password'],
-                    'tipe_akun' => $dataUser['tipe_akun']
+                    'id' => $dataAkun['id_user'],
+                    'email' => $dataAkun['email'],
+                    'password' => $dataAkun['password'],
+                    'tipe_akun' => $dataAkun['tipe_akun']
                 ];
 
                 session() -> set($dataSesi);
-                if($dataUser['tipe_akun'] == "Owner"){
+                if($dataAkun['tipe_akun'] == "Owner"){
                     return redirect() -> to('owner');
-                } else if ($dataUser['tipe_akun'] == "Admin"){
+                } else if ($dataAkun['tipe_akun'] == "Admin"){
                     return redirect() -> to('admin');
                 } else {
                     return redirect() -> to('user');

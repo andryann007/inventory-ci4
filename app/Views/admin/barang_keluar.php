@@ -69,6 +69,14 @@
         <!-- Heading Data Master -->
         <div class="sidebar-heading">Data Master</div>
 
+        <!-- Nav Item - Data Akun -->
+        <li class="nav-item">
+          <a class="nav-link" href="/admin/akun">
+            <i class="fas fa-id-card"></i>
+            <span>Data Akun</span></a
+          >
+        </li>
+
         <!-- Nav Item - Data Customer -->
         <li class="nav-item">
           <a class="nav-link" href="/admin/supplier">
@@ -207,11 +215,12 @@
                     <thead class="thead-dark">
                       <tr>
                         <th>No</th>
-                        <th>Tanggal</th>
-                        <th>ID Keluar</th>
-                        <th>ID Barang</th>
-                        <th>Jumlah</th>
-                        <th>Harga Satuan</th>
+                        <th>Tgl Keluar</th>
+                        <th>Nama Barang</th>
+                        <th>Kategori</th>
+                        <th>Harga/Pcs</th>
+                        <th>QTY</th>
+                        <th>Total Harga</th>
                         <th>Keterangan</th>
                         <th class="text-center">Aksi</th>
                       </tr>
@@ -227,16 +236,19 @@
                           <?= $klr['tgl_keluar']; ?>
                         </td>
                         <td>
-                          <?= $klr['id_keluar']; ?>
+                          <?= ucwords($klr['nama_barang']); ?>
                         </td>
                         <td>
-                          <?= ucwords($klr['id_barang']); ?>
+                          <?= ucwords($klr['kategori']); ?>
+                        </td>
+                        <td>
+                          <?= "Rp. " . number_format($klr['harga_satuan'], 2, ',', '.'); ?>
                         </td>
                         <td>
                           <?= $klr['qty_keluar']; ?>
                         </td>
                         <td>
-                          <?= "Rp. " . number_format($klr['harga_satuan'], 2, ',', '.'); ?>
+                          <?= "Rp. " . number_format($klr['total_harga'], 2, ',', '.'); ?>
                         </td>
                         <td>
                           <?= $klr['keterangan']; ?>
@@ -244,9 +256,6 @@
                         <td
                           class="d-sm-flex justify-content-around align-items-center"
                         >
-                          <a href="" class="btn btn-primary" role="button"
-                            ><i class="fas fa-info"></i></a
-                          >
 
                           <button
                             type="button"
