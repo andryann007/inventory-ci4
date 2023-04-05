@@ -21,7 +21,11 @@ class User extends BaseController
     }
 
     public function index(){
-        return view('user/index');
+        $data = [
+            'data_barang_masuk' => $this->masukModel->qty_masuk(),
+            'data_barang_keluar' => $this->keluarModel->qty_keluar()
+        ];
+        return view('user/index', $data);
     }
 
     public function masuk(){

@@ -27,4 +27,8 @@ class KeluarModel extends Model{
         $query = $this->db->table('data_barang_keluar')->delete(array('id_keluar' => $id));
         return $query;
     }
+
+    public function qty_keluar(){
+        return $this->db->table('data_barang_keluar')->get()->getNumRows();
+    }
 }

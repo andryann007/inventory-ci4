@@ -25,7 +25,14 @@ class Admin extends BaseController
     }
 
     public function index(){
-        return view('admin/index');
+        $data = [
+            'data_stock' => $this->stockModel->qty_stock(),
+            'data_supplier' => $this->supplierModel->qty_supplier(),
+            'data_barang_masuk' => $this->masukModel->qty_masuk(),
+            'data_barang_keluar' => $this->keluarModel->qty_keluar()
+        ];
+
+        return view('admin/index', $data);
     }
 
     public function supplier(){

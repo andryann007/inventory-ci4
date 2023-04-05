@@ -28,4 +28,8 @@ class MasukModel extends Model{
         $query = $this->db->table('data_barang_masuk')->delete(array('id_masuk' => $id));
         return $query;
     }
+
+    public function qty_masuk(){
+        return $this->db->table('data_barang_masuk')->get()->getNumRows();
+    }
 }

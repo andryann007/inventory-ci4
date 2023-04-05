@@ -3,7 +3,6 @@
 namespace App\Controllers;
 
 use App\Models\AkunModel;
-use App\Models\CustomerModel;
 use App\Models\KeluarModel;
 use App\Models\MasukModel;
 use App\Models\StockModel;
@@ -27,7 +26,15 @@ class Owner extends BaseController
     }
 
     public function index(){
-        return view('owner/index');
+        $data = [
+            'data_akun'  => $this->akunModel->qty_akun(),
+            'data_stock' => $this->stockModel->qty_stock(),
+            'data_supplier' => $this->supplierModel->qty_supplier(),
+            'data_barang_masuk' => $this->masukModel->qty_masuk(),
+            'data_barang_keluar' => $this->keluarModel->qty_keluar()
+        ];
+
+        return view('owner/index', $data);
     }
 
     public function akun(){
@@ -176,7 +183,15 @@ class Owner extends BaseController
     }
 
     public function save_masuk(){
+        $stock = $this->stockModel;
         $masuk = $this->masukModel;
+
+        $idBarang = $this->request->getPost('namaBarang');
+
+        $dataStock = array(
+            'qty_stock' => 'qty_stock' + $this->request->getPost('jumlahBarang')
+        );
+
         $data = array(
             'id_masuk' => $this->request->getPost('idMasuk'),
             'id_barang' => $this->request->getPost('namaBarang'),
@@ -187,29 +202,49 @@ class Owner extends BaseController
             'total_harga' => $this->request->getPost('hargaSatuan') * $this->request->getPost('jumlahBarang'),
             'keterangan' => $this->request->getPost('keterangan')
         );
+        $stock->updateData($dataStock, $idBarang);
         $masuk->saveData($data);
         return redirect()->to('/owner/masuk');
     }
 
     public function update_masuk(){
+        $stock = $this->stockModel;
         $masuk = $this->masukModel;
-        $id = $this->request->getPost('idMasuk');
-        $data = array(
+
+        $idBarang = $this->request->getPost('namaBarang');
+        $idMasuk = $this->request->getPost('idMasuk');
+
+        $dataStock = array(
+            'qty_stock' => 'qty_stock' - 'qty_masuk' + $this->request->getPost('jumlahBarang')
+        );
+
+        $dataMasuk = array(
             'id_barang' => $this->request->getPost('namaBarang'),
             'id_supplier'=> $this->request->getPost('namaSupplier'),
-            'tgl_keluar' => $this->request->getPost('tglKeluar'),
-            'qty_keluar' => $this->request->getPost('jumlahBarang'),
+            'tgl_masuk' => $this->request->getPost('tglMasuk'),
+            'qty_masuk' => $this->request->getPost('jumlahBarang'),
             'harga_satuan' => $this->request->getPost('hargaSatuan'),
             'total_harga' => $this->request->getPost('hargaSatuan') * $this->request->getPost('jumlahBarang'),
             'keterangan' => $this->request->getPost('keterangan')
         );
-        $masuk->updateData($data, $id);
+        $stock->updateData($dataStock, $idBarang);
+        $masuk->updateData($dataMasuk, $idMasuk);
         return redirect()->to('/owner/masuk');
     }
 
     public function delete_masuk(){
+        $stock = $this->stockModel;
         $masuk = $this->masukModel;
+
+        $idBarang = $this->request->getPost('namaBarang');
+
+        $dataStock = array(
+            'qty_stock' => 'qty_stock' - $this->request->getPost('jumlahBarang')
+        );
+
         $id = $this->request->getPost('idMasuk');
+
+        $stock->updateData($dataStock, $idBarang);
         $masuk->deleteData($id);
         return redirect()->to('/owner/masuk');
     }

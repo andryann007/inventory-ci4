@@ -25,4 +25,8 @@ class AkunModel extends Model{
         $query = $this->db->table('data_user')->delete(array('id_user' => $id));
         return $query;
     }
+
+    public function qty_akun(){
+        return $this->db->table('data_user')->get()->getNumRows();
+    }
 }

@@ -25,4 +25,8 @@ class StockModel extends Model{
         $query = $this->db->table('data_stock')->delete(array('id_barang' => $id));
         return $query;
     }
+
+    public function qty_stock(){
+        return $this->db->table('data_stock')->get()->getNumRows();
+    }
 }

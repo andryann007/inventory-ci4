@@ -30,6 +30,7 @@ class Home extends BaseController
                 $dataSesi = [
                     'id' => $dataAkun['id_user'],
                     'email' => $dataAkun['email'],
+                    'nama_lengkap' => $dataAkun['nama_lengkap'],
                     'password' => $dataAkun['password'],
                     'tipe_akun' => $dataAkun['tipe_akun']
                 ];
