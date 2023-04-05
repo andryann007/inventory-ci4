@@ -325,7 +325,7 @@
 
                           <button
                             type="button"
-                            class="btn btn-warning"
+                            class="btn btn-warning mr-2"
                             id="btnEdit"
                             data-toggle="modal"
                             data-target="#editIncomingModal"
@@ -594,7 +594,7 @@
             </div>
           </div>
 
-          <div class="d-sm-flex modal-footer justify-content-between mb-4">
+          <div class="d-sm-flex modal-footer mb-4">
             <button type="button" class="btn btn-danger" data-dismiss="modal">
               <i class="fas fa-trash"></i> Batal
             </button>
@@ -747,16 +747,16 @@
             </div>
           </div>
 
-          <div class="d-sm-flex modal-footer justify-content-between mb-4">
+          <div class="d-sm-flex modal-footer mb-4">
             <button type="button" class="btn btn-danger" data-dismiss="modal">
               <i class="fas fa-trash"></i> Batal
             </button>
             <button
               type="submit"
-              class="btn btn-primary"
-              name="addIncomingGoods"
+              class="btn btn-warning"
+              name="editIncomingGoods"
             >
-              <i class="fas fa-plus"></i> Tambah
+              <i class="fas fa-edit"></i> Edit
             </button>
           </div>
         </form>

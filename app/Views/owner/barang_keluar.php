@@ -320,7 +320,7 @@
                           <button
                             type="button"
                             id="btnEdit"
-                            class="btn btn-warning"
+                            class="btn btn-warning mr-2"
                             data-toggle="modal"
                             data-target="#editOutcomingModal"
                             data-id_keluar="<?= $klr['id_keluar'];?>"
@@ -561,7 +561,7 @@
             </div>
           </div>
 
-          <div class="d-sm-flex modal-footer justify-content-between mb-4">
+          <div class="d-sm-flex modal-footer mb-4">
             <button type="button" class="btn btn-danger" data-dismiss="modal">
               <i class="fas fa-trash"></i> Batal
             </button>
@@ -689,16 +689,16 @@
             </div>
           </div>
 
-          <div class="d-sm-flex modal-footer justify-content-between mb-4">
+          <div class="d-sm-flex modal-footer mb-4">
             <button type="button" class="btn btn-danger" data-dismiss="modal">
               <i class="fas fa-trash"></i> Batal
             </button>
             <button
               type="submit"
-              class="btn btn-primary"
-              name="addOutcomingGoods"
+              class="btn btn-warning"
+              name="editOutcomingGoods"
             >
-              <i class="fas fa-plus"></i> Tambah
+              <i class="fas fa-edit"></i> Edit
             </button>
           </div>
         </form>
