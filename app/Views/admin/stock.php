@@ -198,6 +198,30 @@
               </div>
 
               <div class="card-body">
+                
+                <!-- Notifikasi Alert Jika Data Stock Berhasil di Tambah / Edit / Hapus -->
+                <?php if(session()->get('message')) :?>
+                  <div class="alert alert-success alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert">
+                      &times;
+                    </button>
+                    Perhatian !!! Data Stock Barang 
+                    <strong><?= session()->getFlashdata('message'); ?> </strong>
+                  </div>
+                <?php endif; ?>
+
+                <!-- Notifikasi Alert Jika Data Stock Gagal di Tambah / Edit / Hapus -->
+                <?php if(session()->get('error')) :?>
+                  <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert">
+                      &times;
+                    </button>
+                    Perhatian !!! Data Stock Barang 
+                    <strong><?= session()->getFlashdata('error'); ?> </strong>
+                  </div>
+                <?php endif; ?>
+                
+                <!-- Notifikasi Alert Jika Stock Barang Habis -->
                 <?php
                 $conn = mysqli_connect("localhost", "root", "", "database_inventory");
                 $barangHabis = mysqli_query($conn, "SELECT * FROM data_stock WHERE qty_stock < 1");
@@ -217,6 +241,7 @@
                 }
                 ?>
 
+                <!-- Notifikasi Alert Jika Stock Barang Sedikit -->
                 <?php
                 $barangSedikit = mysqli_query($conn, "SELECT * FROM data_stock WHERE qty_stock < 10 AND qty_stock >
                 0"); while ($fetch = mysqli_fetch_array($barangSedikit)) {
@@ -245,8 +270,10 @@
                         <th>ID Barang</th>
                         <th>Nama Barang</th>
                         <th>Kategori</th>
-                        <th>Jumlah</th>
-                        <th>Harga Satuan</th>
+                        <th>Harga/Pcs</th>
+                        <th>QTY</th>
+                        <th>Total Harga</th>
+                        <th>Status</th>
                         <th class="text-center">Aksi</th>
                       </tr>
                     </thead>
@@ -254,7 +281,7 @@
                     <?php $i =1; ?>
                       <?php foreach ($stock as $stk) : ?>
                       <tr>
-                        <td>
+                      <td>
                           <?= $i++; ?>
                         </td>
                         <td>
@@ -267,10 +294,16 @@
                           <?= ucwords($stk['kategori']); ?>
                         </td>
                         <td>
+                          <?= "Rp. " . number_format($stk['harga_satuan'], 2, ',', '.'); ?>
+                        </td>
+                        <td>
                           <?= $stk['qty_stock']; ?>
                         </td>
                         <td>
-                          <?= "Rp. " . number_format($stk['harga_satuan'], 2, ',', '.'); ?>
+                          <?= "Rp. " . number_format($stk['total_harga'], 2, ',', '.'); ?>
+                        </td>
+                        <td>
+                          <?= $stk['status']; ?>
                         </td>
 
                         <td
@@ -282,7 +315,7 @@
 
                           <button
                             type="button"
-                            class="btn btn-warning"
+                            class="btn btn-warning mr-2"
                             id="btnEdit"
                             data-toggle="modal"
                             data-target="#editStockModal"
@@ -436,7 +469,7 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <form action='/admin/update_stock' method="post">
+        <form action='/admin/save_stock' method="post">
           <div class="modal-body">
             <div class="form-group">
               <label for="idBarang">ID Barang</label>
@@ -444,7 +477,6 @@
                 type="text"
                 name="idBarang"
                 id="idBarang"
-                placeholder="ID Barang"
                 class="form-control"
                 required
               />
@@ -456,7 +488,6 @@
                 type="text"
                 name="namaBarang"
                 id="namaBarang"
-                placeholder="Nama Barang"
                 class="form-control"
                 required
               />
@@ -486,7 +517,6 @@
                 type="number"
                 name="jumlahBarang"
                 id="jumlahBarang"
-                placeholder="Jumlah Barang"
                 class="form-control"
                 required
               />
@@ -498,7 +528,6 @@
                 type="number"
                 name="hargaSatuan"
                 id="hargaSatuan"
-                placeholder="Harga/Pcs"
                 class="form-control"
                 required
               />
@@ -517,7 +546,7 @@
             </div>
           </div>
 
-          <div class="d-sm-flex modal-footer justify-content-between mb-4">
+          <div class="d-sm-flex modal-footer mb-4">
             <button type="button" class="btn btn-danger" data-dismiss="modal">
               <i class="fas fa-trash"></i> Batal
             </button>
@@ -634,7 +663,7 @@
             </div>
           </div>
 
-          <div class="d-sm-flex modal-footer justify-content-between mb-4">
+          <div class="d-sm-flex modal-footer mb-4">
             <button type="button" class="btn btn-danger" data-dismiss="modal">
               <i class="fas fa-trash"></i> Batal
             </button>

@@ -53,7 +53,15 @@ class Admin extends BaseController
             'email' => $this->request->getPost('emailSupplier'),
             'telp' => $this->request->getPost('telpSupplier')
         );
-        $supplier->saveData($data);
+        
+        $success = $supplier->saveData($data);
+
+        if($success){
+            session()->setFlashdata('message', 'Berhasil di Tambah !!!');
+        } else {
+            session()->setFlashdata('error', 'Gagal di Tambah !!!');
+        }
+
         return redirect()->to('/admin/supplier');
     }
 
@@ -66,14 +74,30 @@ class Admin extends BaseController
             'email' => $this->request->getPost('emailSupplier'),
             'telp' => $this->request->getPost('telpSupplier')
         );
-        $supplier->updateData($data, $id);
+
+        $success = $supplier->updateData($data, $id);
+
+        if($success){
+            session()->setFlashdata('message', 'Berhasil di Edit !!!');
+        } else {
+            session()->setFlashdata('error', 'Gagal di Edit !!!');
+        }
+
         return redirect()->to('/admin/supplier');
     }
 
     public function delete_supplier(){
         $supplier = $this->supplierModel;
         $id = $this->request->getPost('idSupplier');
-        $supplier->deleteData($id);
+
+        $success = $supplier->deleteData($id);
+
+        if($success){
+            session()->setFlashdata('message', 'Berhasil di Hapus !!!');
+        } else {
+            session()->setFlashdata('error', 'Gagal di Hapus !!!');
+        }
+
         return redirect()->to('/admin/supplier');
     }
 
@@ -97,7 +121,15 @@ class Admin extends BaseController
             'total_harga' => $this->request->getPost('hargaSatuan') * $this->request->getPost('jumlahBarang'),
             'status' => $this->request->getPost('status')
         );
-        $stock->saveData($data);
+
+        $success = $stock->saveData($data);
+
+        if($success){
+            session()->setFlashdata('message', 'Berhasil di Tambah !!!');
+        } else {
+            session()->setFlashdata('error', 'Gagal di Tambah !!!');
+        }
+
         return redirect()->to('/admin/stock');
     }
 
@@ -112,14 +144,30 @@ class Admin extends BaseController
             'total_harga' => $this->request->getPost('hargaSatuan') * $this->request->getPost('jumlahBarang'),
             'status' => $this->request->getPost('status')
         );
-        $stock->updateData($data, $id);
+
+        $success = $stock->updateData($data, $id);
+        
+        if($success){
+            session()->setFlashdata('message', 'Berhasil di Edit !!!');
+        } else {
+            session()->setFlashdata('error', 'Gagal di Edit !!!');
+        }
+
         return redirect()->to('/admin/stock');
     }
 
     public function delete_stock(){
         $stock = $this->stockModel;
         $id = $this->request->getPost('idBarang');
-        $stock->deleteData($id);
+
+        $success = $stock->deleteData($id);
+
+        if($success){
+            session()->setFlashdata('message', 'Berhasil di Hapus !!!');
+        } else {
+            session()->setFlashdata('error', 'Gagal di Hapus !!!');
+        }
+
         return redirect()->to('/admin/stock');
     }
 
@@ -142,10 +190,17 @@ class Admin extends BaseController
             'qty_masuk' => $this->request->getPost('jumlahBarang'),
             'harga_satuan' => $this->request->getPost('hargaSatuan'),
             'total_harga' => $this->request->getPost('hargaSatuan') * $this->request->getPost('jumlahBarang'),
-            'keterangan' => $this->request->getPost('keterangan'),
-            'jenis_transaksi' =>$this->request->getPost('jenisTransaksi')
+            'keterangan' => $this->request->getPost('keterangan')
         );
-        $masuk->saveData($data);
+
+        $success = $masuk->saveData($data);
+
+        if($success){
+            session()->setFlashdata('message', 'Berhasil di Tambah !!!');
+        } else {
+            session()->setFlashdata('error', 'Gagal di Tambah !!!');
+        }
+
         return redirect()->to('/admin/masuk');
     }
 
@@ -155,21 +210,36 @@ class Admin extends BaseController
         $data = array(
             'id_barang' => $this->request->getPost('namaBarang'),
             'id_supplier'=> $this->request->getPost('namaSupplier'),
-            'tgl_keluar' => $this->request->getPost('tglKeluar'),
-            'qty_keluar' => $this->request->getPost('jumlahBarang'),
+            'tgl_masuk' => $this->request->getPost('tglMasuk'),
+            'qty_masuk' => $this->request->getPost('jumlahBarang'),
             'harga_satuan' => $this->request->getPost('hargaSatuan'),
             'total_harga' => $this->request->getPost('hargaSatuan') * $this->request->getPost('jumlahBarang'),
-            'keterangan' => $this->request->getPost('keterangan'),
-            'jenis_transaksi' =>$this->request->getPost('jenisTransaksi')
+            'keterangan' => $this->request->getPost('keterangan')
         );
-        $masuk->updateData($data, $id);
+
+        $success = $masuk->updateData($data, $id);
+
+        if($success){
+            session()->setFlashdata('message', 'Berhasil di Edit !!!');
+        } else {
+            session()->setFlashdata('error', 'Gagal di Edit !!!');
+        }
+
         return redirect()->to('/admin/masuk');
     }
 
     public function delete_masuk(){
         $masuk = $this->masukModel;
         $id = $this->request->getPost('idMasuk');
-        $masuk->deleteData($id);
+
+        $success = $masuk->deleteData($id);
+        
+        if($success){
+            session()->setFlashdata('message', 'Berhasil di Hapus !!!');
+        } else {
+            session()->setFlashdata('error', 'Gagal di Hapus !!!');
+        }
+
         return redirect()->to('/admin/masuk');
     }
 
@@ -183,20 +253,26 @@ class Admin extends BaseController
     }
 
     public function save_keluar(){
-        $masuk = $this->masukModel;
+        $keluar = $this->keluarModel;
         $data = array(
-            'id_masuk' => $this->request->getPost('idMasuk'),
+            'id_keluar' => $this->request->getPost('idKeluar'),
             'id_barang' => $this->request->getPost('namaBarang'),
-            'id_supplier'=> $this->request->getPost('namaSupplier'),
             'tgl_keluar' => $this->request->getPost('tglKeluar'),
             'qty_keluar' => $this->request->getPost('jumlahBarang'),
             'harga_satuan' => $this->request->getPost('hargaSatuan'),
             'total_harga' => $this->request->getPost('hargaSatuan') * $this->request->getPost('jumlahBarang'),
-            'keterangan' => $this->request->getPost('keterangan'),
-            'jenis_transaksi' =>$this->request->getPost('jenisTransaksi')
+            'keterangan' => $this->request->getPost('keterangan')
         );
-        $masuk->saveData($data);
-        return redirect()->to('/admin/masuk');
+
+        $success = $keluar->saveData($data);
+
+        if($success){
+            session()->setFlashdata('message', 'Berhasil di Tambah !!!');
+        } else {
+            session()->setFlashdata('error', 'Gagal di Tambah !!!');
+        }
+        
+        return redirect()->to('/admin/keluar');
     }
 
     public function update_keluar(){
@@ -204,22 +280,36 @@ class Admin extends BaseController
         $id = $this->request->getPost('idKeluar');
         $data = array(
             'id_barang' => $this->request->getPost('namaBarang'),
-            'id_supplier'=> $this->request->getPost('namaSupplier'),
             'tgl_keluar' => $this->request->getPost('tglKeluar'),
             'qty_keluar' => $this->request->getPost('jumlahBarang'),
             'harga_satuan' => $this->request->getPost('hargaSatuan'),
             'total_harga' => $this->request->getPost('hargaSatuan') * $this->request->getPost('jumlahBarang'),
-            'keterangan' => $this->request->getPost('keterangan'),
-            'jenis_transaksi' =>$this->request->getPost('jenisTransaksi')
+            'keterangan' => $this->request->getPost('keterangan')
         );
-        $keluar->updateData($data, $id);
+        
+        $success = $keluar->updateData($data, $id);
+
+        if($success){
+            session()->setFlashdata('message', 'Berhasil di Edit !!!');
+        } else {
+            session()->setFlashdata('error', 'Gagal di Edit !!!');
+        }
+
         return redirect()->to('/admin/keluar');
     }
 
     public function delete_keluar(){
         $keluar = $this->keluarModel;
         $id = $this->request->getPost('idKeluar');
-        $keluar->deleteData($id);
+
+        $success = $keluar->deleteData($id);
+        
+        if($success){
+            session()->setFlashdata('message', 'Berhasil di Hapus !!!');
+        } else {
+            session()->setFlashdata('error', 'Gagal di Hapus !!!');
+        }
+
         return redirect()->to('/admin/keluar');
     }
 

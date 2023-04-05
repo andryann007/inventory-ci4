@@ -9,6 +9,12 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
+    <link
+      rel="icon"
+      type="image/png"
+      href="<?= base_url(); ?>/img/logo.png"
+    />
+
     <title>Login Inventory</title>
 
     <!-- Custom fonts for this template-->
@@ -53,13 +59,13 @@
                                             };
                                          ?>
                                         <div class="form-group">
-                                            <input type="email" name="email" class="form-control form-control-user"
-                                                id="exampleInputEmail" aria-describedby="emailHelp"
-                                                placeholder="Enter Email Address...">
+                                            <input type="text" name="id_user" class="form-control form-control-user"
+                                                id="inputId" aria-describedby="idHelp"
+                                                placeholder="Enter ID User">
                                         </div>
                                         <div class="form-group">
                                             <input type="password" name="password" class="form-control form-control-user"
-                                                id="exampleInputPassword" placeholder="Password">
+                                                id="inputPassword" placeholder="Password">
                                         </div>
                                         <div class="mb-3">
                                             <input type="submit" name="btnLogin" class="btn btn-primary btn-user btn-block" value="Login">

@@ -8,7 +8,8 @@ class SupplierModel extends Model{
     protected $primaryKey = 'id_supplier';
 
     public function getData(){
-        return $this->db->table('data_supplier');
+        return $this->db->table('data_supplier')
+        -> get()->getResultArray();
     }
 
     public function saveData($data){

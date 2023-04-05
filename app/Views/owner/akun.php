@@ -199,7 +199,65 @@
                   Data - Data Akun
                 </h6>
               </div>
-              <div class="card-body">
+
+                <!-- Notifikasi Alert Jika Data Akun Berhasil di Tambah / Edit / Hapus -->
+                <?php if(session()->get('message')) :?>
+                  <div class="alert alert-success alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert">
+                      &times;
+                    </button>
+                    Perhatian !!! Data Akun 
+                    <strong><?= session()->getFlashdata('message'); ?> </strong>
+                  </div>
+                <?php endif; ?>
+
+                <!-- Notifikasi Alert Jika Data Akun Gagal di Tambah / Edit / Hapus -->
+                <?php if(session()->get('error')) :?>
+                  <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert">
+                      &times;
+                    </button>
+                    Perhatian !!! Data Akun 
+                    <strong><?= session()->getFlashdata('error'); ?> </strong>
+                  </div>
+                <?php endif; ?>
+                
+                <!-- Notifikasi Alert Jika Stock Barang Habis -->
+                <?php
+                $conn = mysqli_connect("localhost", "root", "", "database_inventory");
+                $barangHabis = mysqli_query($conn, "SELECT * FROM data_stock WHERE qty_stock < 1");
+
+                while ($fetch = mysqli_fetch_array($barangHabis)) {
+                  $barang = $fetch['nama_barang'];
+
+                  ?>
+                <div class="alert alert-danger alert-dismissible">
+                  <button type="button" class="close" data-dismiss="alert">
+                    &times;
+                  </button>
+                  <strong>Perhatian !!! </strong>Stock Barang
+                  <strong><?= ucwords($barang); ?> </strong>Sudah Habis
+                </div>
+                <?php
+                }
+                ?>
+
+                <!-- Notifikasi Alert Jika Stock Barang Sedikit -->
+                <?php
+                $barangSedikit = mysqli_query($conn, "SELECT * FROM data_stock WHERE qty_stock < 10 AND qty_stock >
+                0"); while ($fetch = mysqli_fetch_array($barangSedikit)) {
+                $barang = $fetch['nama_barang']; ?>
+                <div class="alert alert-warning alert-dismissible">
+                  <button type="button" class="close" data-dismiss="alert">
+                    &times;
+                  </button>
+                  <strong>Perhatian !!! </strong>Stock Barang
+                  <strong><?= ucwords($barang); ?> </strong>Tersisa Sedikit
+                </div>
+                <?php
+                }
+                ?>
+
                 <div class="table-responsive table-striped">
                   <table
                     class="table table-bordered"
@@ -210,6 +268,7 @@
                     <thead class="thead-dark">
                       <tr>
                         <th>No</th>
+                        <th>ID User</th>
                         <th>Nama Lengkap</th>
                         <th>Email</th>
                         <th>Password</th>
@@ -225,6 +284,9 @@
                       <tr>
                         <td>
                           <?= $i++; ?>
+                        </td>
+                        <td>
+                          @<?= $a['id_user']; ?>
                         </td>
                         <td>
                           <?= $a['nama_lengkap']; ?>
@@ -413,7 +475,6 @@
                 type="text"
                 name="idUser"
                 id="idUser"
-                placeholder="@example"
                 class="form-control"
                 required
               />
@@ -425,7 +486,6 @@
                 type="text"
                 name="namaUser"
                 id="namaUser"
-                placeholder="Nama Lengkap"
                 class="form-control"
                 required
               />
@@ -437,7 +497,6 @@
                 type="email"
                 name="emailUser"
                 id="emailUser"
-                placeholder="example@gmail.com"
                 class="form-control"
                 required
               />
@@ -449,7 +508,6 @@
                 type="password"
                 name="passUser"
                 id="passUser"
-                placeholder="********"
                 class="form-control"
                 required
               />
@@ -461,9 +519,7 @@
                 type="textarea"
                 name="alamatUser"
                 id="alamatUser"
-                placeholder="Alamat Lengkap"
                 class="form-control"
-                required
               />
             </div>
 
@@ -473,9 +529,7 @@
                 type="textarea"
                 name="telpUser"
                 id="telpUser"
-                placeholder="No. Telpon"
                 class="form-control"
-                required
               />
             </div>
 

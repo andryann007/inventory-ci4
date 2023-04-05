@@ -205,6 +205,65 @@
                 </h6>
               </div>
               <div class="card-body">
+                
+                <!-- Notifikasi Alert Jika Data Barang Keluar Berhasil di Tambah / Edit / Hapus -->
+                <?php if(session()->get('message')) :?>
+                  <div class="alert alert-success alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert">
+                      &times;
+                    </button>
+                    Perhatian !!! Data Barang Keluar 
+                    <strong><?= session()->getFlashdata('message'); ?> </strong>
+                  </div>
+                <?php endif; ?>
+
+                <!-- Notifikasi Alert Jika Data Barang Keluar Gagal di Tambah / Edit / Hapus -->
+                <?php if(session()->get('error')) :?>
+                  <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert">
+                      &times;
+                    </button>
+                    Perhatian !!! Data Barang Keluar 
+                    <strong><?= session()->getFlashdata('error'); ?> </strong>
+                  </div>
+                <?php endif; ?>
+                
+                <!-- Notifikasi Alert Jika Stock Barang Habis -->
+                <?php
+                $conn = mysqli_connect("localhost", "root", "", "database_inventory");
+                $barangHabis = mysqli_query($conn, "SELECT * FROM data_stock WHERE qty_stock < 1");
+
+                while ($fetch = mysqli_fetch_array($barangHabis)) {
+                  $barang = $fetch['nama_barang'];
+
+                  ?>
+                <div class="alert alert-danger alert-dismissible">
+                  <button type="button" class="close" data-dismiss="alert">
+                    &times;
+                  </button>
+                  <strong>Perhatian !!! </strong>Stock Barang
+                  <strong><?= ucwords($barang); ?> </strong>Sudah Habis
+                </div>
+                <?php
+                }
+                ?>
+
+                <!-- Notifikasi Alert Jika Stock Barang Sedikit -->
+                <?php
+                $barangSedikit = mysqli_query($conn, "SELECT * FROM data_stock WHERE qty_stock < 10 AND qty_stock >
+                0"); while ($fetch = mysqli_fetch_array($barangSedikit)) {
+                $barang = $fetch['nama_barang']; ?>
+                <div class="alert alert-warning alert-dismissible">
+                  <button type="button" class="close" data-dismiss="alert">
+                    &times;
+                  </button>
+                  <strong>Perhatian !!! </strong>Stock Barang
+                  <strong><?= ucwords($barang); ?> </strong>Tersisa Sedikit
+                </div>
+                <?php
+                }
+                ?>
+
                 <div class="table-responsive table-striped">
                   <table
                     class="table table-bordered"

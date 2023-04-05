@@ -12,15 +12,15 @@ class Home extends BaseController
         $login = $this -> request -> getPost('btnLogin');
 
         if($login){
-            $email = $this -> request -> getPost('email');
+            $id = $this -> request -> getPost('id_user');
             $password = $this -> request -> getPost('password');
 
-            if($email == "" or $password == ""){
-                $err ="Silahkan Masukkan Email & Password !!!";
+            if($id == "" or $password == ""){
+                $err ="Silahkan Masukkan ID User & Password !!!";
             }
             
             if(empty($err)){
-                $dataAkun = $ModelAkun -> where("email", $email) -> first();
+                $dataAkun = $ModelAkun -> where("id_user", $id) -> first();
                 if($dataAkun['password'] != $password){
                     $err = "Password Tidak Sesuai !!!";
                 }

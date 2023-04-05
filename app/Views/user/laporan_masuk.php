@@ -205,6 +205,8 @@
               </div>
 
               <div class="card-body">
+                
+                <!-- Notifikasi Alert Jika Stock Barang Habis -->
                 <?php
                 $conn = mysqli_connect("localhost", "root", "", "database_inventory");
                 $barangHabis = mysqli_query($conn, "SELECT * FROM data_stock WHERE qty_stock < 1");
@@ -224,8 +226,8 @@
                 }
                 ?>
 
+                <!-- Notifikasi Alert Jika Stock Barang Sedikit -->
                 <?php
-                $conn = mysqli_connect("localhost", "root", "", "database_inventory");
                 $barangSedikit = mysqli_query($conn, "SELECT * FROM data_stock WHERE qty_stock < 10 AND qty_stock >
                 0"); while ($fetch = mysqli_fetch_array($barangSedikit)) {
                 $barang = $fetch['nama_barang']; ?>

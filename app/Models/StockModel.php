@@ -8,7 +8,8 @@ class StockModel extends Model{
     protected $primaryKey = 'id_barang';
 
     public function getData(){
-        return $this->db->table('data_stock');
+        return $this->db->table('data_stock')
+        -> get()->getResultArray();
     }
 
     public function saveData($data){
@@ -28,5 +29,13 @@ class StockModel extends Model{
 
     public function qty_stock(){
         return $this->db->table('data_stock')->get()->getNumRows();
+    }
+
+    public function stock_habis(){
+        return $this->db->table('data_stock')->where('`qty_stock` < 1')->get()->getResultArray();
+    }
+    
+    public function stock_sedikit(){
+        return $this->db->table('data_stock')->where('`qty_stock` < 10 & `qty_stock` > 1')->get()->getResultArray();
     }
 }

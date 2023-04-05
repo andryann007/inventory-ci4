@@ -58,7 +58,13 @@ class Owner extends BaseController
             'tipe_akun' => $this->request->getPost('tipeAkunUser')
         );
 
-        $akun->saveData($data);
+        $success = $akun->saveData($data);
+
+        if($success){
+            session()->setFlashdata('message', 'Berhasil di Tambah !!!');
+        } else {
+            session()->setFlashdata('error', 'Gagal di Tambah !!!');
+        }
 
         return redirect()->to('/owner/akun');
     }
@@ -74,14 +80,30 @@ class Owner extends BaseController
             'telp' => $this->request->getPost('telpUser'),
             'tipe_akun' => $this->request->getPost('tipeAkunUser')
         );
-        $akun->updateData($data, $id);
+        
+        $success = $akun->updateData($data, $id);
+
+        if($success){
+            session()->setFlashdata('message', 'Berhasil di Edit !!!');
+        } else {
+            session()->setFlashdata('error', 'Gagal di Edit !!!');
+        }
+
         return redirect()->to('/owner/akun');
     }
 
     public function delete_akun(){
         $akun = $this->akunModel;
         $id = $this->request->getPost('idUser');
-        $akun->deleteData($id);
+        
+        $success =$akun->deleteData($id);
+
+        if($success){
+            session()->setFlashdata('message', 'Berhasil di Hapus !!!');
+        } else {
+            session()->setFlashdata('error', 'Gagal di Hapus !!!');
+        }
+
         return redirect()->to('/owner/akun');
     }
 
@@ -103,7 +125,15 @@ class Owner extends BaseController
             'email' => $this->request->getPost('emailSupplier'),
             'telp' => $this->request->getPost('telpSupplier')
         );
-        $supplier->saveData($data);
+        
+        $success = $supplier->saveData($data);
+
+        if($success){
+            session()->setFlashdata('message', 'Berhasil di Tambah !!!');
+        } else {
+            session()->setFlashdata('error', 'Gagal di Tambah !!!');
+        }
+
         return redirect()->to('/owner/supplier');
     }
 
@@ -116,14 +146,30 @@ class Owner extends BaseController
             'email' => $this->request->getPost('emailSupplier'),
             'telp' => $this->request->getPost('telpSupplier')
         );
-        $supplier->updateData($data, $id);
+
+        $success = $supplier->updateData($data, $id);
+
+        if($success){
+            session()->setFlashdata('message', 'Berhasil di Edit !!!');
+        } else {
+            session()->setFlashdata('error', 'Gagal di Edit !!!');
+        }
+
         return redirect()->to('/owner/supplier');
     }
 
     public function delete_supplier(){
         $supplier = $this->supplierModel;
         $id = $this->request->getPost('idSupplier');
-        $supplier->deleteData($id);
+
+        $success = $supplier->deleteData($id);
+
+        if($success){
+            session()->setFlashdata('message', 'Berhasil di Hapus !!!');
+        } else {
+            session()->setFlashdata('error', 'Gagal di Hapus !!!');
+        }
+
         return redirect()->to('/owner/supplier');
     }
 
@@ -147,7 +193,14 @@ class Owner extends BaseController
             'total_harga' => $this->request->getPost('hargaSatuan') * $this->request->getPost('jumlahBarang'),
             'status' => $this->request->getPost('status')
         );
-        $stock->saveData($data);
+        
+        $success = $stock->saveData($data);
+
+        if($success){
+            session()->setFlashdata('message', 'Berhasil di Tambah !!!');
+        } else {
+            session()->setFlashdata('error', 'Gagal di Tambah !!!');
+        }
         return redirect()->to('/owner/stock');
     }
 
@@ -162,14 +215,29 @@ class Owner extends BaseController
             'total_harga' => $this->request->getPost('hargaSatuan') * $this->request->getPost('jumlahBarang'),
             'status' => $this->request->getPost('status')
         );
-        $stock->updateData($data, $id);
+        $success = $stock->updateData($data, $id);
+        
+        if($success){
+            session()->setFlashdata('message', 'Berhasil di Edit !!!');
+        } else {
+            session()->setFlashdata('error', 'Gagal di Edit !!!');
+        }
+
         return redirect()->to('/owner/stock');
     }
 
     public function delete_stock(){
         $stock = $this->stockModel;
         $id = $this->request->getPost('idBarang');
-        $stock->deleteData($id);
+
+        $success = $stock->deleteData($id);
+
+        if($success){
+            session()->setFlashdata('message', 'Berhasil di Hapus !!!');
+        } else {
+            session()->setFlashdata('error', 'Gagal di Hapus !!!');
+        }
+
         return redirect()->to('/owner/stock');
     }
 
@@ -203,7 +271,14 @@ class Owner extends BaseController
             'keterangan' => $this->request->getPost('keterangan')
         );
         $stock->updateData($dataStock, $idBarang);
-        $masuk->saveData($data);
+        $success = $masuk->saveData($data);
+
+        if($success){
+            session()->setFlashdata('message', 'Berhasil di Tambah !!!');
+        } else {
+            session()->setFlashdata('error', 'Gagal di Tambah !!!');
+        }
+
         return redirect()->to('/owner/masuk');
     }
 
@@ -227,8 +302,16 @@ class Owner extends BaseController
             'total_harga' => $this->request->getPost('hargaSatuan') * $this->request->getPost('jumlahBarang'),
             'keterangan' => $this->request->getPost('keterangan')
         );
+        
         $stock->updateData($dataStock, $idBarang);
-        $masuk->updateData($dataMasuk, $idMasuk);
+        $success = $masuk->updateData($dataMasuk, $idMasuk);
+
+        if($success){
+            session()->setFlashdata('message', 'Berhasil di Edit !!!');
+        } else {
+            session()->setFlashdata('error', 'Gagal di Edit !!!');
+        }
+
         return redirect()->to('/owner/masuk');
     }
 
@@ -245,7 +328,14 @@ class Owner extends BaseController
         $id = $this->request->getPost('idMasuk');
 
         $stock->updateData($dataStock, $idBarang);
-        $masuk->deleteData($id);
+        $success = $masuk->deleteData($id);
+
+        if($success){
+            session()->setFlashdata('message', 'Berhasil di Hapus !!!');
+        } else {
+            session()->setFlashdata('error', 'Gagal di Hapus !!!');
+        }
+
         return redirect()->to('/owner/masuk');
     }
 
@@ -269,7 +359,14 @@ class Owner extends BaseController
             'total_harga' => $this->request->getPost('hargaSatuan') * $this->request->getPost('jumlahBarang'),
             'keterangan' => $this->request->getPost('keterangan')
         );
-        $keluar->saveData($data);
+        $success = $keluar->saveData($data);
+
+        if($success){
+            session()->setFlashdata('message', 'Berhasil di Tambah !!!');
+        } else {
+            session()->setFlashdata('error', 'Gagal di Tambah !!!');
+        }
+
         return redirect()->to('/owner/masuk');
     }
 
@@ -284,14 +381,30 @@ class Owner extends BaseController
             'total_harga' => $this->request->getPost('hargaSatuan') * $this->request->getPost('jumlahBarang'),
             'keterangan' => $this->request->getPost('keterangan')
         );
-        $keluar->updateData($data, $id);
+        
+        $success = $keluar->updateData($data, $id);
+
+        if($success){
+            session()->setFlashdata('message', 'Berhasil di Edit !!!');
+        } else {
+            session()->setFlashdata('error', 'Gagal di Edit !!!');
+        }
+
         return redirect()->to('/owner/keluar');
     }
 
     public function delete_keluar(){
         $keluar = $this->keluarModel;
         $id = $this->request->getPost('idKeluar');
-        $keluar->deleteData($id);
+
+        $success = $keluar->deleteData($id);
+
+        if($success){
+            session()->setFlashdata('message', 'Berhasil di Hapus !!!');
+        } else {
+            session()->setFlashdata('error', 'Gagal di Hapus !!!');
+        }
+
         return redirect()->to('/owner/keluar');
     }
 

@@ -8,7 +8,8 @@ class AkunModel extends Model{
     protected $primaryKey = 'id_user';
 
     public function getData(){
-        return $this->db->table('data_user');
+        return $this->db->table('data_user')
+        -> get()->getResultArray();
     }
 
     public function saveData($data){
