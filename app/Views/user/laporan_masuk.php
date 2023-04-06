@@ -67,36 +67,6 @@
         <hr class="sidebar-divider" />
 
         <!-- Heading Data Master -->
-        <div class="sidebar-heading">Data Master</div>
-
-        <!-- Nav Item - Data Akun -->
-        <li class="nav-item">
-          <a class="nav-link" href="/user/akun">
-            <i class="fas fa-id-card"></i>
-            <span>Data Akun</span></a
-          >
-        </li>
-
-        <!-- Nav Item - Data Supplier -->
-        <li class="nav-item">
-          <a class="nav-link" href="/user/supplier">
-            <i class="fas fa-truck"></i>
-            <span>Data Supplier</span></a
-          >
-        </li>
-
-        <!-- Nav Item - Data Stock -->
-        <li class="nav-item">
-          <a class="nav-link" href="/user/stock">
-            <i class="fas fa-cubes"></i>
-            <span>Data Stock Barang</span></a
-          >
-        </li>
-
-        <!-- Divider -->
-        <hr class="sidebar-divider" />
-
-        <!-- Heading Data Master -->
         <div class="sidebar-heading">Data Transaksi</div>
 
         <!-- Nav Item - Data Barang Masuk -->
@@ -189,10 +159,10 @@
               </h2>
 
               <a
-                href="export_stock.php"
+                href="<?php echo site_url('/user/print_masuk');?>"
                 class="btn btn-primary btn-sm"
                 role="button"
-                ><i class="fas fa-file-export"></i> Export Data</a
+                ><i class="fas fa-print"></i> Print Data</a
               >
             </div>
 

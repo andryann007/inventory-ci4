@@ -628,6 +628,21 @@ class Owner extends BaseController
         return view('owner/laporan_retur');
     }
 
+    public function print_masuk(){
+        $data['masuk'] = $this->masukModel->getData();
+        return view('owner/print_masuk', $data);
+    }
+
+    public function print_keluar(){
+        $data['print_keluar'] = $this->keluarModel->getData();
+        return view('owner/print_keluar', $data);
+    }
+
+    public function print_retur(){
+        $data['retur'] = $this->returModel->getData();
+        return view('owner/print_retur', $data);
+    }
+
     public function logout(){
         session() -> destroy();
         return redirect() -> to('home');

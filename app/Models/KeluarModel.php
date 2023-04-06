@@ -34,6 +34,12 @@ class KeluarModel extends Model{
         return $query;
     }
 
+    public function filterData($id){
+        return $this->db->table('data_barang_keluar')
+        -> join('data_stock', 'data_stock.id_barang = data_barang_keluar.id_barang')
+        -> get()->getResultArray();
+    }
+
     public function qty_keluar(){
         return $this->db->table('data_barang_keluar')->get()->getNumRows();
     }

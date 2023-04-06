@@ -181,10 +181,10 @@
               </h2>
 
               <a
-                href="export_stock.php"
+                href="<?php echo site_url('/admin/print_retur');?>"
                 class="btn btn-primary btn-sm"
                 role="button"
-                ><i class="fas fa-file-export"></i> Export Data</a
+                ><i class="fas fa-print"></i> Print Data</a
               >
             </div>
 

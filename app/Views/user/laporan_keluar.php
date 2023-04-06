@@ -67,36 +67,6 @@
         <hr class="sidebar-divider" />
 
         <!-- Heading Data Master -->
-        <div class="sidebar-heading">Data Master</div>
-
-        <!-- Nav Item - Data Akun -->
-        <li class="nav-item">
-          <a class="nav-link" href="/user/akun">
-            <i class="fas fa-id-card"></i>
-            <span>Data Akun</span></a
-          >
-        </li>
-
-        <!-- Nav Item - Data Supplier -->
-        <li class="nav-item">
-          <a class="nav-link" href="/user/supplier">
-            <i class="fas fa-truck"></i>
-            <span>Data Supplier</span></a
-          >
-        </li>
-
-        <!-- Nav Item - Data Stock -->
-        <li class="nav-item">
-          <a class="nav-link" href="/user/stock">
-            <i class="fas fa-cubes"></i>
-            <span>Data Stock Barang</span></a
-          >
-        </li>
-
-        <!-- Divider -->
-        <hr class="sidebar-divider" />
-
-        <!-- Heading Data Master -->
         <div class="sidebar-heading">Data Transaksi</div>
 
         <!-- Nav Item - Data Barang Masuk -->
@@ -177,7 +147,7 @@
           <?= $this ->
           include("templates/topbar"); ?>
           <!-- End of Topbar -->
-
+          
           <!-- Begin Page Content -->
           <div class="container-fluid">
             <!-- Page Heading -->
@@ -189,11 +159,11 @@
               </h2>
 
               <a
-                href="export_stock.php"
+                href="<?php echo site_url('/user/print_keluar');?>"
                 class="btn btn-primary btn-sm"
                 role="button"
-                ><i class="fas fa-file-export"></i> Export Data</a
-              >
+                ><i class="fas fa-print"></i> Print Data
+              </a>  
             </div>
 
             <!-- DataTales Example -->
@@ -244,7 +214,6 @@
 
                 <div class="row mb-4">
                   <div class="col">
-                    <form method="post" class="form-inline">
                       <input type="date" name="tglMulai" class="form-control" />
                       <input
                         type="date"
@@ -262,6 +231,7 @@
                   </div>
                 </div>
 
+                <form action="/user/print_keluar" method="get">
                 <div class="table-responsive table-striped">
                   <table
                     class="table table-bordered"
@@ -280,7 +250,6 @@
                         <th>QTY</th>
                         <th>Total Harga</th>
                         <th>Keterangan</th>
-                        <th class="text-center">Aksi</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -307,6 +276,7 @@
                           $totalHargaRp = "Rp. " . number_format($totalHarga, 2, ',', '.');
                           $keterangan = $data['keterangan'];
                           ?>
+                      
                       <tr>
                         <td>
                           <?= $i++; ?>
@@ -347,6 +317,7 @@
           </div>
           <!-- /.container-fluid -->
         </div>
+        </form>
         <!-- End of Main Content -->
 
         <!-- Footer -->

@@ -557,6 +557,21 @@ class Admin extends BaseController
         return view('admin/laporan_retur');
     }
 
+    public function print_masuk(){
+        $data['masuk'] = $this->masukModel->getData();
+        return view('admin/print_masuk', $data);
+    }
+
+    public function print_keluar(){
+        $data['print_keluar'] = $this->keluarModel->getData();
+        return view('admin/print_keluar', $data);
+    }
+
+    public function print_retur(){
+        $data['retur'] = $this->returModel->getData();
+        return view('admin/print_retur', $data);
+    }
+
     public function logout(){
         session() -> destroy();
         return redirect() -> to('home');
