@@ -99,7 +99,7 @@
 
       <!-- Nav Item - Data Retur Barang -->
       <li class="nav-item">
-        <a class="nav-link" href="">
+        <a class="nav-link" href="/owner/retur">
         <i class="fas fa-reply"></i>
           <span>Data Retur Barang</span></a
         >
@@ -129,7 +129,7 @@
 
       <!-- Nav Item - Laporan Retur Barang -->
       <li class="nav-item">
-        <a class="nav-link" href="">
+        <a class="nav-link" href="/owner/laporan_retur">
           <i class="fas fa-file-invoice"></i>
           <span>Laporan Retur Barang</span></a
         >
@@ -214,7 +214,7 @@
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                     Data Akun</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800"><b><?= $data_akun; ?></b> Data</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800"><b><?= $data_akun; ?> Data</b></div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-id-card fa-2x text-gray-300"></i>
@@ -232,7 +232,7 @@
                               <div class="col mr-2">
                                   <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                       Data Stock Barang</div>
-                                  <div class="h5 mb-0 font-weight-bold text-gray-800"><b><?= $data_stock; ?></b> Data</div>
+                                  <div class="h5 mb-0 font-weight-bold text-gray-800"><b><?= $data_stock; ?> Data</b></div>
                               </div>
                               <div class="col-auto">
                                   <i class="fas fa-cubes fa-2x text-gray-300"></i>
@@ -250,7 +250,7 @@
                               <div class="col mr-2">
                                   <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                                       Data Supplier</div>
-                                  <div class="h5 mb-0 font-weight-bold text-gray-800"><b><?= $data_supplier; ?></b> Data</div>
+                                  <div class="h5 mb-0 font-weight-bold text-gray-800"><b><?= $data_supplier; ?> Data</b></div>
                               </div>
                               <div class="col-auto">
                                   <i class="fas fa-truck fa-2x text-gray-300"></i>
@@ -277,7 +277,7 @@
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                     Data Barang Masuk</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800"><b><?= $data_barang_masuk; ?></b> Data</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800"><b><?= $data_barang_masuk; ?> Data</b></div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-arrow-left fa-2x text-gray-300"></i>
@@ -295,7 +295,7 @@
                               <div class="col mr-2">
                                   <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                       Data Barang Keluar</div>
-                                  <div class="h5 mb-0 font-weight-bold text-gray-800"><b><?= $data_barang_keluar; ?></b> Data</div>
+                                  <div class="h5 mb-0 font-weight-bold text-gray-800"><b><?= $data_barang_keluar; ?> Data</b></div>
                               </div>
                               <div class="col-auto">
                                   <i class="fas fa-arrow-right fa-2x text-gray-300"></i>
@@ -313,7 +313,7 @@
                               <div class="col mr-2">
                                   <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                                       Data Retur Barang</div>
-                                  <div class="h5 mb-0 font-weight-bold text-gray-800"><b></b> Data</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800"><b><?= $data_retur_barang; ?> Data</b></div>
                               </div>
                               <div class="col-auto">
                                   <i class="fas fa-reply fa-2x text-gray-300"></i>

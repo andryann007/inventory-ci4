@@ -15,17 +15,23 @@ class MasukModel extends Model{
     }
 
     public function saveData($data){
-        $query = $this->db->table('data_barang_masuk')->insert($data);
+        $query = $this->db->table('data_barang_masuk')
+        -> join('data_stock', 'data_stock.id_barang = data_barang_masuk.id_barang')
+        -> insert($data);
         return $query;
     }
 
     public function updateData($data, $id){
-        $query = $this->db->table('data_barang_masuk')->update($data, array('id_masuk' => $id));
+        $query = $this->db->table('data_barang_masuk')
+        -> join('data_stock', 'data_stock.id_barang = data_barang_masuk.id_barang')
+        -> update($data, array('id_masuk' => $id));
         return $query;
     }
 
     public function deleteData($id){
-        $query = $this->db->table('data_barang_masuk')->delete(array('id_masuk' => $id));
+        $query = $this->db->table('data_barang_masuk')
+        -> join('data_stock', 'data_stock.id_barang = data_barang_masuk.id_barang')
+        -> delete(array('id_masuk' => $id));
         return $query;
     }
 

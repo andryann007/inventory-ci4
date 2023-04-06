@@ -14,17 +14,23 @@ class KeluarModel extends Model{
     }
 
     public function saveData($data){
-        $query = $this->db->table('data_barang_keluar')->insert($data);
+        $query = $this->db->table('data_barang_keluar')
+        -> join('data_stock', 'data_stock.id_barang = data_barang_keluar.id_barang')
+        -> insert($data);
         return $query;
     }
 
     public function updateData($data, $id){
-        $query = $this->db->table('data_barang_keluar')->update($data, array('id_keluar' => $id));
+        $query = $this->db->table('data_barang_keluar') 
+        -> join('data_stock', 'data_stock.id_barang = data_barang_keluar.id_barang')
+        -> update($data, array('id_keluar' => $id));
         return $query;
     }
 
     public function deleteData($id){
-        $query = $this->db->table('data_barang_keluar')->delete(array('id_keluar' => $id));
+        $query = $this->db->table('data_barang_keluar')
+        -> join('data_stock', 'data_stock.id_barang = data_barang_keluar.id_barang')
+        -> delete(array('id_keluar' => $id));
         return $query;
     }
 

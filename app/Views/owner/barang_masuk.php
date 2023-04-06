@@ -118,7 +118,7 @@
 
         <!-- Nav Item - Data Retur Barang -->
         <li class="nav-item">
-          <a class="nav-link" href="">
+          <a class="nav-link" href="/owner/retur">
           <i class="fas fa-reply"></i>
             <span>Data Retur Barang</span></a
           >
@@ -148,7 +148,7 @@
 
         <!-- Nav Item - Laporan Retur Barang -->
         <li class="nav-item">
-          <a class="nav-link" href="">
+          <a class="nav-link" href="/owner/laporan_retur">
             <i class="fas fa-file-invoice"></i>
             <span>Laporan Retur Barang</span></a
           >
@@ -214,7 +214,7 @@
                     <button type="button" class="close" data-dismiss="alert">
                       &times;
                     </button>
-                    Perhatian !!! Data Barang Masuk 
+                    Perhatian !!! 
                     <strong><?= session()->getFlashdata('message'); ?> </strong>
                   </div>
                 <?php endif; ?>
@@ -225,7 +225,7 @@
                     <button type="button" class="close" data-dismiss="alert">
                       &times;
                     </button>
-                    Perhatian !!! Data Barang Masuk 
+                    Perhatian !!! 
                     <strong><?= session()->getFlashdata('error'); ?> </strong>
                   </div>
                 <?php endif; ?>
@@ -276,6 +276,7 @@
                     <thead class="thead-dark">
                       <tr>
                         <th>No</th>
+                        <th>ID Masuk</th>
                         <th>Tgl Masuk</th>
                         <th>Nama Barang</th>
                         <th>Nama Supplier</th>
@@ -296,6 +297,9 @@
                           <?= $i++; ?>
                         </td>
                         <td>
+                          <?= $msk['id_masuk']; ?>
+                        </td>
+                        <td>
                           <?= $msk['tgl_masuk']; ?>
                         </td>
                         <td>
@@ -314,7 +318,7 @@
                           <?= $msk['qty_masuk']; ?>
                         </td>
                         <td>
-                          <?= "Rp. " . number_format($msk['total_harga'], 2, ',', '.'); ?>
+                          <?= "Rp. " . number_format($msk['qty_masuk'] * $msk['harga_satuan'], 2, ',', '.'); ?>
                         </td>
                         <td>
                           <?= $msk['keterangan']; ?>
@@ -346,7 +350,8 @@
                             id="btnDelete"
                             data-toggle="modal"
                             data-target="#deleteIncomingModal"
-                            data-id="<?= $msk['id_masuk'];?>"
+                            data-id_masuk="<?= $msk['id_masuk'];?>"
+                            data-id_barang="<?= $msk['id_barang'];?>"
                           >
                             <i class="fas fa-trash"></i>
                           </button>
@@ -451,7 +456,8 @@
       })
 
       $(document).on('click', '#btnDelete', function(){
-        $('.modal-footer #idMasuk').val($(this).data('id'));
+        $('.modal-footer #idMasuk').val($(this).data('id_masuk'));
+        $('.modal-footer #namaBarang').val($(this).data('id_barang'));
       })
     </script>
   </body>
@@ -797,6 +803,12 @@
               type="hidden"
               id="idMasuk"
               name="idMasuk"
+            />
+
+            <input
+              type="hidden"
+              id="namaBarang"
+              name="namaBarang"
             />
 
             <button

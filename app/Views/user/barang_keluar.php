@@ -67,36 +67,6 @@
         <hr class="sidebar-divider" />
 
         <!-- Heading Data Master -->
-        <div class="sidebar-heading">Data Master</div>
-
-        <!-- Nav Item - Data Akun -->
-        <li class="nav-item">
-          <a class="nav-link" href="/user/akun">
-            <i class="fas fa-id-card"></i>
-            <span>Data Akun</span></a
-          >
-        </li>
-
-        <!-- Nav Item - Data Customer -->
-        <li class="nav-item">
-          <a class="nav-link" href="/user/supplier">
-            <i class="fas fa-truck"></i>
-            <span>Data Supplier</span></a
-          >
-        </li>
-
-        <!-- Nav Item - Data Stock -->
-        <li class="nav-item">
-          <a class="nav-link" href="/user/stock">
-            <i class="fas fa-cubes"></i>
-            <span>Data Stock Barang</span></a
-          >
-        </li>
-
-        <!-- Divider -->
-        <hr class="sidebar-divider" />
-
-        <!-- Heading Data Master -->
         <div class="sidebar-heading">Data Transaksi</div>
 
        <!-- Nav Item - Data Barang Masuk -->
@@ -117,7 +87,7 @@
 
         <!-- Nav Item - Data Retur Barang -->
         <li class="nav-item">
-          <a class="nav-link" href="">
+          <a class="nav-link" href="/user/retur">
           <i class="fas fa-reply"></i>
             <span>Data Retur Barang</span></a
           >
@@ -147,7 +117,7 @@
 
         <!-- Nav Item - Laporan Retur Barang -->
         <li class="nav-item">
-          <a class="nav-link" href="">
+          <a class="nav-link" href="/user/laporan_retur">
             <i class="fas fa-file-invoice"></i>
             <span>Laporan Retur Barang</span></a
           >
@@ -204,6 +174,7 @@
                   Data - Data Barang Keluar
                 </h6>
               </div>
+
               <div class="card-body">
                 
                 <!-- Notifikasi Alert Jika Data Barang Keluar Berhasil di Tambah / Edit / Hapus -->
@@ -274,6 +245,7 @@
                     <thead class="thead-dark">
                       <tr>
                         <th>No</th>
+                        <th>ID Keluar</th>
                         <th>Tgl Keluar</th>
                         <th>Nama Barang</th>
                         <th>Kategori</th>
@@ -292,6 +264,9 @@
                           <?= $i++; ?>
                         </td>
                         <td>
+                          <?= $klr['id_keluar']; ?>
+                        </td>
+                        <td>
                           <?= $klr['tgl_keluar']; ?>
                         </td>
                         <td>
@@ -307,7 +282,7 @@
                           <?= $klr['qty_keluar']; ?>
                         </td>
                         <td>
-                          <?= "Rp. " . number_format($klr['total_harga'], 2, ',', '.'); ?>
+                          <?= "Rp. " . number_format($klr['qty_keluar'] * $klr['harga_satuan'], 2, ',', '.'); ?>
                         </td>
                         <td>
                           <?= $klr['keterangan']; ?>
@@ -340,6 +315,7 @@
                             data-toggle="modal"
                             data-target="#deleteOutcomingModal"
                             data-id_keluar="<?= $klr['id_keluar'];?>"
+                            data-id_barang="<?= $klr['id_barang'];?>"
                           >
                             <i class="fas fa-trash"></i>
                           </button>
@@ -443,7 +419,8 @@
       })
 
       $(document).on('click', '#btnDelete', function(){
-        $('.modal-footer #idKeluar').val($(this).data('id'));
+        $('.modal-footer #idKeluar').val($(this).data('id_keluar'));
+        $('.modal-footer #namaBarang').val($(this).data('id_barang'));
       })
     </script>
   </body>
@@ -738,6 +715,12 @@
               type="hidden"
               id="idKeluar"
               name="idKeluar"
+            />
+
+            <input
+              type="hidden"
+              id="namaBarang"
+              name="namaBarang"
             />
 
             <button

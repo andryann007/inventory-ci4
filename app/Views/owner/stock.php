@@ -117,7 +117,7 @@
 
         <!-- Nav Item - Data Retur Barang -->
         <li class="nav-item">
-          <a class="nav-link" href="">
+          <a class="nav-link" href="/owner/retur">
           <i class="fas fa-reply"></i>
             <span>Data Retur Barang</span></a
           >
@@ -147,7 +147,7 @@
 
         <!-- Nav Item - Laporan Retur Barang -->
         <li class="nav-item">
-          <a class="nav-link" href="">
+          <a class="nav-link" href="/owner/laporan_retur">
             <i class="fas fa-file-invoice"></i>
             <span>Laporan Retur Barang</span></a
           >
@@ -308,7 +308,7 @@
                           <?= $stk['qty_stock']; ?>
                         </td>
                         <td>
-                          <?= "Rp. " . number_format($stk['total_harga'], 2, ',', '.'); ?>
+                          <?= "Rp. " . number_format($stk['qty_stock'] * $stk['harga_satuan'], 2, ',', '.'); ?>
                         </td>
                         <td>
                           <?= $stk['status']; ?>

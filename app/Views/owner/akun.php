@@ -113,7 +113,7 @@
 
         <!-- Nav Item - Data Retur Barang -->
         <li class="nav-item">
-          <a class="nav-link" href="">
+          <a class="nav-link" href="/owner/retur">
           <i class="fas fa-reply"></i>
             <span>Data Retur Barang</span></a
           >
@@ -143,7 +143,7 @@
 
         <!-- Nav Item - Laporan Retur Barang -->
         <li class="nav-item">
-          <a class="nav-link" href="">
+          <a class="nav-link" href="/owner/laporan_retur">
             <i class="fas fa-file-invoice"></i>
             <span>Laporan Retur Barang</span></a
           >

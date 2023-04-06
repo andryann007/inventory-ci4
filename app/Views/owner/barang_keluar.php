@@ -117,7 +117,7 @@
 
         <!-- Nav Item - Data Retur Barang -->
         <li class="nav-item">
-          <a class="nav-link" href="">
+          <a class="nav-link" href="/owner/retur">
           <i class="fas fa-reply"></i>
             <span>Data Retur Barang</span></a
           >
@@ -147,7 +147,7 @@
 
         <!-- Nav Item - Laporan Retur Barang -->
         <li class="nav-item">
-          <a class="nav-link" href="">
+          <a class="nav-link" href="/owner/laporan_retur">
             <i class="fas fa-file-invoice"></i>
             <span>Laporan Retur Barang</span></a
           >
@@ -275,6 +275,7 @@
                     <thead class="thead-dark">
                       <tr>
                         <th>No</th>
+                        <th>ID Keluar</th>
                         <th>Tgl Keluar</th>
                         <th>Nama Barang</th>
                         <th>Kategori</th>
@@ -293,6 +294,9 @@
                           <?= $i++; ?>
                         </td>
                         <td>
+                          <?= $klr['id_keluar']; ?>
+                        </td>
+                        <td>
                           <?= $klr['tgl_keluar']; ?>
                         </td>
                         <td>
@@ -308,7 +312,7 @@
                           <?= $klr['qty_keluar']; ?>
                         </td>
                         <td>
-                          <?= "Rp. " . number_format($klr['total_harga'], 2, ',', '.'); ?>
+                          <?= "Rp. " . number_format($klr['qty_keluar'] * $klr['harga_satuan'], 2, ',', '.'); ?>
                         </td>
                         <td>
                           <?= $klr['keterangan']; ?>
@@ -341,6 +345,7 @@
                             data-toggle="modal"
                             data-target="#deleteOutcomingModal"
                             data-id_keluar="<?= $klr['id_keluar'];?>"
+                            data-id_barang="<?= $klr['id_barang'];?>"
                           >
                             <i class="fas fa-trash"></i>
                           </button>
@@ -444,7 +449,8 @@
       })
 
       $(document).on('click', '#btnDelete', function(){
-        $('.modal-footer #idKeluar').val($(this).data('id'));
+        $('.modal-footer #idKeluar').val($(this).data('id_keluar'));
+        $('.modal-footer #namaBarang').val($(this).data('id_barang'));
       })
     </script>
   </body>
@@ -739,6 +745,12 @@
               type="hidden"
               id="idKeluar"
               name="idKeluar"
+            />
+
+            <input
+              type="hidden"
+              id="namaBarang"
+              name="namaBarang"
             />
 
             <button
