@@ -123,7 +123,7 @@
 
         <!-- Nav Item - Laporan Barang Masuk -->
         <li class="nav-item">
-          <a class="nav-link" href="/admin/laporan_retur">
+          <a class="nav-link" href="/admin/laporan_masuk">
             <i class="fas fa-file-invoice"></i>
             <span>Laporan Barang Masuk</span></a
           >

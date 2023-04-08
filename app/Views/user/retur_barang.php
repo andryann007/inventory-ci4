@@ -764,7 +764,7 @@
         </div>
         <form action="/user/delete_retur" method="post">
           <div class="modal-body text-center">
-            Apakah anda yakin ingin menghapus data barang masuk ini ?
+            Apakah anda yakin ingin menghapus data retur barang ini ?
           </div>
 
           <div class="d-sm-flex modal-footer mb-4">
