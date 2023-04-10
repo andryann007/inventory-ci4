@@ -2,8 +2,6 @@
 
 namespace App\Controllers;
 
-use App\Models\AkunModel;
-use App\Models\CustomerModel;
 use App\Models\KeluarModel;
 use App\Models\MasukModel;
 use App\Models\ReturModel;
@@ -33,7 +31,8 @@ class Admin extends BaseController
             'data_supplier' => $this->supplierModel->qty_supplier(),
             'data_barang_masuk' => $this->masukModel->qty_masuk(),
             'data_barang_keluar' => $this->keluarModel->qty_keluar(),
-            'data_retur_barang' => $this->returModel->qty_retur()
+            'data_retur_barang' => $this->returModel->qty_retur(),
+            'stock' => $this->stockModel->getData()
         ];
 
         return view('admin/index', $data);
@@ -42,7 +41,8 @@ class Admin extends BaseController
     public function supplier(){
         $data = [
             'title' => 'Daftar Supplier',
-            'supplier' => $this->supplierModel->getData()
+            'supplier' => $this->supplierModel->getData(),
+            'stock' => $this->stockModel->getData()
         ];
         return view('admin/supplier', $data);
     }
@@ -178,7 +178,9 @@ class Admin extends BaseController
     public function masuk(){
         $data = [
             'title' => 'Daftar Barang Masuk',
-            'masuk' => $this->masukModel->getData()
+            'masuk' => $this->masukModel->getData(),
+            'stock' => $this->stockModel->getData(),
+            'supplier' => $this->supplierModel->getData()
         ];
 
         return view('admin/barang_masuk', $data);
@@ -300,7 +302,8 @@ class Admin extends BaseController
     public function keluar(){
         $data = [
             'title' => 'Daftar Barang Keluar',
-            'keluar' => $this->keluarModel->getData()
+            'keluar' => $this->keluarModel->getData(),
+            'stock' => $this->stockModel->getData()
         ];
 
         return view('admin/barang_keluar', $data);
@@ -426,7 +429,9 @@ class Admin extends BaseController
     public function retur(){
         $data = [
             'title' => 'Daftar Retur Barang',
-            'retur' => $this->returModel->getData()
+            'retur' => $this->returModel->getData(),
+            'stock' => $this->stockModel->getData(),
+            'supplier' => $this->supplierModel->getData()
         ];
 
         return view('admin/retur_barang', $data);

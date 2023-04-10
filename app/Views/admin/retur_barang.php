@@ -222,42 +222,32 @@
                   </div>
                 <?php endif; ?>
                 
-                <!-- Notifikasi Alert Jika Stock Barang Habis -->
-                <?php
-                $conn = mysqli_connect("localhost", "root", "", "database_inventory");
-                $barangHabis = mysqli_query($conn, "SELECT * FROM data_stock WHERE qty_stock < 1");
-
-                while ($fetch = mysqli_fetch_array($barangHabis)) {
-                  $barang = $fetch['nama_barang'];
-
-                  ?>
-                <div class="alert alert-danger alert-dismissible">
-                  <button type="button" class="close" data-dismiss="alert">
-                    &times;
-                  </button>
-                  <strong>Perhatian !!! </strong>Stock Barang
-                  <strong><?= ucwords($barang); ?> </strong>Sudah Habis
-                </div>
-                <?php
-                }
-                ?>
-
+               <!-- Notifikasi Alert Jika Stock Barang Habis -->
+               <?php foreach ($stock as $stk) : ?>
+                  <?php if($stk['qty_stock'] < 1) :?>
+                    <div class="alert alert-danger alert-dismissible">
+                      <button type="button" class="close" data-dismiss="alert">
+                        &times;
+                      </button>
+                      <strong>Perhatian !!! </strong>Stock Barang
+                      <strong><?= ucwords($stk['nama_barang']); ?> </strong>Sudah Habis
+                    </div>
+                  <?php endif; ?>
+                <?php endforeach; ?>
+              
                 <!-- Notifikasi Alert Jika Stock Barang Sedikit -->
-                <?php
-                $barangSedikit = mysqli_query($conn, "SELECT * FROM data_stock WHERE qty_stock < 10 AND qty_stock >
-                0"); while ($fetch = mysqli_fetch_array($barangSedikit)) {
-                $barang = $fetch['nama_barang']; ?>
-                <div class="alert alert-warning alert-dismissible">
-                  <button type="button" class="close" data-dismiss="alert">
-                    &times;
-                  </button>
-                  <strong>Perhatian !!! </strong>Stock Barang
-                  <strong><?= ucwords($barang); ?> </strong>Tersisa Sedikit
-                </div>
-                <?php
-                }
-                ?>
-
+                <?php foreach ($stock as $stk) : ?>
+                  <?php if($stk['qty_stock'] < 10 && $stk['qty_stock'] > 1) :?>
+                    <div class="alert alert-warning alert-dismissible">
+                      <button type="button" class="close" data-dismiss="alert">
+                        &times;
+                      </button>
+                      <strong>Perhatian !!! </strong>Stock Barang
+                      <strong><?= ucwords($stk['nama_barang']); ?> </strong>Tersisa Sedikit
+                    </div>
+                  <?php endif; ?>
+                <?php endforeach; ?>
+                
                 <div class="table-responsive table-striped">
                   <table
                     class="table table-bordered"
@@ -462,7 +452,7 @@
     aria-labelledby="addModalLabel"
     aria-hidden="true"
   >
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="addModalLabel">
@@ -479,105 +469,96 @@
         </div>
         <form action="/admin/save_retur" method="post">
           <div class="modal-body">
-          <div class="form-group">
-              <label for="idRetur">ID Retur Barang</label>
-              <input
-                type="text"
-                min="0"
-                name="idRetur"
-                id="idRetur"
-                class="form-control"
-                required
-              />
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="idRetur">ID Retur Barang</label>
+                  <input
+                    type="text"
+                    min="0"
+                    name="idRetur"
+                    id="idRetur"
+                    class="form-control"
+                    required
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="namaBarang">Nama Barang</label>
+                  <select
+                    class="form-control"
+                    name="namaBarang"
+                    id="namaBarang"
+                    required
+                  >
+                  <?php foreach ($stock as $stk) : ?>
+                    <option value="<?= $stk['id_barang']; ?>">
+                      <?= ucwords($stk['nama_barang']); ?>
+                    </option>
+                  <?php endforeach; ?>
+                  </select>
+                </div>
+                
+              </div>
+              
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="tanggalRetur">Tanggal Retur</label>
+                  <input
+                    type="date"
+                    name="tglRetur"
+                    id="tglRetur"
+                    class="form-control"
+                    required
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="namaSupplier">Nama Supplier</label>
+                  <select
+                    class="form-control"
+                    name="namaSupplier"
+                    id="namaSupplier"
+                    required
+                  >
+                  <?php foreach ($supplier as $s) : ?>
+                    <option value="<?= $s['id_supplier']; ?>">
+                      <?= ucwords($s['nama_supplier']); ?>
+                    </option>
+                  <?php endforeach; ?>
+                  </select>
+                </div>
+              </div>
+              
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="jumlahBarang">Jumlah Barang</label>
+                  <input
+                    type="number"
+                    min="0"
+                    name="jumlahBarang"
+                    id="jumlahBarang"
+                    class="form-control"
+                    required
+                  />
+                </div>
+              </div>
+            
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="hargaSatuan">Harga Barang Satuan</label>
+                  <input
+                    type="number"
+                    min="0"
+                    name="hargaSatuan"
+                    id="hargaSatuan"
+                    class="form-control"
+                    required
+                  />
+                </div>
+              </div>
             </div>
-
-            <div class="form-group">
-              <label for="tanggalRetur">Tanggal Retur</label>
-              <input
-                type="date"
-                name="tglRetur"
-                id="tglRetur"
-                class="form-control"
-                required
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="namaBarang">Nama Barang</label>
-              <select
-                class="form-control"
-                name="namaBarang"
-                id="namaBarang"
-                required
-              >
-                <?php
-                $conn = mysqli_connect("localhost", "root", "", "database_inventory");
-                $dataNamaBarang = mysqli_query($conn, "SELECT * FROM data_stock");
-                while ($fetchArray = mysqli_fetch_array($dataNamaBarang)) {
-                  $idBarang = $fetchArray['id_barang'];
-                  $namaBarang = $fetchArray['nama_barang'];
-                  ?>
-
-                <option value="<?= $idBarang; ?>">
-                  <?= ucwords($namaBarang); ?>
-                </option>
-
-                <?php
-                }
-                ?>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label for="jumlahBarang">Jumlah Barang</label>
-              <input
-                type="number"
-                min="0"
-                name="jumlahBarang"
-                id="jumlahBarang"
-                class="form-control"
-                required
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="hargaSatuan">Harga Barang Satuan</label>
-              <input
-                type="number"
-                min="0"
-                name="hargaSatuan"
-                id="hargaSatuan"
-                class="form-control"
-                required
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="namaSupplier">Nama Supplier</label>
-              <select
-                class="form-control"
-                name="namaSupplier"
-                id="namaSupplier"
-                required
-              >
-                <?php
-                $conn = mysqli_connect("localhost", "root", "", "database_inventory");
-                $dataNamaSupplier = mysqli_query($conn, "SELECT * FROM data_supplier");
-                while ($fetchArray = mysqli_fetch_array($dataNamaSupplier)) {
-                  $idSupplier = $fetchArray['id_supplier'];
-                  $namaSupplier = $fetchArray['nama_supplier'];
-                  ?>
-
-                <option value="<?= $idSupplier; ?>">
-                  <?= ucwords($namaSupplier); ?>
-                </option>
-
-                <?php
-                }
-                ?>
-              </select>
-            </div>
-
+            
             <div class="form-group">
               <label for="keterangan">Keterangan</label>
               <input
@@ -585,7 +566,7 @@
                 min="0"
                 name="keterangan"
                 id="keterangan"
-                placeholder="Ket. Retur Barang"
+                placeholder="Ket. Barang Masuk"
                 class="form-control"
                 required
               />
@@ -617,7 +598,7 @@
     aria-labelledby="editModalLabel"
     aria-hidden="true"
   >
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="editModalLabel">
@@ -634,103 +615,96 @@
         </div>
         <form action="/admin/update_retur" method="post">
           <div class="modal-body">
-          <div class="form-group">
-              <label for="idRetur">ID Retur Barang</label>
-              <input
-                type="text"
-                min="0"
-                name="idRetur"
-                id="idRetur"
-                class="form-control"
-                required
-              />
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="idRetur">ID Retur Barang</label>
+                  <input
+                    type="text"
+                    min="0"
+                    name="idRetur"
+                    id="idRetur"
+                    class="form-control"
+                    required
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="namaBarang">Nama Barang</label>
+                  <select
+                    class="form-control"
+                    name="namaBarang"
+                    id="namaBarang"
+                    required
+                  >
+                  <?php foreach ($stock as $stk) : ?>
+                    <option value="<?= $stk['id_barang']; ?>">
+                      <?= ucwords($stk['nama_barang']); ?>
+                    </option>
+                  <?php endforeach; ?>
+                  </select>
+                </div>
+                
+              </div>
+              
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="tanggalRetur">Tanggal Retur</label>
+                  <input
+                    type="date"
+                    name="tglRetur"
+                    id="tglRetur"
+                    class="form-control"
+                    required
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="namaSupplier">Nama Supplier</label>
+                  <select
+                    class="form-control"
+                    name="namaSupplier"
+                    id="namaSupplier"
+                    required
+                  >
+                  <?php foreach ($supplier as $s) : ?>
+                    <option value="<?= $s['id_supplier']; ?>">
+                      <?= ucwords($s['nama_supplier']); ?>
+                    </option>
+                  <?php endforeach; ?>
+                  </select>
+                </div>
+              </div>
+              
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="jumlahBarang">Jumlah Barang</label>
+                  <input
+                    type="number"
+                    min="0"
+                    name="jumlahBarang"
+                    id="jumlahBarang"
+                    class="form-control"
+                    required
+                  />
+                </div>
+              </div>
+            
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="hargaSatuan">Harga Barang Satuan</label>
+                  <input
+                    type="number"
+                    min="0"
+                    name="hargaSatuan"
+                    id="hargaSatuan"
+                    class="form-control"
+                    required
+                  />
+                </div>
+              </div>
             </div>
-
-            <div class="form-group">
-              <label for="tglRetur">Tanggal Retur</label>
-              <input
-                type="date"
-                name="tglRetur"
-                id="tglRetur"
-                class="form-control"
-                required
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="namaBarang">Nama Barang</label>
-              <select
-                class="form-control"
-                name="namaBarang"
-                id="namaBarang"
-                required
-              >
-                <?php
-                $dataNamaBarang = mysqli_query($conn, "SELECT * FROM data_stock");
-                while ($fetchArray = mysqli_fetch_array($dataNamaBarang)) {
-                  $idBarang = $fetchArray['id_barang'];
-                  $namaBarang = $fetchArray['nama_barang'];
-                  ?>
-
-                <option value="<?= $idBarang; ?>">
-                  <?= ucwords($namaBarang); ?>
-                </option>
-
-                <?php
-                }
-                ?>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label for="jumlahBarang">Jumlah Barang</label>
-              <input
-                type="number"
-                min="0"
-                name="jumlahBarang"
-                id="jumlahBarang"
-                class="form-control"
-                required
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="hargaSatuan">Harga Barang Satuan</label>
-              <input
-                type="number"
-                min="0"
-                name="hargaSatuan"
-                id="hargaSatuan"
-                class="form-control"
-                required
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="namaSupplier">Nama Supplier</label>
-              <select
-                class="form-control"
-                name="namaSupplier"
-                id="namaSupplier"
-                required
-              >
-                <?php
-                $dataNamaSupplier = mysqli_query($conn, "SELECT * FROM data_supplier");
-                while ($fetchArray = mysqli_fetch_array($dataNamaSupplier)) {
-                  $idSupplier = $fetchArray['id_supplier'];
-                  $namaSupplier = $fetchArray['nama_supplier'];
-                  ?>
-
-                <option value="<?= $idSupplier; ?>">
-                  <?= ucwords($namaSupplier); ?>
-                </option>
-
-                <?php
-                }
-                ?>
-              </select>
-            </div>
-
+            
             <div class="form-group">
               <label for="keterangan">Keterangan</label>
               <input
@@ -738,7 +712,7 @@
                 min="0"
                 name="keterangan"
                 id="keterangan"
-                placeholder="Ket. Retur Barang"
+                placeholder="Ket. Barang Masuk"
                 class="form-control"
                 required
               />

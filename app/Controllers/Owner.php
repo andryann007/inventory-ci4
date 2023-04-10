@@ -8,7 +8,6 @@ use App\Models\MasukModel;
 use App\Models\ReturModel;
 use App\Models\StockModel;
 use App\Models\SupplierModel;
-use Predis\Command\Redis\SELECT;
 
 class Owner extends BaseController
 {
@@ -36,7 +35,8 @@ class Owner extends BaseController
             'data_supplier' => $this->supplierModel->qty_supplier(),
             'data_barang_masuk' => $this->masukModel->qty_masuk(),
             'data_barang_keluar' => $this->keluarModel->qty_keluar(),
-            'data_retur_barang' => $this->returModel->qty_retur()
+            'data_retur_barang' => $this->returModel->qty_retur(),
+            'stock' => $this->stockModel->getData()
         ];
 
         return view('owner/index', $data);
@@ -45,7 +45,8 @@ class Owner extends BaseController
     public function akun(){
         $data = [
             'title' => 'Daftar Akun',
-            'akun' => $this->akunModel->getData()
+            'akun' => $this->akunModel->getData(),
+            'stock' => $this->stockModel->getData()
         ];
         return view('owner/akun', $data);
     }
@@ -115,7 +116,8 @@ class Owner extends BaseController
     public function supplier(){
         $data = [
             'title' => 'Daftar Supplier',
-            'supplier' => $this->supplierModel->getData()
+            'supplier' => $this->supplierModel->getData(),
+            'stock' => $this->stockModel->getData()
         ];
         return view('owner/supplier', $data);
     }
@@ -249,7 +251,9 @@ class Owner extends BaseController
     public function masuk(){
         $data = [
             'title' => 'Daftar Barang Masuk',
-            'masuk' => $this->masukModel->getData()
+            'masuk' => $this->masukModel->getData(),
+            'stock' => $this->stockModel->getData(),
+            'supplier' => $this->supplierModel->getData()
         ];
 
         return view('owner/barang_masuk', $data);
@@ -371,7 +375,8 @@ class Owner extends BaseController
     public function keluar(){
         $data = [
             'title' => 'Daftar Barang Keluar',
-            'keluar' => $this->keluarModel->getData()
+            'keluar' => $this->keluarModel->getData(),
+            'stock' => $this->stockModel->getData()
         ];
 
         return view('owner/barang_keluar', $data);
@@ -497,7 +502,9 @@ class Owner extends BaseController
     public function retur(){
         $data = [
             'title' => 'Daftar Retur Barang',
-            'retur' => $this->returModel->getData()
+            'retur' => $this->returModel->getData(),
+            'stock' => $this->stockModel->getData(),
+            'supplier' => $this->supplierModel->getData()
         ];
 
         return view('owner/retur_barang', $data);

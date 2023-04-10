@@ -138,45 +138,37 @@
             <h1 class="h3 mb-0 text-gray-800">Dashboard User</h1>
           </div>
 
-          <!-- Data Transaksi -->
-          <div class="col bg-dark">
-            <div class="d-sm-flex align-items-center justify-content-between mb-2">
-              <h1 class="h4 mt-2 text-light">Data Transaksi</h1>
-            </div>
-
-            <?php
-                $conn = mysqli_connect("localhost", "root", "", "database_inventory");
-                $barangHabis = mysqli_query($conn, "SELECT * FROM data_stock WHERE qty_stock < 1");
-
-                while ($fetch = mysqli_fetch_array($barangHabis)) {
-                  $barang = $fetch['nama_barang'];
-
-                  ?>
+          <!-- Notifikasi Alert Jika Stock Barang Habis -->
+          <?php foreach ($stock as $stk) : ?>
+              <?php if($stk['qty_stock'] < 1) :?>
                 <div class="alert alert-danger alert-dismissible">
                   <button type="button" class="close" data-dismiss="alert">
                     &times;
                   </button>
                   <strong>Perhatian !!! </strong>Stock Barang
-                  <strong><?= ucwords($barang); ?> </strong>Sudah Habis
+                  <strong><?= ucwords($stk['nama_barang']); ?> </strong>Sudah Habis
                 </div>
-                <?php
-                }
-                ?>
-
-                <?php
-                $barangSedikit = mysqli_query($conn, "SELECT * FROM data_stock WHERE qty_stock < 10 AND qty_stock >
-                0"); while ($fetch = mysqli_fetch_array($barangSedikit)) {
-                $barang = $fetch['nama_barang']; ?>
+              <?php endif; ?>
+            <?php endforeach; ?>
+              
+            <!-- Notifikasi Alert Jika Stock Barang Sedikit -->
+            <?php foreach ($stock as $stk) : ?>
+              <?php if($stk['qty_stock'] < 10 && $stk['qty_stock'] > 1) :?>
                 <div class="alert alert-warning alert-dismissible">
                   <button type="button" class="close" data-dismiss="alert">
                     &times;
                   </button>
                   <strong>Perhatian !!! </strong>Stock Barang
-                  <strong><?= ucwords($barang); ?> </strong>Tersisa Sedikit
+                  <strong><?= ucwords($stk['nama_barang']); ?> </strong>Tersisa Sedikit
                 </div>
-                <?php
-                }
-                ?>
+              <?php endif; ?>
+            <?php endforeach; ?>
+
+          <!-- Data Transaksi -->
+          <div class="col bg-dark">
+            <div class="d-sm-flex align-items-center justify-content-between mb-2">
+              <h1 class="h4 mt-2 text-light">Data Transaksi</h1>
+            </div>
 
             <div class="row">
                 <!-- Data Barang Masuk -->

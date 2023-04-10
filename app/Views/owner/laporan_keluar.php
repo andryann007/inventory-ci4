@@ -205,42 +205,32 @@
               </div>
 
               <div class="card-body">
-                
+
                 <!-- Notifikasi Alert Jika Stock Barang Habis -->
-                <?php
-                $conn = mysqli_connect("localhost", "root", "", "database_inventory");
-                $barangHabis = mysqli_query($conn, "SELECT * FROM data_stock WHERE qty_stock < 1");
-
-                while ($fetch = mysqli_fetch_array($barangHabis)) {
-                  $barang = $fetch['nama_barang'];
-
-                  ?>
-                <div class="alert alert-danger alert-dismissible">
-                  <button type="button" class="close" data-dismiss="alert">
-                    &times;
-                  </button>
-                  <strong>Perhatian !!! </strong>Stock Barang
-                  <strong><?= ucwords($barang); ?> </strong>Sudah Habis
-                </div>
-                <?php
-                }
-                ?>
-
+                <?php foreach ($stock as $stk) : ?>
+                  <?php if($stk['qty_stock'] < 1) :?>
+                    <div class="alert alert-danger alert-dismissible">
+                      <button type="button" class="close" data-dismiss="alert">
+                        &times;
+                      </button>
+                      <strong>Perhatian !!! </strong>Stock Barang
+                      <strong><?= ucwords($stk['nama_barang']); ?> </strong>Sudah Habis
+                    </div>
+                  <?php endif; ?>
+                <?php endforeach; ?>
+              
                 <!-- Notifikasi Alert Jika Stock Barang Sedikit -->
-                <?php
-                $barangSedikit = mysqli_query($conn, "SELECT * FROM data_stock WHERE qty_stock < 10 AND qty_stock >
-                0"); while ($fetch = mysqli_fetch_array($barangSedikit)) {
-                $barang = $fetch['nama_barang']; ?>
-                <div class="alert alert-warning alert-dismissible">
-                  <button type="button" class="close" data-dismiss="alert">
-                    &times;
-                  </button>
-                  <strong>Perhatian !!! </strong>Stock Barang
-                  <strong><?= ucwords($barang); ?> </strong>Tersisa Sedikit
-                </div>
-                <?php
-                }
-                ?>
+                <?php foreach ($stock as $stk) : ?>
+                  <?php if($stk['qty_stock'] < 10 && $stk['qty_stock'] > 1) :?>
+                    <div class="alert alert-warning alert-dismissible">
+                      <button type="button" class="close" data-dismiss="alert">
+                        &times;
+                      </button>
+                      <strong>Perhatian !!! </strong>Stock Barang
+                      <strong><?= ucwords($stk['nama_barang']); ?> </strong>Tersisa Sedikit
+                    </div>
+                  <?php endif; ?>
+                <?php endforeach; ?>
 
                 <div class="row mb-4">
                   <div class="col">

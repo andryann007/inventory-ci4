@@ -198,42 +198,32 @@
                     <strong><?= session()->getFlashdata('error'); ?> </strong>
                   </div>
                 <?php endif; ?>
-                
+
                 <!-- Notifikasi Alert Jika Stock Barang Habis -->
-                <?php
-                $conn = mysqli_connect("localhost", "root", "", "database_inventory");
-                $barangHabis = mysqli_query($conn, "SELECT * FROM data_stock WHERE qty_stock < 1");
-
-                while ($fetch = mysqli_fetch_array($barangHabis)) {
-                  $barang = $fetch['nama_barang'];
-
-                  ?>
-                <div class="alert alert-danger alert-dismissible">
-                  <button type="button" class="close" data-dismiss="alert">
-                    &times;
-                  </button>
-                  <strong>Perhatian !!! </strong>Stock Barang
-                  <strong><?= ucwords($barang); ?> </strong>Sudah Habis
-                </div>
-                <?php
-                }
-                ?>
-
+                <?php foreach ($stock as $stk) : ?>
+                  <?php if($stk['qty_stock'] < 1) :?>
+                    <div class="alert alert-danger alert-dismissible">
+                      <button type="button" class="close" data-dismiss="alert">
+                        &times;
+                      </button>
+                      <strong>Perhatian !!! </strong>Stock Barang
+                      <strong><?= ucwords($stk['nama_barang']); ?> </strong>Sudah Habis
+                    </div>
+                  <?php endif; ?>
+                <?php endforeach; ?>
+              
                 <!-- Notifikasi Alert Jika Stock Barang Sedikit -->
-                <?php
-                $barangSedikit = mysqli_query($conn, "SELECT * FROM data_stock WHERE qty_stock < 10 AND qty_stock >
-                0"); while ($fetch = mysqli_fetch_array($barangSedikit)) {
-                $barang = $fetch['nama_barang']; ?>
-                <div class="alert alert-warning alert-dismissible">
-                  <button type="button" class="close" data-dismiss="alert">
-                    &times;
-                  </button>
-                  <strong>Perhatian !!! </strong>Stock Barang
-                  <strong><?= ucwords($barang); ?> </strong>Tersisa Sedikit
-                </div>
-                <?php
-                }
-                ?>
+                <?php foreach ($stock as $stk) : ?>
+                  <?php if($stk['qty_stock'] < 10 && $stk['qty_stock'] > 1) :?>
+                    <div class="alert alert-warning alert-dismissible">
+                      <button type="button" class="close" data-dismiss="alert">
+                        &times;
+                      </button>
+                      <strong>Perhatian !!! </strong>Stock Barang
+                      <strong><?= ucwords($stk['nama_barang']); ?> </strong>Tersisa Sedikit
+                    </div>
+                  <?php endif; ?>
+                <?php endforeach; ?>
 
                 <div class="table-responsive table-striped">
                   <table
@@ -425,15 +415,15 @@
     </script>
   </body>
 
- <!-- Add Data Modal -->
- <div
+  <!-- Add Data Modal -->
+  <div
     class="modal fade"
     id="addOutcomingModal"
     tabindex="-1"
     aria-labelledby="addModalLabel"
     aria-hidden="true"
   >
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="addModalLabel">
@@ -450,27 +440,33 @@
         </div>
         <form action="/user/save_keluar" method="post">
           <div class="modal-body">
-          <div class="form-group">
-              <label for="idKeluar">ID Barang Keluar</label>
-              <input
-                type="text"
-                min="0"
-                name="idKeluar"
-                id="idKeluar"
-                class="form-control"
-                required
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="tanggalOutcoming">Tanggal Keluar</label>
-              <input
-                type="date"
-                name="tglOutcoming"
-                id="tglOutcoming"
-                class="form-control"
-                required
-              />
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="idMasuk">ID Barang Keluar</label>
+                  <input
+                    type="text"
+                    min="0"
+                    name="idKeluar"
+                    id="idKeluar"
+                    class="form-control"
+                    required
+                  />
+                </div>
+              </div>
+              
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="tanggalOutcoming">Tanggal Keluar</label>
+                  <input
+                    type="date"
+                    name="tglOutcoming"
+                    id="tglOutcoming"
+                    class="form-control"
+                    required
+                  />
+                </div>
+              </div>
             </div>
 
             <div class="form-group">
@@ -481,59 +477,55 @@
                 id="namaBarang"
                 required
               >
-                <?php
-                $conn = mysqli_connect("localhost", "root", "", "database_inventory");
-                $dataNamaBarang = mysqli_query($conn, "SELECT * FROM data_stock");
-                while ($fetchArray = mysqli_fetch_array($dataNamaBarang)) {
-                  $idBarang = $fetchArray['id_barang'];
-                  $namaBarang = $fetchArray['nama_barang'];
-                  ?>
-
-                <option value="<?= $idBarang; ?>">
-                  <?= ucwords($namaBarang); ?>
+              <?php foreach ($stock as $stk) : ?>
+                <option value="<?= $stk['id_barang']; ?>">
+                  <?= ucwords($stk['nama_barang']); ?>
                 </option>
-
-                <?php
-                }
-                ?>
+              <?php endforeach; ?>
               </select>
             </div>
 
-            <div class="form-group">
-              <label for="jumlahBarang">Jumlah Barang</label>
-              <input
-                type="number"
-                min="0"
-                name="jumlahBarang"
-                id="jumlahBarang"
-                class="form-control"
-                required
-              />
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="jumlahBarang">Jumlah Barang</label>
+                  <input
+                    type="number"
+                    min="0"
+                    name="jumlahBarang"
+                    id="jumlahBarang"
+                    class="form-control"
+                    required
+                  />
+                </div>
+              </div>
+              
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="hargaSatuan">Harga Barang Satuan</label>
+                  <input
+                    type="number"
+                    min="0"
+                    name="hargaSatuan"
+                    id="hargaSatuan"
+                    class="form-control"
+                    required
+                  />
+                </div>
+              </div>
             </div>
 
             <div class="form-group">
-              <label for="hargaSatuan">Harga Barang Satuan</label>
-              <input
-                type="number"
-                min="0"
-                name="hargaSatuan"
-                id="hargaSatuan"
-                class="form-control"
-                required
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="keterangan">Keterangan</label>
-              <input
-                type="textarea"
-                min="0"
-                name="keterangan"
-                id="keterangan"
-                placeholder="Ket. Barang Keluar"
-                class="form-control"
-                required
-              />
+                <label for="keterangan">Keterangan</label>
+                <input
+                  type="textarea"
+                  min="0"
+                  name="keterangan"
+                  id="keterangan"
+                  placeholder="Ket. Barang Masuk"
+                  class="form-control"
+                  required
+                />
             </div>
           </div>
 
@@ -554,6 +546,7 @@
     </div>
   </div>
 
+  
   <!-- Edit Data Modal -->
   <div
     class="modal fade"
@@ -562,7 +555,7 @@
     aria-labelledby="editModalLabel"
     aria-hidden="true"
   >
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="editModalLabel">
@@ -579,27 +572,33 @@
         </div>
         <form action="/user/update_keluar" method="post">
           <div class="modal-body">
-          <div class="form-group">
-              <label for="idKeluar">ID Barang Keluar</label>
-              <input
-                type="text"
-                min="0"
-                name="idKeluar"
-                id="idKeluar"
-                class="form-control"
-                required
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="tglOutcoming">Tanggal</label>
-              <input
-                type="date"
-                name="tglOutcoming"
-                id="tglOutcoming"
-                class="form-control"
-                required
-              />
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="idMasuk">ID Barang Keluar</label>
+                  <input
+                    type="text"
+                    min="0"
+                    name="idKeluar"
+                    id="idKeluar"
+                    class="form-control"
+                    required
+                  />
+                </div>
+              </div>
+              
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="tanggalOutcoming">Tanggal Keluar</label>
+                  <input
+                    type="date"
+                    name="tglOutcoming"
+                    id="tglOutcoming"
+                    class="form-control"
+                    required
+                  />
+                </div>
+              </div>
             </div>
 
             <div class="form-group">
@@ -610,58 +609,55 @@
                 id="namaBarang"
                 required
               >
-                <?php
-                $dataNamaBarang = mysqli_query($conn, "SELECT * FROM data_stock");
-                while ($fetchArray = mysqli_fetch_array($dataNamaBarang)) {
-                  $idBarang = $fetchArray['id_barang'];
-                  $namaBarang = $fetchArray['nama_barang'];
-                  ?>
-
-                <option value="<?= $idBarang; ?>">
-                  <?= ucwords($namaBarang); ?>
+              <?php foreach ($stock as $stk) : ?>
+                <option value="<?= $stk['id_barang']; ?>">
+                  <?= ucwords($stk['nama_barang']); ?>
                 </option>
-
-                <?php
-                }
-                ?>
+              <?php endforeach; ?>
               </select>
             </div>
 
-            <div class="form-group">
-              <label for="jumlahBarang">Jumlah Barang</label>
-              <input
-                type="number"
-                min="0"
-                name="jumlahBarang"
-                id="jumlahBarang"
-                class="form-control"
-                required
-              />
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="jumlahBarang">Jumlah Barang</label>
+                  <input
+                    type="number"
+                    min="0"
+                    name="jumlahBarang"
+                    id="jumlahBarang"
+                    class="form-control"
+                    required
+                  />
+                </div>
+              </div>
+              
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="hargaSatuan">Harga Barang Satuan</label>
+                  <input
+                    type="number"
+                    min="0"
+                    name="hargaSatuan"
+                    id="hargaSatuan"
+                    class="form-control"
+                    required
+                  />
+                </div>
+              </div>
             </div>
 
             <div class="form-group">
-              <label for="hargaSatuan">Harga Barang Satuan</label>
-              <input
-                type="number"
-                min="0"
-                name="hargaSatuan"
-                id="hargaSatuan"
-                class="form-control"
-                required
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="keterangan">Keterangan</label>
-              <input
-                type="textarea"
-                min="0"
-                name="keterangan"
-                id="keterangan"
-                placeholder="Ket. Barang Keluar"
-                class="form-control"
-                required
-              />
+                <label for="keterangan">Keterangan</label>
+                <input
+                  type="textarea"
+                  min="0"
+                  name="keterangan"
+                  id="keterangan"
+                  placeholder="Ket. Barang Masuk"
+                  class="form-control"
+                  required
+                />
             </div>
           </div>
 

@@ -6,10 +6,12 @@ use App\Models\KeluarModel;
 use App\Models\MasukModel;
 use App\Models\ReturModel;
 use App\Models\StockModel;
+use App\Models\SupplierModel;
 
 class User extends BaseController
 {
     protected $stockModel;
+    protected $supplierModel;
     protected $masukModel;
     protected $keluarModel;
     protected $returModel;
@@ -17,6 +19,7 @@ class User extends BaseController
     public function __construct()
     {
         $this->stockModel = new StockModel();
+        $this->supplierModel = new SupplierModel();
         $this->masukModel = new MasukModel();
         $this->keluarModel = new KeluarModel();
         $this->returModel = new ReturModel();
@@ -26,7 +29,8 @@ class User extends BaseController
         $data = [
             'data_barang_masuk' => $this->masukModel->qty_masuk(),
             'data_barang_keluar' => $this->keluarModel->qty_keluar(),
-            'data_retur_barang' => $this->returModel->qty_retur()
+            'data_retur_barang' => $this->returModel->qty_retur(),
+            'stock' => $this->stockModel->getData()
         ];
         return view('user/index', $data);
     }
@@ -34,7 +38,9 @@ class User extends BaseController
     public function masuk(){
         $data = [
             'title' => 'Daftar Barang Masuk',
-            'masuk' => $this->masukModel->getData()
+            'masuk' => $this->masukModel->getData(),
+            'stock' => $this->stockModel->getData(),
+            'supplier' => $this->supplierModel->getData()
         ];
 
         return view('user/barang_masuk', $data);
@@ -156,7 +162,8 @@ class User extends BaseController
     public function keluar(){
         $data = [
             'title' => 'Daftar Barang Keluar',
-            'keluar' => $this->keluarModel->getData()
+            'keluar' => $this->keluarModel->getData(),
+            'stock' => $this->stockModel->getData()
         ];
 
         return view('user/barang_keluar', $data);
@@ -282,7 +289,9 @@ class User extends BaseController
     public function retur(){
         $data = [
             'title' => 'Daftar Retur Barang',
-            'retur' => $this->returModel->getData()
+            'retur' => $this->returModel->getData(),
+            'stock' => $this->stockModel->getData(),
+            'supplier' => $this->supplierModel->getData()
         ];
 
         return view('user/retur_barang', $data);

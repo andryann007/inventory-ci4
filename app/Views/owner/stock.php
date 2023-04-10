@@ -230,40 +230,30 @@
                 <?php endif; ?>
                 
                 <!-- Notifikasi Alert Jika Stock Barang Habis -->
-                <?php
-                $conn = mysqli_connect("localhost", "root", "", "database_inventory");
-                $barangHabis = mysqli_query($conn, "SELECT * FROM data_stock WHERE qty_stock < 1");
-
-                while ($fetch = mysqli_fetch_array($barangHabis)) {
-                  $barang = $fetch['nama_barang'];
-
-                  ?>
-                <div class="alert alert-danger alert-dismissible">
-                  <button type="button" class="close" data-dismiss="alert">
-                    &times;
-                  </button>
-                  <strong>Perhatian !!! </strong>Stock Barang
-                  <strong><?= ucwords($barang); ?> </strong>Sudah Habis
-                </div>
-                <?php
-                }
-                ?>
-
+                <?php foreach ($stock as $stk) : ?>
+                  <?php if($stk['qty_stock'] < 1) :?>
+                    <div class="alert alert-danger alert-dismissible">
+                      <button type="button" class="close" data-dismiss="alert">
+                        &times;
+                      </button>
+                      <strong>Perhatian !!! </strong>Stock Barang
+                      <strong><?= ucwords($stk['nama_barang']); ?> </strong>Sudah Habis
+                    </div>
+                  <?php endif; ?>
+                <?php endforeach; ?>
+              
                 <!-- Notifikasi Alert Jika Stock Barang Sedikit -->
-                <?php
-                $barangSedikit = mysqli_query($conn, "SELECT * FROM data_stock WHERE qty_stock < 10 AND qty_stock >
-                0"); while ($fetch = mysqli_fetch_array($barangSedikit)) {
-                $barang = $fetch['nama_barang']; ?>
-                <div class="alert alert-warning alert-dismissible">
-                  <button type="button" class="close" data-dismiss="alert">
-                    &times;
-                  </button>
-                  <strong>Perhatian !!! </strong>Stock Barang
-                  <strong><?= ucwords($barang); ?> </strong>Tersisa Sedikit
-                </div>
-                <?php
-                }
-                ?>
+                <?php foreach ($stock as $stk) : ?>
+                  <?php if($stk['qty_stock'] < 10 && $stk['qty_stock'] > 1) :?>
+                    <div class="alert alert-warning alert-dismissible">
+                      <button type="button" class="close" data-dismiss="alert">
+                        &times;
+                      </button>
+                      <strong>Perhatian !!! </strong>Stock Barang
+                      <strong><?= ucwords($stk['nama_barang']); ?> </strong>Tersisa Sedikit
+                    </div>
+                  <?php endif; ?>
+                <?php endforeach; ?>
 
                 <div class="table-responsive table-striped">
                   <table
@@ -457,7 +447,7 @@
     aria-labelledby="addModalLabel"
     aria-hidden="true"
   >
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="addModalLabel">
@@ -474,26 +464,33 @@
         </div>
         <form action='/owner/save_stock' method="post">
           <div class="modal-body">
-            <div class="form-group">
-              <label for="idBarang">ID Barang</label>
-              <input
-                type="text"
-                name="idBarang"
-                id="idBarang"
-                class="form-control"
-                required
-              />
-            </div>
+            
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="idBarang">ID Barang</label>
+                  <input
+                    type="text"
+                    name="idBarang"
+                    id="idBarang"
+                    class="form-control"
+                    required
+                  />
+                </div>
+              </div>
 
-            <div class="form-group">
-              <label for="namaBarang">Nama Barang</label>
-              <input
-                type="text"
-                name="namaBarang"
-                id="namaBarang"
-                class="form-control"
-                required
-              />
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="namaBarang">Nama Barang</label>
+                  <input
+                    type="text"
+                    name="namaBarang"
+                    id="namaBarang"
+                    class="form-control"
+                    required
+                  />
+                </div>
+              </div>
             </div>
 
             <div class="form-group">
@@ -514,26 +511,32 @@
               </select>
             </div>
 
-            <div class="form-group">
-              <label for="jumlahBarang">Jumlah Barang</label>
-              <input
-                type="number"
-                name="jumlahBarang"
-                id="jumlahBarang"
-                class="form-control"
-                required
-              />
-            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="jumlahBarang">Jumlah Barang</label>
+                  <input
+                    type="number"
+                    name="jumlahBarang"
+                    id="jumlahBarang"
+                    class="form-control"
+                    required
+                  />
+                </div>
+              </div>
 
-            <div class="form-group">
-              <label for="hargaSatuan">Harga Satuan</label>
-              <input
-                type="number"
-                name="hargaSatuan"
-                id="hargaSatuan"
-                class="form-control"
-                required
-              />
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="hargaSatuan">Harga Satuan</label>
+                  <input
+                    type="number"
+                    name="hargaSatuan"
+                    id="hargaSatuan"
+                    class="form-control"
+                    required
+                  />
+                </div>
+              </div>
             </div>
 
             <div class="form-group">
@@ -570,7 +573,7 @@
     aria-labelledby="editModalLabel"
     aria-hidden="true"
   >
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="editModalLabel">
@@ -587,28 +590,32 @@
         </div>
         <form action='/owner/update_stock' method="post">
           <div class="modal-body">
-            <div class="form-group">
-              <label for="idBarang">ID Barang</label>
-              <input
-                type="text"
-                name="idBarang"
-                id="idBarang"
-                placeholder="ID Barang"
-                class="form-control"
-                required
-              />
-            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="idBarang">ID Barang</label>
+                  <input
+                    type="text"
+                    name="idBarang"
+                    id="idBarang"
+                    class="form-control"
+                    required
+                  />
+                </div>
+              </div>
 
-            <div class="form-group">
-              <label for="namaBarang">Nama Barang</label>
-              <input
-                type="text"
-                name="namaBarang"
-                id="namaBarang"
-                placeholder="Nama Barang"
-                class="form-control"
-                required
-              />
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="namaBarang">Nama Barang</label>
+                  <input
+                    type="text"
+                    name="namaBarang"
+                    id="namaBarang"
+                    class="form-control"
+                    required
+                  />
+                </div>
+              </div>
             </div>
 
             <div class="form-group">
@@ -629,28 +636,32 @@
               </select>
             </div>
 
-            <div class="form-group">
-              <label for="jumlahBarang">Jumlah Barang</label>
-              <input
-                type="number"
-                name="jumlahBarang"
-                id="jumlahBarang"
-                placeholder="Jumlah Barang"
-                class="form-control"
-                required
-              />
-            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="jumlahBarang">Jumlah Barang</label>
+                  <input
+                    type="number"
+                    name="jumlahBarang"
+                    id="jumlahBarang"
+                    class="form-control"
+                    required
+                  />
+                </div>
+              </div>
 
-            <div class="form-group">
-              <label for="hargaSatuan">Harga Satuan</label>
-              <input
-                type="number"
-                name="hargaSatuan"
-                id="hargaSatuan"
-                placeholder="Harga/Pcs"
-                class="form-control"
-                required
-              />
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="hargaSatuan">Harga Satuan</label>
+                  <input
+                    type="number"
+                    name="hargaSatuan"
+                    id="hargaSatuan"
+                    class="form-control"
+                    required
+                  />
+                </div>
+              </div>
             </div>
 
             <div class="form-group">
