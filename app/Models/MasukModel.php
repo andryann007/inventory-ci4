@@ -38,4 +38,9 @@ class MasukModel extends Model{
     public function qty_masuk(){
         return $this->db->table('data_barang_masuk')->get()->getNumRows();
     }
+
+    public function grand_total(){
+        $query = $this->db->query('SELECT SUM(total_harga_masuk) AS grand_total FROM data_barang_masuk');
+        return $query->getRow()->grand_total;
+    }
 }

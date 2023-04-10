@@ -262,15 +262,14 @@
                     <thead class="thead-dark">
                       <tr>
                         <th>No</th>
-                        <th>ID Retur</th>
                         <th>Tgl Retur</th>
                         <th>Nama Barang</th>
                         <th>Nama Supplier</th>
                         <th>Kategori</th>
+                        <th>Keterangan</th>
                         <th>Harga/Pcs</th>
                         <th>QTY</th>
                         <th>Total Harga</th>
-                        <th>Keterangan</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -292,18 +291,15 @@
                         $namaBarang = $data['nama_barang'];
                         $kategoriBarang = $data['kategori'];
                         $jumlahBarang = $data['qty_retur'];
-                        $hargaBarang = $data['harga_satuan'];
+                        $hargaBarang = $data['harga_satuan_retur'];
                         $hargaBarangRp = "Rp. " . number_format($hargaBarang, 2, ',', '.');
-                        $totalHarga = $jumlahBarang * $hargaBarang;
+                        $totalHarga = $data['total_harga_retur'];
                         $totalHargaRp = "Rp. " . number_format($totalHarga, 2, ',', '.');
                         $keterangan = $data['keterangan'];
                         ?>
                       <tr>
                         <td>
                           <?= $i++; ?>
-                        </td>
-                        <td>
-                          <?= $idRetur; ?>
                         </td>
                         <td>
                           <?= $tanggal; ?>
@@ -318,6 +314,9 @@
                           <?= ucwords($kategoriBarang); ?>
                         </td>
                         <td>
+                          <?= $keterangan; ?>
+                        </td>
+                        <td>
                           <?= $hargaBarangRp; ?>
                         </td>
                         <td>
@@ -325,9 +324,6 @@
                         </td>
                         <td>
                           <?= $totalHargaRp; ?>
-                        </td>
-                        <td>
-                          <?= $keterangan; ?>
                         </td>
                       </tr>
                       <?php

@@ -63,8 +63,8 @@ class User extends BaseController
             'id_supplier'=> $this->request->getPost('namaSupplier'),
             'tgl_masuk' => $this->request->getPost('tglIncoming'),
             'qty_masuk' => $this->request->getPost('jumlahBarang'),
-            'harga_satuan' => $this->request->getPost('hargaSatuan'),
-            'total_harga' => $this->request->getPost('hargaSatuan') * $this->request->getPost('jumlahBarang'),
+            'harga_satuan_masuk' => $this->request->getPost('hargaSatuan'),
+            'total_harga_masuk' => $this->request->getPost('hargaSatuan') * $this->request->getPost('jumlahBarang'),
             'keterangan' => $this->request->getPost('keterangan'),
         );
 
@@ -106,8 +106,8 @@ class User extends BaseController
             'id_supplier'=> $this->request->getPost('namaSupplier'),
             'tgl_masuk' => $this->request->getPost('tglIncoming'),
             'qty_masuk' => $this->request->getPost('jumlahBarang'),
-            'harga_satuan' => $this->request->getPost('hargaSatuan'),
-            'total_harga' => $this->request->getPost('hargaSatuan') * $this->request->getPost('jumlahBarang'),
+            'harga_satuan_masuk' => $this->request->getPost('hargaSatuan'),
+            'total_harga_masuk' => $this->request->getPost('hargaSatuan') * $this->request->getPost('jumlahBarang'),
             'keterangan' => $this->request->getPost('keterangan')
         );
 
@@ -186,8 +186,8 @@ class User extends BaseController
             'id_barang' => $this->request->getPost('namaBarang'),
             'tgl_keluar' => $this->request->getPost('tglOutcoming'),
             'qty_keluar' => $this->request->getPost('jumlahBarang'),
-            'harga_satuan' => $this->request->getPost('hargaSatuan'),
-            'total_harga' => $this->request->getPost('hargaSatuan') * $this->request->getPost('jumlahBarang'),
+            'harga_satuan_keluar' => $this->request->getPost('hargaSatuan'),
+            'total_harga_keluar' => $this->request->getPost('hargaSatuan') * $this->request->getPost('jumlahBarang'),
             'keterangan' => $this->request->getPost('keterangan')
         );
 
@@ -231,8 +231,8 @@ class User extends BaseController
             'id_barang' => $this->request->getPost('namaBarang'),
             'tgl_keluar' => $this->request->getPost('tglOutcoming'),
             'qty_keluar' => $this->request->getPost('jumlahBarang'),
-            'harga_satuan' => $this->request->getPost('hargaSatuan'),
-            'total_harga' => $this->request->getPost('hargaSatuan') * $this->request->getPost('jumlahBarang'),
+            'harga_satuan_keluar' => $this->request->getPost('hargaSatuan'),
+            'total_harga_keluar' => $this->request->getPost('hargaSatuan') * $this->request->getPost('jumlahBarang'),
             'keterangan' => $this->request->getPost('keterangan')
         );
         
@@ -314,8 +314,8 @@ class User extends BaseController
             'id_supplier'=> $this->request->getPost('namaSupplier'),
             'tgl_retur' => $this->request->getPost('tglRetur'),
             'qty_retur' => $this->request->getPost('jumlahBarang'),
-            'harga_satuan' => $this->request->getPost('hargaSatuan'),
-            'total_harga' => $this->request->getPost('hargaSatuan') * $this->request->getPost('jumlahBarang'),
+            'harga_satuan_retur' => $this->request->getPost('hargaSatuan'),
+            'total_harga_retur' => $this->request->getPost('hargaSatuan') * $this->request->getPost('jumlahBarang'),
             'keterangan' => $this->request->getPost('keterangan'),
         );
 
@@ -323,14 +323,17 @@ class User extends BaseController
             'qty_stock' => (int)$row['qty_stock'] - (int)$stockBarangRetur,
             'total_harga' => ((int)$row['qty_stock'] - (int)$stockBarangRetur) * (int)$row['harga_satuan']
         );
-        
-        $successTambah = $retur->saveData($data);
-        $updateStock = $stock->updateData($dataStock, $idBarang);
 
-        if($successTambah & $updateStock){
-            session()->setFlashdata('message', 'Data Retur Barang Berhasil di Tambah !!! & Data Stock Berhasil di Update');
-        } else {
-            session()->setFlashdata('error', 'Data Retur Barang Gagal di Tambah !!!');
+        if($row['qty_stock'] >= $stockBarangRetur){
+            $successTambah = $retur->saveData($data);
+            $updateStock = $stock->updateData($dataStock, $idBarang);
+            
+            if($successTambah & $updateStock){
+                session()->setFlashdata('message', 'Data Barang Keluar Berhasil di Tambah !!! & Data Retur Barang Berhasil di Update');
+            }
+        }
+        else if ($row['qty_stock'] < $stockBarangRetur) {
+            session()->setFlashdata('error', 'Gagal di Tambah (Karena QTY Keluar > QTY Stock !!!');
         }
 
         return redirect()->to('/user/retur');
@@ -344,7 +347,7 @@ class User extends BaseController
         $idRetur = $this->request->getPost('idRetur');
         $idBarang = $this->request->getPost('namaBarang');
 
-        $stockBarangMasukBaru = $this->request->getPost('jumlahBarang');
+        $stockReturBarangBaru = $this->request->getPost('jumlahBarang');
         
         $queryReturLama = $db->query("SELECT qty_retur FROM data_retur_barang WHERE id_retur = '$idRetur'");
         $rowRetur = $queryReturLama->getRowArray();
@@ -352,28 +355,29 @@ class User extends BaseController
         $queryStock = $db->query("SELECT qty_stock, harga_satuan FROM data_stock WHERE id_barang = '$idBarang'");
         $rowStock = $queryStock->getRowArray();
 
-        $dataMasuk = array(
+        $dataRetur = array(
             'id_barang' => $this->request->getPost('namaBarang'),
             'id_supplier'=> $this->request->getPost('namaSupplier'),
             'tgl_retur' => $this->request->getPost('tglRetur'),
             'qty_retur' => $this->request->getPost('jumlahBarang'),
-            'harga_satuan' => $this->request->getPost('hargaSatuan'),
-            'total_harga' => $this->request->getPost('hargaSatuan') * $this->request->getPost('jumlahBarang'),
+            'harga_satuan_retur' => $this->request->getPost('hargaSatuan'),
+            'total_harga_retur' => $this->request->getPost('hargaSatuan') * $this->request->getPost('jumlahBarang'),
             'keterangan' => $this->request->getPost('keterangan')
         );
 
         $dataStock = array(
-            'qty_stock' => ((int)$rowStock['qty_stock'] + (int)$rowRetur['qty_retur']) - (int)$stockBarangMasukBaru,
-            'total_harga' => (((int)$rowStock['qty_stock'] + (int)$rowRetur['qty_retur']) - (int)$stockBarangMasukBaru) * (int)$rowStock['harga_satuan']
+            'qty_stock' => ((int)$rowStock['qty_stock'] + (int)$rowRetur['qty_retur']) - (int)$stockReturBarangBaru,
+            'total_harga' => (((int)$rowStock['qty_stock'] + (int)$rowRetur['qty_retur']) - (int)$stockReturBarangBaru) * (int)$rowStock['harga_satuan']
         );
-        
-        $successUpdate = $retur->updateData($dataMasuk, $idRetur);
-        $updateStock = $stock->updateData($dataStock, $idBarang);
-
-        if($successUpdate & $updateStock){
-            session()->setFlashdata('message', 'Data Retur Barang Berhasil di Update !!! & Data Stock Berhasil di Update');
-        } else {
-            session()->setFlashdata('error', 'Data Retur Barang Gagal di Update !!!');
+        if($rowStock['qty_stock'] >= $stockReturBarangBaru){
+            $successUpdate = $retur->updateData($dataRetur, $idRetur);
+            $updateStock = $stock->updateData($dataStock, $idBarang);
+            
+            if($successUpdate & $updateStock){
+                session()->setFlashdata('message', 'Data Retur Barang Berhasil di Update !!! & Data Stock Barang Berhasil di Update');
+            }
+        } else if($rowStock['qty_stock'] < $stockReturBarangBaru) {
+            session()->setFlashdata('error', 'Data Retur Barang Gagal di Update (QTY Stock < QTY Retur) !!!');
         }
 
         return redirect()->to('/user/retur');
@@ -411,31 +415,56 @@ class User extends BaseController
     }
 
     public function laporan_masuk(){
-        return view('user/laporan_masuk');
+        $data = [
+            'stock' => $this->stockModel->getData(),
+        ];
+
+        return view('user/laporan_masuk', $data);
     }
 
     public function laporan_keluar(){
-        return view('user/laporan_keluar');
+        $data = [
+            'stock' => $this->stockModel->getData(),
+        ];
+
+        return view('user/laporan_keluar', $data);
     }
 
     public function laporan_retur(){
-        return view('user/laporan_retur');
+        $data = [
+            'stock' => $this->stockModel->getData(),
+        ];
+
+        return view('user/laporan_retur', $data);
     }
 
     public function print_masuk(){
-        $data['masuk'] = $this->masukModel->getData();
+        $data = [
+            'masuk' => $this->masukModel->getData(),
+            'grand_total' => $this->masukModel->grand_total()
+        ];
+        
         return view('user/print_masuk', $data);
     }
 
     public function print_keluar(){
-        $data['print_keluar'] = $this->keluarModel->getData();
+         $data = [
+            'keluar' => $this->keluarModel->getData(),
+            'grand_total' => $this->keluarModel->grand_total()
+        ];
+
         return view('user/print_keluar', $data);
     }
 
     public function print_retur(){
-        $data['retur'] = $this->returModel->getData();
+        $data = [
+            'retur' => $this->returModel->getData(),
+            'grand_total' => $this->returModel->grand_total()
+        ];
+        
         return view('user/print_retur', $data);
     }
+
 
     public function logout(){
         session() -> destroy();

@@ -257,15 +257,14 @@
                     <thead class="thead-dark">
                       <tr>
                         <th>No</th>
-                        <th>ID Masuk</th>
                         <th>Tgl Masuk</th>
                         <th>Nama Barang</th>
                         <th>Nama Supplier</th>
                         <th>Kategori</th>
+                        <th>Keterangan</th>
                         <th>Harga/Pcs</th>
                         <th>QTY</th>
                         <th>Total Harga</th>
-                        <th>Keterangan</th>
                         <th class="text-center">Aksi</th>
                       </tr>
                     </thead>
@@ -293,16 +292,16 @@
                           <?= $msk['kategori']; ?>
                         </td>
                         <td>
-                          <?= "Rp. " . number_format($msk['harga_satuan'], 2, ',', '.'); ?>
+                          <?= $msk['keterangan']; ?>
+                        </td>
+                        <td>
+                          <?= "Rp. " . number_format($msk['harga_satuan_masuk'], 2, ',', '.'); ?>
                         </td>
                         <td>
                           <?= $msk['qty_masuk']; ?>
                         </td>
                         <td>
-                          <?= "Rp. " . number_format($msk['qty_masuk'] * $msk['harga_satuan'], 2, ',', '.'); ?>
-                        </td>
-                        <td>
-                          <?= $msk['keterangan']; ?>
+                          <?= "Rp. " . number_format($msk['total_harga_masuk'], 2, ',', '.'); ?>
                         </td>
                         <td
                           class="d-sm-flex justify-content-around align-items-center"
@@ -319,8 +318,8 @@
                             data-id_supplier="<?= $msk['id_supplier'];?>"
                             data-tgl_masuk="<?= $msk['tgl_masuk'];?>"
                             data-qty_masuk="<?= $msk['qty_masuk'];?>"
-                            data-harga="<?= $msk['harga_satuan'];?>"
-                            data-total_harga="<?= $msk['total_harga'];?>"
+                            data-harga="<?= $msk['harga_satuan_masuk'];?>"
+                            data-total_harga="<?= $msk['total_harga_masuk'];?>"
                             data-keterangan="<?= $msk['keterangan'];?>"
                           >
                             <i class="fas fa-edit"></i>

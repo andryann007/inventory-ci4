@@ -9,7 +9,7 @@ class KeluarModel extends Model{
 
     public function getData(){
         return $this->db->table('data_barang_keluar')
-        -> join('data_stock', 'data_stock.id_barang = data_barang_keluar.id_barang')
+        -> join('data_stock', 'data_stock.id_barang = data_barang_keluar.id_barang', 'inner')
         -> get()->getResultArray();
     }
 
@@ -42,5 +42,10 @@ class KeluarModel extends Model{
 
     public function qty_keluar(){
         return $this->db->table('data_barang_keluar')->get()->getNumRows();
+    }
+
+    public function grand_total(){
+        $query = $this->db->query('SELECT SUM(total_harga_keluar) AS grand_total FROM data_barang_keluar');
+        return $query->getRow()->grand_total;
     }
 }

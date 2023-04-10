@@ -68,14 +68,13 @@
         <thead class="thead-dark">
             <tr>
                 <th>No</th>
-                <th>ID Retur</th>
                 <th>Tgl Retur</th>
                 <th>Nama Barang</th>
                 <th>Nama Supplier</th>
                 <th>Kategori</th>
+                <th>Keterangan</th>
                 <th>Harga/Pcs</th>
                 <th>QTY</th>
-                <th>Keterangan</th>
                 <th>Total Harga</th>
             </tr>
         </thead>
@@ -87,15 +86,14 @@
         <tbody>
             <tr>
                 <th><?= $i++;?></th>
-                <th><?= $rtr['id_retur'];?></th>
                 <th><?= $rtr['tgl_retur'];?></th>
                 <th><?= $rtr['nama_barang'];?></th>
                 <th><?= $rtr['nama_supplier'];?></th>
                 <th><?= $rtr['kategori'];?></th>
-                <th><?= "Rp. " . number_format($rtr['harga_satuan'], 2, ',', '.');?></th>
-                <th><?= $rtr['qty_retur'];?></th>
                 <th><?= $rtr['keterangan'];?></th>
-                <th><?= "Rp. " . number_format($rtr['harga_satuan'] * $rtr['qty_retur'], 2, ',', '.');?></th>
+                <th><?= "Rp. " . number_format($rtr['harga_satuan_retur'], 2, ',', '.');?></th>
+                <th><?= $rtr['qty_retur'];?></th>
+                <th><?= "Rp. " . number_format($rtr['total_harga_retur'], 2, ',', '.');?></th>
             </tr>
         </tbody>
         <?php 

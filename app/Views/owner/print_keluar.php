@@ -68,38 +68,40 @@
         <thead class="thead-dark">
             <tr>
                 <th>No</th>
-                <th>ID Masuk</th>
-                <th>Tgl Masuk</th>
+                <th>Tgl Keluar</th>
                 <th>Nama Barang</th>
                 <th>Kategori</th>
+                <th>Keterangan</th>
                 <th>Harga/Pcs</th>
                 <th>QTY</th>
-                <th>Keterangan</th>
                 <th>Total Harga</th>
             </tr>
         </thead>
         <?php 
-            if(isset($print_keluar)){
+            if(isset($keluar)){
                 $i = 1;
-                foreach($print_keluar as $klr) :
+                foreach($keluar as $klr) :
         ?>
         <tbody>
             <tr>
                 <th><?= $i++;?></th>
-                <th><?= $klr['id_keluar'];?></th>
                 <th><?= $klr['tgl_keluar'];?></th>
                 <th><?= $klr['nama_barang'];?></th>
                 <th><?= $klr['kategori'];?></th>
-                <th><?= "Rp. " . number_format($klr['harga_satuan'], 2, ',', '.');?></th>
-                <th><?= $klr['qty_keluar'];?></th>
                 <th><?= $klr['keterangan'];?></th>
-                <th><?= "Rp. " . number_format($klr['total_harga'], 2, ',', '.');?></th>
+                <th><?= "Rp. " . number_format($klr['harga_satuan_keluar'], 2, ',', '.');?></th>
+                <th><?= $klr['qty_keluar'];?></th>
+                <th><?= "Rp. " . number_format(($klr['total_harga_keluar']), 2, ',', '.');?></th>
             </tr>
         </tbody>
         <?php 
             endforeach;
             }
         ?>
+        <tr>
+            <td colspan="5" align="center"><b>Total Harga</b></td>
+            <td colspan="3" align="center"><b><?= "Rp. ". number_format($grand_total, 2, ',', '.'); ?></b></td>
+        </tr>
     </table>
     <br>
     <br>

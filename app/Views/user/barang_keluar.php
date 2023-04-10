@@ -235,14 +235,13 @@
                     <thead class="thead-dark">
                       <tr>
                         <th>No</th>
-                        <th>ID Keluar</th>
                         <th>Tgl Keluar</th>
                         <th>Nama Barang</th>
                         <th>Kategori</th>
+                        <th>Keterangan</th>
                         <th>Harga/Pcs</th>
                         <th>QTY</th>
                         <th>Total Harga</th>
-                        <th>Keterangan</th>
                         <th class="text-center">Aksi</th>
                       </tr>
                     </thead>
@@ -254,9 +253,6 @@
                           <?= $i++; ?>
                         </td>
                         <td>
-                          <?= $klr['id_keluar']; ?>
-                        </td>
-                        <td>
                           <?= $klr['tgl_keluar']; ?>
                         </td>
                         <td>
@@ -266,16 +262,16 @@
                           <?= ucwords($klr['kategori']); ?>
                         </td>
                         <td>
-                          <?= "Rp. " . number_format($klr['harga_satuan'], 2, ',', '.'); ?>
+                          <?= $klr['keterangan']; ?>
+                        </td>
+                        <td>
+                          <?= "Rp. " . number_format($klr['harga_satuan_keluar'], 2, ',', '.'); ?>
                         </td>
                         <td>
                           <?= $klr['qty_keluar']; ?>
                         </td>
                         <td>
-                          <?= "Rp. " . number_format($klr['qty_keluar'] * $klr['harga_satuan'], 2, ',', '.'); ?>
-                        </td>
-                        <td>
-                          <?= $klr['keterangan']; ?>
+                          <?= "Rp. " . number_format($klr['total_harga_keluar'], 2, ',', '.'); ?>
                         </td>
                         <td
                           class="d-sm-flex justify-content-around align-items-center"
@@ -291,8 +287,8 @@
                             data-id_barang="<?= $klr['id_barang'];?>"
                             data-tgl_keluar="<?= $klr['tgl_keluar'];?>"
                             data-qty_keluar="<?= $klr['qty_keluar'];?>"
-                            data-harga="<?= $klr['harga_satuan'];?>"
-                            data-total_harga="<?= $klr['total_harga'];?>"
+                            data-harga="<?= $klr['harga_satuan_keluar'];?>"
+                            data-total_harga="<?= $klr['total_harga_keluar'];?>"
                             data-keterangan="<?= $klr['keterangan'];?>"
                           >
                             <i class="fas fa-edit"></i>

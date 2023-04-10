@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 08, 2023 at 06:40 PM
+-- Generation Time: Apr 10, 2023 at 07:21 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.1.12
 
@@ -32,8 +32,8 @@ CREATE TABLE `data_barang_keluar` (
   `id_barang` varchar(12) NOT NULL,
   `tgl_keluar` date NOT NULL,
   `qty_keluar` int(11) NOT NULL,
-  `harga_satuan` double NOT NULL,
-  `total_harga` double NOT NULL,
+  `harga_satuan_keluar` double NOT NULL,
+  `total_harga_keluar` double NOT NULL,
   `keterangan` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -41,8 +41,8 @@ CREATE TABLE `data_barang_keluar` (
 -- Dumping data for table `data_barang_keluar`
 --
 
-INSERT INTO `data_barang_keluar` (`id_keluar`, `id_barang`, `tgl_keluar`, `qty_keluar`, `harga_satuan`, `total_harga`, `keterangan`) VALUES
-('OUT-03', 'S-02', '2023-04-06', 5, 15000, 75000, 'Penjualan'),
+INSERT INTO `data_barang_keluar` (`id_keluar`, `id_barang`, `tgl_keluar`, `qty_keluar`, `harga_satuan_keluar`, `total_harga_keluar`, `keterangan`) VALUES
+('OUT-03', 'S-02', '2023-04-06', 5, 12000, 60000, 'Penjualan'),
 ('ROUT-03', 'S-01', '2023-03-15', 100, 15000, 1500000, 'Beli Beras');
 
 -- --------------------------------------------------------
@@ -57,8 +57,8 @@ CREATE TABLE `data_barang_masuk` (
   `id_supplier` varchar(12) NOT NULL,
   `tgl_masuk` date NOT NULL,
   `qty_masuk` int(11) NOT NULL,
-  `harga_satuan` double NOT NULL,
-  `total_harga` double NOT NULL,
+  `harga_satuan_masuk` double NOT NULL,
+  `total_harga_masuk` double NOT NULL,
   `keterangan` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -66,9 +66,9 @@ CREATE TABLE `data_barang_masuk` (
 -- Dumping data for table `data_barang_masuk`
 --
 
-INSERT INTO `data_barang_masuk` (`id_masuk`, `id_barang`, `id_supplier`, `tgl_masuk`, `qty_masuk`, `harga_satuan`, `total_harga`, `keterangan`) VALUES
+INSERT INTO `data_barang_masuk` (`id_masuk`, `id_barang`, `id_supplier`, `tgl_masuk`, `qty_masuk`, `harga_satuan_masuk`, `total_harga_masuk`, `keterangan`) VALUES
 ('IN-02', 'S-01', 'SPY-01', '2023-03-12', 110, 12000, 1320000, 'Stock Beras'),
-('IN-08', 'S-02', 'SPY-01', '2023-04-06', 26, 15000, 390000, 'Stock Beras Merah'),
+('IN-08', 'S-02', 'SPY-01', '2023-04-06', 20, 15000, 300000, 'Stock Beras Merah'),
 ('RIN-02', 'S-01', 'SPY-01', '2023-03-12', 10, 12000, 120000, 'Stock Beras');
 
 -- --------------------------------------------------------
@@ -83,8 +83,8 @@ CREATE TABLE `data_retur_barang` (
   `id_supplier` varchar(12) NOT NULL,
   `tgl_retur` date NOT NULL,
   `qty_retur` int(11) NOT NULL,
-  `harga_satuan` double NOT NULL,
-  `total_harga` double NOT NULL,
+  `harga_satuan_retur` double NOT NULL,
+  `total_harga_retur` double NOT NULL,
   `keterangan` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -92,8 +92,8 @@ CREATE TABLE `data_retur_barang` (
 -- Dumping data for table `data_retur_barang`
 --
 
-INSERT INTO `data_retur_barang` (`id_retur`, `id_barang`, `id_supplier`, `tgl_retur`, `qty_retur`, `harga_satuan`, `total_harga`, `keterangan`) VALUES
-('RETUR-01', 'B-01', 'SPY-01', '2023-04-06', 5, 6500, 32500, 'Expired');
+INSERT INTO `data_retur_barang` (`id_retur`, `id_barang`, `id_supplier`, `tgl_retur`, `qty_retur`, `harga_satuan_retur`, `total_harga_retur`, `keterangan`) VALUES
+('RETUR-01', 'B-01', 'SPY-01', '2023-04-06', 10, 6500, 65000, 'Expired');
 
 -- --------------------------------------------------------
 
@@ -116,7 +116,7 @@ CREATE TABLE `data_stock` (
 --
 
 INSERT INTO `data_stock` (`id_barang`, `nama_barang`, `kategori`, `qty_stock`, `harga_satuan`, `total_harga`, `status`) VALUES
-('B-01', 'Royco Ayam & Sapi (12 Sachet)', 'Bumbu Dapur', 2, 6500, 78000, 'Tersedia'),
+('B-01', 'Royco Ayam & Sapi (12 Sachet)', 'Bumbu Dapur', 10, 6500, 65000, 'Tersedia'),
 ('B-02', 'Masako Ayam & Sapi (12 sachet)', 'Bumbu Dapur', 50, 5500, 275000, 'Tersedia'),
 ('B-03', 'Mamasuka Kentucky (210 gr)', 'Bumbu Dapur', 20, 5000, 100000, 'Tersedia'),
 ('B-04', 'Mamasuka Tepung Goreng Tempe 100gr', 'Bumbu Dapur', 20, 2000, 40000, 'Tersedia'),
@@ -135,7 +135,7 @@ INSERT INTO `data_stock` (`id_barang`, `nama_barang`, `kategori`, `qty_stock`, `
 ('MR-05', 'Choki Choki Original (20 pcs)', 'Makanan Ringan', 15, 20000, 300000, 'Tersedia'),
 ('PM-01', 'Sabun Dettol Original (100 gr)', 'Perlengkapan Mandi & Mencuci', 20, 5000, 100000, 'Tersedia'),
 ('S-01', 'Beras Putih 1 Kg', 'Sembako', 49, 12000, 588000, 'Tersedia'),
-('S-02', 'Beras Merah 1 Kg', 'Sembako', 60, 15000, 750000, 'Tersedia'),
+('S-02', 'Beras Merah 1 Kg', 'Sembako', 54, 15000, 810000, 'Tersedia'),
 ('S-03', 'Telur Ayam Negeri 1 Kg', 'Sembako', 50, 24000, 1200000, 'Tersedia'),
 ('S-04', 'Minyak Goreng Bimoli 1 Liter', 'Sembako', 20, 22000, 440000, 'Tersedia'),
 ('S-05', 'Kopi Kapal Api (165gr)', 'Sembako', 20, 15000, 300000, 'Tersedia');

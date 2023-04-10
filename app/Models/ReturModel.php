@@ -38,4 +38,9 @@ class ReturModel extends Model{
     public function qty_retur(){
         return $this->db->table('data_retur_barang')->get()->getNumRows();
     }
+    
+    public function grand_total(){
+        $query = $this->db->query('SELECT SUM(total_harga_retur) AS grand_total FROM data_retur_barang');
+        return $query->getRow()->grand_total;
+    }
 }

@@ -258,15 +258,14 @@
                     <thead class="thead-dark">
                       <tr>
                         <th>No</th>
-                        <th>ID Retur</th>
                         <th>Tgl Retur</th>
                         <th>Nama Barang</th>
                         <th>Nama Supplier</th>
                         <th>Kategori</th>
+                        <th>Keterangan</th>
                         <th>Harga/Pcs</th>
                         <th>QTY</th>
                         <th>Total Harga</th>
-                        <th>Keterangan</th>
                         <th class="text-center">Aksi</th>
                       </tr>
                     </thead>
@@ -277,9 +276,6 @@
                       <tr>
                         <td>
                           <?= $i++; ?>
-                        </td>
-                        <td>
-                          <?= $rtr['id_retur']; ?>
                         </td>
                         <td>
                           <?= $rtr['tgl_retur']; ?>
@@ -294,16 +290,16 @@
                           <?= $rtr['kategori']; ?>
                         </td>
                         <td>
-                          <?= "Rp. " . number_format($rtr['harga_satuan'], 2, ',', '.'); ?>
+                          <?= $rtr['keterangan']; ?>
+                        </td>
+                        <td>
+                          <?= "Rp. " . number_format($rtr['harga_satuan_retur'], 2, ',', '.'); ?>
                         </td>
                         <td>
                           <?= $rtr['qty_retur']; ?>
                         </td>
                         <td>
-                          <?= "Rp. " . number_format($rtr['qty_retur'] * $rtr['harga_satuan'], 2, ',', '.'); ?>
-                        </td>
-                        <td>
-                          <?= $rtr['keterangan']; ?>
+                          <?= "Rp. " . number_format($rtr['total_harga_retur'], 2, ',', '.'); ?>
                         </td>
                         <td
                           class="d-sm-flex justify-content-around align-items-center"
@@ -320,8 +316,8 @@
                             data-id_supplier="<?= $rtr['id_supplier'];?>"
                             data-tgl_retur="<?= $rtr['tgl_retur'];?>"
                             data-qty_retur="<?= $rtr['qty_retur'];?>"
-                            data-harga="<?= $rtr['harga_satuan'];?>"
-                            data-total_harga="<?= $rtr['total_harga'];?>"
+                            data-harga="<?= $rtr['harga_satuan_retur'];?>"
+                            data-total_harga="<?= $rtr['total_harga_retur'];?>"
                             data-keterangan="<?= $rtr['keterangan'];?>"
                           >
                             <i class="fas fa-edit"></i>
