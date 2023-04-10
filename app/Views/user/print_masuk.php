@@ -85,21 +85,26 @@
         ?>
         <tbody>
             <tr>
-                <th><?= $i++;?></th>
-                <th><?= $msk['tgl_masuk'];?></th>
-                <th><?= $msk['nama_barang'];?></th>
-                <th><?= $msk['nama_supplier'];?></th>
-                <th><?= $msk['kategori'];?></th>
-                <th><?= $msk['keterangan'];?></th>
-                <th><?= "Rp. " . number_format($msk['harga_satuan_masuk'], 2, ',', '.');?></th>
-                <th><?= $msk['qty_masuk'];?></th>
-                <th><?= "Rp. " . number_format($msk['total_harga_masuk'], 2, ',', '.');?></th>
+                <td><?= $i++;?></th>
+                <td><?= $msk['tgl_masuk'];?></th>
+                <td><?= $msk['nama_barang'];?></th>
+                <td><?= $msk['nama_supplier'];?></th>
+                <td><?= $msk['kategori'];?></th>
+                <td><?= $msk['keterangan'];?></th>
+                <td><?= "Rp. " . number_format($msk['harga_satuan_masuk'], 2, ',', '.');?></th>
+                <td><?= $msk['qty_masuk'];?></th>
+                <td><?= "Rp. " . number_format($msk['total_harga_masuk'], 2, ',', '.');?></th>
             </tr>
+            
         </tbody>
         <?php 
             endforeach;
             }
         ?>
+        <tr>
+            <td colspan="6" align="center"><b>Total Harga</b></td>
+            <td colspan="3" align="center"><b><?= "Rp. ". number_format($grand_total, 2, ',', '.'); ?></b></td>
+        </tr>
     </table>
     <br>
     <br>

@@ -91,15 +91,19 @@
                 <th><?= $rtr['nama_supplier'];?></th>
                 <th><?= $rtr['kategori'];?></th>
                 <th><?= $rtr['keterangan'];?></th>
-                <th><?= "Rp. " . number_format($rtr['harga_satuan_retur'], 2, ',', '.');?></th>
+                <th><?= "Rp. " . number_format($rtr['harga_satuan'], 2, ',', '.');?></th>
                 <th><?= $rtr['qty_retur'];?></th>
-                <th><?= "Rp. " . number_format($rtr['total_harga_retur'], 2, ',', '.');?></th>
+                <th><?= "Rp. " . number_format($rtr['harga_satuan'] * $rtr['qty_retur'], 2, ',', '.');?></th>
             </tr>
         </tbody>
         <?php 
             endforeach;
             }
         ?>
+        <tr>
+            <td colspan="6" align="center"><b>Total Harga</b></td>
+            <td colspan="3" align="center"><b><?= "Rp. ". number_format($grand_total, 2, ',', '.'); ?></b></td>
+        </tr>
     </table>
     <br>
     <br>
