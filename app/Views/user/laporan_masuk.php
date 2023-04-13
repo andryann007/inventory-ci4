@@ -158,12 +158,15 @@
                 Laporan Barang Masuk
               </h2>
 
-              <a
-                href="<?php echo site_url('/user/print_masuk');?>"
+              <button
+                type="button"
                 class="btn btn-success btn-sm"
-                role="button"
-                ><i class="fas fa-print"></i> Print Data</a
+                data-toggle="modal"
+                data-target="#printIncomingModal"
               >
+                <i class="fas fa-print"></i>
+                Print Data
+              </button>
 
               <button
                 type="button"
@@ -473,6 +476,133 @@
             </button>
             <button type="submit" class="btn btn-primary" name="filterStock">
               <i class="fas fa-filter"></i> Filter
+            </button>
+          </div>
+          </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Print Data Modal -->
+  <div
+    class="modal fade"
+    id="printIncomingModal"
+    tabindex="-1"
+    aria-labelledby="printModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="printModalLabel">
+            Print Laporan Barang Masuk
+          </h5>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+          <form action='/user/print_masuk' method="post">
+          <div class="modal-body">
+            <label for="namaBarang">Print Data by <b>Range of Date</b></label>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <input type="date" 
+                    name="tglMulai" 
+                    class="form-control" />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <input type="date" 
+                    name="tglSelesai" 
+                    class="form-control" />
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="idSupplier">Print Data by <b>Nama Supplier</b></label>
+                <select
+                  class="form-control"
+                  name="idSupplier"
+                  id="idSupplier"
+                >
+                <option></option>
+                <?php foreach ($supplier as $spy) : ?>
+                  <option value="<?= $spy['id_supplier']; ?>">
+                    <?= ucwords($spy['nama_supplier']); ?>
+                  </option>
+                <?php endforeach; ?>
+                </select>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="idBarang">Print Data by <b>Nama Barang</b></label>
+                    <select
+                      class="form-control"
+                      name="idBarang"
+                      id="idBarang"
+                    >
+                    <option></option>
+                    <?php foreach ($stock as $stk) : ?>
+                      <option value="<?= $stk['id_barang']; ?>">
+                        <?= ucwords($stk['nama_barang']); ?>
+                      </option>
+                      <?php endforeach; ?>
+                    
+                    </select>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <label for="idBarang">Print Data by <b>Kategori</b> :</label>
+                <div class="form-group">
+                    <select
+                      class="form-control"
+                      name="kategoriBarang"
+                      id="kategoriBarang"
+                    >
+                      <option></option>
+                      <option>Sembako</option>
+                      <option>Makanan Ringan</option>
+                      <option>Minuman</option>
+                      <option>Perlengkapan Mandi & Mencuci</option>
+                      <option>Perlengkapan Rumah Tangga</option>
+                      <option>Obat - Obatan</option>
+                      <option>Bumbu Dapur</option>
+                      <option>Makanan Instan</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-md-12">
+                <label for="keterangan"><b>Note :</b> 1. Untuk Filter Data by <b>Nama Barang / Kategori</b>, Silahkan Pilih Salah Satu !!! (Tidak Bisa Keduanya)</label>
+              </div>
+
+              <div class="col-md-12">
+                <label for="keterangan"><b>Note :</b> 2. Jika Tidak Ada Filter, Maka Laporan Barang Masuk akan di <b>Print Semua !!!</b></label>
+              </div>
+
+              <div class="col-md-12">
+                <label for="keterangan"><b>Note :</b> 3. Jika Hasil Laporan Kosong, Maka <b>Tidak Ada Data Yang Memenuhi Kriteria Filter !!!</b></label>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-sm-flex modal-footer mb-4">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">
+              <i class="fas fa-trash"></i> Batal
+            </button>
+            <button type="submit" class="btn btn-success" name="printIncoming">
+              <i class="fas fa-print"></i> Print
             </button>
           </div>
           </form>

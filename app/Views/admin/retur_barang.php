@@ -849,8 +849,17 @@
               </div>
 
               <div class="col-md-12">
-                <label for="keterangan"><b>Note :</b> Untuk Filter Data by <b>Nama Barang / Kategori</b>, Silahkan Pilih Salah Satu !!! (Tidak Bisa Keduanya)</label>
+                <label for="keterangan"><b>Note :</b> 1. Untuk Filter Data by <b>Nama Barang / Kategori</b>, Silahkan Pilih Salah Satu !!! (Tidak Bisa Keduanya)</label>
               </div>
+
+              <div class="col-md-12">
+                <label for="keterangan"><b>Note :</b> 2. Jika Tidak Ada Filter, Maka Data Retur Barang akan di <b>Tampilkan Semua !!!</b></label>
+              </div>
+
+              <div class="col-md-12">
+                <label for="keterangan"><b>Note :</b> 3. Jika Tampilan Data Kosong, Maka <b>Tidak Ada Data Yang Memenuhi Kriteria Filter !!!</b></label>
+              </div>
+              
             </div>
           </div>
 

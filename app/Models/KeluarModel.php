@@ -80,7 +80,49 @@ class KeluarModel extends Model{
         return $this->db->table('data_barang_keluar')->get()->getNumRows();
     }
 
-    public function grand_total(){
+    public function grandTotalPerDate($tglMulai, $tglSelesai){
+        $query = $this->db->table('data_barang_keluar');
+        $query -> join('data_stock', 'data_stock.id_barang = data_barang_keluar.id_barang');
+        $query->select('SUM(total_harga_keluar) AS grand_total');
+        $query->where('tgl_keluar >=', $tglMulai) -> where('tgl_keluar <=', $tglSelesai);
+        return $query->get()->getRow()->grand_total;
+    }
+
+    public function grandTotalPerBarang($idBarang){
+        $query = $this->db->table('data_barang_keluar');
+        $query -> join('data_stock', 'data_stock.id_barang = data_barang_keluar.id_barang');
+        $query->select('SUM(total_harga_keluar) AS grand_total');
+        $query->where('data_barang_keluar.id_barang', $idBarang);
+        return $query->get()->getRow()->grand_total;
+    }
+
+    public function grandTotalPerKategori($kategori){
+        $query = $this->db->table('data_barang_keluar');
+        $query -> join('data_stock', 'data_stock.id_barang = data_barang_keluar.id_barang');
+        $query->select('SUM(total_harga_keluar) AS grand_total');
+        $query->where('kategori', $kategori);
+        return $query->get()->getRow()->grand_total;
+    }
+
+    public function grandTotalPerDateBarang($tglMulai, $tglSelesai, $idBarang){
+        $query = $this->db->table('data_barang_keluar');
+        $query -> join('data_stock', 'data_stock.id_barang = data_barang_keluar.id_barang');
+        $query->select('SUM(total_harga_keluar) AS grand_total');
+        $query->where('tgl_keluar >=', $tglMulai) -> where('tgl_keluar <=', $tglSelesai);
+        $query->where('data_barang_keluar.id_barang', $idBarang);
+        return $query->get()->getRow()->grand_total;
+    }
+
+    public function grandTotalPerDateKategori($tglMulai, $tglSelesai, $kategori){
+        $query = $this->db->table('data_barang_keluar');
+        $query -> join('data_stock', 'data_stock.id_barang = data_barang_keluar.id_barang');
+        $query->select('SUM(total_harga_keluar) AS grand_total');
+        $query->where('tgl_keluar >=', $tglMulai) -> where('tgl_keluar <=', $tglSelesai);
+        $query->where('kategori', $kategori);
+        return $query->get()->getRow()->grand_total;
+    }
+
+    public function grandTotalAll(){
         $query = $this->db->query('SELECT SUM(total_harga_keluar) AS grand_total FROM data_barang_keluar');
         return $query->getRow()->grand_total;
     }

@@ -1287,30 +1287,308 @@ class Admin extends BaseController
     }
 
     public function print_masuk(){
-        $data = [
-            'masuk' => $this->masukModel->getData(),
-            'grand_total' => $this->masukModel->grand_total()
-        ];
-        
-        return view('admin/print_masuk', $data);
+        $tglMulai = $this->request->getPost('tglMulai');
+        $tglSelesai = $this->request->getPost('tglSelesai');
+        $idSupplier = $this->request->getPost('idSupplier');
+        $idBarang = $this->request->getPost('idBarang');
+        $kategori = $this->request->getPost('kategoriBarang');
+
+        // Jika hanya terdapat filter di rentang tanggal
+        if($tglMulai !=null && $tglSelesai != null && $idSupplier == null && $idBarang == null && $kategori == null) {
+            $data = [
+                'title' => 'Laporan Barang Masuk',
+                'masuk' => $this->masukModel->filterRangeOfDate($tglMulai, $tglSelesai),
+                'grand_total' => $this->masukModel->grandTotalPerDate($tglMulai, $tglSelesai)
+            ];
+        }
+
+        // Jika hanya terdapat filter di nama supplier
+        else if($tglMulai == null && $tglSelesai == null && $idSupplier != null && $idBarang == null && $kategori == null) {
+            $data = [
+                'title' => 'Laporan Barang Masuk',
+                'masuk' => $this->masukModel->filterSupplier($idSupplier),
+                'grand_total' => $this->masukModel->grandTotalPerSupplier($idSupplier)
+            ];
+        }
+
+        // Jika hanya terdapat filter di nama barang
+        else if($tglMulai == null && $tglSelesai == null && $idSupplier == null && $idBarang != null && $kategori == null) {
+            $data = [
+                'title' => 'Laporan Barang Masuk',
+                'masuk' => $this->masukModel->filterBarang($idBarang),
+                'grand_total' => $this->masukModel->grandTotalPerBarang($idBarang)
+            ];
+        }
+
+        // Jika hanya terdapat filter di kategori
+        else if($tglMulai == null && $tglSelesai == null && $idSupplier == null && $idBarang == null && $kategori != null) {
+            $data = [
+                'title' => 'Laporan Barang Masuk',
+                'masuk' => $this->masukModel->filterKategori($kategori),
+                'grand_total' => $this->masukModel->grandTotalPerKategori($kategori)
+            ];
+        }
+
+        // Jika hanya terdapat filter di nama supplier & rentang tanggal
+        else if($tglMulai != null && $tglSelesai != null && $idSupplier != null && $idBarang == null && $kategori == null) {
+            $data = [
+                'title' => 'Laporan Barang Masuk',
+                'masuk' => $this->masukModel->filterDateSupplier($tglMulai, $tglSelesai, $idSupplier),
+                'grand_total' => $this->masukModel->grandTotalPerDateSupplier($tglMulai, $tglSelesai, $idSupplier)
+            ];
+        }
+
+        // Jika hanya terdapat filter di nama barang & rentang tanggal
+        else if($tglMulai != null && $tglSelesai != null && $idSupplier == null && $idBarang != null && $kategori == null) {
+            $data = [
+                'title' => 'Laporan Barang Masuk',
+                'masuk' => $this->masukModel->filterDateBarang($tglMulai, $tglSelesai, $idBarang),
+                'grand_total' => $this->masukModel->grandTotalPerDateBarang($tglMulai, $tglSelesai, $idBarang)
+            ];
+        }
+
+        // Jika hanya terdapat filter di kategori & rentang tanggal
+        else if($tglMulai != null && $tglSelesai != null && $idSupplier == null && $idBarang == null && $kategori != null) {
+            $data = [
+                'title' => 'Laporan Barang Masuk',
+                'masuk' => $this->masukModel->filterDateKategori($tglMulai, $tglSelesai, $kategori),
+                'grand_total' => $this->masukModel->grandTotalPerDateKategori($tglMulai, $tglSelesai, $kategori)
+            ];
+        }
+
+        // Jika hanya terdapat filter di nama barang & nama supplier
+        else if($tglMulai == null && $tglSelesai == null && $idSupplier != null && $idBarang != null && $kategori == null) {
+            $data = [
+                'title' => 'Laporan Barang Masuk',
+                'masuk' => $this->masukModel->filterBarangSupplier($idBarang, $idSupplier),
+                'grand_total' => $this->masukModel->grandTotalPerBarangSupplier($idBarang, $idSupplier)
+            ];
+        }
+
+        // Jika hanya terdapat filter di kategori & nama supplier
+        else if($tglMulai == null && $tglSelesai == null && $idSupplier != null && $idBarang == null && $kategori != null) {
+            $data = [
+                'title' => 'Laporan Barang Masuk',
+                'masuk' => $this->masukModel->filterKategoriSupplier($kategori, $idSupplier),
+                'grand_total' => $this->masukModel->grandTotalPerKategoriSupplier($kategori, $idSupplier)
+            ];
+        }
+
+        // Jika terdapat semua filter (tidak termasuk filter kategori)
+        else if($tglMulai != null && $tglSelesai != null && $idSupplier != null && $idBarang != null && $kategori == null) {
+            $data = [
+                'title' => 'Laporan Barang Masuk',
+                'masuk' => $this->masukModel->filterDateBarangSupplier($tglMulai, $tglSelesai, $idBarang, $idSupplier),
+                'grand_total' => $this->masukModel->grandTotalPerDateBarangSupplier($tglMulai, $tglSelesai, $idBarang, $idSupplier)
+            ];
+        }
+
+        // Jika terdapat semua filter (tidak termasuk filter nama barang)
+        else if($tglMulai != null && $tglSelesai != null && $idSupplier != null && $idBarang == null && $kategori != null) {
+            $data = [
+                'title' => 'Laporan Barang Masuk',
+                'masuk' => $this->masukModel->filterDateKategoriSupplier($tglMulai, $tglSelesai, $kategori, $idSupplier),
+                'grand_total' => $this->masukModel->grandTotalPerDateKategoriSupplier($tglMulai, $tglSelesai, $kategori, $idSupplier)
+            ];
+        }
+
+        // Jika tidak terdapat filter
+        else if($tglMulai == null && $tglSelesai == null && $idSupplier == null && $idBarang == null && $kategori == null){
+            $data = [
+                'title' => 'Laporan Barang Masuk',
+                'masuk' => $this->masukModel->getData(),
+                'grand_total' => $this->masukModel->grandTotalAll()
+            ];
+        }
+
+        $filterData = $data;
+
+        return view('admin/print_masuk', $filterData);
     }
 
     public function print_keluar(){
-         $data = [
-            'keluar' => $this->keluarModel->getData(),
-            'grand_total' => $this->keluarModel->grand_total()
-        ];
+        $tglMulai = $this->request->getPost('tglMulai');
+        $tglSelesai = $this->request->getPost('tglSelesai');
+        $idBarang = $this->request->getPost('idBarang');
+        $kategori = $this->request->getPost('kategoriBarang');
 
-        return view('admin/print_keluar', $data);
+        //Jika hanya terdapat filter terhadap tanggal
+        if($tglMulai != null && $tglSelesai != null && $idBarang == null && $kategori == null) {
+            $data = [
+                'title' => 'Daftar Barang Keluar',
+                'keluar' => $this->keluarModel->filterRangeOfDate($tglMulai, $tglSelesai),
+                'grand_total' => $this->keluarModel->grandTotalPerDate($tglMulai, $tglSelesai)
+            ];
+        } 
+        
+        //Jika hanya terdapat filter terhadap id barang
+        else if($tglMulai == null && $tglSelesai == null && $idBarang != null && $kategori == null){
+            $data = [
+                'title' => 'Daftar Barang Keluar',
+                'keluar' => $this->keluarModel->filterBarang($idBarang),
+                'grand_total' => $this->keluarModel->grandTotalPerBarang($idBarang)
+            ];
+        } 
+
+        //Jika hanya terdapat filter terhadap kategori
+        else if($tglMulai == null && $tglSelesai == null && $idBarang == null && $kategori != null){
+            $data = [
+                'title' => 'Daftar Barang Keluar',
+                'keluar' => $this->keluarModel->filterKategori($kategori),
+                'grand_total' => $this->keluarModel->grandTotalPerKategori($kategori)
+            ];
+        } 
+        
+        //Jika hanya terdapat filter tanggal & filter id barang
+        else if($tglMulai != null && $tglSelesai != null && $idBarang != null){
+            $data = [
+                'title' => 'Daftar Barang Keluar',
+                'keluar' => $this->keluarModel->filterDateBarang($tglMulai, $tglSelesai, $idBarang),
+                'grand_total' => $this->keluarModel->grandTotalPerDateBarang($tglMulai, $tglSelesai, $idBarang)
+            ];
+        }
+
+        //Jika hanya terdapat filter tanggal & filter kategori
+        else if($tglMulai != null && $tglSelesai != null && $kategori != null){
+            $data = [
+                'title' => 'Daftar Barang Keluar',
+                'keluar' => $this->keluarModel->filterDateKategori($tglMulai, $tglSelesai, $kategori),
+                'grand_total' => $this->keluarModel->grandTotalPerDateKategori($tglMulai, $tglSelesai, $kategori)
+            ];
+        }
+
+        //Jika tidak terdapat filter, maka data yang ditampilkan semua
+        else if($tglMulai == null && $tglSelesai == null && $idBarang == null && $kategori == null){
+            $data = [
+                'title' => 'Daftar Barang Keluar',
+                'keluar' => $this->keluarModel->getData(),
+                'grand_total' => $this->keluarModel->grandTotalAll()
+            ];
+        }
+
+        $filterData = $data;
+        
+        return view('admin/print_keluar', $filterData);
     }
 
     public function print_retur(){
-        $data = [
-            'retur' => $this->returModel->getData(),
-            'grand_total' => $this->returModel->grand_total()
-        ];
-        
-        return view('admin/print_retur', $data);
+        $tglMulai = $this->request->getPost('tglMulai');
+        $tglSelesai = $this->request->getPost('tglSelesai');
+        $idSupplier = $this->request->getPost('idSupplier');
+        $idBarang = $this->request->getPost('idBarang');
+        $kategori = $this->request->getPost('kategoriBarang');
+
+        // Jika hanya terdapat filter di rentang tanggal
+        if($tglMulai !=null && $tglSelesai != null && $idSupplier == null && $idBarang == null && $kategori == null) {
+            $data = [
+                'title' => 'Laporan Retur Barang',
+                'retur' => $this->returModel->filterRangeOfDate($tglMulai, $tglSelesai),
+                'grand_total' => $this->returModel->grandTotalPerDate($tglMulai, $tglSelesai)
+            ];
+        }
+
+        // Jika hanya terdapat filter di nama supplier
+        else if($tglMulai == null && $tglSelesai == null && $idSupplier != null && $idBarang == null && $kategori == null) {
+            $data = [
+                'title' => 'Laporan Retur Barang',
+                'retur' => $this->returModel->filterSupplier($idSupplier),
+                'grand_total' => $this->returModel->grandTotalPerSupplier($idSupplier)
+            ];
+        }
+
+        // Jika hanya terdapat filter di nama barang
+        else if($tglMulai == null && $tglSelesai == null && $idSupplier == null && $idBarang != null && $kategori == null) {
+            $data = [
+                'title' => 'Laporan Retur Barang',
+                'retur' => $this->returModel->filterBarang($idBarang),
+                'grand_total' => $this->returModel->grandTotalPerBarang($idBarang)
+            ];
+        }
+
+        // Jika hanya terdapat filter di kategori
+        else if($tglMulai == null && $tglSelesai == null && $idSupplier == null && $idBarang == null && $kategori != null) {
+            $data = [
+                'title' => 'Laporan Retur Barang',
+                'retur' => $this->returModel->filterKategori($kategori),
+                'grand_total' => $this->returModel->grandTotalPerKategori($kategori)
+            ];
+        }
+
+        // Jika hanya terdapat filter di nama supplier & rentang tanggal
+        else if($tglMulai != null && $tglSelesai != null && $idSupplier != null && $idBarang == null && $kategori == null) {
+            $data = [
+                'title' => 'Laporan Retur Barang',
+                'retur' => $this->returModel->filterDateSupplier($tglMulai, $tglSelesai, $idSupplier),
+                'grand_total' => $this->returModel->grandTotalPerDateSupplier($tglMulai, $tglSelesai, $idSupplier)
+            ];
+        }
+
+        // Jika hanya terdapat filter di nama barang & rentang tanggal
+        else if($tglMulai != null && $tglSelesai != null && $idSupplier == null && $idBarang != null && $kategori == null) {
+            $data = [
+                'title' => 'Laporan Retur Barang',
+                'retur' => $this->returModel->filterDateBarang($tglMulai, $tglSelesai, $idBarang),
+                'grand_total' => $this->returModel->grandTotalPerDateBarang($tglMulai, $tglSelesai, $idBarang)
+            ];
+        }
+
+        // Jika hanya terdapat filter di kategori & rentang tanggal
+        else if($tglMulai != null && $tglSelesai != null && $idSupplier == null && $idBarang == null && $kategori != null) {
+            $data = [
+                'title' => 'Laporan Retur Barang',
+                'retur' => $this->returModel->filterDateKategori($tglMulai, $tglSelesai, $kategori),
+                'grand_total' => $this->returModel->grandTotalPerDateKategori($tglMulai, $tglSelesai, $kategori)
+            ];
+        }
+
+        // Jika hanya terdapat filter di nama barang & nama supplier
+        else if($tglMulai == null && $tglSelesai == null && $idSupplier != null && $idBarang != null && $kategori == null) {
+            $data = [
+                'title' => 'Laporan Retur Barang',
+                'retur' => $this->returModel->filterBarangSupplier($idBarang, $idSupplier),
+                'grand_total' => $this->returModel->grandTotalPerBarangSupplier($idBarang, $idSupplier)
+            ];
+        }
+
+        // Jika hanya terdapat filter di kategori & nama supplier
+        else if($tglMulai == null && $tglSelesai == null && $idSupplier != null && $idBarang == null && $kategori != null) {
+            $data = [
+                'title' => 'Laporan Retur Barang',
+                'retur' => $this->returModel->filterKategoriSupplier($kategori, $idSupplier),
+                'grand_total' => $this->returModel->grandTotalPerKategoriSupplier($kategori, $idSupplier)
+            ];
+        }
+
+        // Jika terdapat semua filter (tidak termasuk filter kategori)
+        else if($tglMulai != null && $tglSelesai != null && $idSupplier != null && $idBarang != null && $kategori == null) {
+            $data = [
+                'title' => 'Laporan Retur Barang',
+                'retur' => $this->returModel->filterDateBarangSupplier($tglMulai, $tglSelesai, $idBarang, $idSupplier),
+                'grand_total' => $this->returModel->grandTotalPerDateBarangSupplier($tglMulai, $tglSelesai, $idBarang, $idSupplier)
+            ];
+        }
+
+        // Jika terdapat semua filter (tidak termasuk filter nama barang)
+        else if($tglMulai != null && $tglSelesai != null && $idSupplier != null && $idBarang == null && $kategori != null) {
+            $data = [
+                'title' => 'Laporan Retur Barang',
+                'retur' => $this->returModel->filterDateKategoriSupplier($tglMulai, $tglSelesai, $kategori, $idSupplier),
+                'grand_total' => $this->returModel->grandTotalPerDateKategoriSupplier($tglMulai, $tglSelesai, $kategori, $idSupplier)
+            ];
+        }
+
+        // Jika tidak terdapat filter
+        else if($tglMulai == null && $tglSelesai == null && $idSupplier == null && $idBarang == null && $kategori == null){
+            $data = [
+                'title' => 'Laporan Retur Barang',
+                'retur' => $this->returModel->getData(),
+                'grand_total' => $this->returModel->grandTotalAll()
+            ];
+        }
+
+        $filterData = $data;
+
+        return view('admin/print_retur', $filterData);
     }
 
     public function logout(){
