@@ -539,16 +539,13 @@
         </div>
         <form action='/owner/update_supplier' method="post">
           <div class="modal-body">
-            <div class="form-group">
-              <label for="idSupplier">ID Supplier</label>
-              <input
-                type="text"
-                name="idSupplier"
-                id="idSupplier"
-                class="form-control"
-                required
-              />
-            </div>
+            <input
+              type="hidden"
+              name="idSupplier"
+              id="idSupplier"
+              class="form-control"
+              required
+            />
 
             <div class="form-group">
               <label for="namaSupplier">Nama Supplier</label>
@@ -561,33 +558,39 @@
               />
             </div>
 
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="telpSupplier">No. Telp Supplier</label>
+                  <input
+                    type="telp"
+                    name="telpSupplier"
+                    id="telpSupplier"
+                    class="form-control"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="emailSupplier">Email Supplier</label>
+                  <input
+                    type="email"
+                    name="emailSupplier"
+                    id="emailSupplier"
+                    class="form-control"
+                  />
+                </div>
+              </div>
+            </div>
+
             <div class="form-group">
               <label for="alamatSupplier">Alamat Supplier</label>
               <input
                 type="text"
                 name="alamatSupplier"
                 id="alamatSupplier"
-                class="form-control"
-                required
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="emailSupplier">Email Supplier</label>
-              <input
-                type="email"
-                name="emailSupplier"
-                id="emailSupplier"
-                class="form-control"
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="telpSupplier">No. Telp Supplier</label>
-              <input
-                type="telp"
-                name="telpSupplier"
-                id="telpSupplier"
                 class="form-control"
                 required
               />

@@ -586,14 +586,24 @@
         </div>
         <form action='/owner/update_akun' method="post">
           <div class="modal-body">
+            <input
+              type="hidden"
+              name="idUser"
+              id="idUser"
+              class="form-control"
+              required
+            /> 
+
+            
             <div class="row">
+              
               <div class="col-md-6">
                 <div class="form-group">
-                  <label for="idUser">ID User</label>
+                  <label for="namaUser">Nama Lengkap</label>
                   <input
                     type="text"
-                    name="idUser"
-                    id="idUser"
+                    name="namaUser"
+                    id="namaUser"
                     class="form-control"
                     required
                   />
@@ -610,16 +620,15 @@
                   />
                 </div>
               </div>
-              
+
               <div class="col-md-6">
                 <div class="form-group">
-                  <label for="namaUser">Nama Lengkap</label>
+                  <label for="telp">No. Telp</label>
                   <input
-                    type="text"
-                    name="namaUser"
-                    id="namaUser"
+                    type="textarea"
+                    name="telpUser"
+                    id="telpUser"
                     class="form-control"
-                    required
                   />
                 </div>
 
@@ -631,18 +640,6 @@
                     id="passUser"
                     class="form-control"
                     required
-                  />
-                </div>
-              </div>
-
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="telp">No. Telp</label>
-                  <input
-                    type="textarea"
-                    name="telpUser"
-                    id="telpUser"
-                    class="form-control"
                   />
                 </div>
               </div>

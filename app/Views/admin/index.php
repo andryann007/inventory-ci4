@@ -53,13 +53,6 @@
       <!-- Heading Data Master -->
       <div class="sidebar-heading">Data Master</div>
 
-      <!-- Nav Item - Data Stock -->
-      <li class="nav-item">
-        <a class="nav-link" href="/admin/stock">
-          <i class="fas fa-cubes"></i>
-          <span>Data Stock Barang</span></a>
-      </li>
-
       <!-- Nav Item - Data Supplier -->
       <li class="nav-item">
         <a class="nav-link" href="/admin/supplier">
@@ -67,6 +60,13 @@
           <span>Data Supplier</span></a>
       </li>
 
+      <!-- Nav Item - Data Stock -->
+      <li class="nav-item">
+        <a class="nav-link" href="/admin/stock">
+          <i class="fas fa-cubes"></i>
+          <span>Data Stock Barang</span></a>
+      </li>
+      
       <!-- Divider -->
       <hr class="sidebar-divider" />
 

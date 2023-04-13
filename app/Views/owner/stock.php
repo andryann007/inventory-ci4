@@ -184,7 +184,7 @@
             <div
               class="d-sm-flex align-items-center justify-content-between mb-4"
             >
-              <h2 class="h3 mb-0 text-gray-800 col-md-9">Data Stock</h2>
+              <h2 class="h3 mb-0 text-gray-800 col-md-7">Data Stock</h2>
               
               <button
                 type="button"
@@ -195,6 +195,24 @@
                 <i class="fas fa-plus"></i>
                 Tambah Data
               </button>
+
+              <button
+                type="button"
+                class="btn btn-primary btn-sm"
+                data-toggle="modal"
+                data-target="#filterStockModal"
+              >
+                <i class="fas fa-filter"></i>
+                Filter Data
+              </button>
+
+              <a
+                href="<?php echo site_url('/owner/stock');?>"
+                class="btn btn-dark btn-sm"
+                role="button"
+                ><i class="fas fa-eye"></i> View All Data</a
+              >
+
             </div>
 
             <!-- DataTales Example -->
@@ -265,7 +283,6 @@
                     <thead class="thead-dark">
                       <tr>
                         <th>No</th>
-                        <th>ID Barang</th>
                         <th>Nama Barang</th>
                         <th>Kategori</th>
                         <th>Harga/Pcs</th>
@@ -281,9 +298,6 @@
                       <tr>
                         <td>
                           <?= $i++; ?>
-                        </td>
-                        <td>
-                          <?= $stk['id_barang']; ?>
                         </td>
                         <td>
                           <?= ucwords($stk['nama_barang']); ?>
@@ -590,50 +604,22 @@
         </div>
         <form action='/owner/update_stock' method="post">
           <div class="modal-body">
-            <div class="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="idBarang">ID Barang</label>
-                  <input
-                    type="text"
-                    name="idBarang"
-                    id="idBarang"
-                    class="form-control"
-                    required
-                  />
-                </div>
-              </div>
-
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="namaBarang">Nama Barang</label>
-                  <input
-                    type="text"
-                    name="namaBarang"
-                    id="namaBarang"
-                    class="form-control"
-                    required
-                  />
-                </div>
-              </div>
-            </div>
+            <input
+            type="hidden"
+            name="idBarang"
+            id="idBarang"
+            class="form-control"
+            />
 
             <div class="form-group">
-              <label for="kategoriBarang">Kategori Barang</label>
-              <select
+              <label for="namaBarang">Nama Barang</label>
+              <input
+                type="text"
+                name="namaBarang"
+                id="namaBarang"
                 class="form-control"
-                name="kategoriBarang"
-                id="kategoriBarang"
-              >
-                <option>Sembako</option>
-                <option>Makanan Ringan</option>
-                <option>Minuman</option>
-                <option>Perlengkapan Mandi & Mencuci</option>
-                <option>Perlengkapan Rumah Tangga</option>
-                <option>Obat - Obatan</option>
-                <option>Bumbu Dapur</option>
-                <option>Makanan Instan</option>
-              </select>
+                required
+              />
             </div>
 
             <div class="row">
@@ -664,17 +650,43 @@
               </div>
             </div>
 
-            <div class="form-group">
-              <label for="status">Status Barang</label>
-              <select
-                class="form-control"
-                name="status"
-                id="status"
-              >
-                <option>Tersedia</option>
-                <option>Habis</option>
-              </select>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="kategoriBarang">Kategori Barang</label>
+                  <select
+                    class="form-control"
+                    name="kategoriBarang"
+                    id="kategoriBarang"
+                  >
+                    <option>Sembako</option>
+                    <option>Makanan Ringan</option>
+                    <option>Minuman</option>
+                    <option>Perlengkapan Mandi & Mencuci</option>
+                    <option>Perlengkapan Rumah Tangga</option>
+                    <option>Obat - Obatan</option>
+                    <option>Bumbu Dapur</option>
+                    <option>Makanan Instan</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="status">Status Barang</label>
+                  <select
+                    class="form-control"
+                    name="status"
+                    id="status"
+                  >
+                    <option>Tersedia</option>
+                    <option>Habis</option>
+                  </select>
+                </div>
+              </div>
             </div>
+
+            
           </div>
 
           <div class="d-sm-flex modal-footer mb-4">
@@ -734,6 +746,78 @@
             </button>
           </div>
         </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filter Data Modal -->
+  <div
+    class="modal fade"
+    id="filterStockModal"
+    tabindex="-1"
+    aria-labelledby="filterModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="filterModalLabel">
+            Filter Data Stock Barang
+          </h5>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+          <form action='/owner/stock' method="post">
+          <div class="modal-body">
+            
+            <div class="form-group">
+              <label for="kategoriBarang">Filter Data by <b>Kategori</b></label>
+              <select
+                class="form-control"
+                name="kategoriBarang"
+                id="kategoriBarang"
+              >
+                <option></option>
+                <option>Sembako</option>
+                <option>Makanan Ringan</option>
+                <option>Minuman</option>
+                <option>Perlengkapan Mandi & Mencuci</option>
+                <option>Perlengkapan Rumah Tangga</option>
+                <option>Obat - Obatan</option>
+                <option>Bumbu Dapur</option>
+                <option>Makanan Instan</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="status">Filter Data by <b>Status<b></label>
+              <select
+                class="form-control"
+                name="status"
+                id="status"
+              >
+                <option></option>
+                <option>Tersedia</option>
+                <option>Habis</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="d-sm-flex modal-footer mb-4">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">
+              <i class="fas fa-trash"></i> Batal
+            </button>
+            <button type="submit" class="btn btn-primary" name="filterStock">
+              <i class="fas fa-filter"></i> Filter
+            </button>
+          </div>
+          </form>
       </div>
     </div>
   </div>

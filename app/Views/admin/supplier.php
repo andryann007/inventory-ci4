@@ -195,9 +195,10 @@
                   Data - Data Supplier
                 </h6>
               </div>
+
               <div class="card-body">
-              
-                <!-- Notifikasi Alert Jika Data Supplier Berhasil di Tambah / Edit / Hapus -->
+                
+              <!-- Notifikasi Alert Jika Data Supplier Berhasil di Tambah / Edit / Hapus -->
                 <?php if(session()->get('message')) :?>
                   <div class="alert alert-success alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert">
@@ -208,7 +209,7 @@
                   </div>
                 <?php endif; ?>
 
-                <!-- Notifikasi Alert Jika Data Supplier Gagal di Tambah / Edit / Hapus -->
+                <!-- Notifikasi Alert Jika Data Supplier Gagal di Tambah / Edit / Hapus-->
                 <?php if(session()->get('error')) :?>
                   <div class="alert alert-danger alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert">
@@ -518,7 +519,7 @@
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="editModalLabel">Edit Data Akun</h5>
+          <h5 class="modal-title" id="editModalLabel">Edit Data Supplier</h5>
           <button
             type="button"
             class="close"
@@ -530,16 +531,13 @@
         </div>
         <form action='/admin/update_supplier' method="post">
           <div class="modal-body">
-            <div class="form-group">
-              <label for="idSupplier">ID Supplier</label>
-              <input
-                type="text"
-                name="idSupplier"
-                id="idSupplier"
-                class="form-control"
-                required
-              />
-            </div>
+            <input
+              type="hidden"
+              name="idSupplier"
+              id="idSupplier"
+              class="form-control"
+              required
+            />
 
             <div class="form-group">
               <label for="namaSupplier">Nama Supplier</label>
@@ -552,33 +550,39 @@
               />
             </div>
 
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="telpSupplier">No. Telp Supplier</label>
+                  <input
+                    type="telp"
+                    name="telpSupplier"
+                    id="telpSupplier"
+                    class="form-control"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="emailSupplier">Email Supplier</label>
+                  <input
+                    type="email"
+                    name="emailSupplier"
+                    id="emailSupplier"
+                    class="form-control"
+                  />
+                </div>
+              </div>
+            </div>
+
             <div class="form-group">
               <label for="alamatSupplier">Alamat Supplier</label>
               <input
                 type="text"
                 name="alamatSupplier"
                 id="alamatSupplier"
-                class="form-control"
-                required
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="emailSupplier">Email Supplier</label>
-              <input
-                type="email"
-                name="emailSupplier"
-                id="emailSupplier"
-                class="form-control"
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="telpSupplier">No. Telp Supplier</label>
-              <input
-                type="telp"
-                name="telpSupplier"
-                id="telpSupplier"
                 class="form-control"
                 required
               />

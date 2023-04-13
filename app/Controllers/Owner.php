@@ -9,6 +9,9 @@ use App\Models\ReturModel;
 use App\Models\StockModel;
 use App\Models\SupplierModel;
 
+use function PHPUnit\Framework\equalTo;
+use function PHPUnit\Framework\equalToIgnoringCase;
+
 class Owner extends BaseController
 {
     protected $akunModel;
@@ -181,12 +184,45 @@ class Owner extends BaseController
     }
 
     public function stock(){
-        $data = [
-            'title' => 'Daftar Stock Barang',
-            'stock' => $this->stockModel->getData()
-        ];
+        $kategori = $this->request->getPost('kategoriBarang');
+        $status = $this->request->getPost('status');
 
-        return view('owner/stock', $data);
+        //Jika tidak ada filter, maka data akan tampil semua
+        if($kategori == null && $status == null){
+            $data = [
+                'title' => 'Daftar Stock Barang',
+                'stock' => $this->stockModel->getData()
+            ];
+        } 
+        
+        //Jika input filter dari status tidak ada / status = semua, maka data akan di filter berdasarkan kategori
+        else if ($status == null){
+            $data = [
+                'title' => 'Daftar Stock Barang',
+                'stock' => $this->stockModel->filterCategory($kategori)
+            ];
+        }
+        
+        //Jika input filter dari kategori tidak ada / kategori = semua, maka data akan di filter berdasarkan status
+        else if($kategori == null){
+            $data = [
+                'title' => 'Daftar Stock Barang',
+                'stock' => $this->stockModel->filterStatus($status)
+            ];
+        }
+        
+        //Jika semua input filter ada, maka data akan di filter berdasarkan kategori & status
+        else {
+            $data = [
+                'title' => 'Daftar Stock Barang',
+                'stock' => $this->stockModel->filterCategoryStatus($kategori, $status)
+            ];
+        }
+
+        //Mendapatkan data sesuai kondisi filter
+        $filterData = $data;
+
+        return view('owner/stock', $filterData);
     }
 
     public function save_stock(){
@@ -249,14 +285,135 @@ class Owner extends BaseController
     }
 
     public function masuk(){
-        $data = [
-            'title' => 'Daftar Barang Masuk',
-            'masuk' => $this->masukModel->getData(),
-            'stock' => $this->stockModel->getData(),
-            'supplier' => $this->supplierModel->getData()
-        ];
+        $tglMulai = $this->request->getPost('tglMulai');
+        $tglSelesai = $this->request->getPost('tglSelesai');
+        $idSupplier = $this->request->getPost('idSupplier');
+        $idBarang = $this->request->getPost('idBarang');
+        $kategori = $this->request->getPost('kategoriBarang');
 
-        return view('owner/barang_masuk', $data);
+        // Jika hanya terdapat filter di rentang tanggal
+        if($tglMulai !=null && $tglSelesai != null && $idSupplier == null && $idBarang == null && $kategori == null) {
+            $data = [
+                'title' => 'Laporan Barang Masuk',
+                'masuk' => $this->masukModel->filterRangeOfDate($tglMulai, $tglSelesai),
+                'stock' => $this->stockModel->getData(),
+                'supplier' => $this->supplierModel->getData()
+            ];
+        }
+
+        // Jika hanya terdapat filter di nama supplier
+        else if($tglMulai == null && $tglSelesai == null && $idSupplier != null && $idBarang == null && $kategori == null) {
+            $data = [
+                'title' => 'Laporan Barang Masuk',
+                'masuk' => $this->masukModel->filterSupplier($idSupplier),
+                'stock' => $this->stockModel->getData(),
+                'supplier' => $this->supplierModel->getData()
+            ];
+        }
+
+        // Jika hanya terdapat filter di nama barang
+        else if($tglMulai == null && $tglSelesai == null && $idSupplier == null && $idBarang != null && $kategori == null) {
+            $data = [
+                'title' => 'Laporan Barang Masuk',
+                'masuk' => $this->masukModel->filterBarang($idBarang),
+                'stock' => $this->stockModel->getData(),
+                'supplier' => $this->supplierModel->getData()
+            ];
+        }
+
+        // Jika hanya terdapat filter di kategori
+        else if($tglMulai == null && $tglSelesai == null && $idSupplier == null && $idBarang == null && $kategori != null) {
+            $data = [
+                'title' => 'Laporan Barang Masuk',
+                'masuk' => $this->masukModel->filterKategori($kategori),
+                'stock' => $this->stockModel->getData(),
+                'supplier' => $this->supplierModel->getData()
+            ];
+        }
+
+        // Jika hanya terdapat filter di nama supplier & rentang tanggal
+        else if($tglMulai != null && $tglSelesai != null && $idSupplier != null && $idBarang == null && $kategori == null) {
+            $data = [
+                'title' => 'Laporan Barang Masuk',
+                'masuk' => $this->masukModel->filterDateSupplier($tglMulai, $tglSelesai, $idSupplier),
+                'stock' => $this->stockModel->getData(),
+                'supplier' => $this->supplierModel->getData()
+            ];
+        }
+
+        // Jika hanya terdapat filter di nama barang & rentang tanggal
+        else if($tglMulai != null && $tglSelesai != null && $idSupplier == null && $idBarang != null && $kategori == null) {
+            $data = [
+                'title' => 'Laporan Barang Masuk',
+                'masuk' => $this->masukModel->filterDateBarang($tglMulai, $tglSelesai, $idBarang),
+                'stock' => $this->stockModel->getData(),
+                'supplier' => $this->supplierModel->getData()
+            ];
+        }
+
+        // Jika hanya terdapat filter di kategori & rentang tanggal
+        else if($tglMulai != null && $tglSelesai != null && $idSupplier == null && $idBarang == null && $kategori != null) {
+            $data = [
+                'title' => 'Laporan Barang Masuk',
+                'masuk' => $this->masukModel->filterDateKategori($tglMulai, $tglSelesai, $kategori),
+                'stock' => $this->stockModel->getData(),
+                'supplier' => $this->supplierModel->getData()
+            ];
+        }
+
+        // Jika hanya terdapat filter di nama barang & nama supplier
+        else if($tglMulai == null && $tglSelesai == null && $idSupplier != null && $idBarang != null && $kategori == null) {
+            $data = [
+                'title' => 'Laporan Barang Masuk',
+                'masuk' => $this->masukModel->filterBarangSupplier($idBarang, $idSupplier),
+                'stock' => $this->stockModel->getData(),
+                'supplier' => $this->supplierModel->getData()
+            ];
+        }
+
+        // Jika hanya terdapat filter di kategori & nama supplier
+        else if($tglMulai == null && $tglSelesai == null && $idSupplier != null && $idBarang == null && $kategori != null) {
+            $data = [
+                'title' => 'Laporan Barang Masuk',
+                'masuk' => $this->masukModel->filterKategoriSupplier($kategori, $idSupplier),
+                'stock' => $this->stockModel->getData(),
+                'supplier' => $this->supplierModel->getData()
+            ];
+        }
+
+        // Jika terdapat semua filter (tidak termasuk filter kategori)
+        else if($tglMulai != null && $tglSelesai != null && $idSupplier != null && $idBarang != null && $kategori == null) {
+            $data = [
+                'title' => 'Laporan Barang Masuk',
+                'masuk' => $this->masukModel->filterDateBarangSupplier($tglMulai, $tglSelesai, $idBarang, $idSupplier),
+                'stock' => $this->stockModel->getData(),
+                'supplier' => $this->supplierModel->getData()
+            ];
+        }
+
+        // Jika terdapat semua filter (tidak termasuk filter nama barang)
+        else if($tglMulai != null && $tglSelesai != null && $idSupplier != null && $idBarang == null && $kategori != null) {
+            $data = [
+                'title' => 'Laporan Barang Masuk',
+                'masuk' => $this->masukModel->filterDateKategoriSupplier($tglMulai, $tglSelesai, $kategori, $idSupplier),
+                'stock' => $this->stockModel->getData(),
+                'supplier' => $this->supplierModel->getData()
+            ];
+        }
+
+        // Jika tidak terdapat filter
+        else if($tglMulai == null && $tglSelesai == null && $idSupplier == null && $idBarang == null && $kategori == null){
+            $data = [
+                'title' => 'Laporan Barang Masuk',
+                'masuk' => $this->masukModel->getData(),
+                'stock' => $this->stockModel->getData(),
+                'supplier' => $this->supplierModel->getData()
+            ];
+        }
+
+        $filterData = $data;
+
+        return view('owner/barang_masuk', $filterData);
     }
 
     public function save_masuk(){
@@ -373,13 +530,68 @@ class Owner extends BaseController
     }
 
     public function keluar(){
-        $data = [
-            'title' => 'Daftar Barang Keluar',
-            'keluar' => $this->keluarModel->getData(),
-            'stock' => $this->stockModel->getData()
-        ];
+        $tglMulai = $this->request->getPost('tglMulai');
+        $tglSelesai = $this->request->getPost('tglSelesai');
+        $idBarang = $this->request->getPost('idBarang');
+        $kategori = $this->request->getPost('kategoriBarang');
 
-        return view('owner/barang_keluar', $data);
+        //Jika hanya terdapat filter terhadap tanggal
+        if($tglMulai != null && $tglSelesai != null && $idBarang == null && $kategori == null) {
+            $data = [
+                'title' => 'Daftar Barang Keluar',
+                'keluar' => $this->keluarModel->filterRangeOfDate($tglMulai, $tglSelesai),
+                'stock' => $this->stockModel->getData()
+            ];
+        } 
+        
+        //Jika hanya terdapat filter terhadap id barang
+        else if($tglMulai == null && $tglSelesai == null && $idBarang != null && $kategori == null){
+            $data = [
+                'title' => 'Daftar Barang Keluar',
+                'keluar' => $this->keluarModel->filterBarang($idBarang),
+                'stock' => $this->stockModel->getData()
+            ];
+        } 
+
+        //Jika hanya terdapat filter terhadap kategori
+        else if($tglMulai == null && $tglSelesai == null && $idBarang == null && $kategori != null){
+            $data = [
+                'title' => 'Daftar Barang Keluar',
+                'keluar' => $this->keluarModel->filterKategori($kategori),
+                'stock' => $this->stockModel->getData()
+            ];
+        } 
+        
+        //Jika hanya terdapat filter tanggal & filter id barang
+        else if($tglMulai != null && $tglSelesai != null && $idBarang != null){
+            $data = [
+                'title' => 'Daftar Barang Keluar',
+                'keluar' => $this->keluarModel->filterDateBarang($tglMulai, $tglSelesai, $idBarang),
+                'stock' => $this->stockModel->getData()
+            ];
+        }
+
+        //Jika hanya terdapat filter tanggal & filter kategori
+        else if($tglMulai != null && $tglSelesai != null && $kategori != null){
+            $data = [
+                'title' => 'Daftar Barang Keluar',
+                'keluar' => $this->keluarModel->filterDateKategori($tglMulai, $tglSelesai, $kategori),
+                'stock' => $this->stockModel->getData()
+            ];
+        }
+
+        //Jika tidak terdapat filter, maka data yang ditampilkan semua
+        else if($tglMulai == null && $tglSelesai == null && $idBarang == null && $kategori == null){
+            $data = [
+                'title' => 'Daftar Barang Keluar',
+                'keluar' => $this->keluarModel->getData(),
+                'stock' => $this->stockModel->getData()
+            ];
+        }
+
+        $filterData = $data;
+
+        return view('owner/barang_keluar', $filterData);
     }
 
     public function save_keluar(){
@@ -500,14 +712,135 @@ class Owner extends BaseController
     }
 
     public function retur(){
-        $data = [
-            'title' => 'Daftar Retur Barang',
-            'retur' => $this->returModel->getData(),
-            'stock' => $this->stockModel->getData(),
-            'supplier' => $this->supplierModel->getData()
-        ];
+        $tglMulai = $this->request->getPost('tglMulai');
+        $tglSelesai = $this->request->getPost('tglSelesai');
+        $idSupplier = $this->request->getPost('idSupplier');
+        $idBarang = $this->request->getPost('idBarang');
+        $kategori = $this->request->getPost('kategoriBarang');
 
-        return view('owner/retur_barang', $data);
+        // Jika hanya terdapat filter di rentang tanggal
+        if($tglMulai !=null && $tglSelesai != null && $idSupplier == null && $idBarang == null && $kategori == null) {
+            $data = [
+                'title' => 'Laporan Retur Barang',
+                'retur' => $this->masukModel->filterRangeOfDate($tglMulai, $tglSelesai),
+                'stock' => $this->stockModel->getData(),
+                'supplier' => $this->supplierModel->getData()
+            ];
+        }
+
+        // Jika hanya terdapat filter di nama supplier
+        else if($tglMulai == null && $tglSelesai == null && $idSupplier != null && $idBarang == null && $kategori == null) {
+            $data = [
+                'title' => 'Laporan Retur Barang',
+                'retur' => $this->returModel->filterSupplier($idSupplier),
+                'stock' => $this->stockModel->getData(),
+                'supplier' => $this->supplierModel->getData()
+            ];
+        }
+
+        // Jika hanya terdapat filter di nama barang
+        else if($tglMulai == null && $tglSelesai == null && $idSupplier == null && $idBarang != null && $kategori == null) {
+            $data = [
+                'title' => 'Laporan Retur Barang',
+                'retur' => $this->returModel->filterBarang($idBarang),
+                'stock' => $this->stockModel->getData(),
+                'supplier' => $this->supplierModel->getData()
+            ];
+        }
+
+        // Jika hanya terdapat filter di kategori
+        else if($tglMulai == null && $tglSelesai == null && $idSupplier == null && $idBarang == null && $kategori != null) {
+            $data = [
+                'title' => 'Laporan Retur Barang',
+                'retur' => $this->returModel->filterKategori($kategori),
+                'stock' => $this->stockModel->getData(),
+                'supplier' => $this->supplierModel->getData()
+            ];
+        }
+
+        // Jika hanya terdapat filter di nama supplier & rentang tanggal
+        else if($tglMulai != null && $tglSelesai != null && $idSupplier != null && $idBarang == null && $kategori == null) {
+            $data = [
+                'title' => 'Laporan Retur Barang',
+                'retur' => $this->returModel->filterDateSupplier($tglMulai, $tglSelesai, $idSupplier),
+                'stock' => $this->stockModel->getData(),
+                'supplier' => $this->supplierModel->getData()
+            ];
+        }
+
+        // Jika hanya terdapat filter di nama barang & rentang tanggal
+        else if($tglMulai != null && $tglSelesai != null && $idSupplier == null && $idBarang != null && $kategori == null) {
+            $data = [
+                'title' => 'Laporan Retur Barang',
+                'retur' => $this->returModel->filterDateBarang($tglMulai, $tglSelesai, $idBarang),
+                'stock' => $this->stockModel->getData(),
+                'supplier' => $this->supplierModel->getData()
+            ];
+        }
+
+        // Jika hanya terdapat filter di kategori & rentang tanggal
+        else if($tglMulai != null && $tglSelesai != null && $idSupplier == null && $idBarang == null && $kategori != null) {
+            $data = [
+                'title' => 'Laporan Retur Barang',
+                'retur' => $this->returModel->filterDateKategori($tglMulai, $tglSelesai, $kategori),
+                'stock' => $this->stockModel->getData(),
+                'supplier' => $this->supplierModel->getData()
+            ];
+        }
+
+        // Jika hanya terdapat filter di nama barang & nama supplier
+        else if($tglMulai == null && $tglSelesai == null && $idSupplier != null && $idBarang != null && $kategori == null) {
+            $data = [
+                'title' => 'Laporan Retur Barang',
+                'retur' => $this->returModel->filterBarangSupplier($idBarang, $idSupplier),
+                'stock' => $this->stockModel->getData(),
+                'supplier' => $this->supplierModel->getData()
+            ];
+        }
+
+        // Jika hanya terdapat filter di kategori & nama supplier
+        else if($tglMulai == null && $tglSelesai == null && $idSupplier != null && $idBarang == null && $kategori != null) {
+            $data = [
+                'title' => 'Laporan Retur Barang',
+                'retur' => $this->returModel->filterKategoriSupplier($kategori, $idSupplier),
+                'stock' => $this->stockModel->getData(),
+                'supplier' => $this->supplierModel->getData()
+            ];
+        }
+
+        // Jika terdapat semua filter (tidak termasuk filter kategori)
+        else if($tglMulai != null && $tglSelesai != null && $idSupplier != null && $idBarang != null && $kategori == null) {
+            $data = [
+                'title' => 'Laporan Retur Barang',
+                'retur' => $this->returModel->filterDateBarangSupplier($tglMulai, $tglSelesai, $idBarang, $idSupplier),
+                'stock' => $this->stockModel->getData(),
+                'supplier' => $this->supplierModel->getData()
+            ];
+        }
+
+        // Jika terdapat semua filter (tidak termasuk filter nama barang)
+        else if($tglMulai != null && $tglSelesai != null && $idSupplier != null && $idBarang == null && $kategori != null) {
+            $data = [
+                'title' => 'Laporan Retur Barang',
+                'retur' => $this->returModel->filterDateKategoriSupplier($tglMulai, $tglSelesai, $kategori, $idSupplier),
+                'stock' => $this->stockModel->getData(),
+                'supplier' => $this->supplierModel->getData()
+            ];
+        }
+
+        // Jika tidak terdapat filter
+        else if($tglMulai == null && $tglSelesai == null && $idSupplier == null && $idBarang == null && $kategori == null){
+            $data = [
+                'title' => 'Laporan Retur Barang',
+                'retur' => $this->returModel->getData(),
+                'stock' => $this->stockModel->getData(),
+                'supplier' => $this->supplierModel->getData()
+            ];
+        }
+
+        $filterData = $data;
+
+        return view('owner/retur_barang', $filterData);
     }
 
     public function save_retur(){
@@ -628,27 +961,332 @@ class Owner extends BaseController
     }
 
     public function laporan_masuk(){
-        $data = [
-            'stock' => $this->stockModel->getData()
-        ];
+        $tglMulai = $this->request->getPost('tglMulai');
+        $tglSelesai = $this->request->getPost('tglSelesai');
+        $idSupplier = $this->request->getPost('idSupplier');
+        $idBarang = $this->request->getPost('idBarang');
+        $kategori = $this->request->getPost('kategoriBarang');
 
-        return view('owner/laporan_masuk', $data);
+        // Jika hanya terdapat filter di rentang tanggal
+        if($tglMulai !=null && $tglSelesai != null && $idSupplier == null && $idBarang == null && $kategori == null) {
+            $data = [
+                'title' => 'Laporan Barang Masuk',
+                'masuk' => $this->masukModel->filterRangeOfDate($tglMulai, $tglSelesai),
+                'stock' => $this->stockModel->getData(),
+                'supplier' => $this->supplierModel->getData()
+            ];
+        }
+
+        // Jika hanya terdapat filter di nama supplier
+        else if($tglMulai == null && $tglSelesai == null && $idSupplier != null && $idBarang == null && $kategori == null) {
+            $data = [
+                'title' => 'Laporan Barang Masuk',
+                'masuk' => $this->masukModel->filterSupplier($idSupplier),
+                'stock' => $this->stockModel->getData(),
+                'supplier' => $this->supplierModel->getData()
+            ];
+        }
+
+        // Jika hanya terdapat filter di nama barang
+        else if($tglMulai == null && $tglSelesai == null && $idSupplier == null && $idBarang != null && $kategori == null) {
+            $data = [
+                'title' => 'Laporan Barang Masuk',
+                'masuk' => $this->masukModel->filterBarang($idBarang),
+                'stock' => $this->stockModel->getData(),
+                'supplier' => $this->supplierModel->getData()
+            ];
+        }
+
+        // Jika hanya terdapat filter di kategori
+        else if($tglMulai == null && $tglSelesai == null && $idSupplier == null && $idBarang == null && $kategori != null) {
+            $data = [
+                'title' => 'Laporan Barang Masuk',
+                'masuk' => $this->masukModel->filterKategori($kategori),
+                'stock' => $this->stockModel->getData(),
+                'supplier' => $this->supplierModel->getData()
+            ];
+        }
+
+        // Jika hanya terdapat filter di nama supplier & rentang tanggal
+        else if($tglMulai != null && $tglSelesai != null && $idSupplier != null && $idBarang == null && $kategori == null) {
+            $data = [
+                'title' => 'Laporan Barang Masuk',
+                'masuk' => $this->masukModel->filterDateSupplier($tglMulai, $tglSelesai, $idSupplier),
+                'stock' => $this->stockModel->getData(),
+                'supplier' => $this->supplierModel->getData()
+            ];
+        }
+
+        // Jika hanya terdapat filter di nama barang & rentang tanggal
+        else if($tglMulai != null && $tglSelesai != null && $idSupplier == null && $idBarang != null && $kategori == null) {
+            $data = [
+                'title' => 'Laporan Barang Masuk',
+                'masuk' => $this->masukModel->filterDateBarang($tglMulai, $tglSelesai, $idBarang),
+                'stock' => $this->stockModel->getData(),
+                'supplier' => $this->supplierModel->getData()
+            ];
+        }
+
+        // Jika hanya terdapat filter di kategori & rentang tanggal
+        else if($tglMulai != null && $tglSelesai != null && $idSupplier == null && $idBarang == null && $kategori != null) {
+            $data = [
+                'title' => 'Laporan Barang Masuk',
+                'masuk' => $this->masukModel->filterDateKategori($tglMulai, $tglSelesai, $kategori),
+                'stock' => $this->stockModel->getData(),
+                'supplier' => $this->supplierModel->getData()
+            ];
+        }
+
+        // Jika hanya terdapat filter di nama barang & nama supplier
+        else if($tglMulai == null && $tglSelesai == null && $idSupplier != null && $idBarang != null && $kategori == null) {
+            $data = [
+                'title' => 'Laporan Barang Masuk',
+                'masuk' => $this->masukModel->filterBarangSupplier($idBarang, $idSupplier),
+                'stock' => $this->stockModel->getData(),
+                'supplier' => $this->supplierModel->getData()
+            ];
+        }
+
+        // Jika hanya terdapat filter di kategori & nama supplier
+        else if($tglMulai == null && $tglSelesai == null && $idSupplier != null && $idBarang == null && $kategori != null) {
+            $data = [
+                'title' => 'Laporan Barang Masuk',
+                'masuk' => $this->masukModel->filterKategoriSupplier($kategori, $idSupplier),
+                'stock' => $this->stockModel->getData(),
+                'supplier' => $this->supplierModel->getData()
+            ];
+        }
+
+        // Jika terdapat semua filter (tidak termasuk filter kategori)
+        else if($tglMulai != null && $tglSelesai != null && $idSupplier != null && $idBarang != null && $kategori == null) {
+            $data = [
+                'title' => 'Laporan Barang Masuk',
+                'masuk' => $this->masukModel->filterDateBarangSupplier($tglMulai, $tglSelesai, $idBarang, $idSupplier),
+                'stock' => $this->stockModel->getData(),
+                'supplier' => $this->supplierModel->getData()
+            ];
+        }
+
+        // Jika terdapat semua filter (tidak termasuk filter nama barang)
+        else if($tglMulai != null && $tglSelesai != null && $idSupplier != null && $idBarang == null && $kategori != null) {
+            $data = [
+                'title' => 'Laporan Barang Masuk',
+                'masuk' => $this->masukModel->filterDateKategoriSupplier($tglMulai, $tglSelesai, $kategori, $idSupplier),
+                'stock' => $this->stockModel->getData(),
+                'supplier' => $this->supplierModel->getData()
+            ];
+        }
+
+        // Jika tidak terdapat filter
+        else if($tglMulai == null && $tglSelesai == null && $idSupplier == null && $idBarang == null && $kategori == null){
+            $data = [
+                'title' => 'Laporan Barang Masuk',
+                'masuk' => $this->masukModel->getData(),
+                'stock' => $this->stockModel->getData(),
+                'supplier' => $this->supplierModel->getData()
+            ];
+        }
+
+        $filterData = $data;
+
+        return view('owner/laporan_masuk', $filterData);
     }
 
     public function laporan_keluar(){
-        $data = [
-            'stock' => $this->stockModel->getData(),
-        ];
+        $tglMulai = $this->request->getPost('tglMulai');
+        $tglSelesai = $this->request->getPost('tglSelesai');
+        $idBarang = $this->request->getPost('idBarang');
+        $kategori = $this->request->getPost('kategoriBarang');
+
+        //Jika hanya terdapat filter terhadap tanggal
+        if($tglMulai != null && $tglSelesai != null && $idBarang == null && $kategori == null) {
+            $data = [
+                'title' => 'Daftar Barang Keluar',
+                'keluar' => $this->keluarModel->filterRangeOfDate($tglMulai, $tglSelesai),
+                'stock' => $this->stockModel->getData()
+            ];
+        } 
+        
+        //Jika hanya terdapat filter terhadap id barang
+        else if($tglMulai == null && $tglSelesai == null && $idBarang != null && $kategori == null){
+            $data = [
+                'title' => 'Daftar Barang Keluar',
+                'keluar' => $this->keluarModel->filterBarang($idBarang),
+                'stock' => $this->stockModel->getData()
+            ];
+        } 
+
+        //Jika hanya terdapat filter terhadap kategori
+        else if($tglMulai == null && $tglSelesai == null && $idBarang == null && $kategori != null){
+            $data = [
+                'title' => 'Daftar Barang Keluar',
+                'keluar' => $this->keluarModel->filterKategori($kategori),
+                'stock' => $this->stockModel->getData()
+            ];
+        } 
+        
+        //Jika hanya terdapat filter tanggal & filter id barang
+        else if($tglMulai != null && $tglSelesai != null && $idBarang != null){
+            $data = [
+                'title' => 'Daftar Barang Keluar',
+                'keluar' => $this->keluarModel->filterDateBarang($tglMulai, $tglSelesai, $idBarang),
+                'stock' => $this->stockModel->getData()
+            ];
+        }
+
+        //Jika hanya terdapat filter tanggal & filter kategori
+        else if($tglMulai != null && $tglSelesai != null && $kategori != null){
+            $data = [
+                'title' => 'Daftar Barang Keluar',
+                'keluar' => $this->keluarModel->filterDateKategori($tglMulai, $tglSelesai, $kategori),
+                'stock' => $this->stockModel->getData()
+            ];
+        }
+
+        //Jika tidak terdapat filter, maka data yang ditampilkan semua
+        else if($tglMulai == null && $tglSelesai == null && $idBarang == null && $kategori == null){
+            $data = [
+                'title' => 'Daftar Barang Keluar',
+                'keluar' => $this->keluarModel->getData(),
+                'stock' => $this->stockModel->getData()
+            ];
+        }
+
+        $filterData = $data;
             
-        return view('owner/laporan_keluar', $data);
+        return view('owner/laporan_keluar', $filterData);
     }
 
     public function laporan_retur(){
-        $data = [
-            'stock' => $this->stockModel->getData(),
-        ];
+        $tglMulai = $this->request->getPost('tglMulai');
+        $tglSelesai = $this->request->getPost('tglSelesai');
+        $idSupplier = $this->request->getPost('idSupplier');
+        $idBarang = $this->request->getPost('idBarang');
+        $kategori = $this->request->getPost('kategoriBarang');
 
-        return view('owner/laporan_retur', $data);
+        // Jika hanya terdapat filter di rentang tanggal
+        if($tglMulai !=null && $tglSelesai != null && $idSupplier == null && $idBarang == null && $kategori == null) {
+            $data = [
+                'title' => 'Laporan Retur Barang',
+                'retur' => $this->masukModel->filterRangeOfDate($tglMulai, $tglSelesai),
+                'stock' => $this->stockModel->getData(),
+                'supplier' => $this->supplierModel->getData()
+            ];
+        }
+
+        // Jika hanya terdapat filter di nama supplier
+        else if($tglMulai == null && $tglSelesai == null && $idSupplier != null && $idBarang == null && $kategori == null) {
+            $data = [
+                'title' => 'Laporan Retur Barang',
+                'retur' => $this->returModel->filterSupplier($idSupplier),
+                'stock' => $this->stockModel->getData(),
+                'supplier' => $this->supplierModel->getData()
+            ];
+        }
+
+        // Jika hanya terdapat filter di nama barang
+        else if($tglMulai == null && $tglSelesai == null && $idSupplier == null && $idBarang != null && $kategori == null) {
+            $data = [
+                'title' => 'Laporan Retur Barang',
+                'retur' => $this->returModel->filterBarang($idBarang),
+                'stock' => $this->stockModel->getData(),
+                'supplier' => $this->supplierModel->getData()
+            ];
+        }
+
+        // Jika hanya terdapat filter di kategori
+        else if($tglMulai == null && $tglSelesai == null && $idSupplier == null && $idBarang == null && $kategori != null) {
+            $data = [
+                'title' => 'Laporan Retur Barang',
+                'retur' => $this->returModel->filterKategori($kategori),
+                'stock' => $this->stockModel->getData(),
+                'supplier' => $this->supplierModel->getData()
+            ];
+        }
+
+        // Jika hanya terdapat filter di nama supplier & rentang tanggal
+        else if($tglMulai != null && $tglSelesai != null && $idSupplier != null && $idBarang == null && $kategori == null) {
+            $data = [
+                'title' => 'Laporan Retur Barang',
+                'retur' => $this->returModel->filterDateSupplier($tglMulai, $tglSelesai, $idSupplier),
+                'stock' => $this->stockModel->getData(),
+                'supplier' => $this->supplierModel->getData()
+            ];
+        }
+
+        // Jika hanya terdapat filter di nama barang & rentang tanggal
+        else if($tglMulai != null && $tglSelesai != null && $idSupplier == null && $idBarang != null && $kategori == null) {
+            $data = [
+                'title' => 'Laporan Retur Barang',
+                'retur' => $this->returModel->filterDateBarang($tglMulai, $tglSelesai, $idBarang),
+                'stock' => $this->stockModel->getData(),
+                'supplier' => $this->supplierModel->getData()
+            ];
+        }
+
+        // Jika hanya terdapat filter di kategori & rentang tanggal
+        else if($tglMulai != null && $tglSelesai != null && $idSupplier == null && $idBarang == null && $kategori != null) {
+            $data = [
+                'title' => 'Laporan Retur Barang',
+                'retur' => $this->returModel->filterDateKategori($tglMulai, $tglSelesai, $kategori),
+                'stock' => $this->stockModel->getData(),
+                'supplier' => $this->supplierModel->getData()
+            ];
+        }
+
+        // Jika hanya terdapat filter di nama barang & nama supplier
+        else if($tglMulai == null && $tglSelesai == null && $idSupplier != null && $idBarang != null && $kategori == null) {
+            $data = [
+                'title' => 'Laporan Retur Barang',
+                'retur' => $this->returModel->filterBarangSupplier($idBarang, $idSupplier),
+                'stock' => $this->stockModel->getData(),
+                'supplier' => $this->supplierModel->getData()
+            ];
+        }
+
+        // Jika hanya terdapat filter di kategori & nama supplier
+        else if($tglMulai == null && $tglSelesai == null && $idSupplier != null && $idBarang == null && $kategori != null) {
+            $data = [
+                'title' => 'Laporan Retur Barang',
+                'retur' => $this->returModel->filterKategoriSupplier($kategori, $idSupplier),
+                'stock' => $this->stockModel->getData(),
+                'supplier' => $this->supplierModel->getData()
+            ];
+        }
+
+        // Jika terdapat semua filter (tidak termasuk filter kategori)
+        else if($tglMulai != null && $tglSelesai != null && $idSupplier != null && $idBarang != null && $kategori == null) {
+            $data = [
+                'title' => 'Laporan Retur Barang',
+                'retur' => $this->returModel->filterDateBarangSupplier($tglMulai, $tglSelesai, $idBarang, $idSupplier),
+                'stock' => $this->stockModel->getData(),
+                'supplier' => $this->supplierModel->getData()
+            ];
+        }
+
+        // Jika terdapat semua filter (tidak termasuk filter nama barang)
+        else if($tglMulai != null && $tglSelesai != null && $idSupplier != null && $idBarang == null && $kategori != null) {
+            $data = [
+                'title' => 'Laporan Retur Barang',
+                'retur' => $this->returModel->filterDateKategoriSupplier($tglMulai, $tglSelesai, $kategori, $idSupplier),
+                'stock' => $this->stockModel->getData(),
+                'supplier' => $this->supplierModel->getData()
+            ];
+        }
+
+        // Jika tidak terdapat filter
+        else if($tglMulai == null && $tglSelesai == null && $idSupplier == null && $idBarang == null && $kategori == null){
+            $data = [
+                'title' => 'Laporan Retur Barang',
+                'retur' => $this->returModel->getData(),
+                'stock' => $this->stockModel->getData(),
+                'supplier' => $this->supplierModel->getData()
+            ];
+        }
+
+        $filterData = $data;
+
+        return view('owner/laporan_retur', $filterData);
     }
 
     public function print_masuk(){

@@ -184,16 +184,34 @@
             <div
               class="d-sm-flex align-items-center justify-content-between mb-4"
             >
-              <h2 class="h3 mb-0 text-gray-800 col-md-9">
+              <h2 class="h3 mb-0 text-gray-800 col-md-7">
                 Laporan Barang Masuk
               </h2>
 
               <a
                 href="<?php echo site_url('/owner/print_masuk');?>"
-                class="btn btn-primary btn-sm"
+                class="btn btn-success btn-sm"
                 role="button"
                 ><i class="fas fa-print"></i> Print Data</a
               >
+
+              <button
+                type="button"
+                class="btn btn-primary btn-sm"
+                data-toggle="modal"
+                data-target="#filterIncomingModal"
+              >
+                <i class="fas fa-filter"></i>
+                Filter Data
+              </button>
+
+              <a
+                href="<?php echo site_url('/owner/laporan_masuk');?>"
+                class="btn btn-dark btn-sm"
+                role="button"
+                ><i class="fas fa-eye"></i> View All Data</a
+              >
+
             </div>
 
             <!-- DataTales Example -->
@@ -231,29 +249,9 @@
                     </div>
                   <?php endif; ?>
                 <?php endforeach; ?>
-                
-                <div class="row mb-4">
-                  <div class="col">
-                    <form method="post" class="form-inline">
-                      <input type="date" name="tglMulai" class="form-control" />
-                      <input
-                        type="date"
-                        name="tglSelesai"
-                        class="form-control ml-3"
-                      />
-                      <button
-                        type="submit"
-                        name="filterTgl"
-                        class="btn btn-info ml-3"
-                      >
-                        <i class="fa fa-filter"></i> Filter
-                      </button>
-                    </form>
-                  </div>
-                </div>
 
                 <div class="table-responsive table-striped">
-                  <table
+                <table
                     class="table table-bordered"
                     id="dataTable"
                     width="100%"
@@ -273,63 +271,39 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <?php
-                    $conn = mysqli_connect("localhost", "root", "", "database_inventory");
-                      if (isset($_POST['filterTgl'])) {
-                        $mulai = $_POST['tglMulai'];
-                        $selesai = $_POST['tglSelesai'];
-                        $dataStock = mysqli_query($conn, "SELECT * FROM data_barang_masuk masuk, data_stock stock, data_supplier supplier WHERE stock.id_barang = masuk.id_barang AND supplier.id_supplier = masuk.id_supplier AND tgl_masuk BETWEEN '$mulai' AND DATE_ADD('$selesai', INTERVAL 1 DAY)");
-                      } else {
-                        $dataStock = mysqli_query($conn, "SELECT * FROM data_barang_masuk masuk, data_stock stock, data_supplier supplier WHERE stock.id_barang = masuk.id_barang AND supplier.id_supplier = masuk.id_supplier");
-                      }
-                      $i = 1;
-                      while ($data = mysqli_fetch_array($dataStock)) {
-                        $idMasuk = $data['id_masuk'];
-                        $idBarang = $data['id_barang'];
-                        $namaSupplier = $data['nama_supplier'];
-                        $tanggal = $data['tgl_masuk'];
-                        $namaBarang = $data['nama_barang'];
-                        $kategoriBarang = $data['kategori'];
-                        $jumlahBarang = $data['qty_masuk'];
-                        $hargaBarang = $data['harga_satuan_masuk'];
-                        $hargaBarangRp = "Rp. " . number_format($hargaBarang, 2, ',', '.');
-                        $totalHarga = $data['total_harga_masuk'];
-                        $totalHargaRp = "Rp. " . number_format($totalHarga, 2, ',', '.');
-                        $keterangan = $data['keterangan'];
-                        ?>
+                    <?php $i =1; ?>
+                      <?php foreach ($masuk as $msk) : ?>
+                        
                       <tr>
                         <td>
                           <?= $i++; ?>
                         </td>
                         <td>
-                          <?= $tanggal; ?>
+                          <?= $msk['tgl_masuk']; ?>
                         </td>
                         <td>
-                          <?= ucwords($namaSupplier); ?>
+                          <?= $msk['nama_barang']; ?>
                         </td>
                         <td>
-                          <?= ucwords($namaBarang); ?>
+                          <?= ucwords($msk['nama_supplier']); ?>
                         </td>
                         <td>
-                          <?= ucwords($kategoriBarang); ?>
+                          <?= $msk['kategori']; ?>
                         </td>
                         <td>
-                          <?= $keterangan; ?>
+                          <?= $msk['keterangan']; ?>
                         </td>
                         <td>
-                          <?= $hargaBarangRp; ?>
+                          <?= "Rp. " . number_format($msk['harga_satuan_masuk'], 2, ',', '.'); ?>
                         </td>
                         <td>
-                          <?= $jumlahBarang; ?>
+                          <?= $msk['qty_masuk']; ?>
                         </td>
                         <td>
-                          <?= $totalHargaRp; ?>
+                          <?= "Rp. " . number_format($msk['total_harga_masuk'], 2, ',', '.'); ?>
                         </td>
-                        
                       </tr>
-                      <?php
-                      }
-                      ?>
+                      <?php endforeach;?>
                     </tbody>
                   </table>
                 </div>
@@ -416,4 +390,124 @@
     <script src="<?= base_url(); ?>/js/demo/chart-area-demo.js"></script>
     <script src="<?= base_url(); ?>/js/demo/chart-pie-demo.js"></script>
   </body>
+
+  <!-- Filter Data Modal -->
+  <div
+    class="modal fade"
+    id="filterIncomingModal"
+    tabindex="-1"
+    aria-labelledby="filterModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="filterModalLabel">
+            Filter Laporan Barang Masuk
+          </h5>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+          <form action='/owner/masuk' method="post">
+          <div class="modal-body">
+            <label for="namaBarang">Filter Data by <b>Range of Date</b></label>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <input type="date" 
+                    name="tglMulai" 
+                    class="form-control" />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <input type="date" 
+                    name="tglSelesai" 
+                    class="form-control" />
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="idSupplier">Filter Data by <b>Nama Supplier</b></label>
+                <select
+                  class="form-control"
+                  name="idSupplier"
+                  id="idSupplier"
+                >
+                <option></option>
+                <?php foreach ($supplier as $spy) : ?>
+                  <option value="<?= $spy['id_supplier']; ?>">
+                    <?= ucwords($spy['nama_supplier']); ?>
+                  </option>
+                <?php endforeach; ?>
+                </select>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="idBarang">Filter Data by <b>Nama Barang</b></label>
+                    <select
+                      class="form-control"
+                      name="idBarang"
+                      id="idBarang"
+                    >
+                    <option></option>
+                    <?php foreach ($stock as $stk) : ?>
+                      <option value="<?= $stk['id_barang']; ?>">
+                        <?= ucwords($stk['nama_barang']); ?>
+                      </option>
+                      <?php endforeach; ?>
+                    
+                    </select>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <label for="idBarang">Filter Data by <b>Kategori</b> :</label>
+                <div class="form-group">
+                    <select
+                      class="form-control"
+                      name="kategoriBarang"
+                      id="kategoriBarang"
+                    >
+                      <option></option>
+                      <option>Sembako</option>
+                      <option>Makanan Ringan</option>
+                      <option>Minuman</option>
+                      <option>Perlengkapan Mandi & Mencuci</option>
+                      <option>Perlengkapan Rumah Tangga</option>
+                      <option>Obat - Obatan</option>
+                      <option>Bumbu Dapur</option>
+                      <option>Makanan Instan</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-md-12">
+                <label for="keterangan"><b>Note :</b> Untuk Filter Data by <b>Nama Barang / Kategori</b>, Silahkan Pilih Salah Satu !!! (Tidak Bisa Keduanya)</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-sm-flex modal-footer mb-4">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">
+              <i class="fas fa-trash"></i> Batal
+            </button>
+            <button type="submit" class="btn btn-primary" name="filterStock">
+              <i class="fas fa-filter"></i> Filter
+            </button>
+          </div>
+          </form>
+      </div>
+    </div>
+  </div>
+
 </html>

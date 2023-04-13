@@ -24,7 +24,14 @@
       </a>
       <!-- Dropdown - User Information -->
       <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-        <a class="dropdown-item" href="<?php echo site_url('/admin/logout');?>">
+        <a class="dropdown-item" 
+        href="<?php if(session()->get('tipe_akun') == "Owner"){
+          echo site_url('/owner/logout');
+        } else if(session()->get('tipe_akun') == "Admin"){
+          echo site_url('/admin/logout');
+        } else {
+          echo site_url('/user/logout');
+        }?>">
           <i class="fas fa-power-off a-sm fa-fw mr-2 text-dark"></i>
           Logout
         </a>

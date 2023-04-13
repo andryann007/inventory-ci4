@@ -34,10 +34,46 @@ class KeluarModel extends Model{
         return $query;
     }
 
-    public function filterData($id){
-        return $this->db->table('data_barang_keluar')
-        -> join('data_stock', 'data_stock.id_barang = data_barang_keluar.id_barang')
-        -> get()->getResultArray();
+    public function filterRangeOfDate($tglMulai, $tglSelesai){
+        $query = $this->db->table('data_barang_keluar');
+        $query -> join('data_stock', 'data_stock.id_barang = data_barang_keluar.id_barang');
+        $query->select('*');
+        $query->where('tgl_keluar >=', $tglMulai) -> where('tgl_keluar <=', $tglSelesai);
+        return $query->get()->getResultArray();
+    }
+
+    public function filterBarang($idBarang){
+        $query = $this->db->table('data_barang_keluar');
+        $query -> join('data_stock', 'data_stock.id_barang = data_barang_keluar.id_barang');
+        $query->select('*');
+        $query->where('data_barang_keluar.id_barang', $idBarang);
+        return $query->get()->getResultArray();
+    }
+
+    public function filterKategori($kategori){
+        $query = $this->db->table('data_barang_keluar');
+        $query -> join('data_stock', 'data_stock.id_barang = data_barang_keluar.id_barang');
+        $query->select('*');
+        $query->where('kategori', $kategori);
+        return $query->get()->getResultArray();
+    }
+
+    public function filterDateBarang($tglMulai, $tglSelesai, $idBarang){
+        $query = $this->db->table('data_barang_keluar');
+        $query -> join('data_stock', 'data_stock.id_barang = data_barang_keluar.id_barang');
+        $query->select('*');
+        $query->where('tgl_keluar >=', $tglMulai) -> where('tgl_keluar <=', $tglSelesai);
+        $query->where('data_barang_keluar.id_barang', $idBarang);
+        return $query->get()->getResultArray();
+    }
+
+    public function filterDateKategori($tglMulai, $tglSelesai, $kategori){
+        $query = $this->db->table('data_barang_keluar');
+        $query -> join('data_stock', 'data_stock.id_barang = data_barang_keluar.id_barang');
+        $query->select('*');
+        $query->where('tgl_keluar >=', $tglMulai) -> where('tgl_keluar <=', $tglSelesai);
+        $query->where('kategori', $kategori);
+        return $query->get()->getResultArray();
     }
 
     public function qty_keluar(){

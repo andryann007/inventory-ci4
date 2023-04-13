@@ -185,7 +185,7 @@
             <div
               class="d-sm-flex align-items-center justify-content-between mb-4"
             >
-              <h2 class="h3 mb-0 text-gray-800 col-md-8">Data Barang Masuk</h2>
+              <h2 class="h3 mb-0 text-gray-800 col-md-7">Data Barang Masuk</h2>
 
               <button
                 type="button"
@@ -196,6 +196,24 @@
                 <i class="fas fa-plus"></i>
                 Tambah Data
               </button>
+
+              <button
+                type="button"
+                class="btn btn-primary btn-sm"
+                data-toggle="modal"
+                data-target="#filterIncomingModal"
+              >
+                <i class="fas fa-filter"></i>
+                Filter Data
+              </button>
+
+              <a
+                href="<?php echo site_url('/owner/barang_masuk');?>"
+                class="btn btn-dark btn-sm"
+                role="button"
+                ><i class="fas fa-eye"></i> View All Data</a
+              >
+
             </div>
 
             <!-- DataTales Example -->
@@ -298,6 +316,9 @@
                           <?= $msk['kategori']; ?>
                         </td>
                         <td>
+                          <?= $msk['keterangan']; ?>
+                        </td>
+                        <td>
                           <?= "Rp. " . number_format($msk['harga_satuan_masuk'], 2, ',', '.'); ?>
                         </td>
                         <td>
@@ -305,9 +326,6 @@
                         </td>
                         <td>
                           <?= "Rp. " . number_format($msk['total_harga_masuk'], 2, ',', '.'); ?>
-                        </td>
-                        <td>
-                          <?= $msk['keterangan']; ?>
                         </td>
                         <td
                           class="d-sm-flex justify-content-around align-items-center"
@@ -619,38 +637,15 @@
         </div>
         <form action="/owner/update_masuk" method="post">
           <div class="modal-body">
-            <div class="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="idMasuk">ID Barang Masuk</label>
-                  <input
-                    type="text"
-                    min="0"
-                    name="idMasuk"
-                    id="idMasuk"
-                    class="form-control"
-                    required
-                  />
-                </div>
+           <input
+              type="hidden"
+              name="idMasuk"
+              id="idMasuk"
+              class="form-control"
+              required
+            />
 
-                <div class="form-group">
-                  <label for="namaBarang">Nama Barang</label>
-                  <select
-                    class="form-control"
-                    name="namaBarang"
-                    id="namaBarang"
-                    required
-                  >
-                  <?php foreach ($stock as $stk) : ?>
-                    <option value="<?= $stk['id_barang']; ?>">
-                      <?= ucwords($stk['nama_barang']); ?>
-                    </option>
-                  <?php endforeach; ?>
-                  </select>
-                </div>
-                
-              </div>
-              
+            <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
                   <label for="tanggalIncoming">Tanggal Masuk</label>
@@ -662,7 +657,9 @@
                     required
                   />
                 </div>
+              </div>
 
+              <div class="col-md-6">
                 <div class="form-group">
                   <label for="namaSupplier">Nama Supplier</label>
                   <select
@@ -679,7 +676,25 @@
                   </select>
                 </div>
               </div>
-              
+            </div>
+
+            <div class="form-group">
+              <label for="namaBarang">Nama Barang</label>
+              <select
+                class="form-control"
+                name="namaBarang"
+                id="namaBarang"
+                required
+              >
+              <?php foreach ($stock as $stk) : ?>
+                <option value="<?= $stk['id_barang']; ?>">
+                  <?= ucwords($stk['nama_barang']); ?>
+                </option>
+              <?php endforeach; ?>
+              </select>
+            </div>
+
+            <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
                   <label for="jumlahBarang">Jumlah Barang</label>
@@ -693,7 +708,7 @@
                   />
                 </div>
               </div>
-            
+
               <div class="col-md-6">
                 <div class="form-group">
                   <label for="hargaSatuan">Harga Barang Satuan</label>
@@ -740,6 +755,124 @@
     </div>
   </div>
 
+  <!-- Filter Data Modal -->
+  <div
+    class="modal fade"
+    id="filterIncomingModal"
+    tabindex="-1"
+    aria-labelledby="filterModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="filterModalLabel">
+            Filter Data Barang Masuk
+          </h5>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+          <form action='/owner/masuk' method="post">
+          <div class="modal-body">
+            <label for="namaBarang">Filter Data by <b>Range of Date</b></label>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <input type="date" 
+                    name="tglMulai" 
+                    class="form-control" />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <input type="date" 
+                    name="tglSelesai" 
+                    class="form-control" />
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="idSupplier">Filter Data by <b>Nama Supplier</b></label>
+                <select
+                  class="form-control"
+                  name="idSupplier"
+                  id="idSupplier"
+                >
+                <option></option>
+                <?php foreach ($supplier as $spy) : ?>
+                  <option value="<?= $spy['id_supplier']; ?>">
+                    <?= ucwords($spy['nama_supplier']); ?>
+                  </option>
+                <?php endforeach; ?>
+                </select>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="idBarang">Filter Data by <b>Nama Barang</b></label>
+                    <select
+                      class="form-control"
+                      name="idBarang"
+                      id="idBarang"
+                    >
+                    <option></option>
+                    <?php foreach ($stock as $stk) : ?>
+                      <option value="<?= $stk['id_barang']; ?>">
+                        <?= ucwords($stk['nama_barang']); ?>
+                      </option>
+                      <?php endforeach; ?>
+                    
+                    </select>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <label for="idBarang">Filter Data by <b>Kategori</b> :</label>
+                <div class="form-group">
+                    <select
+                      class="form-control"
+                      name="kategoriBarang"
+                      id="kategoriBarang"
+                    >
+                      <option></option>
+                      <option>Sembako</option>
+                      <option>Makanan Ringan</option>
+                      <option>Minuman</option>
+                      <option>Perlengkapan Mandi & Mencuci</option>
+                      <option>Perlengkapan Rumah Tangga</option>
+                      <option>Obat - Obatan</option>
+                      <option>Bumbu Dapur</option>
+                      <option>Makanan Instan</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-md-12">
+                <label for="keterangan"><b>Note :</b> Untuk Filter Data by <b>Nama Barang / Kategori</b>, Silahkan Pilih Salah Satu !!! (Tidak Bisa Keduanya)</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-sm-flex modal-footer mb-4">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">
+              <i class="fas fa-trash"></i> Batal
+            </button>
+            <button type="submit" class="btn btn-primary" name="filterStock">
+              <i class="fas fa-filter"></i> Filter
+            </button>
+          </div>
+          </form>
+      </div>
+    </div>
+  </div>
 
    <!-- Delete Data Modal -->
    <div

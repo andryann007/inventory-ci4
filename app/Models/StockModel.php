@@ -27,6 +27,28 @@ class StockModel extends Model{
         return $query;
     }
 
+    public function filterCategory($kategori){
+        $query = $this->db->table('data_stock');
+        $query->select('*');
+        $query->where('kategori', $kategori);
+        return $query->get()->getResultArray();
+    }
+
+    public function filterStatus($status){
+        $query = $this->db->table('data_stock');
+        $query->select('*');
+        $query->where('status', $status);
+        return $query->get()->getResultArray();
+    }
+
+    public function filterCategoryStatus($kategori, $status){
+        $query = $this->db->table('data_stock');
+        $query->select('*');
+        $query->where('kategori', $kategori);
+        $query->where('status', $status);
+        return $query->get()->getResultArray();
+    }
+
     public function qty_stock(){
         return $this->db->table('data_stock')->get()->getNumRows();
     }

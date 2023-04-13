@@ -61,18 +61,18 @@
           >
         </li>
 
-      <!-- Nav Item - Data Stock -->
-      <li class="nav-item">
-        <a class="nav-link" href="/owner/stock">
-          <i class="fas fa-cubes"></i>
-          <span>Data Stock Barang</span></a>
-      </li>
-
       <!-- Nav Item - Data Supplier -->
       <li class="nav-item">
         <a class="nav-link" href="/owner/supplier">
           <i class="fas fa-truck"></i>
           <span>Data Supplier</span></a>
+      </li>
+
+      <!-- Nav Item - Data Stock -->
+      <li class="nav-item">
+        <a class="nav-link" href="/owner/stock">
+          <i class="fas fa-cubes"></i>
+          <span>Data Stock Barang</span></a>
       </li>
 
       <!-- Divider -->
