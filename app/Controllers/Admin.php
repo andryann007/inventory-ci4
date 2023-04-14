@@ -35,7 +35,6 @@ class Admin extends BaseController
             return redirect()->to('user');
         } else {
             $data = [
-                'data_akun'  => $this->akunModel->qty_akun(),
                 'data_stock' => $this->stockModel->qty_stock(),
                 'data_supplier' => $this->supplierModel->qty_supplier(),
                 'data_barang_masuk' => $this->masukModel->qty_masuk(),
@@ -69,7 +68,6 @@ class Admin extends BaseController
         $supplier = $this->supplierModel;
         
         $data = array(
-            'id_supplier' => $this->request->getPost('idSupplier'),
             'nama_supplier' => $this->request->getPost('namaSupplier'),
             'alamat'=> $this->request->getPost('alamatSupplier'),
             'email' => $this->request->getPost('emailSupplier'),
@@ -176,7 +174,6 @@ class Admin extends BaseController
     public function save_stock(){
         $stock = $this->stockModel;
         $data = array(
-            'id_barang' => $this->request->getPost('idBarang'),
             'nama_barang' => $this->request->getPost('namaBarang'),
             'kategori'=> $this->request->getPost('kategoriBarang'),
             'qty_stock' => $this->request->getPost('jumlahBarang'),
@@ -368,7 +365,7 @@ class Admin extends BaseController
 
             $filterData = $data;
 
-            return view('admin/barang_masuk', $filterData);
+            return view('admin/masuk', $filterData);
         }
     }
 
@@ -384,7 +381,6 @@ class Admin extends BaseController
         $row = $query->getRowArray();
 
         $data = array(
-            'id_masuk' => $this->request->getPost('idMasuk'),
             'id_barang' => $this->request->getPost('namaBarang'),
             'id_supplier'=> $this->request->getPost('namaSupplier'),
             'tgl_masuk' => $this->request->getPost('tglIncoming'),
@@ -571,7 +567,6 @@ class Admin extends BaseController
         $row = $query->getRowArray();
 
         $data = array(
-            'id_keluar' => $this->request->getPost('idKeluar'),
             'id_barang' => $this->request->getPost('namaBarang'),
             'tgl_keluar' => $this->request->getPost('tglOutcoming'),
             'qty_keluar' => $this->request->getPost('jumlahBarang'),
@@ -827,7 +822,6 @@ class Admin extends BaseController
         $row = $query->getRowArray();
 
         $data = array(
-            'id_retur' => $this->request->getPost('idRetur'),
             'id_barang' => $this->request->getPost('namaBarang'),
             'id_supplier'=> $this->request->getPost('namaSupplier'),
             'tgl_retur' => $this->request->getPost('tglRetur'),

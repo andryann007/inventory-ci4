@@ -180,7 +180,7 @@ class User extends BaseController
 
             $filterData = $data;
 
-            return view('user/barang_masuk', $filterData);
+            return view('user/masuk', $filterData);
         }
     }
 
@@ -196,7 +196,6 @@ class User extends BaseController
         $row = $query->getRowArray();
 
         $data = array(
-            'id_masuk' => $this->request->getPost('idMasuk'),
             'id_barang' => $this->request->getPost('namaBarang'),
             'id_supplier'=> $this->request->getPost('namaSupplier'),
             'tgl_masuk' => $this->request->getPost('tglIncoming'),
@@ -383,7 +382,6 @@ class User extends BaseController
         $row = $query->getRowArray();
 
         $data = array(
-            'id_keluar' => $this->request->getPost('idKeluar'),
             'id_barang' => $this->request->getPost('namaBarang'),
             'tgl_keluar' => $this->request->getPost('tglOutcoming'),
             'qty_keluar' => $this->request->getPost('jumlahBarang'),
@@ -639,7 +637,6 @@ class User extends BaseController
         $row = $query->getRowArray();
 
         $data = array(
-            'id_retur' => $this->request->getPost('idRetur'),
             'id_barang' => $this->request->getPost('namaBarang'),
             'id_supplier'=> $this->request->getPost('namaSupplier'),
             'tgl_retur' => $this->request->getPost('tglRetur'),

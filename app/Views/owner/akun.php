@@ -259,9 +259,9 @@
                     <thead class="thead-dark">
                       <tr>
                         <th>No</th>
-                        <th>ID User</th>
                         <th>Nama Lengkap</th>
                         <th>Email</th>
+                        <th>Username</th>
                         <th>Password</th>
                         <th>Alamat Lengkap</th>
                         <th>No. Telp</th>
@@ -277,13 +277,13 @@
                           <?= $i++; ?>
                         </td>
                         <td>
-                          @<?= $a['id_user']; ?>
-                        </td>
-                        <td>
                           <?= $a['nama_lengkap']; ?>
                         </td>
                         <td>
                           <?= $a['email']; ?>
+                        </td>
+                        <td>
+                          <?= $a['username']; ?>
                         </td>
                         <td>
                           <?= $a['password']; ?>
@@ -310,6 +310,7 @@
                             data-id="<?= $a['id_user'];?>"
                             data-nama="<?= $a['nama_lengkap'];?>"
                             data-email="<?= $a['email'];?>"
+                            data-username="<?= $a['username'];?>"
                             data-password="<?= $a['password'];?>"
                             data-alamat="<?= $a['alamat'];?>"
                             data-telp="<?= $a['telp'];?>"
@@ -420,6 +421,7 @@
         $('.modal-body #idUser').val($(this).data('id'));
         $('.modal-body #namaUser').val($(this).data('nama'));
         $('.modal-body #emailUser').val($(this).data('email'));
+        $('.modal-body #username').val($(this).data('username'));
         $('.modal-body #passUser').val($(this).data('password'));
         $('.modal-body #telpUser').val($(this).data('telp'));
         $('.modal-body #alamatUser').val($(this).data('alamat'));
@@ -462,22 +464,22 @@
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
-                  <label for="idUser">ID User</label>
+                  <label for="namaUser">Nama Lengkap</label>
                   <input
                     type="text"
-                    name="idUser"
-                    id="idUser"
+                    name="namaUser"
+                    id="namaUser"
                     class="form-control"
                     required
                   />
                 </div>
 
                 <div class="form-group">
-                  <label for="emailUser">Email</label>
+                  <label for="username">Username</label>
                   <input
-                    type="email"
-                    name="emailUser"
-                    id="emailUser"
+                    type="text"
+                    name="username"
+                    id="username"
                     class="form-control"
                     required
                   />
@@ -486,11 +488,11 @@
               
               <div class="col-md-6">
                 <div class="form-group">
-                  <label for="namaUser">Nama Lengkap</label>
+                  <label for="emailUser">Email</label>
                   <input
-                    type="text"
-                    name="namaUser"
-                    id="namaUser"
+                    type="email"
+                    name="emailUser"
+                    id="emailUser"
                     class="form-control"
                     required
                   />
@@ -561,14 +563,13 @@
       </div>
     </div>
   </div>
-  <!-- End Add Data Modal -->
 
   <!-- Edit Data Modal -->
   <div
     class="modal fade"
     id="editAccountModal"
     tabindex="-1"
-    aria-labelledby="addModalLabel"
+    aria-labelledby="editModalLabel"
     aria-hidden="true"
   >
     <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -584,19 +585,18 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
+
         <form action='/owner/update_akun' method="post">
+
           <div class="modal-body">
             <input
               type="hidden"
-              name="idUser"
               id="idUser"
+              name="idUser"
               class="form-control"
-              required
-            /> 
+            />
 
-            
             <div class="row">
-              
               <div class="col-md-6">
                 <div class="form-group">
                   <label for="namaUser">Nama Lengkap</label>
@@ -610,11 +610,35 @@
                 </div>
 
                 <div class="form-group">
+                  <label for="username">Username</label>
+                  <input
+                    type="text"
+                    name="username"
+                    id="username"
+                    class="form-control"
+                    required
+                  />
+                </div>
+              </div>
+              
+              <div class="col-md-6">
+                <div class="form-group">
                   <label for="emailUser">Email</label>
                   <input
                     type="email"
                     name="emailUser"
                     id="emailUser"
+                    class="form-control"
+                    required
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="passUser">Password</label>
+                  <input
+                    type="password"
+                    name="passUser"
+                    id="passUser"
                     class="form-control"
                     required
                   />
@@ -629,17 +653,6 @@
                     name="telpUser"
                     id="telpUser"
                     class="form-control"
-                  />
-                </div>
-
-                <div class="form-group">
-                  <label for="passUser">Password</label>
-                  <input
-                    type="password"
-                    name="passUser"
-                    id="passUser"
-                    class="form-control"
-                    required
                   />
                 </div>
               </div>
@@ -673,27 +686,18 @@
             
           </div>
 
-          <div class="d-sm-flex modal-footer mb-4">
-            <button
-              type="button"
-              class="btn btn-danger"
-              data-dismiss="modal"
-            >
+          <div class="d--sm-flex modal-footer mb-4">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">
               <i class="fas fa-trash"></i> Batal
             </button>
-            <button
-              type=" submit"
-              class="btn btn-warning"
-              name="editAccount"
-            >
+            <button type="submit" class="btn btn-warning" name="editAccount">
               <i class="fas fa-edit"></i> Edit
             </button>
           </div>
         </form>
       </div>
     </div>
-    </div>
-  <!-- End Edit Data Modal -->
+  </div>
 
   <!-- Delete Data Modal -->
   <div

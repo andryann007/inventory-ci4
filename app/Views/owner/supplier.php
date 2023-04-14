@@ -264,7 +264,6 @@
                     <thead class="thead-dark">
                       <tr>
                         <th>No</th>
-                        <th>ID Supplier</th>
                         <th>Nama Supplier</th>
                         <th>Alamat</th>
                         <th>Email</th>
@@ -278,9 +277,6 @@
                       <tr>
                         <td>
                           <?= $i++; ?>
-                        </td>
-                        <td>
-                          <?= $s['id_supplier']; ?>
                         </td>
                         <td>
                           <?= $s['nama_supplier']; ?>
@@ -449,16 +445,13 @@
         </div>
         <form action='/owner/save_supplier' method="post">
           <div class="modal-body">
-            <div class="form-group">
-              <label for="idSupplier">ID Supplier</label>
-              <input
-                type="text"
-                name="idSupplier"
-                id="idSupplier"
-                class="form-control"
-                required
-              />
-            </div>
+            <input
+              type="hidden"
+              name="idSupplier"
+              id="idSupplier"
+              class="form-control"
+              required
+            />
 
             <div class="form-group">
               <label for="namaSupplier">Nama Supplier</label>
@@ -471,6 +464,33 @@
               />
             </div>
 
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="telpSupplier">No. Telp Supplier</label>
+                  <input
+                    type="telp"
+                    name="telpSupplier"
+                    id="telpSupplier"
+                    class="form-control"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="emailSupplier">Email Supplier</label>
+                  <input
+                    type="email"
+                    name="emailSupplier"
+                    id="emailSupplier"
+                    class="form-control"
+                  />
+                </div>
+              </div>
+            </div>
+
             <div class="form-group">
               <label for="alamatSupplier">Alamat Supplier</label>
               <input
@@ -481,28 +501,7 @@
                 required
               />
             </div>
-
-            <div class="form-group">
-              <label for="emailSupplier">Email Supplier</label>
-              <input
-                type="email"
-                name="emailSupplier"
-                id="emailSupplier"
-                class="form-control"
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="telpSupplier">No. Telp Supplier</label>
-              <input
-                type="telp"
-                name="telpSupplier"
-                id="telpSupplier"
-                class="form-control"
-              />
-            </div>
           </div>
-
           <div class="d-sm-flex modal-footer mb-4">
             <button type="button" class="btn btn-danger" data-dismiss="modal">
               <i class="fas fa-trash"></i> Batal
@@ -515,6 +514,7 @@
       </div>
     </div>
   </div>
+
 
   <!-- Edit Data Modal -->
   <div

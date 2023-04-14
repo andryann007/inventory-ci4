@@ -177,7 +177,7 @@
               </button>
 
               <a
-                href="<?php echo site_url('/user/barang_masuk');?>"
+                href="<?php echo site_url('/user/masuk');?>"
                 class="btn btn-dark btn-sm"
                 role="button"
                 ><i class="fas fa-eye"></i> View All Data</a
@@ -435,8 +435,8 @@
     </script>
   </body>
 
- <!-- Add Data Modal -->
- <div
+  <!-- Add Data Modal -->
+  <div
     class="modal fade"
     id="addIncomingModal"
     tabindex="-1"
@@ -463,37 +463,6 @@
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
-                  <label for="idMasuk">ID Barang Masuk</label>
-                  <input
-                    type="text"
-                    min="0"
-                    name="idMasuk"
-                    id="idMasuk"
-                    class="form-control"
-                    required
-                  />
-                </div>
-
-                <div class="form-group">
-                  <label for="namaBarang">Nama Barang</label>
-                  <select
-                    class="form-control"
-                    name="namaBarang"
-                    id="namaBarang"
-                    required
-                  >
-                  <?php foreach ($stock as $stk) : ?>
-                    <option value="<?= $stk['id_barang']; ?>">
-                      <?= ucwords($stk['nama_barang']); ?>
-                    </option>
-                  <?php endforeach; ?>
-                  </select>
-                </div>
-                
-              </div>
-              
-              <div class="col-md-6">
-                <div class="form-group">
                   <label for="tanggalIncoming">Tanggal Masuk</label>
                   <input
                     type="date"
@@ -503,7 +472,9 @@
                     required
                   />
                 </div>
+              </div>
 
+              <div class="col-md-6">
                 <div class="form-group">
                   <label for="namaSupplier">Nama Supplier</label>
                   <select
@@ -520,7 +491,25 @@
                   </select>
                 </div>
               </div>
-              
+            </div>
+
+            <div class="form-group">
+              <label for="namaBarang">Nama Barang</label>
+              <select
+                class="form-control"
+                name="namaBarang"
+                id="namaBarang"
+                required
+              >
+              <?php foreach ($stock as $stk) : ?>
+                <option value="<?= $stk['id_barang']; ?>">
+                  <?= ucwords($stk['nama_barang']); ?>
+                </option>
+              <?php endforeach; ?>
+              </select>
+            </div>
+
+            <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
                   <label for="jumlahBarang">Jumlah Barang</label>
@@ -534,7 +523,7 @@
                   />
                 </div>
               </div>
-            
+
               <div class="col-md-6">
                 <div class="form-group">
                   <label for="hargaSatuan">Harga Barang Satuan</label>

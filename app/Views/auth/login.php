@@ -59,9 +59,9 @@
                                             };
                                          ?>
                                         <div class="form-group">
-                                            <input type="text" name="id_user" class="form-control form-control-user"
-                                                id="inputId" aria-describedby="idHelp"
-                                                placeholder="Enter ID User">
+                                            <input type="text" name="username" class="form-control form-control-user"
+                                                id="inputUsername" aria-describedby="usernameHelp"
+                                                placeholder="Enter Username">
                                         </div>
                                         <div class="form-group">
                                             <input type="password" name="password" class="form-control form-control-user"

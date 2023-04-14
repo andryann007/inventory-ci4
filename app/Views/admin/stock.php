@@ -470,51 +470,22 @@
         </div>
         <form action='/admin/save_stock' method="post">
           <div class="modal-body">
-            
-            <div class="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="idBarang">ID Barang</label>
-                  <input
-                    type="text"
-                    name="idBarang"
-                    id="idBarang"
-                    class="form-control"
-                    required
-                  />
-                </div>
-              </div>
-
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="namaBarang">Nama Barang</label>
-                  <input
-                    type="text"
-                    name="namaBarang"
-                    id="namaBarang"
-                    class="form-control"
-                    required
-                  />
-                </div>
-              </div>
-            </div>
+            <input
+            type="hidden"
+            name="idBarang"
+            id="idBarang"
+            class="form-control"
+            />
 
             <div class="form-group">
-              <label for="kategoriBarang">Kategori Barang</label>
-              <select
+              <label for="namaBarang">Nama Barang</label>
+              <input
+                type="text"
+                name="namaBarang"
+                id="namaBarang"
                 class="form-control"
-                name="kategoriBarang"
-                id="kategoriBarang"
-              >
-                <option>Sembako</option>
-                <option>Makanan Ringan</option>
-                <option>Minuman</option>
-                <option>Perlengkapan Mandi & Mencuci</option>
-                <option>Perlengkapan Rumah Tangga</option>
-                <option>Obat - Obatan</option>
-                <option>Bumbu Dapur</option>
-                <option>Makanan Instan</option>
-              </select>
+                required
+              />
             </div>
 
             <div class="row">
@@ -545,16 +516,40 @@
               </div>
             </div>
 
-            <div class="form-group">
-              <label for="status">Status Barang</label>
-              <select
-                class="form-control"
-                name="status"
-                id="status"
-              >
-                <option>Tersedia</option>
-                <option>Habis</option>
-              </select>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="kategoriBarang">Kategori Barang</label>
+                  <select
+                    class="form-control"
+                    name="kategoriBarang"
+                    id="kategoriBarang"
+                  >
+                    <option>Sembako</option>
+                    <option>Makanan Ringan</option>
+                    <option>Minuman</option>
+                    <option>Perlengkapan Mandi & Mencuci</option>
+                    <option>Perlengkapan Rumah Tangga</option>
+                    <option>Obat - Obatan</option>
+                    <option>Bumbu Dapur</option>
+                    <option>Makanan Instan</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="status">Status Barang</label>
+                  <select
+                    class="form-control"
+                    name="status"
+                    id="status"
+                  >
+                    <option>Tersedia</option>
+                    <option>Habis</option>
+                  </select>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -562,7 +557,7 @@
             <button type="button" class="btn btn-danger" data-dismiss="modal">
               <i class="fas fa-trash"></i> Batal
             </button>
-            <button type="submit" class="btn btn-primary" name="addNewStock">
+            <button type="submit" class="btn btn-primary" name="addStock">
               <i class="fas fa-plus"></i> Tambah
             </button>
           </div>

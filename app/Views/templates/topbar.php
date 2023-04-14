@@ -5,7 +5,17 @@
   </button>
 
   <div class="copyright text-center my-auto">
-    <span class="text-light">Today Date : <b><?= date("d-m-Y");?></b></span>
+    <span class="text-light">Today Date : <b>
+      <?php 
+        date_default_timezone_set('Asia/Jakarta');
+        echo date("d F Y");
+      ?> / 
+      <?php 
+        $today = time();
+        date_default_timezone_set('Asia/Jakarta');
+        echo date("H:i:s", $today);
+      ?>
+    </b></span>
   </div>
 
   <!-- Topbar Navbar -->

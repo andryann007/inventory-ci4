@@ -71,9 +71,9 @@ class Owner extends BaseController
         $akun = $this->akunModel;
 
         $data = array(
-            'id_user' => $this->request->getPost('idUser'),
             'nama_lengkap' => $this->request->getPost('namaUser'),
             'email' => $this->request->getPost('emailUser'),
+            'username' => $this->request->getPost('username'),
             'password' => $this->request->getPost('passUser'),
             'alamat'=> $this->request->getPost('alamatUser'),
             'telp' => $this->request->getPost('telpUser'),
@@ -97,6 +97,7 @@ class Owner extends BaseController
         $data = array(
             'nama_lengkap' => $this->request->getPost('namaUser'),
             'email' => $this->request->getPost('emailUser'),
+            'username' => $this->request->getPost('username'),
             'password' => $this->request->getPost('passUser'),
             'alamat'=> $this->request->getPost('alamatUser'),
             'telp' => $this->request->getPost('telpUser'),
@@ -150,7 +151,6 @@ class Owner extends BaseController
         $supplier = $this->supplierModel;
         
         $data = array(
-            'id_supplier' => $this->request->getPost('idSupplier'),
             'nama_supplier' => $this->request->getPost('namaSupplier'),
             'alamat'=> $this->request->getPost('alamatSupplier'),
             'email' => $this->request->getPost('emailSupplier'),
@@ -257,7 +257,6 @@ class Owner extends BaseController
     public function save_stock(){
         $stock = $this->stockModel;
         $data = array(
-            'id_barang' => $this->request->getPost('idBarang'),
             'nama_barang' => $this->request->getPost('namaBarang'),
             'kategori'=> $this->request->getPost('kategoriBarang'),
             'qty_stock' => $this->request->getPost('jumlahBarang'),
@@ -438,7 +437,7 @@ class Owner extends BaseController
             }
 
             // Jika tidak terdapat filter
-            else if($tglMulai == null && $tglSelesai == null && $idSupplier == null && $idBarang == null && $kategori == null){
+            else {
                 $data = [
                     'title' => 'Laporan Barang Masuk',
                     'masuk' => $this->masukModel->getData(),
@@ -465,7 +464,6 @@ class Owner extends BaseController
         $row = $query->getRowArray();
 
         $data = array(
-            'id_masuk' => $this->request->getPost('idMasuk'),
             'id_barang' => $this->request->getPost('namaBarang'),
             'id_supplier'=> $this->request->getPost('namaSupplier'),
             'tgl_masuk' => $this->request->getPost('tglIncoming'),
@@ -652,7 +650,6 @@ class Owner extends BaseController
         $row = $query->getRowArray();
 
         $data = array(
-            'id_keluar' => $this->request->getPost('idKeluar'),
             'id_barang' => $this->request->getPost('namaBarang'),
             'tgl_keluar' => $this->request->getPost('tglOutcoming'),
             'qty_keluar' => $this->request->getPost('jumlahBarang'),
@@ -908,7 +905,6 @@ class Owner extends BaseController
         $row = $query->getRowArray();
 
         $data = array(
-            'id_retur' => $this->request->getPost('idRetur'),
             'id_barang' => $this->request->getPost('namaBarang'),
             'id_supplier'=> $this->request->getPost('namaSupplier'),
             'tgl_retur' => $this->request->getPost('tglRetur'),
