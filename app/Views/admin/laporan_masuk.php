@@ -440,7 +440,7 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-          <form action='/admin/masuk' method="post">
+          <form action='/admin/laporan_masuk' method="post">
           <div class="modal-body">
             <label for="namaBarang">Filter Data by <b>Range of Date</b></label>
             <div class="row">

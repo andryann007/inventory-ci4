@@ -262,7 +262,6 @@
                         <th>Harga/Pcs</th>
                         <th>QTY</th>
                         <th>Total Harga</th>
-                        <th class="text-center">Aksi</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -296,39 +295,6 @@
                         </td>
                         <td>
                           <?= "Rp. " . number_format($rtr['total_harga_retur'], 2, ',', '.'); ?>
-                        </td>
-                        <td
-                          class="d-sm-flex justify-content-around align-items-center"
-                        >
-
-                          <button
-                            type="button"
-                            class="btn btn-warning mr-2"
-                            id="btnEdit"
-                            data-toggle="modal"
-                            data-target="#editReturModal"
-                            data-id_retur="<?= $rtr['id_retur'];?>"
-                            data-id_barang="<?= $rtr['id_barang'];?>"
-                            data-id_supplier="<?= $rtr['id_supplier'];?>"
-                            data-tgl_retur="<?= $rtr['tgl_retur'];?>"
-                            data-qty_retur="<?= $rtr['qty_retur'];?>"
-                            data-harga="<?= $rtr['harga_satuan_retur'];?>"
-                            data-total_harga="<?= $rtr['total_harga_retur'];?>"
-                            data-keterangan="<?= $rtr['keterangan'];?>"
-                          >
-                            <i class="fas fa-edit"></i>
-                          </button>
-                          <button
-                            type="button"
-                            class="btn btn-danger"
-                            id="btnDelete"
-                            data-toggle="modal"
-                            data-target="#deleteReturModal"
-                            data-id_retur="<?= $rtr['id_retur'];?>"
-                            data-id_barang="<?= $rtr['id_barang'];?>"
-                          >
-                            <i class="fas fa-trash"></i>
-                          </button>
                         </td>
                       </tr>
                       <?php endforeach;?>
