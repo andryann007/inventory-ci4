@@ -157,6 +157,28 @@
             <h1 class="h3 mb-0 text-gray-800">Dashboard Admin</h1>
           </div>
 
+          <!-- Notifikasi Alert Jika Data Akun Berhasil di Tambah / Edit / Hapus -->
+          <?php if(session()->get('message')) :?>
+            <div class="alert alert-success alert-dismissible">
+              <button type="button" class="close" data-dismiss="alert">
+                &times;
+              </button>
+              Perhatian !!! 
+              <strong><?= session()->getFlashdata('message'); ?> </strong>
+            </div>
+          <?php endif; ?>
+
+          <!-- Notifikasi Alert Jika Data Akun Gagal di Tambah / Edit / Hapus -->
+          <?php if(session()->get('error')) :?>
+            <div class="alert alert-danger alert-dismissible">
+              <button type="button" class="close" data-dismiss="alert">
+                &times;
+              </button>
+              Perhatian !!! 
+              <strong><?= session()->getFlashdata('error'); ?> </strong>
+            </div>
+          <?php endif; ?>
+
           <!-- Notifikasi Alert Jika Stock Barang Habis -->
           <?php foreach ($stock as $stk) : ?>
               <?php if($stk['qty_stock'] < 1) :?>
@@ -356,6 +378,36 @@
   <!-- Page level custom scripts -->
   <script src="<?= base_url(); ?>/js/demo/chart-area-demo.js"></script>
   <script src="<?= base_url(); ?>/js/demo/chart-pie-demo.js"></script>
-</body>
 
+  <script type="text/javascript">
+      $(document).ready(function(){
+        $('#tooglePassword').on('click', function(event){
+
+          event.preventDefault();
+          if($('#passwordVisibility input').attr("type") == "password"){
+            $('#passwordVisibility input').attr('type', 'text');
+            $('#passwordVisibility i').removeClass('fa-eye');
+            $('#passwordVisibility i').addClass('fa-eye-slash');
+          } else {
+            $('#passwordVisibility input').attr('type', 'password');
+            $('#passwordVisibility i').removeClass('fa-eye-slash');
+            $('#passwordVisibility i').addClass('fa-eye');
+          }
+        });
+      });
+    </script>
+
+  <script type="text/javascript">
+    $(document).on('click', '#btnProfile', function(){
+      $('.modal-body #idUser').val($(this).data('id'));
+      $('.modal-body #namaUser').val($(this).data('nama'));
+      $('.modal-body #emailUser').val($(this).data('email'));
+      $('.modal-body #username').val($(this).data('username'));
+      $('.modal-body #passUser').val($(this).data('password'));
+      $('.modal-body #telpUser').val($(this).data('telp'));
+      $('.modal-body #alamatUser').val($(this).data('alamat'));
+      $('.modal-body #tipeAkunUser').val($(this).data('tipe'));
+    })
+  </script>
+</body>
 </html>

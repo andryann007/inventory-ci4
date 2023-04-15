@@ -416,6 +416,73 @@
     <script src="<?= base_url(); ?>/js/demo/chart-area-demo.js"></script>
     <script src="<?= base_url(); ?>/js/demo/chart-pie-demo.js"></script>
 
+    <script type="text/javascript">
+      $(document).on('click', '#btnProfile', function(){
+        $('.modal-body #idUser').val($(this).data('id'));
+        $('.modal-body #namaUser').val($(this).data('nama'));
+        $('.modal-body #emailUser').val($(this).data('email'));
+        $('.modal-body #username').val($(this).data('username'));
+        $('.modal-body #passUser').val($(this).data('password'));
+        $('.modal-body #telpUser').val($(this).data('telp'));
+        $('.modal-body #alamatUser').val($(this).data('alamat'));
+        $('.modal-body #tipeAkunUser').val($(this).data('tipe'));
+      })
+    </script>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('#tooglePassword').on('click', function(event){
+
+          event.preventDefault();
+          if($('#passwordVisibility input').attr("type") == "password"){
+            $('#passwordVisibility input').attr('type', 'text');
+            $('#passwordVisibility i').removeClass('fa-eye');
+            $('#passwordVisibility i').addClass('fa-eye-slash');
+          } else {
+            $('#passwordVisibility input').attr('type', 'password');
+            $('#passwordVisibility i').removeClass('fa-eye-slash');
+            $('#passwordVisibility i').addClass('fa-eye');
+          }
+        });
+      });
+    </script>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('#tooglePassword1').on('click', function(event){
+
+          event.preventDefault();
+          if($('#passwordVisibility1 input').attr("type") == "password"){
+            $('#passwordVisibility1 input').attr('type', 'text');
+            $('#passwordVisibility1 i').removeClass('fa-eye');
+            $('#passwordVisibility1 i').addClass('fa-eye-slash');
+          } else {
+            $('#passwordVisibility1 input').attr('type', 'password');
+            $('#passwordVisibility1 i').removeClass('fa-eye-slash');
+            $('#passwordVisibility1 i').addClass('fa-eye');
+          }
+        });
+      });
+    </script>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('#tooglePassword2').on('click', function(event){
+
+          event.preventDefault();
+          if($('#passwordVisibility2 input').attr("type") == "password"){
+            $('#passwordVisibility2 input').attr('type', 'text');
+            $('#passwordVisibility2 i').removeClass('fa-eye');
+            $('#passwordVisibility2 i').addClass('fa-eye-slash');
+          } else {
+            $('#passwordVisibility2 input').attr('type', 'password');
+            $('#passwordVisibility2 i').removeClass('fa-eye-slash');
+            $('#passwordVisibility2 i').addClass('fa-eye');
+          }
+        });
+      });
+    </script>
+
     <script>
       $(document).on('click', '#btnEdit', function(){
         $('.modal-body #idUser').val($(this).data('id'));
@@ -426,7 +493,7 @@
         $('.modal-body #telpUser').val($(this).data('telp'));
         $('.modal-body #alamatUser').val($(this).data('alamat'));
         $('.modal-body #tipeAkunUser').val($(this).data('tipe'));
-      })
+      });
 
       $(document).on('click', '#btnDelete', function(){
         $('.modal-footer #idUser').val($(this).data('id'));
@@ -500,13 +567,20 @@
 
                 <div class="form-group">
                   <label for="passUser">Password</label>
-                  <input
-                    type="password"
-                    name="passUser"
-                    id="passUser"
-                    class="form-control"
-                    required
-                  />
+                  <div class="input-group" id="passwordVisibility1">
+                    <input
+                      type="password"
+                      name="passUser"
+                      id="passUser"
+                      class="form-control"
+                      required
+                    />
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-secondary toogle-password" type="button" id="tooglePassword1">
+                        <i class="fas fa-eye"></i>
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -635,13 +709,20 @@
 
                 <div class="form-group">
                   <label for="passUser">Password</label>
-                  <input
-                    type="password"
-                    name="passUser"
-                    id="passUser"
-                    class="form-control"
-                    required
-                  />
+                  <div class="input-group" id="passwordVisibility2">
+                    <input
+                      type="password"
+                      name="passUser"
+                      id="passUser"
+                      class="form-control"
+                      required
+                    />
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-secondary toogle-password" type="button" id="tooglePassword2">
+                        <i class="fas fa-eye"></i>
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
 

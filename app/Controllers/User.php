@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\AkunModel;
 use App\Models\KeluarModel;
 use App\Models\MasukModel;
 use App\Models\ReturModel;
@@ -10,6 +11,7 @@ use App\Models\SupplierModel;
 
 class User extends BaseController
 {
+    protected $akunModel;
     protected $supplierModel;
     protected $stockModel;
     protected $masukModel;
@@ -18,6 +20,7 @@ class User extends BaseController
 
     public function __construct()
     {
+        $this->akunModel = new AkunModel();
         $this->supplierModel = new SupplierModel();
         $this->stockModel = new StockModel();
         $this->masukModel = new MasukModel();
@@ -1398,6 +1401,28 @@ class User extends BaseController
         $filterData = $data;
 
         return view('user/print_retur', $filterData);
+    }
+
+    public function change_password(){
+        $akun = $this->akunModel;
+        $id = $this->request->getPost('idUser');
+        $data = array(
+            'password' => $this->request->getPost('passUser')
+        );
+        
+        $success = $akun->changePassword($id, $data);
+
+        if($success){
+            session()->regenerate(true);
+            $password = $this->request->getPost('passUser');
+            session()->set('password', $password);
+
+            session()->setFlashdata('message', 'Password Berhasil di Ganti !!!');
+        } else {
+            session()->setFlashdata('error', 'Password Gagal di Ganti !!!');
+        }
+
+        return redirect()->to('/user');
     }
 
     public function logout(){

@@ -28,10 +28,13 @@ class Home extends BaseController
             
             if(empty($err)){
                 $dataSesi = [
+                    'id_user' => $dataAkun['id_user'],
                     'nama_lengkap' => $dataAkun['nama_lengkap'],
                     'email' => $dataAkun['email'],
                     'username' => $dataAkun['username'],
                     'password' => $dataAkun['password'],
+                    'telp' => $dataAkun['telp'],
+                    'alamat' => $dataAkun['alamat'],
                     'tipe_akun' => $dataAkun['tipe_akun']
                 ];
 
@@ -57,4 +60,5 @@ class Home extends BaseController
         }
         return view('auth/login');
     }
+
 }

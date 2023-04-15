@@ -27,6 +27,13 @@ class AkunModel extends Model{
         return $query;
     }
 
+    public function changePassword($id, $data){
+        $query = $this->db->table('data_user');
+        $query->where('id_user', $id);
+        $query->update($data);
+        return $query;
+    }
+
     public function qty_akun(){
         return $this->db->table('data_user')->get()->getNumRows();
     }

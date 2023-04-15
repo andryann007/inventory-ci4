@@ -417,6 +417,37 @@
     <script src="<?= base_url(); ?>/js/demo/chart-area-demo.js"></script>
     <script src="<?= base_url(); ?>/js/demo/chart-pie-demo.js"></script>
 
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('#tooglePassword').on('click', function(event){
+
+          event.preventDefault();
+          if($('#passwordVisibility input').attr("type") == "password"){
+            $('#passwordVisibility input').attr('type', 'text');
+            $('#passwordVisibility i').removeClass('fa-eye');
+            $('#passwordVisibility i').addClass('fa-eye-slash');
+          } else {
+            $('#passwordVisibility input').attr('type', 'password');
+            $('#passwordVisibility i').removeClass('fa-eye-slash');
+            $('#passwordVisibility i').addClass('fa-eye');
+          }
+        });
+      });
+    </script>
+    
+    <script type="text/javascript">
+      $(document).on('click', '#btnProfile', function(){
+        $('.modal-body #idUser').val($(this).data('id'));
+        $('.modal-body #namaUser').val($(this).data('nama'));
+        $('.modal-body #emailUser').val($(this).data('email'));
+        $('.modal-body #username').val($(this).data('username'));
+        $('.modal-body #passUser').val($(this).data('password'));
+        $('.modal-body #telpUser').val($(this).data('telp'));
+        $('.modal-body #alamatUser').val($(this).data('alamat'));
+        $('.modal-body #tipeAkunUser').val($(this).data('tipe'));
+      })
+    </script>
+
     <script>
       $(document).on('click', '#btnEdit', function(){
         $('.modal-body #idRetur').val($(this).data('id_retur'));

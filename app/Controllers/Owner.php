@@ -1668,6 +1668,28 @@ class Owner extends BaseController
         return view('owner/print_retur', $filterData);
     }
 
+    public function change_password(){
+        $akun = $this->akunModel;
+        $id = $this->request->getPost('idUser');
+        $data = array(
+            'password' => $this->request->getPost('passUser')
+        );
+        
+        $success = $akun->changePassword($id, $data);
+
+        if($success){
+            session()->regenerate(true);
+            $password = $this->request->getPost('passUser');
+            session()->set('password', $password);
+            
+            session()->setFlashdata('message', 'Password Berhasil di Ganti !!!');
+        } else {
+            session()->setFlashdata('error', 'Password Gagal di Ganti !!!');
+        }
+
+        return redirect()->to('/owner');
+    }
+    
     public function logout(){
         session() -> remove('logged_in');
         session() -> destroy();
