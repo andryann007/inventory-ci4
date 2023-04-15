@@ -27,7 +27,7 @@ class AkunModel extends Model{
         return $query;
     }
 
-    public function changePassword($id, $data){
+    public function updateProfile($id, $data){
         $query = $this->db->table('data_user');
         $query->where('id_user', $id);
         $query->update($data);

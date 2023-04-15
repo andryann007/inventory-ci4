@@ -157,7 +157,7 @@
 
         <!-- Nav Item - Laporan Stok Barang -->
         <li class="nav-item">
-          <a class="nav-link" href="<?php echo site_url('/owner/logout');?>">
+          <a class="nav-link" type="button" data-toggle="modal" data-target="#logoutModal">
             <i class="fas fa-power-off"></i>
             <span>Logout</span></a
           >
@@ -207,7 +207,7 @@
                     <button type="button" class="close" data-dismiss="alert">
                       &times;
                     </button>
-                    Perhatian !!! Data Akun 
+                    Perhatian !!!  
                     <strong><?= session()->getFlashdata('message'); ?> </strong>
                   </div>
                 <?php endif; ?>
@@ -218,7 +218,7 @@
                     <button type="button" class="close" data-dismiss="alert">
                       &times;
                     </button>
-                    Perhatian !!! Data Akun 
+                    Perhatian !!! 
                     <strong><?= session()->getFlashdata('error'); ?> </strong>
                   </div>
                 <?php endif; ?>
@@ -325,6 +325,13 @@
                             data-toggle="modal"
                             data-target="#deleteAccountModal"
                             data-id="<?= $a['id_user'];?>"
+                            data-nama="<?= $a['nama_lengkap'];?>"
+                            data-email="<?= $a['email'];?>"
+                            data-username="<?= $a['username'];?>"
+                            data-password="<?= $a['password'];?>"
+                            data-alamat="<?= $a['alamat'];?>"
+                            data-telp="<?= $a['telp'];?>"
+                            data-tipe="<?= $a['tipe_akun'];?>"
                           >
                             <i class="fas fa-trash"></i>
                           </button>
@@ -355,45 +362,6 @@
     <a class="scroll-to-top rounded" href="#page-top">
       <i class="fas fa-angle-up"></i>
     </a>
-
-    <!-- Logout Modal-->
-    <div
-      class="modal fade"
-      id="logoutModal"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-            <button
-              class="close"
-              type="button"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">×</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            Select "Logout" below if you are ready to end your current session.
-          </div>
-          <div class="modal-footer">
-            <button
-              class="btn btn-secondary"
-              type="button"
-              data-dismiss="modal"
-            >
-              Cancel
-            </button>
-            <a class="btn btn-primary" href="<?php echo site_url('/owner/logout');?>">Logout</a>
-          </div>
-        </div>
-      </div>
-    </div>
 
     <!-- Bootstrap core JavaScript-->
     <script src="<?= base_url(); ?>/vendor/jquery/jquery.min.js"></script>
@@ -483,6 +451,42 @@
       });
     </script>
 
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('#tooglePassword3').on('click', function(event){
+
+          event.preventDefault();
+          if($('#passwordVisibility3 input').attr("type") == "password"){
+            $('#passwordVisibility3 input').attr('type', 'text');
+            $('#passwordVisibility3 i').removeClass('fa-eye');
+            $('#passwordVisibility3 i').addClass('fa-eye-slash');
+          } else {
+            $('#passwordVisibility3 input').attr('type', 'password');
+            $('#passwordVisibility3 i').removeClass('fa-eye-slash');
+            $('#passwordVisibility3 i').addClass('fa-eye');
+          }
+        });
+      });
+    </script>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('#tooglePassword4').on('click', function(event){
+
+          event.preventDefault();
+          if($('#passwordVisibility4 input').attr("type") == "password"){
+            $('#passwordVisibility4 input').attr('type', 'text');
+            $('#passwordVisibility4 i').removeClass('fa-eye');
+            $('#passwordVisibility4 i').addClass('fa-eye-slash');
+          } else {
+            $('#passwordVisibility4 input').attr('type', 'password');
+            $('#passwordVisibility4 i').removeClass('fa-eye-slash');
+            $('#passwordVisibility4 i').addClass('fa-eye');
+          }
+        });
+      });
+    </script>
+
     <script>
       $(document).on('click', '#btnEdit', function(){
         $('.modal-body #idUser').val($(this).data('id'));
@@ -496,6 +500,13 @@
       });
 
       $(document).on('click', '#btnDelete', function(){
+        $('.modal-body #namaUser').val($(this).data('nama'));
+        $('.modal-body #emailUser').val($(this).data('email'));
+        $('.modal-body #username').val($(this).data('username'));
+        $('.modal-body #passUser').val($(this).data('password'));
+        $('.modal-body #telpUser').val($(this).data('telp'));
+        $('.modal-body #alamatUser').val($(this).data('alamat'));
+        $('.modal-body #tipeAkunUser').val($(this).data('tipe'));
         $('.modal-footer #idUser').val($(this).data('id'));
       })
     </script>
@@ -804,8 +815,103 @@
           </button>
         </div>
         <form action="/owner/delete_akun" method="post">
-          <div class="modal-body text-center">
-            Apakah anda yakin ingin menghapus akun ini ?
+          <div class="modal-body">
+          <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="namaUser">Nama Lengkap</label>
+                  <input
+                    type="text"
+                    name="namaUser"
+                    id="namaUser"
+                    class="form-control"
+                    readonly
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="username">Username</label>
+                  <input
+                    type="text"
+                    name="username"
+                    id="username"
+                    class="form-control"
+                    readonly
+                  />
+                </div>
+              </div>
+              
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="emailUser">Email</label>
+                  <input
+                    type="email"
+                    name="emailUser"
+                    id="emailUser"
+                    class="form-control"
+                    readonly
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="passUser">Password</label>
+                  <div class="input-group" id="passwordVisibility4">
+                    <input
+                      type="password"
+                      name="passUser"
+                      id="passUser"
+                      class="form-control"
+                      readonly
+                    />
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-secondary toogle-password" type="button" id="tooglePassword4">
+                        <i class="fas fa-eye"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="telp">No. Telp</label>
+                  <input
+                    type="textarea"
+                    name="telpUser"
+                    id="telpUser"
+                    class="form-control"
+                  />
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="tipeAkun">Tipe Akun</label>
+                  <input
+                    type="text"
+                    name="tipeAkunUser"
+                    id="tipeAkunUser"
+                    class="form-control"
+                    readonly
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="alamat">Alamat Lengkap</label>
+              <input
+                type="textarea"
+                name="alamatUser"
+                id="alamatUser"
+                class="form-control"
+                readonly
+              />
+            </div>
+
+            <div class="col-md-12">
+              <b>Apakah Anda Yakin Untuk Menghapus Data Akun Ini ?</b>
+            </div>
           </div>
 
           <div class="d-sm-flex modal-footer mb-4">
@@ -827,6 +933,39 @@
       </div>
     </div>
   </div>
-  <!-- End Delete Data Modal -->
+
+  <!-- Logout Modal-->
+  <div
+      class="modal fade"
+      id="logoutModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+            <button
+              class="close"
+              type="button"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            Select <b>"Logout"</b> below if you are ready to leave !!!
+          </div>
+          <div class="modal-footer">
+            <a class="btn btn-danger" href="<?php echo site_url('/owner/logout');?>">
+              <i class="fas fa-power-off"></i> Logout
+            </a>
+          </div>
+        </div>
+      </div>
+  </div>
   
 </html>

@@ -161,7 +161,7 @@
 
         <!-- Nav Item - Laporan Stok Barang -->
         <li class="nav-item">
-          <a class="nav-link" href="<?php echo site_url('/owner/logout');?>">
+          <a class="nav-link" type="button" data-toggle="modal" data-target="#logoutModal">
             <i class="fas fa-power-off"></i>
             <span>Logout</span></a
           >
@@ -349,6 +349,11 @@
                             data-target="#deleteOutcomingModal"
                             data-id_keluar="<?= $klr['id_keluar'];?>"
                             data-id_barang="<?= $klr['id_barang'];?>"
+                            data-tgl_keluar="<?= $klr['tgl_keluar'];?>"
+                            data-qty_keluar="<?= $klr['qty_keluar'];?>"
+                            data-harga="<?= $klr['harga_satuan_keluar'];?>"
+                            data-total_harga="<?= $klr['total_harga_keluar'];?>"
+                            data-keterangan="<?= $klr['keterangan'];?>"
                           >
                             <i class="fas fa-trash"></i>
                           </button>
@@ -380,45 +385,6 @@
     <a class="scroll-to-top rounded" href="#page-top">
       <i class="fas fa-angle-up"></i>
     </a>
-
-    <!-- Logout Modal-->
-    <div
-      class="modal fade"
-      id="logoutModal"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-            <button
-              class="close"
-              type="button"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">×</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            Select "Logout" below if you are ready to end your current session.
-          </div>
-          <div class="modal-footer">
-            <button
-              class="btn btn-secondary"
-              type="button"
-              data-dismiss="modal"
-            >
-              Cancel
-            </button>
-            <a class="btn btn-primary" href="<?php echo site_url('/owner/logout');?>">Logout</a>
-          </div>
-        </div>
-      </div>
-    </div>
 
     <!-- Bootstrap core JavaScript-->
     <script src="<?= base_url(); ?>/vendor/jquery/jquery.min.js"></script>
@@ -470,6 +436,19 @@
           }
         });
       });
+
+      $('#tooglePassword3').on('click', function(event){
+        event.preventDefault();
+        if($('#passwordVisibility3 input').attr("type") == "password"){
+          $('#passwordVisibility3 input').attr('type', 'text');
+          $('#passwordVisibility3 i').removeClass('fa-eye');
+          $('#passwordVisibility3 i').addClass('fa-eye-slash');
+        } else {
+          $('#passwordVisibility3 input').attr('type', 'password');
+          $('#passwordVisibility3 i').removeClass('fa-eye-slash');
+          $('#passwordVisibility3 i').addClass('fa-eye');
+        }
+      });
     </script>
 
     <script>
@@ -483,6 +462,11 @@
       })
 
       $(document).on('click', '#btnDelete', function(){
+        $('.modal-body #namaBarang').val($(this).data('id_barang'));
+        $('.modal-body #tglOutcoming').val($(this).data('tgl_keluar'));
+        $('.modal-body #jumlahBarang').val($(this).data('qty_keluar'));
+        $('.modal-body #hargaSatuan').val($(this).data('harga'));
+        $('.modal-body #keterangan').val($(this).data('keterangan'));
         $('.modal-footer #idKeluar').val($(this).data('id_keluar'));
         $('.modal-footer #namaBarang').val($(this).data('id_barang'));
       })
@@ -854,7 +838,7 @@
     aria-hidden="true"
     id="deleteOutcomingModal"
   >
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="deleteModalLabel">
@@ -870,8 +854,86 @@
           </button>
         </div>
         <form action="/owner/delete_keluar" method="post">
-          <div class="modal-body text-center">
-            Apakah anda yakin ingin menghapus data barang keluar ini ?
+          <div class="modal-body">
+          <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="tanggalOutcoming">Tanggal Keluar</label>
+                  <input
+                    type="date"
+                    name="tglOutcoming"
+                    id="tglOutcoming"
+                    class="form-control"
+                    readonly
+                  />
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="namaBarang">Nama Barang</label>
+                    <select
+                      class="form-control"
+                      name="namaBarang"
+                      id="namaBarang"
+                      readonly
+                    >
+                    <?php foreach ($stock as $stk) : ?>
+                      <option value="<?= $stk['id_barang']; ?>">
+                        <?= ucwords($stk['nama_barang']); ?>
+                      </option>
+                    <?php endforeach; ?>
+                    </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="jumlahBarang">Jumlah Barang</label>
+                  <input
+                    type="number"
+                    min="0"
+                    name="jumlahBarang"
+                    id="jumlahBarang"
+                    class="form-control"
+                    readonly
+                  />
+                </div>
+              </div>
+              
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="hargaSatuan">Harga Barang Satuan</label>
+                  <input
+                    type="number"
+                    min="0"
+                    name="hargaSatuan"
+                    id="hargaSatuan"
+                    class="form-control"
+                    readonly
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+                <label for="keterangan">Keterangan</label>
+                <input
+                  type="textarea"
+                  min="0"
+                  name="keterangan"
+                  id="keterangan"
+                  placeholder="Ket. Barang Keluar"
+                  class="form-control"
+                  readonly
+                />
+            </div>
+
+            <div class="col-md-12">
+              <b>Apakah Anda Yakin Ingin Menghapus Data Barang Keluar Ini ?</b>
+            </div>
           </div>
 
           <div class="d-sm-flex modal-footer mb-4">
@@ -898,5 +960,39 @@
         </form>
       </div>
     </div>
+  </div>
+
+  <!-- Logout Modal-->
+  <div
+      class="modal fade"
+      id="logoutModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+            <button
+              class="close"
+              type="button"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            Select <b>"Logout"</b> below if you are ready to leave !!!
+          </div>
+          <div class="modal-footer">
+            <a class="btn btn-danger" href="<?php echo site_url('/owner/logout');?>">
+              <i class="fas fa-power-off"></i> Logout
+            </a>
+          </div>
+        </div>
+      </div>
   </div>
 </html>

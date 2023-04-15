@@ -57,14 +57,8 @@
 
         <div class="dropdown-divider"></div>
         
-        <a class="dropdown-item" 
-        href="<?php if(session()->get('tipe_akun') == "Owner"){
-          echo site_url('/owner/logout');
-        } else if(session()->get('tipe_akun') == "Admin"){
-          echo site_url('/admin/logout');
-        } else {
-          echo site_url('/user/logout');
-        }?>">
+        <a class="dropdown-item" type="button" data-toggle="modal" data-target="#logoutModals"
+        >
           <i class="fas fa-power-off a-sm fa-fw mr-2 text-dark"></i>
           Logout
         </a>
@@ -95,9 +89,6 @@
           </button>
         </div>
 
-        <?php if(session()->get('tipe_akun') == "Owner") :?>
-        <form action='/owner/change_password' method="post">
-
           <div class="modal-body">
             <input
               type="hidden"
@@ -151,7 +142,7 @@
                       name="passUser"
                       id="passUser"
                       class="form-control"
-                      required
+                      readonly
                     />
                     <div class="input-group-append">
                       <button class="btn btn-outline-secondary toogle-password" type="button" id="tooglePassword">
@@ -203,15 +194,153 @@
           </div>
 
           <div class="d--sm-flex modal-footer mb-4">
+            <button type="submit" class="btn btn-warning" data-toggle="modal"
+                data-target="#editProfileModal" data-dismiss="modal" name="changePassword">
+              <i class="fas fa-edit"></i> Edit Profile
+            </button>
+          </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Profile Modal -->
+  <div
+    class="modal fade"
+    id="editProfileModal"
+    tabindex="-1"
+    aria-labelledby="editProfileModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editProfileModallLabel">Update My Profile</h5>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <?php if(session()->get('tipe_akun') == "Owner") :?>
+        <form action='/owner/update_profile' method="post">
+
+          <div class="modal-body">
+            <input
+              type="hidden"
+              id="idUser"
+              name="idUser"
+              class="form-control"
+            />
+            
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="namaUser">Nama Lengkap</label>
+                  <input
+                    type="text"
+                    name="namaUser"
+                    id="namaUser"
+                    class="form-control"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="username">Username</label>
+                  <input
+                    type="text"
+                    name="username"
+                    id="username"
+                    class="form-control"
+                  />
+                </div>
+              </div>
+              
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="emailUser">Email</label>
+                  <input
+                    type="email"
+                    name="emailUser"
+                    id="emailUser"
+                    class="form-control"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="passUser">Password</label>
+                  <div class="input-group" id="passwordVisibility3">
+                    <input
+                      type="password"
+                      name="passUser"
+                      id="passUser"
+                      class="form-control"
+                    />
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-secondary toogle-password" type="button" id="tooglePassword3">
+                        <i class="fas fa-eye"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="telp">No. Telp</label>
+                  <input
+                    type="textarea"
+                    name="telpUser"
+                    id="telpUser"
+                    class="form-control"
+                  />
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="tipeAkun">Tipe Akun</label>
+                  <input
+                    type="textarea"
+                    name="tipeAkunUser"
+                    id="tipeAkunUser"
+                    class="form-control"
+                    readonly
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="alamat">Alamat Lengkap</label>
+              <input
+                type="textarea"
+                name="alamatUser"
+                id="alamatUser"
+                class="form-control"
+              />
+            </div>
+
+            <div class="col-md-12">
+                <label for="keterangan"><b>Note : 1. Untuk Tipe Akun Tidak Bisa di Ganti !!!</b></label>
+            </div>
+            
+          </div>
+
+
+          <div class="d--sm-flex modal-footer mb-4">
             <button type="submit" class="btn btn-warning" name="changePassword">
-              <i class="fas fa-edit"></i> Change Password
+              <i class="fas fa-edit"></i> Update Profile
             </button>
           </div>
         </form>
         <?php endif;?>
         
         <?php if(session()->get('tipe_akun') == "Admin") :?>
-        <form action='/admin/change_password' method="post">
+        <form action='/admin/update_profile' method="post">
 
           <div class="modal-body">
             <input
@@ -230,7 +359,6 @@
                     name="namaUser"
                     id="namaUser"
                     class="form-control"
-                    readonly
                   />
                 </div>
 
@@ -241,7 +369,6 @@
                     name="username"
                     id="username"
                     class="form-control"
-                    readonly
                   />
                 </div>
               </div>
@@ -254,22 +381,20 @@
                     name="emailUser"
                     id="emailUser"
                     class="form-control"
-                    readonly
                   />
                 </div>
 
                 <div class="form-group">
                   <label for="passUser">Password</label>
-                  <div class="input-group" id="passwordVisibility">
+                  <div class="input-group" id="passwordVisibility3">
                     <input
                       type="password"
                       name="passUser"
                       id="passUser"
                       class="form-control"
-                      required
                     />
                     <div class="input-group-append">
-                      <button class="btn btn-outline-secondary toogle-password" type="button" id="tooglePassword">
+                      <button class="btn btn-outline-secondary toogle-password" type="button" id="tooglePassword3">
                         <i class="fas fa-eye"></i>
                       </button>
                     </div>
@@ -285,7 +410,6 @@
                     name="telpUser"
                     id="telpUser"
                     class="form-control"
-                    readonly
                   />
                 </div>
               </div>
@@ -311,22 +435,25 @@
                 name="alamatUser"
                 id="alamatUser"
                 class="form-control"
-                readonly
               />
+            </div>
+
+            <div class="col-md-12">
+                <label for="keterangan"><b>Note : 1. Untuk Tipe Akun Tidak Bisa di Ganti !!!</b></label>
             </div>
             
           </div>
 
           <div class="d--sm-flex modal-footer mb-4">
             <button type="submit" class="btn btn-warning" name="changePassword">
-              <i class="fas fa-edit"></i> Change Password
+              <i class="fas fa-edit"></i> Update Profile
             </button>
           </div>
         </form>
         <?php endif;?>
 
         <?php if(session()->get('tipe_akun') == "User") :?>
-        <form action='/user/change_password' method="post">
+        <form action='/user/update_profile' method="post">
 
           <div class="modal-body">
             <input
@@ -345,7 +472,6 @@
                     name="namaUser"
                     id="namaUser"
                     class="form-control"
-                    readonly
                   />
                 </div>
 
@@ -356,7 +482,6 @@
                     name="username"
                     id="username"
                     class="form-control"
-                    readonly
                   />
                 </div>
               </div>
@@ -369,22 +494,20 @@
                     name="emailUser"
                     id="emailUser"
                     class="form-control"
-                    readonly
                   />
                 </div>
 
                 <div class="form-group">
                   <label for="passUser">Password</label>
-                  <div class="input-group" id="passwordVisibility">
+                  <div class="input-group" id="passwordVisibility3">
                     <input
                       type="password"
                       name="passUser"
                       id="passUser"
                       class="form-control"
-                      required
                     />
                     <div class="input-group-append">
-                      <button class="btn btn-outline-secondary toogle-password" type="button" id="tooglePassword">
+                      <button class="btn btn-outline-secondary toogle-password" type="button" id="tooglePassword3">
                         <i class="fas fa-eye"></i>
                       </button>
                     </div>
@@ -400,7 +523,6 @@
                     name="telpUser"
                     id="telpUser"
                     class="form-control"
-                    readonly
                   />
                 </div>
               </div>
@@ -426,7 +548,6 @@
                 name="alamatUser"
                 id="alamatUser"
                 class="form-control"
-                readonly
               />
             </div>
             
@@ -434,11 +555,51 @@
 
           <div class="d--sm-flex modal-footer mb-4">
             <button type="submit" class="btn btn-warning" name="changePassword">
-              <i class="fas fa-edit"></i> Change Password
+              <i class="fas fa-edit"></i> Update Profile
             </button>
           </div>
         </form>
         <?php endif;?>
       </div>
     </div>
+  </div>
+
+  <!-- Logout Modal-->
+  <div
+      class="modal fade"
+      id="logoutModals"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+            <button
+              class="close"
+              type="button"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            Select <b>"Logout"</b> below if you are ready to leave !!!
+          </div>
+          <div class="modal-footer">
+            <a class="btn btn-danger" href="<?php if(session()->get('tipe_akun') == "Owner"){
+                echo site_url('/owner/logout');
+              } else if(session()->get('tipe_akun') == "Admin"){
+                echo site_url('/admin/logout');
+              } else {
+                echo site_url('/user/logout');
+              }?>">
+              <i class="fas fa-power-off"></i> Logout
+            </a>
+          </div>
+        </div>
+      </div>
   </div>

@@ -79,9 +79,9 @@ class Admin extends BaseController
         $success = $supplier->saveData($data);
 
         if($success){
-            session()->setFlashdata('message', 'Berhasil di Tambah !!!');
+            session()->setFlashdata('message', 'Data Supplier Berhasil di Tambah !!!');
         } else {
-            session()->setFlashdata('error', 'Gagal di Tambah !!!');
+            session()->setFlashdata('error', 'Data Supplier Gagal di Tambah !!!');
         }
 
         return redirect()->to('/admin/supplier');
@@ -100,9 +100,9 @@ class Admin extends BaseController
         $success = $supplier->updateData($data, $id);
 
         if($success){
-            session()->setFlashdata('message', 'Berhasil di Update !!!');
+            session()->setFlashdata('message', 'Data Supplier Berhasil di Update !!!');
         } else {
-            session()->setFlashdata('error', 'Gagal di Update !!!');
+            session()->setFlashdata('error', 'Data Supplier Gagal di Update !!!');
         }
 
         return redirect()->to('/admin/supplier');
@@ -115,9 +115,9 @@ class Admin extends BaseController
         $success = $supplier->deleteData($id);
 
         if($success){
-            session()->setFlashdata('message', 'Berhasil di Hapus !!!');
+            session()->setFlashdata('message', 'Data Supplier Berhasil di Hapus !!!');
         } else {
-            session()->setFlashdata('error', 'Gagal di Hapus !!!');
+            session()->setFlashdata('error', 'Data Supplier Gagal di Hapus !!!');
         }
 
         return redirect()->to('/admin/supplier');
@@ -187,9 +187,9 @@ class Admin extends BaseController
         $success = $stock->saveData($data);
 
         if($success){
-            session()->setFlashdata('message', 'Berhasil di Tambah !!!');
+            session()->setFlashdata('message', 'Data Stock Barang Berhasil di Tambah !!!');
         } else {
-            session()->setFlashdata('error', 'Gagal di Tambah !!!');
+            session()->setFlashdata('error', 'Data Stock Barang Gagal di Tambah !!!');
         }
         return redirect()->to('/admin/stock');
     }
@@ -208,9 +208,9 @@ class Admin extends BaseController
         $success = $stock->updateData($data, $id);
         
         if($success){
-            session()->setFlashdata('message', 'Berhasil di Update !!!');
+            session()->setFlashdata('message', 'Data Stock Barang Berhasil di Update !!!');
         } else {
-            session()->setFlashdata('error', 'Gagal di Update !!!');
+            session()->setFlashdata('error', 'Data Stock Barang Gagal di Update !!!');
         }
 
         return redirect()->to('/admin/stock');
@@ -223,9 +223,9 @@ class Admin extends BaseController
         $success = $stock->deleteData($id);
 
         if($success){
-            session()->setFlashdata('message', 'Berhasil di Hapus !!!');
+            session()->setFlashdata('message', 'Data Stock Barang Berhasil di Hapus !!!');
         } else {
-            session()->setFlashdata('error', 'Gagal di Hapus !!!');
+            session()->setFlashdata('error', 'Data Stock Barang Gagal di Hapus !!!');
         }
 
         return redirect()->to('/admin/stock');
@@ -391,11 +391,22 @@ class Admin extends BaseController
             'total_harga_masuk' => $this->request->getPost('hargaSatuan') * $this->request->getPost('jumlahBarang'),
             'keterangan' => $this->request->getPost('keterangan'),
         );
+        
+        $stockBaru = $row['qty_stock'] + $stockBarangMasuk;
+        $totalHargaBaru = ($row['qty_stock'] + $stockBarangMasuk) * $row['harga_satuan'];
 
-        $dataStock = array(
-            'qty_stock' => (int)$row['qty_stock'] + (int)$stockBarangMasuk,
-            'total_harga' => ((int)$row['qty_stock'] + (int)$stockBarangMasuk) * (int)$row['harga_satuan']
-        );
+        if($stockBaru == 0){
+            $dataStock = array(
+                'qty_stock' => "0",
+                'total_harga' => $totalHargaBaru,
+                'status' => "Habis"
+            );
+        } else {
+            $dataStock = array(
+                'qty_stock' => $stockBaru,
+                'total_harga' => $totalHargaBaru
+            );
+        }
         
         $successTambah = $masuk->saveData($data);
         $updateStock = $stock->updateData($dataStock, $idBarang);
@@ -435,10 +446,21 @@ class Admin extends BaseController
             'keterangan' => $this->request->getPost('keterangan')
         );
 
-        $dataStock = array(
-            'qty_stock' => ((int)$rowStock['qty_stock'] - (int)$rowMasuk['qty_masuk']) + (int)$stockBarangMasukBaru,
-            'total_harga' => (((int)$rowStock['qty_stock'] - (int)$rowMasuk['qty_masuk']) + (int)$stockBarangMasukBaru) * (int)$rowStock['harga_satuan']
-        );
+        $stockBaru = ($rowStock['qty_stock'] - $rowMasuk['qty_masuk']) + $stockBarangMasukBaru;
+        $totalHargaBaru = (($rowStock['qty_stock'] - $rowMasuk['qty_masuk']) + $stockBarangMasukBaru) * $rowStock['harga_satuan'];
+
+        if($stockBaru == 0){
+            $dataStock = array(
+                'qty_stock' => "0",
+                'total_harga' => $totalHargaBaru,
+                'status' => "Habis"
+            );
+        } else {
+            $dataStock = array(
+                'qty_stock' => $stockBaru,
+                'total_harga' => $totalHargaBaru
+            );
+        }
         
         $successUpdate = $masuk->updateData($dataMasuk, $idMasuk);
         $updateStock = $stock->updateData($dataStock, $idBarang);
@@ -833,10 +855,21 @@ class Admin extends BaseController
             'keterangan' => $this->request->getPost('keterangan'),
         );
 
-        $dataStock = array(
-            'qty_stock' => (int)$row['qty_stock'] - (int)$stockBarangRetur,
-            'total_harga' => ((int)$row['qty_stock'] - (int)$stockBarangRetur) * (int)$row['harga_satuan']
-        );
+        $stockBaru = $row['qty_stock'] - $stockBarangRetur;
+        $totalHargaBaru = ($row['qty_stock'] - $stockBarangRetur) * $row['harga_satuan'];
+
+        if($stockBaru == 0){
+            $dataStock = array(
+                'qty_stock' => "0",
+                'total_harga' => $totalHargaBaru,
+                'status' => "Habis"
+            );
+        } else {
+            $dataStock = array(
+                'qty_stock' => $stockBaru,
+                'total_harga' => $totalHargaBaru
+            );
+        }
 
         if($row['qty_stock'] >= $stockBarangRetur){
             $successTambah = $retur->saveData($data);
@@ -879,10 +912,22 @@ class Admin extends BaseController
             'keterangan' => $this->request->getPost('keterangan')
         );
 
-        $dataStock = array(
-            'qty_stock' => ((int)$rowStock['qty_stock'] + (int)$rowRetur['qty_retur']) - (int)$stockReturBarangBaru,
-            'total_harga' => (((int)$rowStock['qty_stock'] + (int)$rowRetur['qty_retur']) - (int)$stockReturBarangBaru) * (int)$rowStock['harga_satuan']
-        );
+        $stockBaru =  ($rowStock['qty_stock'] + $rowRetur['qty_retur']) - $stockReturBarangBaru;
+        $totalHargaBaru = (($rowStock['qty_stock'] + $rowRetur['qty_retur']) - $stockReturBarangBaru) * $rowStock['harga_satuan'];
+
+        if($stockBaru == 0){
+            $dataStock = array(
+                'qty_stock' => "0",
+                'total_harga' => $totalHargaBaru,
+                'status' => "Habis"
+            );
+        } else {
+            $dataStock = array(
+                'qty_stock' => $stockBaru,
+                'total_harga' => $totalHargaBaru
+            );
+        }
+
         if($rowStock['qty_stock'] >= $stockReturBarangBaru){
             $successUpdate = $retur->updateData($dataRetur, $idRetur);
             $updateStock = $stock->updateData($dataStock, $idBarang);
@@ -1587,23 +1632,40 @@ class Admin extends BaseController
         return view('admin/print_retur', $filterData);
     }
 
-    public function change_password(){
+    public function update_profile(){
         $akun = $this->akunModel;
         $id = $this->request->getPost('idUser');
         $data = array(
-            'password' => $this->request->getPost('passUser')
+            'nama_lengkap' => $this->request->getPost('namaUser'),
+            'email' => $this->request->getPost('emailUser'),
+            'username' => $this->request->getPost('username'),
+            'password' => $this->request->getPost('passUser'),
+            'alamat'=> $this->request->getPost('alamatUser'),
+            'telp' => $this->request->getPost('telpUser')
         );
         
-        $success = $akun->changePassword($id, $data);
+        $success = $akun->updateProfile($id, $data);
 
         if($success){
             session()->regenerate(true);
-            $password = $this->request->getPost('passUser');
-            session()->set('password', $password);
             
-            session()->setFlashdata('message', 'Password Berhasil di Ganti !!!');
+            $nama = $this->request->getPost('namaUser');
+            $email = $this->request->getPost('emailUser');
+            $username = $this->request->getPost('username');
+            $password = $this->request->getPost('passUser');
+            $alamat = $this->request->getPost('alamatUser');
+            $telp = $this->request->getPost('telpUser');
+            
+            session()->set('nama_lengkap', $nama);
+            session()->set('email', $email);
+            session()->set('username', $username);
+            session()->set('password', $password);
+            session()->set('alamat', $alamat);
+            session()->set('telp', $telp);
+            
+            session()->setFlashdata('message', 'Profil Berhasil di Update !!!');
         } else {
-            session()->setFlashdata('error', 'Password Gagal di Ganti !!!');
+            session()->setFlashdata('error', 'Profil Gagal di Update !!!');
         }
 
         return redirect()->to('/admin');

@@ -153,7 +153,7 @@
 
         <!-- Nav Item - Laporan Stok Barang -->
         <li class="nav-item">
-          <a class="nav-link" href="<?php echo site_url('/admin/logout');?>">
+          <a class="nav-link" type="button" data-toggle="modal" data-target="#logoutModal">
             <i class="fas fa-power-off"></i>
             <span>Logout</span></a
           >
@@ -325,45 +325,6 @@
       <i class="fas fa-angle-up"></i>
     </a>
 
-    <!-- Logout Modal-->
-    <div
-      class="modal fade"
-      id="logoutModal"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-            <button
-              class="close"
-              type="button"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">×</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            Select "Logout" below if you are ready to end your current session.
-          </div>
-          <div class="modal-footer">
-            <button
-              class="btn btn-secondary"
-              type="button"
-              data-dismiss="modal"
-            >
-              Cancel
-            </button>
-            <a class="btn btn-primary" href="<?php echo site_url('/admin/logout');?>">Logout</a>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <!-- Bootstrap core JavaScript-->
     <script src="<?= base_url(); ?>/vendor/jquery/jquery.min.js"></script>
     <script src="<?= base_url(); ?>/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -401,8 +362,21 @@
           }
         });
       });
+
+      $('#tooglePassword3').on('click', function(event){
+        event.preventDefault();
+        if($('#passwordVisibility3 input').attr("type") == "password"){
+          $('#passwordVisibility3 input').attr('type', 'text');
+          $('#passwordVisibility3 i').removeClass('fa-eye');
+          $('#passwordVisibility3 i').addClass('fa-eye-slash');
+        } else {
+          $('#passwordVisibility3 input').attr('type', 'password');
+          $('#passwordVisibility3 i').removeClass('fa-eye-slash');
+          $('#passwordVisibility3 i').addClass('fa-eye');
+        }
+      });
     </script>
-    
+
     <script type="text/javascript">
       $(document).on('click', '#btnProfile', function(){
         $('.modal-body #idUser').val($(this).data('id'));
@@ -659,6 +633,40 @@
             </button>
           </div>
           </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Logout Modal -->
+  <div
+    class="modal fade"
+    id="logoutModal"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+          <button
+            class="close"
+            type="button"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Select <b>"Logout"</b> below if you are ready to leave !!!
+        </div>
+        <div class="modal-footer">
+          <a class="btn btn-danger" href="<?php echo site_url('/admin/logout');?>">
+            <i class="fas fa-power-off"></i> Logout
+          </a>
+        </div>
       </div>
     </div>
   </div>

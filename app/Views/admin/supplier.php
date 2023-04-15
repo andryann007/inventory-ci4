@@ -152,7 +152,7 @@
 
         <!-- Nav Item - Laporan Stok Barang -->
         <li class="nav-item">
-          <a class="nav-link" href="<?php echo site_url('/admin/logout');?>">
+          <a class="nav-link" type="button" data-toggle="modal" data-target="#logoutModal">
             <i class="fas fa-power-off"></i>
             <span>Logout</span></a
           >
@@ -204,7 +204,7 @@
                     <button type="button" class="close" data-dismiss="alert">
                       &times;
                     </button>
-                    Perhatian !!! Data Supplier 
+                    Perhatian !!! 
                     <strong><?= session()->getFlashdata('message'); ?> </strong>
                   </div>
                 <?php endif; ?>
@@ -215,7 +215,7 @@
                     <button type="button" class="close" data-dismiss="alert">
                       &times;
                     </button>
-                    Perhatian !!! Data Supplier 
+                    Perhatian !!!  
                     <strong><?= session()->getFlashdata('error'); ?> </strong>
                   </div>
                 <?php endif; ?>
@@ -307,6 +307,10 @@
                             data-toggle="modal"
                             data-target="#deleteSupplierModal"
                             data-id="<?= $s['id_supplier'];?>"
+                            data-nama="<?= $s['nama_supplier'];?>"
+                            data-email="<?= $s['email'];?>"
+                            data-alamat="<?= $s['alamat'];?>"
+                            data-telp="<?= $s['telp'];?>"
                           >
                             <i class="fas fa-trash"></i>
                           </button>
@@ -338,45 +342,6 @@
     <a class="scroll-to-top rounded" href="#page-top">
       <i class="fas fa-angle-up"></i>
     </a>
-
-    <!-- Logout Modal-->
-    <div
-      class="modal fade"
-      id="logoutModal"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-            <button
-              class="close"
-              type="button"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">×</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            Select "Logout" below if you are ready to end your current session.
-          </div>
-          <div class="modal-footer">
-            <button
-              class="btn btn-secondary"
-              type="button"
-              data-dismiss="modal"
-            >
-              Cancel
-            </button>
-            <a class="btn btn-primary" href="<?php echo site_url('/admin/logout');?>">Logout</a>
-          </div>
-        </div>
-      </div>
-    </div>
 
     <!-- Bootstrap core JavaScript-->
     <script src="<?= base_url(); ?>/vendor/jquery/jquery.min.js"></script>
@@ -415,8 +380,21 @@
           }
         });
       });
+
+      $('#tooglePassword3').on('click', function(event){
+        event.preventDefault();
+        if($('#passwordVisibility3 input').attr("type") == "password"){
+          $('#passwordVisibility3 input').attr('type', 'text');
+          $('#passwordVisibility3 i').removeClass('fa-eye');
+          $('#passwordVisibility3 i').addClass('fa-eye-slash');
+        } else {
+          $('#passwordVisibility3 input').attr('type', 'password');
+          $('#passwordVisibility3 i').removeClass('fa-eye-slash');
+          $('#passwordVisibility3 i').addClass('fa-eye');
+        }
+      });
     </script>
-    
+
     <script type="text/javascript">
       $(document).on('click', '#btnProfile', function(){
         $('.modal-body #idUser').val($(this).data('id'));
@@ -441,6 +419,10 @@
 
       $(document).on('click', '#btnDelete', function(){
         $('.modal-footer #idSupplier').val($(this).data('id'));
+        $('.modal-body #namaSupplier').val($(this).data('nama'));
+        $('.modal-body #alamatSupplier').val($(this).data('alamat'));
+        $('.modal-body #emailSupplier').val($(this).data('email'));
+        $('.modal-body #telpSupplier').val($(this).data('telp'));
       })
     </script>
   </body>
@@ -535,8 +517,9 @@
           </div>
         </form>
       </div>
-      </div>
     </div>
+  </div>
+
 
   <!-- Edit Data Modal -->
   <div
@@ -629,7 +612,8 @@
         </form>
       </div>
     </div>
-  </div>
+    </div>
+  <!-- End Edit Data Modal -->
 
   <!-- Delete Data Modal -->
   <div
@@ -655,8 +639,60 @@
           </button>
         </div>
         <form action="/admin/delete_supplier" method="post">
-          <div class="modal-body text-center">
-            Apakah anda yakin ingin menghapus supplier ini ?
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="namaSupplier">Nama Supplier</label>
+              <input
+                type="text"
+                name="namaSupplier"
+                id="namaSupplier"
+                class="form-control"
+                readonly
+              />
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="telpSupplier">No. Telp Supplier</label>
+                  <input
+                    type="telp"
+                    name="telpSupplier"
+                    id="telpSupplier"
+                    class="form-control"
+                    readonly
+                  />
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="emailSupplier">Email Supplier</label>
+                  <input
+                    type="email"
+                    name="emailSupplier"
+                    id="emailSupplier"
+                    class="form-control"
+                    readonly
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="alamatSupplier">Alamat Supplier</label>
+              <input
+                type="text"
+                name="alamatSupplier"
+                id="alamatSupplier"
+                class="form-control"
+                readonly
+              />
+            </div>
+
+            <div class="col-md-12">
+              <b>Apakah Anda Yakin Untuk Menghapus Data Supplier Ini ?</b>
+            </div>
           </div>
 
           <div class="d-sm-flex modal-footer mb-4">
@@ -678,6 +714,39 @@
       </div>
     </div>
   </div>
-  <!-- End Delete Data Modal -->
+  
+  <!-- Logout Modal-->
+  <div
+    class="modal fade"
+    id="logoutModal"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+          <button
+            class="close"
+            type="button"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Select <b>"Logout"</b> below if you are ready to leave !!!
+        </div>
+        <div class="modal-footer">
+          <a class="btn btn-danger" href="<?php echo site_url('/admin/logout');?>">
+            <i class="fas fa-power-off"></i> Logout
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </html>

@@ -154,7 +154,7 @@
 
         <!-- Nav Item - Laporan Stok Barang -->
         <li class="nav-item">
-          <a class="nav-link" href="<?php echo site_url('/admin/logout');?>">
+          <a class="nav-link" type="button" data-toggle="modal" data-target="#logoutModal">
             <i class="fas fa-power-off"></i>
             <span>Logout</span></a
           >
@@ -348,6 +348,12 @@
                             data-target="#deleteIncomingModal"
                             data-id_masuk="<?= $msk['id_masuk'];?>"
                             data-id_barang="<?= $msk['id_barang'];?>"
+                            data-id_supplier="<?= $msk['id_supplier'];?>"
+                            data-tgl_masuk="<?= $msk['tgl_masuk'];?>"
+                            data-qty_masuk="<?= $msk['qty_masuk'];?>"
+                            data-harga="<?= $msk['harga_satuan_masuk'];?>"
+                            data-total_harga="<?= $msk['total_harga_masuk'];?>"
+                            data-keterangan="<?= $msk['keterangan'];?>"
                           >
                             <i class="fas fa-trash"></i>
                           </button>
@@ -380,45 +386,6 @@
       <i class="fas fa-angle-up"></i>
     </a>
 
-    <!-- Logout Modal-->
-    <div
-      class="modal fade"
-      id="logoutModal"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-            <button
-              class="close"
-              type="button"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">×</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            Select "Logout" below if you are ready to end your current session.
-          </div>
-          <div class="modal-footer">
-            <button
-              class="btn btn-secondary"
-              type="button"
-              data-dismiss="modal"
-            >
-              Cancel
-            </button>
-            <a class="btn btn-primary" href="<?php echo site_url('/admin/logout');?>">Logout</a>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <!-- Bootstrap core JavaScript-->
     <script src="<?= base_url(); ?>/vendor/jquery/jquery.min.js"></script>
     <script src="<?= base_url(); ?>/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -441,6 +408,19 @@
     <script src="<?= base_url(); ?>/js/demo/chart-pie-demo.js"></script>
 
     <script type="text/javascript">
+      $(document).on('click', '#btnProfile', function(){
+        $('.modal-body #idUser').val($(this).data('id'));
+        $('.modal-body #namaUser').val($(this).data('nama'));
+        $('.modal-body #emailUser').val($(this).data('email'));
+        $('.modal-body #username').val($(this).data('username'));
+        $('.modal-body #passUser').val($(this).data('password'));
+        $('.modal-body #telpUser').val($(this).data('telp'));
+        $('.modal-body #alamatUser').val($(this).data('alamat'));
+        $('.modal-body #tipeAkunUser').val($(this).data('tipe'));
+      })
+    </script>
+
+    <script type="text/javascript">
       $(document).ready(function(){
         $('#tooglePassword').on('click', function(event){
 
@@ -456,19 +436,19 @@
           }
         });
       });
-    </script>
 
-    <script type="text/javascript">
-      $(document).on('click', '#btnProfile', function(){
-        $('.modal-body #idUser').val($(this).data('id'));
-        $('.modal-body #namaUser').val($(this).data('nama'));
-        $('.modal-body #emailUser').val($(this).data('email'));
-        $('.modal-body #username').val($(this).data('username'));
-        $('.modal-body #passUser').val($(this).data('password'));
-        $('.modal-body #telpUser').val($(this).data('telp'));
-        $('.modal-body #alamatUser').val($(this).data('alamat'));
-        $('.modal-body #tipeAkunUser').val($(this).data('tipe'));
-      })
+      $('#tooglePassword3').on('click', function(event){
+        event.preventDefault();
+        if($('#passwordVisibility3 input').attr("type") == "password"){
+          $('#passwordVisibility3 input').attr('type', 'text');
+          $('#passwordVisibility3 i').removeClass('fa-eye');
+          $('#passwordVisibility3 i').addClass('fa-eye-slash');
+        } else {
+          $('#passwordVisibility3 input').attr('type', 'password');
+          $('#passwordVisibility3 i').removeClass('fa-eye-slash');
+          $('#passwordVisibility3 i').addClass('fa-eye');
+        }
+      });
     </script>
 
     <script>
@@ -483,6 +463,12 @@
       })
 
       $(document).on('click', '#btnDelete', function(){
+        $('.modal-body #namaBarang').val($(this).data('id_barang'));
+        $('.modal-body #namaSupplier').val($(this).data('id_supplier'));
+        $('.modal-body #tglIncoming').val($(this).data('tgl_masuk'));
+        $('.modal-body #jumlahBarang').val($(this).data('qty_masuk'));
+        $('.modal-body #hargaSatuan').val($(this).data('harga'));
+        $('.modal-body #keterangan').val($(this).data('keterangan'));
         $('.modal-footer #idMasuk').val($(this).data('id_masuk'));
         $('.modal-footer #namaBarang').val($(this).data('id_barang'));
       })
@@ -623,7 +609,7 @@
       </div>
     </div>
   </div>
-
+  
   <!-- Edit Data Modal -->
   <div
     class="modal fade"
@@ -902,7 +888,7 @@
     aria-hidden="true"
     id="deleteIncomingModal"
   >
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="deleteModalLabel">
@@ -918,8 +904,103 @@
           </button>
         </div>
         <form action="/admin/delete_masuk" method="post">
-          <div class="modal-body text-center">
-            Apakah anda yakin ingin menghapus data barang masuk ini ?
+          <div class="modal-body">
+          <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="tanggalIncoming">Tanggal Masuk</label>
+                  <input
+                    type="date"
+                    name="tglIncoming"
+                    id="tglIncoming"
+                    class="form-control"
+                    readonly
+                  />
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="namaSupplier">Nama Supplier</label>
+                  <select
+                    class="form-control"
+                    name="namaSupplier"
+                    id="namaSupplier"
+                    readonly
+                  >
+                  <?php foreach ($supplier as $s) : ?>
+                    <option value="<?= $s['id_supplier']; ?>">
+                      <?= ucwords($s['nama_supplier']); ?>
+                    </option>
+                  <?php endforeach; ?>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="namaBarang">Nama Barang</label>
+              <select
+                class="form-control"
+                name="namaBarang"
+                id="namaBarang"
+                readonly
+              >
+              <?php foreach ($stock as $stk) : ?>
+                <option value="<?= $stk['id_barang']; ?>">
+                  <?= ucwords($stk['nama_barang']); ?>
+                </option>
+              <?php endforeach; ?>
+              </select>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="jumlahBarang">Jumlah Barang</label>
+                  <input
+                    type="number"
+                    min="0"
+                    name="jumlahBarang"
+                    id="jumlahBarang"
+                    class="form-control"
+                    readonly
+                  />
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="hargaSatuan">Harga Barang Satuan</label>
+                  <input
+                    type="number"
+                    min="0"
+                    name="hargaSatuan"
+                    id="hargaSatuan"
+                    class="form-control"
+                    readonly
+                  />
+                </div>
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label for="keterangan">Keterangan</label>
+              <input
+                type="textarea"
+                min="0"
+                name="keterangan"
+                id="keterangan"
+                placeholder="Ket. Barang Masuk"
+                class="form-control"
+                readonly
+              />
+            </div>
+
+            <div class="col-md-12">
+              <b>Apakah Anda Yakin Ingin Menghapus Data Barang Masuk ini ?</b>
+            </div>
+            
           </div>
 
           <div class="d-sm-flex modal-footer mb-4">
@@ -946,5 +1027,39 @@
         </form>
       </div>
     </div>
+  </div>
+
+  <!-- Logout Modal-->
+  <div
+      class="modal fade"
+      id="logoutModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+            <button
+              class="close"
+              type="button"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            Select <b>"Logout"</b> below if you are ready to leave !!!
+          </div>
+          <div class="modal-footer">
+            <a class="btn btn-danger" href="<?php echo site_url('/admin/logout');?>">
+              <i class="fas fa-power-off"></i> Logout
+            </a>
+          </div>
+        </div>
+      </div>
   </div>
 </html>
