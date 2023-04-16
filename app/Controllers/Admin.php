@@ -1674,6 +1674,6 @@ class Admin extends BaseController
     public function logout(){
         session() -> remove('logged_in');
         session() -> destroy();
-        return redirect() -> to('home');
+        return redirect() -> to('/home');
     }
 }

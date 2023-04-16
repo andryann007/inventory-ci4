@@ -5,18 +5,17 @@
     <i class="fa fa-bars"></i>
   </button>
 
-  <div class="copyright text-center my-auto">
-    <span class="text-light">Today Date : <b>
+  <div class="copyright text-center my-auto d-sm-flex">
+    <div class="text-light">Today Date : <b>
       <?php
         date_default_timezone_set('Asia/Jakarta');
         echo date("d F Y");
-      ?> / 
-      <?php 
-        $today = time();
-        date_default_timezone_set('Asia/Jakarta');
-        echo date("H:i:s", $today);
       ?>
-    </b></span>
+      / </b>
+    </div>
+
+    <div class="text-light" id="clock">
+    </div>
   </div>
 
   <!-- Topbar Navbar -->
@@ -603,3 +602,16 @@
         </div>
       </div>
   </div>
+
+  <script type="text/javascript">
+    function showTime(){
+      var d = new Date();
+      var timezone = {timeZone: 'Asia/Jakarta'};
+      var timeStr = d.toLocaleTimeString('en-US', timezone);
+
+      document.getElementById('clock').innerHTML = "<b> / " + timeStr + "</b>";
+      setTimeout(showTime, 1000);
+    }
+
+    showTime();
+  </script>
