@@ -16,11 +16,12 @@ class Home extends BaseController
             $password = $this -> request -> getPost('password');
 
             if($username == "" or $password == ""){
-                $err ="Silahkan Masukkan ID User & Password !!!";
+                $err ="Username & Password Masih Kosong!!!";
             }
             
             if(empty($err)){
                 $dataAkun = $ModelAkun -> where("username", $username) -> first();
+                
                 if($dataAkun['password'] != $password){
                     $err = "Password Tidak Sesuai !!!";
                 }

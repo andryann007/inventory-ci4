@@ -880,6 +880,7 @@
                     name="telpUser"
                     id="telpUser"
                     class="form-control"
+                    readonly
                   />
                 </div>
               </div>

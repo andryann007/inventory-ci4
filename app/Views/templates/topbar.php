@@ -195,7 +195,7 @@
           <div class="d--sm-flex modal-footer mb-4">
             <button type="submit" class="btn btn-warning" data-toggle="modal"
                 data-target="#editProfileModal" data-dismiss="modal" name="changePassword">
-              <i class="fas fa-edit"></i> Edit Profile
+              <i class="fas fa-edit"></i> Update Profile
             </button>
           </div>
       </div>
