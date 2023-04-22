@@ -57,8 +57,10 @@
     <table width="100%">
         <tr>
             <td style="text-align: left; margin: 15px;">
-                <span style="line-height: 1.5; font-weight: bold; font-size:x-large;">Cikarang, <?= date("d-m-Y");?></span><br>
-                <span style="line-height: 1.5; font-size:x-large;">Perihal : <b>Laporan Barang Masuk</b></span><br>
+                <span style="line-height: 1.5; font-weight: bold; font-size:x-large;">Cikarang, <?php 
+                    date_default_timezone_set('Asia/Jakarta');
+                    echo date("d F Y"); ?></span><br>    
+                <span style="line-height: 1.5; font-size:x-large;"><b>Perihal : Laporan Barang Masuk</b></span><br>
             </td>
         </tr>
     </table>
@@ -85,15 +87,17 @@
         ?>
         <tbody>
             <tr>
-                <td><?= $i++;?></th>
-                <td><?= $msk['tgl_masuk'];?></th>
-                <td><?= $msk['nama_barang'];?></th>
-                <td><?= $msk['nama_supplier'];?></th>
-                <td><?= $msk['kategori'];?></th>
-                <td><?= $msk['keterangan'];?></th>
-                <td><?= "Rp. " . number_format($msk['harga_satuan_masuk'], 2, ',', '.');?></th>
-                <td><?= $msk['qty_masuk'];?></th>
-                <td><?= "Rp. " . number_format($msk['total_harga_masuk'], 2, ',', '.');?></th>
+                <td><?= $i++;?></td>
+                <td>
+                    <?php $date_masuk = date_create($msk['tgl_masuk']); 
+                        echo date_format($date_masuk, "d F Y"); ?></td>
+                <td><?= $msk['nama_barang'];?></td>
+                <td><?= $msk['nama_supplier'];?></td>
+                <td><?= $msk['kategori'];?></td>
+                <td><?= $msk['keterangan'];?></td>
+                <td><?= "Rp. " . number_format($msk['harga_satuan_masuk'], 2, ',', '.');?></td>
+                <td><?= $msk['qty_masuk'];?></td>
+                <td><?= "Rp. " . number_format($msk['total_harga_masuk'], 2, ',', '.');?></td>
             </tr>
             
         </tbody>

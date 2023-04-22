@@ -57,8 +57,10 @@
     <table width="100%">
         <tr>
             <td style="text-align: left; margin: 15px;">
-                <span style="line-height: 1.5; font-weight: bold; font-size:x-large;">Cikarang, <?= date("d-m-Y");?></span><br>
-                <span style="line-height: 1.5; font-size:x-large;">Perihal : <b>Laporan Barang Keluar</b></span><br>
+                <span style="line-height: 1.5; font-weight: bold; font-size:x-large;">Cikarang, <?php 
+                    date_default_timezone_set('Asia/Jakarta');
+                    echo date("d F Y"); ?></span><br>
+                <span style="line-height: 1.5; font-size:x-large;"><b>Perihal : Laporan Barang Keluar</b></span><br>
             </td>
         </tr>
     </table>
@@ -84,14 +86,18 @@
         ?>
         <tbody>
             <tr>
-                <th><?= $i++;?></th>
-                <th><?= $klr['tgl_keluar'];?></th>
-                <th><?= $klr['nama_barang'];?></th>
-                <th><?= $klr['kategori'];?></th>
-                <th><?= $klr['keterangan'];?></th>
-                <th><?= "Rp. " . number_format($klr['harga_satuan_keluar'], 2, ',', '.');?></th>
-                <th><?= $klr['qty_keluar'];?></th>
-                <th><?= "Rp. " . number_format(($klr['total_harga_keluar']), 2, ',', '.');?></th>
+                <td><?= $i++;?></td>
+                <td>
+                    <?php
+                        $date_keluar = date_create($klr['tgl_keluar']); 
+                        echo date_format($date_keluar, "d F Y"); ?>
+                </td>
+                <td><?= $klr['nama_barang'];?></td>
+                <td><?= $klr['kategori'];?></td>
+                <td><?= $klr['keterangan'];?></td>
+                <td><?= "Rp. " . number_format($klr['harga_satuan_keluar'], 2, ',', '.');?></td>
+                <td><?= $klr['qty_keluar'];?></td>
+                <td><?= "Rp. " . number_format(($klr['total_harga_keluar']), 2, ',', '.');?></td>
             </tr>
         </tbody>
         <?php 

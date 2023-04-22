@@ -57,8 +57,10 @@
     <table width="100%">
         <tr>
             <td style="text-align: left; margin: 15px;">
-                <span style="line-height: 1.5; font-weight: bold; font-size:x-large;">Cikarang, <?= date("d-m-Y");?></span><br>
-                <span style="line-height: 1.5; font-size:x-large;">Perihal : <b>Laporan Retur Barang</b></span><br>
+                <span style="line-height: 1.5; font-weight: bold; font-size:x-large;">Cikarang, <?php 
+                    date_default_timezone_set('Asia/Jakarta');
+                    echo date("d F Y"); ?></span><br>   
+                <span style="line-height: 1.5; font-size:x-large;"><b>Perihal : Laporan Retur Barang</b></span><br>
             </td>
         </tr>
     </table>
@@ -85,15 +87,18 @@
         ?>
         <tbody>
             <tr>
-                <th><?= $i++;?></th>
-                <th><?= $rtr['tgl_retur'];?></th>
-                <th><?= $rtr['nama_barang'];?></th>
-                <th><?= $rtr['nama_supplier'];?></th>
-                <th><?= $rtr['kategori'];?></th>
-                <th><?= $rtr['keterangan'];?></th>
-                <th><?= "Rp. " . number_format($rtr['harga_satuan'], 2, ',', '.');?></th>
-                <th><?= $rtr['qty_retur'];?></th>
-                <th><?= "Rp. " . number_format($rtr['harga_satuan'] * $rtr['qty_retur'], 2, ',', '.');?></th>
+                <td><?= $i++;?></td>
+                <td><?php
+                        $date_retur = date_create($rtr['tgl_retur']); 
+                        echo date_format($date_retur, "d F Y"); ?>
+                </td>
+                <td><?= $rtr['nama_barang'];?></td>
+                <td><?= $rtr['nama_supplier'];?></td>
+                <td><?= $rtr['kategori'];?></td>
+                <td><?= $rtr['keterangan'];?></td>
+                <td><?= "Rp. " . number_format($rtr['harga_satuan'], 2, ',', '.');?></td>
+                <td><?= $rtr['qty_retur'];?></td>
+                <td><?= "Rp. " . number_format($rtr['harga_satuan'] * $rtr['qty_retur'], 2, ',', '.');?></td>
             </tr>
         </tbody>
         <?php 

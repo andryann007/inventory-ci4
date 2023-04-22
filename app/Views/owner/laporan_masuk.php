@@ -282,7 +282,8 @@
                           <?= $i++; ?>
                         </td>
                         <td>
-                          <?= $msk['tgl_masuk']; ?>
+                          <?php $date_masuk = date_create($msk['tgl_masuk']); 
+                            echo date_format($date_masuk, "d F Y"); ?>
                         </td>
                         <td>
                           <?= $msk['nama_barang']; ?>

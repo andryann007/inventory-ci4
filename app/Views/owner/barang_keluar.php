@@ -300,7 +300,9 @@
                           <?= $i++; ?>
                         </td>
                         <td>
-                          <?= $klr['tgl_keluar']; ?>
+                          <?php
+                            $date_keluar = date_create($klr['tgl_keluar']); 
+                            echo date_format($date_keluar, "d F Y"); ?>
                         </td>
                         <td>
                           <?= ucwords($klr['nama_barang']); ?>

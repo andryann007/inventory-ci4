@@ -273,7 +273,9 @@
                           <?= $i++; ?>
                         </td>
                         <td>
-                          <?= $rtr['tgl_retur']; ?>
+                          <?php
+                            $date_retur = date_create($rtr['tgl_retur']); 
+                            echo date_format($date_retur, "d F Y"); ?>
                         </td>
                         <td>
                           <?= $rtr['nama_barang']; ?>
