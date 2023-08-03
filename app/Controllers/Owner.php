@@ -407,42 +407,77 @@ class Owner extends BaseController
         }
     }
 
+    public function tambah_barang_masuk(){
+        if(!session()->has("logged_in")){
+            return redirect()->to('home');
+        } else if(session()->get('tipe_akun') == "Admin"){
+            return redirect()->to('admin');
+        } else if(session()->get('tipe_akun') == "User"){
+            return redirect()->to('user');
+        } else {
+            $data = [
+                'title' => 'Tambah Data Barang Keluar',
+                'stock' => $this->stockModel->getData(),
+                'supplier' => $this->supplierModel->getData()
+            ];
+
+            return view('owner/tambah_barang_masuk', $data);
+        }
+    }
+
     public function save_masuk(){
         $db = \Config\Database::connect();
-        $masuk = $this->masukModel;
         $stock = $this->stockModel;
 
-        $idBarang = $this->request->getPost('namaBarang');
-        $stockBarangMasuk = $this->request->getPost('jumlahBarang');
-        
-        $query = $db->query("SELECT qty_stock, harga_satuan FROM data_stock WHERE id_barang = '$idBarang'");
-        $row = $query->getRowArray();
+        if($this->request->isAJAX()){
+            $idSupplier = $this->request->getVar('namaSupplier');
+            $idBarang = $this->request->getVar('namaBarang');
+            $tglMasuk = $this->request->getVar('tglIncoming');
+            $qtyMasuk = $this->request->getVar('jumlahBarang');
+            $hargaSatuan = $this->request->getVar('hargaSatuan');
+            $keterangan = $this->request->getVar("keterangan");
 
-        $data = array(
-            'id_barang' => $this->request->getPost('namaBarang'),
-            'id_supplier'=> $this->request->getPost('namaSupplier'),
-            'tgl_masuk' => $this->request->getPost('tglIncoming'),
-            'qty_masuk' => $this->request->getPost('jumlahBarang'),
-            'harga_satuan_masuk' => $this->request->getPost('hargaSatuan'),
-            'total_harga_masuk' => $this->request->getPost('hargaSatuan') * $this->request->getPost('jumlahBarang'),
-            'keterangan' => $this->request->getPost('keterangan'),
-        );
+            $jumlahData = count($idBarang);
 
-        $dataStock = array(
-            'qty_stock' => (int)$row['qty_stock'] + (int)$stockBarangMasuk,
-            'total_harga' => ((int)$row['qty_stock'] + (int)$stockBarangMasuk) * (int)$row['harga_satuan']
-        );
-        
-        $successTambah = $masuk->saveData($data);
-        $updateStock = $stock->updateData($dataStock, $idBarang);
+            for($i=0; $i<$jumlahData; $i++){
+                $dbStock[$i] = $db->query("SELECT qty_stock, harga_satuan FROM data_stock WHERE id_barang = '$idBarang[$i]'");
 
-        if($successTambah & $updateStock){
-            session()->setFlashdata('message', 'Data Barang Masuk Berhasil di Tambah !!! & Data Stock Berhasil di Update');
-        } else {
-            session()->setFlashdata('error', 'Data Barang Masuk Gagal di Tambah !!!');
+                $row[$i] = $dbStock[$i]->getRowArray();
+                $rowStock[$i] = $row[$i]['qty_stock'];
+                $rowHargaSatuan[$i] = $row[$i]['harga_satuan'];
+
+                $stockBaru[$i] = $rowStock[$i] + $qtyMasuk[$i];
+                $totalHargaBaru[$i] = ($rowStock[$i] + $qtyMasuk[$i]) * $rowHargaSatuan[$i];
+                
+                $dataStock[$i] = array(
+                    'qty_stock' => $stockBaru[$i],
+                    'total_harga' => $totalHargaBaru[$i],
+                    'status' => "Tersedia"
+                );
+
+                $stock->updateData($dataStock[$i], $idBarang[$i]);
+
+                $db->table('data_barang_masuk')
+                    -> join('data_stock', 'data_stock.id_barang = data_barang_masuk.id_barang', 'inner')
+                    -> insert([
+                        'id_supplier' => $idSupplier[$i],
+                        'id_barang' => $idBarang[$i],
+                        'tgl_masuk' => $tglMasuk[$i],
+                        'qty_masuk' => $qtyMasuk[$i],
+                        'harga_satuan_masuk' => $hargaSatuan[$i],
+                        'total_harga_masuk' => $qtyMasuk[$i] * $hargaSatuan[$i],
+                        'keterangan' => $keterangan[$i]
+                    ]);
+
+                session()->setFlashdata('message', "$jumlahData Data Barang Masuk Berhasil di Tambah !!!");
+            }
         }
 
-        return redirect()->to('/owner/masuk');
+        $msg = [
+            'success' => 'Data Barang Masuk Berhasil di Proses'
+        ];
+
+        echo json_encode($msg);
     }
 
     public function update_masuk(){
@@ -561,56 +596,84 @@ class Owner extends BaseController
         }
     }
 
+    public function tambah_barang_keluar(){
+        if(!session()->has("logged_in")){
+            return redirect()->to('home');
+        } else if(session()->get('tipe_akun') == "Admin"){
+            return redirect()->to('admin');
+        } else if(session()->get('tipe_akun') == "User"){
+            return redirect()->to('user');
+        } else {
+            $data = [
+                'title' => 'Tambah Data Barang Keluar',
+                'stock' => $this->stockModel->getData()
+            ];
+
+            return view('owner/tambah_barang_keluar', $data);
+        }
+    }
+
     public function save_keluar(){
         $db = \Config\Database::connect();
-        $keluar = $this->keluarModel;
         $stock = $this->stockModel;
 
-        $idBarang = $this->request->getPost('namaBarang');
-       
-        $stockBarangKeluar = $this->request->getPost('jumlahBarang');
-        
-        $query = $db->query("SELECT qty_stock, harga_satuan FROM data_stock WHERE id_barang = '$idBarang'");
-        $row = $query->getRowArray();
+        if($this->request->isAJAX()){
+            $idBarang = $this->request->getVar('namaBarang');
+            $tglKeluar = $this->request->getVar('tglOutcoming');
+            $qtyKeluar = $this->request->getVar('jumlahBarang');
+            $hargaSatuan = $this->request->getVar('hargaSatuan');
+            $keterangan = $this->request->getVar("keterangan");
 
-        $data = array(
-            'id_barang' => $this->request->getPost('namaBarang'),
-            'tgl_keluar' => $this->request->getPost('tglOutcoming'),
-            'qty_keluar' => $this->request->getPost('jumlahBarang'),
-            'harga_satuan_keluar' => $this->request->getPost('hargaSatuan'),
-            'total_harga_keluar' => $this->request->getPost('hargaSatuan') * $this->request->getPost('jumlahBarang'),
-            'keterangan' => $this->request->getPost('keterangan')
-        );
+            $jumlahData = count($idBarang);
 
-        $stockBaru = $row['qty_stock'] - $stockBarangKeluar;
-        $totalHargaBaru = ($row['qty_stock'] - $stockBarangKeluar) * $row['harga_satuan'];
-        
-        if($stockBaru == 0){
-            $dataStock = array(
-                'qty_stock' => "0",
-                'total_harga' => $totalHargaBaru,
-                'status' => "Habis"
-            );
-        } else {
-            $dataStock = array(
-                'qty_stock' => $stockBaru,
-                'total_harga' => $totalHargaBaru
-            );
-        }
+            for($i=0; $i<$jumlahData; $i++){
+                $dbStock[$i] = $db->query("SELECT qty_stock, harga_satuan FROM data_stock WHERE id_barang = '$idBarang[$i]'");
 
-        if($row['qty_stock'] >= $stockBarangKeluar){
-            $successTambah = $keluar->saveData($data);
-            $updateStock = $stock->updateData($dataStock, $idBarang);
-            
-            if($successTambah & $updateStock){
-                session()->setFlashdata('message', 'Data Barang Keluar Berhasil di Tambah !!! & Data Stock Barang Berhasil di Update');
+                $row[$i] = $dbStock[$i]->getRowArray();
+                $rowStock[$i] = $row[$i]['qty_stock'];
+                $rowHargaSatuan[$i] = $row[$i]['harga_satuan'];
+
+                $stockBaru[$i] = $rowStock[$i] - $qtyKeluar[$i];
+                $totalHargaBaru[$i] = ($rowStock[$i] - $qtyKeluar[$i]) * $rowHargaSatuan[$i];
+                
+                if($stockBaru[$i] == 0){
+                    $dataStock[$i] = array(
+                        'qty_stock' => 0,
+                        'total_harga' => $totalHargaBaru[$i],
+                        'status' => "Habis"
+                    );
+                } else {
+                    $dataStock[$i] = array(
+                        'qty_stock' => $stockBaru[$i],
+                        'total_harga' => $totalHargaBaru[$i]
+                    );   
+                }
+
+                if($rowStock[$i] >= $qtyKeluar[$i]){
+                    $stock->updateData($dataStock[$i], $idBarang[$i]);
+
+                    $db->table('data_barang_keluar')
+                        -> join('data_stock', 'data_stock.id_barang = data_barang_keluar.id_barang', 'inner')
+                        -> insert([
+                            'id_barang' => $idBarang[$i],
+                            'tgl_keluar' => $tglKeluar[$i],
+                            'qty_keluar' => $qtyKeluar[$i],
+                            'harga_satuan_keluar' => $hargaSatuan[$i],
+                            'total_harga_keluar' => $qtyKeluar[$i] * $hargaSatuan[$i],
+                            'keterangan' => $keterangan[$i]
+                        ]);
+                    session()->setFlashdata('message', "$jumlahData Data Barang Keluar Berhasil di Tambah !!!");
+                } else if($rowStock[$i] < $qtyKeluar[$i]){
+                    session()->setFlashdata('error', "Data Barang Keluar Gagal di Tambah (Karena QTY Stock < QTY Keluar) !!!");
+                }
             }
-        }
-        else if ($row['qty_stock'] < $stockBarangKeluar) {
-            session()->setFlashdata('error', 'Gagal di Tambah (Karena QTY Keluar > QTY Stock !!!');
-        }
 
-        return redirect()->to('/owner/keluar');
+            $msg = [
+                'success' => 'Data Barang Keluar Berhasil di Proses'
+            ];
+
+            echo json_encode($msg);
+        }
     }
 
     public function update_keluar(){
@@ -808,61 +871,82 @@ class Owner extends BaseController
         }
     }
 
+    public function tambah_retur_barang(){
+        if(!session()->has("logged_in")){
+            return redirect()->to('home');
+        } else if(session()->get('tipe_akun') == "Admin"){
+            return redirect()->to('admin');
+        } else if(session()->get('tipe_akun') == "User"){
+            return redirect()->to('user');
+        } else {
+            $data = [
+                'title' => 'Tambah Data Barang Keluar',
+                'stock' => $this->stockModel->getData(),
+                'supplier' => $this->supplierModel->getData()
+            ];
+
+            return view('owner/tambah_retur_barang', $data);
+        }
+    }
+
     public function save_retur(){
         $db = \Config\Database::connect();
-        $retur = $this->returModel;
         $stock = $this->stockModel;
 
-        $idBarang = $this->request->getPost('namaBarang');
-        $stockBarangRetur = $this->request->getPost('jumlahBarang');
-        
-        $query = $db->query("SELECT qty_stock, harga_satuan FROM data_stock WHERE id_barang = '$idBarang'");
-        $row = $query->getRowArray();
+        if($this->request->isAJAX()){
+            $idSupplier = $this->request->getVar('namaSupplier');
+            $idBarang = $this->request->getVar('namaBarang');
+            $tglRetur = $this->request->getVar('tglRetur');
+            $qtyRetur = $this->request->getVar('jumlahBarang');
+            $hargaSatuan = $this->request->getVar('hargaSatuan');
+            $keterangan = $this->request->getVar("keterangan");
 
-        $data = array(
-            'id_barang' => $this->request->getPost('namaBarang'),
-            'id_supplier'=> $this->request->getPost('namaSupplier'),
-            'tgl_retur' => $this->request->getPost('tglRetur'),
-            'qty_retur' => $this->request->getPost('jumlahBarang'),
-            'harga_satuan_retur' => $this->request->getPost('hargaSatuan'),
-            'total_harga_retur' => $this->request->getPost('hargaSatuan') * $this->request->getPost('jumlahBarang'),
-            'keterangan' => $this->request->getPost('keterangan'),
-        );
+            $jumlahData = count($idBarang);
 
-        $stockBaru = $row['qty_stock'] - $stockBarangRetur;
-        $totalHargaBaru = ($row['qty_stock'] - $stockBarangRetur) * $row['harga_satuan'];
+            for($i=0; $i<$jumlahData; $i++){
+                $dbStock[$i] = $db->query("SELECT qty_stock, harga_satuan FROM data_stock WHERE id_barang = '$idBarang[$i]'");
 
-        if($stockBaru == 0){
-            $dataStock = array(
-                'qty_stock' => "0",
-                'total_harga' => $totalHargaBaru,
-                'status' => "Habis"
-            );
-        } else {
-            $dataStock = array(
-                'qty_stock' => $stockBaru,
-                'total_harga' => $totalHargaBaru
-            );
-        }
+                $row[$i] = $dbStock[$i]->getRowArray();
+                $rowStock[$i] = $row[$i]['qty_stock'];
+                $rowHargaSatuan[$i] = $row[$i]['harga_satuan'];
 
-        $dataStock = array(
-            'qty_stock' => (int)$row['qty_stock'] - (int)$stockBarangRetur,
-            'total_harga' => ((int)$row['qty_stock'] - (int)$stockBarangRetur) * (int)$row['harga_satuan']
-        );
+                $stockBaru[$i] = $rowStock[$i] + $qtyRetur[$i];
+                $totalHargaBaru[$i] = ($rowStock[$i] + $qtyRetur[$i]) * $rowHargaSatuan[$i];
+                
+                $dataStock[$i] = array(
+                    'qty_stock' => $stockBaru[$i],
+                    'total_harga' => $totalHargaBaru[$i],
+                    'status' => "Tersedia"
+                );
 
-        if($row['qty_stock'] >= $stockBarangRetur){
-            $successTambah = $retur->saveData($data);
-            $updateStock = $stock->updateData($dataStock, $idBarang);
-            
-            if($successTambah & $updateStock){
-                session()->setFlashdata('message', 'Data Barang Keluar Berhasil di Tambah !!! & Data Retur Barang Berhasil di Update');
+                if($rowStock[$i] >= $qtyRetur[$i]){
+                    $stock->updateData($dataStock[$i], $idBarang[$i]);
+
+                    $db->table('data_retur_barang')
+                    -> join('data_stock', 'data_stock.id_barang = data_retur_barang.id_barang', 'inner')
+                    -> insert([
+                        'id_supplier' => $idSupplier[$i],
+                        'id_barang' => $idBarang[$i],
+                        'tgl_retur' => $tglRetur[$i],
+                        'qty_retur' => $qtyRetur[$i],
+                        'harga_satuan_retur' => $hargaSatuan[$i],
+                        'total_harga_retur' => $qtyRetur[$i] * $hargaSatuan[$i],
+                        'keterangan' => $keterangan[$i]
+                    ]);
+
+                    session()->setFlashdata('message', "$jumlahData Data Retur Barang Berhasil di Tambah !!!");
+                } else if($rowStock[$i] < $qtyRetur[$i]){
+                    session()->setFlashdata('error', "Data Barang Keluar Gagal di Tambah (Karena QTY Stock < QTY Retur) !!!");
+                }
+               
             }
         }
-        else if ($row['qty_stock'] < $stockBarangRetur) {
-            session()->setFlashdata('error', 'Gagal di Tambah (Karena QTY Keluar > QTY Stock !!!');
-        }
 
-        return redirect()->to('/owner/retur');
+        $msg = [
+            'success' => 'Data Retur Barang Berhasil di Proses'
+        ];
+
+        echo json_encode($msg);
     }
 
     public function update_retur(){

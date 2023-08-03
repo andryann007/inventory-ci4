@@ -62,7 +62,7 @@
             <span>Dashboard</span></a
           >
         </li>
-        
+
         <!-- Divider -->
         <hr class="sidebar-divider" />
 
@@ -157,15 +157,14 @@
             >
               <h2 class="h3 mb-0 text-gray-800 col-md-7">Data Barang Masuk</h2>
 
-              <button
-                type="button"
+              <a
+                role="button"
                 class="btn btn-success btn-sm"
-                data-toggle="modal"
-                data-target="#addIncomingModal"
+                href="/user/tambah_barang_masuk"
               >
                 <i class="fas fa-plus"></i>
                 Tambah Data
-              </button>
+              </a>
 
               <button
                 type="button"
@@ -178,9 +177,9 @@
               </button>
 
               <a
+                role="button"
                 href="<?php echo site_url('/user/masuk');?>"
                 class="btn btn-dark btn-sm"
-                role="button"
                 ><i class="fas fa-eye"></i> View All Data</a
               >
 
@@ -425,141 +424,6 @@
       })
     </script>
   </body>
-
-  <!-- Add Data Modal -->
-  <div
-    class="modal fade"
-    id="addIncomingModal"
-    tabindex="-1"
-    aria-labelledby="addModalLabel"
-    aria-hidden="true"
-  >
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="addModalLabel">
-            Tambah Data Barang Masuk
-          </h5>
-          <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="Close"
-          >
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <form action="/user/save_masuk" method="post">
-          <div class="modal-body">
-            <div class="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="tanggalIncoming">Tanggal Masuk</label>
-                  <input
-                    type="date"
-                    name="tglIncoming"
-                    id="tglIncoming"
-                    class="form-control"
-                    required
-                  />
-                </div>
-              </div>
-
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="namaSupplier">Nama Supplier</label>
-                  <select
-                    class="form-control"
-                    name="namaSupplier"
-                    id="namaSupplier"
-                    required
-                  >
-                  <?php foreach ($supplier as $s) : ?>
-                    <option value="<?= $s['id_supplier']; ?>">
-                      <?= ucwords($s['nama_supplier']); ?>
-                    </option>
-                  <?php endforeach; ?>
-                  </select>
-                </div>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="namaBarang">Nama Barang</label>
-              <select
-                class="form-control"
-                name="namaBarang"
-                id="namaBarang"
-                required
-              >
-              <?php foreach ($stock as $stk) : ?>
-                <option value="<?= $stk['id_barang']; ?>">
-                  <?= ucwords($stk['nama_barang']); ?>
-                </option>
-              <?php endforeach; ?>
-              </select>
-            </div>
-
-            <div class="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="jumlahBarang">Jumlah Barang</label>
-                  <input
-                    type="number"
-                    min="0"
-                    name="jumlahBarang"
-                    id="jumlahBarang"
-                    class="form-control"
-                    required
-                  />
-                </div>
-              </div>
-
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="hargaSatuan">Harga Barang Satuan</label>
-                  <input
-                    type="number"
-                    min="0"
-                    name="hargaSatuan"
-                    id="hargaSatuan"
-                    class="form-control"
-                    required
-                  />
-                </div>
-              </div>
-            </div>
-            
-            <div class="form-group">
-              <label for="keterangan">Keterangan</label>
-              <input
-                type="textarea"
-                min="0"
-                name="keterangan"
-                id="keterangan"
-                placeholder="Ket. Barang Masuk"
-                class="form-control"
-                required
-              />
-            </div>
-          </div>
-
-          <div class="d-sm-flex modal-footer mb-4">
-            <button type="button" class="btn btn-danger" data-dismiss="modal">
-              <i class="fas fa-trash"></i> Batal
-            </button>
-            <button
-              type="submit"
-              class="btn btn-primary"
-              name="addIncomingGoods"
-            >
-              <i class="fas fa-plus"></i> Tambah
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
   
   <!-- Edit Data Modal -->
   <div

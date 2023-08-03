@@ -66,7 +66,7 @@
     </table>
     <br>
     
-    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+    <table class="table table-bordered" width="100%" cellspacing="0">
         <thead class="thead-dark">
             <tr>
                 <th>No</th>
