@@ -108,21 +108,6 @@ class Admin extends BaseController
         return redirect()->to('/admin/supplier');
     }
 
-    public function delete_supplier(){
-        $supplier = $this->supplierModel;
-        $id = $this->request->getPost('idSupplier');
-
-        $success = $supplier->deleteData($id);
-
-        if($success){
-            session()->setFlashdata('message', 'Data Supplier Berhasil di Hapus !!!');
-        } else {
-            session()->setFlashdata('error', 'Data Supplier Gagal di Hapus !!!');
-        }
-
-        return redirect()->to('/admin/supplier');
-    }
-
     public function stock(){
         if(!session()->has("logged_in")){
             return redirect()->to('home');
@@ -211,21 +196,6 @@ class Admin extends BaseController
             session()->setFlashdata('message', 'Data Stock Barang Berhasil di Update !!!');
         } else {
             session()->setFlashdata('error', 'Data Stock Barang Gagal di Update !!!');
-        }
-
-        return redirect()->to('/admin/stock');
-    }
-
-    public function delete_stock(){
-        $stock = $this->stockModel;
-        $id = $this->request->getPost('idBarang');
-
-        $success = $stock->deleteData($id);
-
-        if($success){
-            session()->setFlashdata('message', 'Data Stock Barang Berhasil di Hapus !!!');
-        } else {
-            session()->setFlashdata('error', 'Data Stock Barang Gagal di Hapus !!!');
         }
 
         return redirect()->to('/admin/stock');
@@ -474,37 +444,6 @@ class Admin extends BaseController
         return redirect()->to('/admin/masuk');
     }
 
-    public function delete_masuk(){
-        $db = \Config\Database::connect();
-        $stock = $this->stockModel;
-        $masuk = $this->masukModel;
-
-        $idMasuk = $this->request->getPost('idMasuk');
-        $idBarang = $this->request->getPost('namaBarang');
-        
-        $queryMasuk = $db->query("SELECT qty_masuk FROM data_barang_masuk WHERE id_masuk = '$idMasuk'");
-        $rowMasuk = $queryMasuk->getRowArray();
-        
-        $queryStock = $db->query("SELECT qty_stock, harga_satuan FROM data_stock WHERE id_barang = '$idBarang'");
-        $rowStock = $queryStock->getRowArray();
-
-        $dataStock = array(
-            'qty_stock' => (int)$rowStock['qty_stock'] - (int)$rowMasuk['qty_masuk'],
-            'total_harga' => ((int)$rowStock['qty_stock'] - (int)$rowMasuk['qty_masuk']) * (int)$rowStock['harga_satuan']
-        );
-        
-        $updateStock = $stock->updateData($dataStock, $idBarang);
-        $successDelete = $masuk->deleteData($idMasuk);
-
-        if($successDelete & $updateStock){
-            session()->setFlashdata('message', 'Data Barang Masuk Berhasil di Hapus !!! & Data Stock Barang Berhasil di Update !!!');
-        } else {
-            session()->setFlashdata('error', 'Data Barang Masuk Gagal di Hapus !!!');
-        }
-
-        return redirect()->to('/admin/masuk');
-    }
-
     public function keluar(){
         if(!session()->has("logged_in")){
             return redirect()->to('home');
@@ -658,37 +597,6 @@ class Admin extends BaseController
             }
         } else {
             session()->setFlashdata('error', 'Data Barang Keluar Gagal di Update !!!');
-        }
-
-        return redirect()->to('/admin/keluar');
-    }
-
-    public function delete_keluar(){
-        $db = \Config\Database::connect();
-        $stock = $this->stockModel;
-        $keluar = $this->keluarModel;
-
-        $idKeluar = $this->request->getPost('idKeluar');
-        $idBarang = $this->request->getPost('namaBarang');
-        
-        $queryKeluar = $db->query("SELECT qty_keluar FROM data_barang_keluar WHERE id_keluar = '$idKeluar'");
-        $rowKeluar = $queryKeluar->getRowArray();
-        
-        $queryStock = $db->query("SELECT qty_stock, harga_satuan FROM data_stock WHERE id_barang = '$idBarang'");
-        $rowStock = $queryStock->getRowArray();
-
-        $dataStock = array(
-            'qty_stock' => (int)$rowStock['qty_stock'] + (int)$rowKeluar['qty_keluar'],
-            'total_harga' => ((int)$rowStock['qty_stock'] + (int)$rowKeluar['qty_keluar']) * (int)$rowStock['harga_satuan']
-        );
-        
-        $updateStock = $stock->updateData($dataStock, $idBarang);
-        $successDelete = $keluar->deleteData($idKeluar);
-
-        if($successDelete & $updateStock){
-            session()->setFlashdata('message', 'Data Barang Keluar Berhasil di Hapus !!! & Data Stock Berhasil di Update');
-        } else {
-            session()->setFlashdata('error', 'Gagal di Hapus !!!');
         }
 
         return redirect()->to('/admin/keluar');
@@ -937,37 +845,6 @@ class Admin extends BaseController
             }
         } else if($rowStock['qty_stock'] < $stockReturBarangBaru) {
             session()->setFlashdata('error', 'Data Retur Barang Gagal di Update (QTY Stock < QTY Retur) !!!');
-        }
-
-        return redirect()->to('/admin/retur');
-    }
-
-    public function delete_retur(){
-        $db = \Config\Database::connect();
-        $stock = $this->stockModel;
-        $retur = $this->returModel;
-
-        $idRetur = $this->request->getPost('idRetur');
-        $idBarang = $this->request->getPost('namaBarang');
-        
-        $queryRetur = $db->query("SELECT qty_retur FROM data_retur_barang WHERE id_retur = '$idRetur'");
-        $rowRetur = $queryRetur->getRowArray();
-        
-        $queryStock = $db->query("SELECT qty_stock, harga_satuan FROM data_stock WHERE id_barang = '$idBarang'");
-        $rowStock = $queryStock->getRowArray();
-
-        $dataStock = array(
-            'qty_stock' => (int)$rowStock['qty_stock'] + (int)$rowRetur['qty_retur'],
-            'total_harga' => ((int)$rowStock['qty_stock'] + (int)$rowRetur['qty_retur']) * (int)$rowStock['harga_satuan']
-        );
-        
-        $updateStock = $stock->updateData($dataStock, $idBarang);
-        $successDelete = $retur->deleteData($idRetur);
-
-        if($successDelete & $updateStock){
-            session()->setFlashdata('message', 'Data Retur Barang Berhasil di Hapus !!! & Data Stock Barang Berhasil di Update !!!');
-        } else {
-            session()->setFlashdata('error', 'Data Retur Barang Gagal di Hapus !!!');
         }
 
         return redirect()->to('/admin/retur');

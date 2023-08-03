@@ -29,13 +29,6 @@ class MasukModel extends Model{
         return $query;
     }
 
-    public function deleteData($id){
-        $query = $this->db->table('data_barang_masuk')
-        -> join('data_stock', 'data_stock.id_barang = data_barang_masuk.id_barang')
-        -> delete(array('id_masuk' => $id));
-        return $query;
-    }
-
     public function filterRangeOfDate($tglMulai, $tglSelesai){
         $query = $this->db->table('data_barang_masuk');
         $query -> join('data_stock', 'data_stock.id_barang = data_barang_masuk.id_barang');

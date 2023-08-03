@@ -341,23 +341,6 @@
                           >
                             <i class="fas fa-edit"></i>
                           </button>
-                          <button
-                            type="button"
-                            class="btn btn-danger"
-                            id="btnDelete"
-                            data-toggle="modal"
-                            data-target="#deleteIncomingModal"
-                            data-id_masuk="<?= $msk['id_masuk'];?>"
-                            data-id_barang="<?= $msk['id_barang'];?>"
-                            data-id_supplier="<?= $msk['id_supplier'];?>"
-                            data-tgl_masuk="<?= $msk['tgl_masuk'];?>"
-                            data-qty_masuk="<?= $msk['qty_masuk'];?>"
-                            data-harga="<?= $msk['harga_satuan_masuk'];?>"
-                            data-total_harga="<?= $msk['total_harga_masuk'];?>"
-                            data-keterangan="<?= $msk['keterangan'];?>"
-                          >
-                            <i class="fas fa-trash"></i>
-                          </button>
                         </td>
                       </tr>
                       <?php endforeach;?>
@@ -461,17 +444,6 @@
         $('.modal-body #jumlahBarang').val($(this).data('qty_masuk'));
         $('.modal-body #hargaSatuan').val($(this).data('harga'));
         $('.modal-body #keterangan').val($(this).data('keterangan'));
-      })
-
-      $(document).on('click', '#btnDelete', function(){
-        $('.modal-body #namaBarang').val($(this).data('id_barang'));
-        $('.modal-body #namaSupplier').val($(this).data('id_supplier'));
-        $('.modal-body #tglIncoming').val($(this).data('tgl_masuk'));
-        $('.modal-body #jumlahBarang').val($(this).data('qty_masuk'));
-        $('.modal-body #hargaSatuan').val($(this).data('harga'));
-        $('.modal-body #keterangan').val($(this).data('keterangan'));
-        $('.modal-footer #idMasuk').val($(this).data('id_masuk'));
-        $('.modal-footer #namaBarang').val($(this).data('id_barang'));
       })
     </script>
   </body>

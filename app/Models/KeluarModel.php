@@ -27,13 +27,6 @@ class KeluarModel extends Model{
         return $query;
     }
 
-    public function deleteData($id){
-        $query = $this->db->table('data_barang_keluar')
-        -> join('data_stock', 'data_stock.id_barang = data_barang_keluar.id_barang')
-        -> delete(array('id_keluar' => $id));
-        return $query;
-    }
-
     public function filterRangeOfDate($tglMulai, $tglSelesai){
         $query = $this->db->table('data_barang_keluar');
         $query -> join('data_stock', 'data_stock.id_barang = data_barang_keluar.id_barang');

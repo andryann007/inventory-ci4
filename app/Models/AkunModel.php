@@ -22,11 +22,6 @@ class AkunModel extends Model{
         return $query;
     }
 
-    public function deleteData($id){
-        $query = $this->db->table('data_user')->delete(array('id_user' => $id));
-        return $query;
-    }
-
     public function updateProfile($id, $data){
         $query = $this->db->table('data_user');
         $query->where('id_user', $id);

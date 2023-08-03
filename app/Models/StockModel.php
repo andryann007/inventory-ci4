@@ -22,11 +22,6 @@ class StockModel extends Model{
         return $query;
     }
 
-    public function deleteData($id){
-        $query = $this->db->table('data_stock')->delete(array('id_barang' => $id));
-        return $query;
-    }
-
     public function filterCategory($kategori){
         $query = $this->db->table('data_stock');
         $query->select('*');

@@ -307,21 +307,6 @@
                           >
                             <i class="fas fa-edit"></i>
                           </button>
-
-                          <button
-                            type="button"
-                            class="btn btn-danger"
-                            id="btnDelete"
-                            data-toggle="modal"
-                            data-target="#deleteSupplierModal"
-                            data-id="<?= $s['id_supplier'];?>"
-                            data-nama="<?= $s['nama_supplier'];?>"
-                            data-email="<?= $s['email'];?>"
-                            data-alamat="<?= $s['alamat'];?>"
-                            data-telp="<?= $s['telp'];?>"
-                          >
-                            <i class="fas fa-trash"></i>
-                          </button>
                         </td>
                       </tr>
                       <?php endforeach; ?>
@@ -419,14 +404,6 @@
     <script>
       $(document).on('click', '#btnEdit', function(){
         $('.modal-body #idSupplier').val($(this).data('id'));
-        $('.modal-body #namaSupplier').val($(this).data('nama'));
-        $('.modal-body #alamatSupplier').val($(this).data('alamat'));
-        $('.modal-body #emailSupplier').val($(this).data('email'));
-        $('.modal-body #telpSupplier').val($(this).data('telp'));
-      })
-
-      $(document).on('click', '#btnDelete', function(){
-        $('.modal-footer #idSupplier').val($(this).data('id'));
         $('.modal-body #namaSupplier').val($(this).data('nama'));
         $('.modal-body #alamatSupplier').val($(this).data('alamat'));
         $('.modal-body #emailSupplier').val($(this).data('email'));

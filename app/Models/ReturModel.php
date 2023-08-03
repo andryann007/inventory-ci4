@@ -28,13 +28,6 @@ class ReturModel extends Model{
         return $query;
     }
 
-    public function deleteData($id){
-        $query = $this->db->table('data_retur_barang')
-        -> join('data_stock', 'data_stock.id_barang = data_retur_barang.id_barang')
-        -> delete(array('id_retur' => $id));
-        return $query;
-    }
-
     public function filterRangeOfDate($tglMulai, $tglSelesai){
         $query = $this->db->table('data_retur_barang');
         $query -> join('data_stock', 'data_stock.id_barang = data_retur_barang.id_barang');

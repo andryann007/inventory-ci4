@@ -318,23 +318,6 @@
                           >
                             <i class="fas fa-edit"></i>
                           </button>
-                          <button
-                            type="button"
-                            class="btn btn-danger"
-                            id="btnDelete"
-                            data-toggle="modal"
-                            data-target="#deleteAccountModal"
-                            data-id="<?= $a['id_user'];?>"
-                            data-nama="<?= $a['nama_lengkap'];?>"
-                            data-email="<?= $a['email'];?>"
-                            data-username="<?= $a['username'];?>"
-                            data-password="<?= $a['password'];?>"
-                            data-alamat="<?= $a['alamat'];?>"
-                            data-telp="<?= $a['telp'];?>"
-                            data-tipe="<?= $a['tipe_akun'];?>"
-                          >
-                            <i class="fas fa-trash"></i>
-                          </button>
                         </td>
                       </tr>
                       <?php endforeach; ?>
@@ -498,17 +481,6 @@
         $('.modal-body #alamatUser').val($(this).data('alamat'));
         $('.modal-body #tipeAkunUser').val($(this).data('tipe'));
       });
-
-      $(document).on('click', '#btnDelete', function(){
-        $('.modal-body #namaUser').val($(this).data('nama'));
-        $('.modal-body #emailUser').val($(this).data('email'));
-        $('.modal-body #username').val($(this).data('username'));
-        $('.modal-body #passUser').val($(this).data('password'));
-        $('.modal-body #telpUser').val($(this).data('telp'));
-        $('.modal-body #alamatUser').val($(this).data('alamat'));
-        $('.modal-body #tipeAkunUser').val($(this).data('tipe'));
-        $('.modal-footer #idUser').val($(this).data('id'));
-      })
     </script>
   </body>
 

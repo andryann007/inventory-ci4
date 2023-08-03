@@ -22,11 +22,6 @@ class SupplierModel extends Model{
         return $query;
     }
 
-    public function deleteData($id){
-        $query = $this->db->table('data_supplier')->delete(array('id_supplier' => $id));
-        return $query;
-    }
-
     public function qty_supplier(){
         return $this->db->table('data_supplier')->get()->getNumRows();
     }

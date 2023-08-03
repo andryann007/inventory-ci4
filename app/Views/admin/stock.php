@@ -328,23 +328,6 @@
                           >
                             <i class="fas fa-edit"></i>
                           </button>
-
-                          <button
-                            type="button"
-                            class="btn btn-danger"
-                            id="btnDelete"
-                            data-toggle="modal"
-                            data-target="#deleteStockModal"
-                            data-id="<?= $stk['id_barang'];?>"
-                            data-nama="<?= $stk['nama_barang'];?>"
-                            data-kategori="<?= $stk['kategori'];?>"
-                            data-qty="<?= $stk['qty_stock'];?>"
-                            data-harga="<?= $stk['harga_satuan'];?>"
-                            data-total_harga="<?= $stk['total_harga'];?>"
-                            data-status="<?= $stk['status'];?>"
-                          >
-                            <i class="fas fa-trash"></i>
-                          </button>
                         </td>
                       </tr>
                       <?php endforeach; ?>
@@ -448,16 +431,6 @@
         $('.modal-body #hargaSatuan').val($(this).data('harga'));
         $('.modal-body #totalHarga').val($(this).data('total_harga'));
         $('.modal-body #status').val($(this).data('status'));
-      })
-
-      $(document).on('click', '#btnDelete', function(){
-        $('.modal-body #namaBarang').val($(this).data('nama'));
-        $('.modal-body #kategoriBarang').val($(this).data('kategori'));
-        $('.modal-body #jumlahBarang').val($(this).data('qty'));
-        $('.modal-body #hargaSatuan').val($(this).data('harga'));
-        $('.modal-body #totalHarga').val($(this).data('total_harga'));
-        $('.modal-body #status').val($(this).data('status'));
-        $('.modal-footer #idBarang').val($(this).data('id'));
       })
     </script>
   </body>

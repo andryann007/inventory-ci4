@@ -312,23 +312,6 @@
                           >
                             <i class="fas fa-edit"></i>
                           </button>
-
-                          <button
-                            type="button"
-                            id="btnDelete"
-                            class="btn btn-danger"
-                            data-toggle="modal"
-                            data-target="#deleteOutcomingModal"
-                            data-id_keluar="<?= $klr['id_keluar'];?>"
-                            data-id_barang="<?= $klr['id_barang'];?>"
-                            data-tgl_keluar="<?= $klr['tgl_keluar'];?>"
-                            data-qty_keluar="<?= $klr['qty_keluar'];?>"
-                            data-harga="<?= $klr['harga_satuan_keluar'];?>"
-                            data-total_harga="<?= $klr['total_harga_keluar'];?>"
-                            data-keterangan="<?= $klr['keterangan'];?>"
-                          >
-                            <i class="fas fa-trash"></i>
-                          </button>
                         </td>
                       </tr>
                       <?php endforeach;?>
@@ -431,16 +414,6 @@
         $('.modal-body #jumlahBarang').val($(this).data('qty_keluar'));
         $('.modal-body #hargaSatuan').val($(this).data('harga'));
         $('.modal-body #keterangan').val($(this).data('keterangan'));
-      })
-
-      $(document).on('click', '#btnDelete', function(){
-        $('.modal-body #namaBarang').val($(this).data('id_barang'));
-        $('.modal-body #tglOutcoming').val($(this).data('tgl_keluar'));
-        $('.modal-body #jumlahBarang').val($(this).data('qty_keluar'));
-        $('.modal-body #hargaSatuan').val($(this).data('harga'));
-        $('.modal-body #keterangan').val($(this).data('keterangan'));
-        $('.modal-footer #idKeluar').val($(this).data('id_keluar'));
-        $('.modal-footer #namaBarang').val($(this).data('id_barang'));
       })
     </script>
   </body>
