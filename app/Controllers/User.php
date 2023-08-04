@@ -69,6 +69,7 @@ class User extends BaseController
                     'stock' => $this->stockModel->getData(),
                     'supplier' => $this->supplierModel->getData()
                 ];
+                session()->setFlashdata('message', 'Berhasil di Filter (Filter Tanggal) !!!');
             }
 
             // Jika hanya terdapat filter di nama supplier
@@ -79,6 +80,7 @@ class User extends BaseController
                     'stock' => $this->stockModel->getData(),
                     'supplier' => $this->supplierModel->getData()
                 ];
+                session()->setFlashdata('message', 'Berhasil di Filter (Filter Supplier) !!!');
             }
 
             // Jika hanya terdapat filter di nama barang
@@ -89,6 +91,7 @@ class User extends BaseController
                     'stock' => $this->stockModel->getData(),
                     'supplier' => $this->supplierModel->getData()
                 ];
+                session()->setFlashdata('message', 'Berhasil di Filter (Filter Barang) !!!');
             }
 
             // Jika hanya terdapat filter di kategori
@@ -99,6 +102,7 @@ class User extends BaseController
                     'stock' => $this->stockModel->getData(),
                     'supplier' => $this->supplierModel->getData()
                 ];
+                session()->setFlashdata('message', 'Berhasil di Filter (Filter Kategori) !!!');
             }
 
             // Jika hanya terdapat filter di nama supplier & rentang tanggal
@@ -109,6 +113,7 @@ class User extends BaseController
                     'stock' => $this->stockModel->getData(),
                     'supplier' => $this->supplierModel->getData()
                 ];
+                session()->setFlashdata('message', 'Berhasil di Filter (Filter Tanggal & Supplier) !!!');
             }
 
             // Jika hanya terdapat filter di nama barang & rentang tanggal
@@ -119,6 +124,7 @@ class User extends BaseController
                     'stock' => $this->stockModel->getData(),
                     'supplier' => $this->supplierModel->getData()
                 ];
+                session()->setFlashdata('message', 'Berhasil di Filter (Filter Tanggal & Barang) !!!');
             }
 
             // Jika hanya terdapat filter di kategori & rentang tanggal
@@ -129,6 +135,7 @@ class User extends BaseController
                     'stock' => $this->stockModel->getData(),
                     'supplier' => $this->supplierModel->getData()
                 ];
+                session()->setFlashdata('message', 'Berhasil di Filter (Filter Tanggal & Kategori) !!!');
             }
 
             // Jika hanya terdapat filter di nama barang & nama supplier
@@ -139,6 +146,7 @@ class User extends BaseController
                     'stock' => $this->stockModel->getData(),
                     'supplier' => $this->supplierModel->getData()
                 ];
+                session()->setFlashdata('message', 'Berhasil di Filter (Filter Barang & Supplier) !!!');
             }
 
             // Jika hanya terdapat filter di kategori & nama supplier
@@ -149,6 +157,7 @@ class User extends BaseController
                     'stock' => $this->stockModel->getData(),
                     'supplier' => $this->supplierModel->getData()
                 ];
+                session()->setFlashdata('message', 'Berhasil di Filter (Filter Kategori & Supplier) !!!');
             }
 
             // Jika terdapat semua filter (tidak termasuk filter kategori)
@@ -159,6 +168,7 @@ class User extends BaseController
                     'stock' => $this->stockModel->getData(),
                     'supplier' => $this->supplierModel->getData()
                 ];
+                session()->setFlashdata('message', 'Berhasil di Filter (Filter Tanggal, Barang, & Supplier) !!!');
             }
 
             // Jika terdapat semua filter (tidak termasuk filter nama barang)
@@ -169,10 +179,11 @@ class User extends BaseController
                     'stock' => $this->stockModel->getData(),
                     'supplier' => $this->supplierModel->getData()
                 ];
+                session()->setFlashdata('message', 'Berhasil di Filter (Filter Tanggal, Kategori, & Supplier) !!!');
             }
 
             // Jika tidak terdapat filter
-            else if($tglMulai == null && $tglSelesai == null && $idSupplier == null && $idBarang == null && $kategori == null){
+            else {
                 $data = [
                     'title' => 'Laporan Barang Masuk',
                     'masuk' => $this->masukModel->getData(),
@@ -325,6 +336,7 @@ class User extends BaseController
                     'keluar' => $this->keluarModel->filterRangeOfDate($tglMulai, $tglSelesai),
                     'stock' => $this->stockModel->getData()
                 ];
+                session()->setFlashdata('message', 'Berhasil di Filter (Filter Tanggal) !!!');
             } 
             
             //Jika hanya terdapat filter terhadap id barang
@@ -334,6 +346,7 @@ class User extends BaseController
                     'keluar' => $this->keluarModel->filterBarang($idBarang),
                     'stock' => $this->stockModel->getData()
                 ];
+                session()->setFlashdata('message', 'Berhasil di Filter (Filter Barang) !!!');
             } 
 
             //Jika hanya terdapat filter terhadap kategori
@@ -343,6 +356,7 @@ class User extends BaseController
                     'keluar' => $this->keluarModel->filterKategori($kategori),
                     'stock' => $this->stockModel->getData()
                 ];
+                session()->setFlashdata('message', 'Berhasil di Filter (Filter Kategori) !!!');
             } 
             
             //Jika hanya terdapat filter tanggal & filter id barang
@@ -352,6 +366,7 @@ class User extends BaseController
                     'keluar' => $this->keluarModel->filterDateBarang($tglMulai, $tglSelesai, $idBarang),
                     'stock' => $this->stockModel->getData()
                 ];
+                session()->setFlashdata('message', 'Berhasil di Filter (Filter Tanggal & Barang) !!!');
             }
 
             //Jika hanya terdapat filter tanggal & filter kategori
@@ -361,10 +376,11 @@ class User extends BaseController
                     'keluar' => $this->keluarModel->filterDateKategori($tglMulai, $tglSelesai, $kategori),
                     'stock' => $this->stockModel->getData()
                 ];
+                session()->setFlashdata('message', 'Berhasil di Filter (Filter Tanggal & Kategori) !!!');
             }
 
             //Jika tidak terdapat filter, maka data yang ditampilkan semua
-            else if($tglMulai == null && $tglSelesai == null && $idBarang == null && $kategori == null){
+            else {
                 $data = [
                     'title' => 'Daftar Barang Keluar',
                     'keluar' => $this->keluarModel->getData(),
@@ -535,6 +551,7 @@ class User extends BaseController
                     'stock' => $this->stockModel->getData(),
                     'supplier' => $this->supplierModel->getData()
                 ];
+                session()->setFlashdata('message', 'Berhasil di Filter (Filter Tanggal) !!!');
             }
 
             // Jika hanya terdapat filter di nama supplier
@@ -545,6 +562,7 @@ class User extends BaseController
                     'stock' => $this->stockModel->getData(),
                     'supplier' => $this->supplierModel->getData()
                 ];
+                session()->setFlashdata('message', 'Berhasil di Filter (Filter Supplier) !!!');
             }
 
             // Jika hanya terdapat filter di nama barang
@@ -555,6 +573,7 @@ class User extends BaseController
                     'stock' => $this->stockModel->getData(),
                     'supplier' => $this->supplierModel->getData()
                 ];
+                session()->setFlashdata('message', 'Berhasil di Filter (Filter Barang) !!!');
             }
 
             // Jika hanya terdapat filter di kategori
@@ -565,6 +584,7 @@ class User extends BaseController
                     'stock' => $this->stockModel->getData(),
                     'supplier' => $this->supplierModel->getData()
                 ];
+                session()->setFlashdata('message', 'Berhasil di Filter (Filter Kategori) !!!');
             }
 
             // Jika hanya terdapat filter di nama supplier & rentang tanggal
@@ -575,6 +595,7 @@ class User extends BaseController
                     'stock' => $this->stockModel->getData(),
                     'supplier' => $this->supplierModel->getData()
                 ];
+                session()->setFlashdata('message', 'Berhasil di Filter (Filter Tanggal & Supplier) !!!');
             }
 
             // Jika hanya terdapat filter di nama barang & rentang tanggal
@@ -585,6 +606,7 @@ class User extends BaseController
                     'stock' => $this->stockModel->getData(),
                     'supplier' => $this->supplierModel->getData()
                 ];
+                session()->setFlashdata('message', 'Berhasil di Filter (Filter Tanggal & Barang) !!!');
             }
 
             // Jika hanya terdapat filter di kategori & rentang tanggal
@@ -595,6 +617,7 @@ class User extends BaseController
                     'stock' => $this->stockModel->getData(),
                     'supplier' => $this->supplierModel->getData()
                 ];
+                session()->setFlashdata('message', 'Berhasil di Filter (Filter Tanggal & Kategori) !!!');
             }
 
             // Jika hanya terdapat filter di nama barang & nama supplier
@@ -605,6 +628,7 @@ class User extends BaseController
                     'stock' => $this->stockModel->getData(),
                     'supplier' => $this->supplierModel->getData()
                 ];
+                session()->setFlashdata('message', 'Berhasil di Filter (Filter Barang & Supplier) !!!');
             }
 
             // Jika hanya terdapat filter di kategori & nama supplier
@@ -615,6 +639,7 @@ class User extends BaseController
                     'stock' => $this->stockModel->getData(),
                     'supplier' => $this->supplierModel->getData()
                 ];
+                session()->setFlashdata('message', 'Berhasil di Filter (Filter Kategori & Supplier) !!!');
             }
 
             // Jika terdapat semua filter (tidak termasuk filter kategori)
@@ -625,6 +650,7 @@ class User extends BaseController
                     'stock' => $this->stockModel->getData(),
                     'supplier' => $this->supplierModel->getData()
                 ];
+                session()->setFlashdata('message', 'Berhasil di Filter (Filter Tanggal, Barang, & Supplier) !!!');
             }
 
             // Jika terdapat semua filter (tidak termasuk filter nama barang)
@@ -635,10 +661,11 @@ class User extends BaseController
                     'stock' => $this->stockModel->getData(),
                     'supplier' => $this->supplierModel->getData()
                 ];
+                session()->setFlashdata('message', 'Berhasil di Filter (Filter Tanggal, Kategori, & Supplier) !!!');
             }
 
             // Jika tidak terdapat filter
-            else if($tglMulai == null && $tglSelesai == null && $idSupplier == null && $idBarang == null && $kategori == null){
+            else {
                 $data = [
                     'title' => 'Laporan Retur Barang',
                     'retur' => $this->returModel->getData(),
@@ -809,6 +836,7 @@ class User extends BaseController
                     'stock' => $this->stockModel->getData(),
                     'supplier' => $this->supplierModel->getData()
                 ];
+                session()->setFlashdata('message', 'Berhasil di Filter (Filter Tanggal) !!!');
             }
 
             // Jika hanya terdapat filter di nama supplier
@@ -819,6 +847,7 @@ class User extends BaseController
                     'stock' => $this->stockModel->getData(),
                     'supplier' => $this->supplierModel->getData()
                 ];
+                session()->setFlashdata('message', 'Berhasil di Filter (Filter Supplier) !!!');
             }
 
             // Jika hanya terdapat filter di nama barang
@@ -829,6 +858,7 @@ class User extends BaseController
                     'stock' => $this->stockModel->getData(),
                     'supplier' => $this->supplierModel->getData()
                 ];
+                session()->setFlashdata('message', 'Berhasil di Filter (Filter Barang) !!!');
             }
 
             // Jika hanya terdapat filter di kategori
@@ -839,6 +869,7 @@ class User extends BaseController
                     'stock' => $this->stockModel->getData(),
                     'supplier' => $this->supplierModel->getData()
                 ];
+                session()->setFlashdata('message', 'Berhasil di Filter (Filter Kategori) !!!');
             }
 
             // Jika hanya terdapat filter di nama supplier & rentang tanggal
@@ -849,6 +880,7 @@ class User extends BaseController
                     'stock' => $this->stockModel->getData(),
                     'supplier' => $this->supplierModel->getData()
                 ];
+                session()->setFlashdata('message', 'Berhasil di Filter (Filter Tanggal & Supplier) !!!');
             }
 
             // Jika hanya terdapat filter di nama barang & rentang tanggal
@@ -859,6 +891,7 @@ class User extends BaseController
                     'stock' => $this->stockModel->getData(),
                     'supplier' => $this->supplierModel->getData()
                 ];
+                session()->setFlashdata('message', 'Berhasil di Filter (Filter Tanggal & Barang) !!!');
             }
 
             // Jika hanya terdapat filter di kategori & rentang tanggal
@@ -869,6 +902,7 @@ class User extends BaseController
                     'stock' => $this->stockModel->getData(),
                     'supplier' => $this->supplierModel->getData()
                 ];
+                session()->setFlashdata('message', 'Berhasil di Filter (Filter Tanggal & Kategori) !!!');
             }
 
             // Jika hanya terdapat filter di nama barang & nama supplier
@@ -879,6 +913,7 @@ class User extends BaseController
                     'stock' => $this->stockModel->getData(),
                     'supplier' => $this->supplierModel->getData()
                 ];
+                session()->setFlashdata('message', 'Berhasil di Filter (Filter Barang & Supplier) !!!');
             }
 
             // Jika hanya terdapat filter di kategori & nama supplier
@@ -889,6 +924,7 @@ class User extends BaseController
                     'stock' => $this->stockModel->getData(),
                     'supplier' => $this->supplierModel->getData()
                 ];
+                session()->setFlashdata('message', 'Berhasil di Filter (Filter Kategori & Supplier) !!!');
             }
 
             // Jika terdapat semua filter (tidak termasuk filter kategori)
@@ -899,6 +935,7 @@ class User extends BaseController
                     'stock' => $this->stockModel->getData(),
                     'supplier' => $this->supplierModel->getData()
                 ];
+                session()->setFlashdata('message', 'Berhasil di Filter (Filter Tanggal, Barang, & Supplier) !!!');
             }
 
             // Jika terdapat semua filter (tidak termasuk filter nama barang)
@@ -909,10 +946,11 @@ class User extends BaseController
                     'stock' => $this->stockModel->getData(),
                     'supplier' => $this->supplierModel->getData()
                 ];
+                session()->setFlashdata('message', 'Berhasil di Filter (Filter Tanggal, Kategori, & Supplier) !!!');
             }
 
             // Jika tidak terdapat filter
-            else if($tglMulai == null && $tglSelesai == null && $idSupplier == null && $idBarang == null && $kategori == null){
+            else {
                 $data = [
                     'title' => 'Laporan Barang Masuk',
                     'masuk' => $this->masukModel->getData(),
@@ -947,6 +985,7 @@ class User extends BaseController
                     'keluar' => $this->keluarModel->filterRangeOfDate($tglMulai, $tglSelesai),
                     'stock' => $this->stockModel->getData()
                 ];
+                session()->setFlashdata('message', 'Berhasil di Filter (Filter Tanggal) !!!');
             } 
             
             //Jika hanya terdapat filter terhadap id barang
@@ -956,6 +995,7 @@ class User extends BaseController
                     'keluar' => $this->keluarModel->filterBarang($idBarang),
                     'stock' => $this->stockModel->getData()
                 ];
+                session()->setFlashdata('message', 'Berhasil di Filter (Filter Barang) !!!');
             } 
 
             //Jika hanya terdapat filter terhadap kategori
@@ -965,6 +1005,7 @@ class User extends BaseController
                     'keluar' => $this->keluarModel->filterKategori($kategori),
                     'stock' => $this->stockModel->getData()
                 ];
+                session()->setFlashdata('message', 'Berhasil di Filter (Filter Kategori) !!!');
             } 
             
             //Jika hanya terdapat filter tanggal & filter id barang
@@ -974,6 +1015,7 @@ class User extends BaseController
                     'keluar' => $this->keluarModel->filterDateBarang($tglMulai, $tglSelesai, $idBarang),
                     'stock' => $this->stockModel->getData()
                 ];
+                session()->setFlashdata('message', 'Berhasil di Filter (Filter Tanggal & Barang) !!!');
             }
 
             //Jika hanya terdapat filter tanggal & filter kategori
@@ -983,10 +1025,11 @@ class User extends BaseController
                     'keluar' => $this->keluarModel->filterDateKategori($tglMulai, $tglSelesai, $kategori),
                     'stock' => $this->stockModel->getData()
                 ];
+                session()->setFlashdata('message', 'Berhasil di Filter (Filter Tanggal & Kategori) !!!');
             }
 
             //Jika tidak terdapat filter, maka data yang ditampilkan semua
-            else if($tglMulai == null && $tglSelesai == null && $idBarang == null && $kategori == null){
+            else {
                 $data = [
                     'title' => 'Daftar Barang Keluar',
                     'keluar' => $this->keluarModel->getData(),
@@ -1022,6 +1065,7 @@ class User extends BaseController
                     'stock' => $this->stockModel->getData(),
                     'supplier' => $this->supplierModel->getData()
                 ];
+                session()->setFlashdata('message', 'Berhasil di Filter (Filter Tanggal) !!!');
             }
     
             // Jika hanya terdapat filter di nama supplier
@@ -1032,6 +1076,7 @@ class User extends BaseController
                     'stock' => $this->stockModel->getData(),
                     'supplier' => $this->supplierModel->getData()
                 ];
+                session()->setFlashdata('message', 'Berhasil di Filter (Filter Supplier) !!!');
             }
     
             // Jika hanya terdapat filter di nama barang
@@ -1042,6 +1087,7 @@ class User extends BaseController
                     'stock' => $this->stockModel->getData(),
                     'supplier' => $this->supplierModel->getData()
                 ];
+                session()->setFlashdata('message', 'Berhasil di Filter (Filter Barang) !!!');
             }
     
             // Jika hanya terdapat filter di kategori
@@ -1052,6 +1098,7 @@ class User extends BaseController
                     'stock' => $this->stockModel->getData(),
                     'supplier' => $this->supplierModel->getData()
                 ];
+                session()->setFlashdata('message', 'Berhasil di Filter (Filter Kategori) !!!');
             }
     
             // Jika hanya terdapat filter di nama supplier & rentang tanggal
@@ -1062,6 +1109,7 @@ class User extends BaseController
                     'stock' => $this->stockModel->getData(),
                     'supplier' => $this->supplierModel->getData()
                 ];
+                session()->setFlashdata('message', 'Berhasil di Filter (Filter Tanggal & Supplier) !!!');
             }
     
             // Jika hanya terdapat filter di nama barang & rentang tanggal
@@ -1072,6 +1120,7 @@ class User extends BaseController
                     'stock' => $this->stockModel->getData(),
                     'supplier' => $this->supplierModel->getData()
                 ];
+                session()->setFlashdata('message', 'Berhasil di Filter (Filter Tanggal & Barang) !!!');
             }
     
             // Jika hanya terdapat filter di kategori & rentang tanggal
@@ -1082,6 +1131,7 @@ class User extends BaseController
                     'stock' => $this->stockModel->getData(),
                     'supplier' => $this->supplierModel->getData()
                 ];
+                session()->setFlashdata('message', 'Berhasil di Filter (Filter Tanggal & Kategori) !!!');
             }
     
             // Jika hanya terdapat filter di nama barang & nama supplier
@@ -1092,6 +1142,7 @@ class User extends BaseController
                     'stock' => $this->stockModel->getData(),
                     'supplier' => $this->supplierModel->getData()
                 ];
+                session()->setFlashdata('message', 'Berhasil di Filter (Filter Barang & Supplier) !!!');
             }
     
             // Jika hanya terdapat filter di kategori & nama supplier
@@ -1102,6 +1153,7 @@ class User extends BaseController
                     'stock' => $this->stockModel->getData(),
                     'supplier' => $this->supplierModel->getData()
                 ];
+                session()->setFlashdata('message', 'Berhasil di Filter (Filter Kategori & Supplier) !!!');
             }
     
             // Jika terdapat semua filter (tidak termasuk filter kategori)
@@ -1112,6 +1164,7 @@ class User extends BaseController
                     'stock' => $this->stockModel->getData(),
                     'supplier' => $this->supplierModel->getData()
                 ];
+                session()->setFlashdata('message', 'Berhasil di Filter (Filter Tanggal, Barang, & Supplier) !!!');
             }
     
             // Jika terdapat semua filter (tidak termasuk filter nama barang)
@@ -1122,10 +1175,11 @@ class User extends BaseController
                     'stock' => $this->stockModel->getData(),
                     'supplier' => $this->supplierModel->getData()
                 ];
+                session()->setFlashdata('message', 'Berhasil di Filter (Filter Tanggal, Kategori, & Supplier) !!!');
             }
     
             // Jika tidak terdapat filter
-            else if($tglMulai == null && $tglSelesai == null && $idSupplier == null && $idBarang == null && $kategori == null){
+            else {
                 $data = [
                     'title' => 'Laporan Retur Barang',
                     'retur' => $this->returModel->getData(),
@@ -1248,7 +1302,7 @@ class User extends BaseController
         }
 
         // Jika tidak terdapat filter
-        else if($tglMulai == null && $tglSelesai == null && $idSupplier == null && $idBarang == null && $kategori == null){
+        else {
             $data = [
                 'title' => 'Laporan Barang Masuk',
                 'masuk' => $this->masukModel->getData(),
@@ -1313,7 +1367,7 @@ class User extends BaseController
         }
 
         //Jika tidak terdapat filter, maka data yang ditampilkan semua
-        else if($tglMulai == null && $tglSelesai == null && $idBarang == null && $kategori == null){
+        else {
             $data = [
                 'title' => 'Daftar Barang Keluar',
                 'keluar' => $this->keluarModel->getData(),
@@ -1433,7 +1487,7 @@ class User extends BaseController
         }
 
         // Jika tidak terdapat filter
-        else if($tglMulai == null && $tglSelesai == null && $idSupplier == null && $idBarang == null && $kategori == null){
+        else {
             $data = [
                 'title' => 'Laporan Retur Barang',
                 'retur' => $this->returModel->getData(),

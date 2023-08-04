@@ -36,6 +36,9 @@
       href="<?= base_url(); ?>/vendor/datatables/dataTables.bootstrap4.min.css"
       rel="stylesheet"
     />
+
+    <!-- Sweet Alert 2 Library-->
+    <link href="<?= base_url(); ?>/css/sweetalert2.min.css" rel="stylesheet" />
   </head>
 
   <body id="page-top">
@@ -339,6 +342,27 @@
     <script src="<?= base_url(); ?>/vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="<?= base_url(); ?>/vendor/datatables/dataTables.bootstrap4.min.js"></script>
     <script src="<?= base_url(); ?>/js/demo/datatables-demo.js"></script>
+
+    <script src="<?= base_url(); ?>/js/sweetalert2.all.min.js"></script>
+
+    <script>
+      <?php if(session()->get('message')) :?>
+        Swal.fire(
+          'Laporan Barang Masuk',
+          '<?= session()->getFlashdata('message');?>',
+          'success'
+        )
+      <?php endif; ?>
+
+      <?php if(session()->get('error')) :?>
+        Swal.fire({
+          icon: 'error',
+          title: 'Laporan Barang Masuk',
+          text: '<?= session()->getFlashdata('error');?>',
+          footer: 'Dikarenakan QTY Stock < QTY Keluar'
+        })
+      <?php endif; ?>
+    </script>
 
     <script type="text/javascript">
       $(document).ready(function(){
