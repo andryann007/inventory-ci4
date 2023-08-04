@@ -83,9 +83,9 @@ class Owner extends BaseController
         $success = $akun->saveData($data);
 
         if($success){
-            session()->setFlashdata('message', 'Data Akun Berhasil di Tambah !!!');
+            session()->setFlashdata('message', 'Berhasil di Tambah !!!');
         } else {
-            session()->setFlashdata('error', 'Data Akun Gagal di Tambah !!!');
+            session()->setFlashdata('error', 'Gagal di Tambah !!!');
         }
 
         return redirect()->to('/owner/akun');
@@ -107,9 +107,9 @@ class Owner extends BaseController
         $success = $akun->updateData($data, $id);
 
         if($success){
-            session()->setFlashdata('message', 'Data Akun Berhasil di Update !!!');
+            session()->setFlashdata('message', 'Berhasil di Update !!!');
         } else {
-            session()->setFlashdata('error', 'Data Akun Gagal di Update !!!');
+            session()->setFlashdata('error', 'Gagal di Update !!!');
         }
 
         return redirect()->to('/owner/akun');
@@ -145,9 +145,9 @@ class Owner extends BaseController
         $success = $supplier->saveData($data);
 
         if($success){
-            session()->setFlashdata('message', 'Data Supplier Berhasil di Tambah !!!');
+            session()->setFlashdata('message', 'Berhasil di Tambah !!!');
         } else {
-            session()->setFlashdata('error', 'Data Supplier Gagal di Tambah !!!');
+            session()->setFlashdata('error', 'Gagal di Tambah !!!');
         }
 
         return redirect()->to('/owner/supplier');
@@ -166,9 +166,9 @@ class Owner extends BaseController
         $success = $supplier->updateData($data, $id);
 
         if($success){
-            session()->setFlashdata('message', 'Data Supplier Berhasil di Update !!!');
+            session()->setFlashdata('message', 'Berhasil di Update !!!');
         } else {
-            session()->setFlashdata('error', 'Data Supplier Gagal di Update !!!');
+            session()->setFlashdata('error', 'Gagal di Update !!!');
         }
 
         return redirect()->to('/owner/supplier');
@@ -238,9 +238,9 @@ class Owner extends BaseController
         $success = $stock->saveData($data);
 
         if($success){
-            session()->setFlashdata('message', 'Data Stock Barang Berhasil di Tambah !!!');
+            session()->setFlashdata('message', 'Berhasil di Tambah !!!');
         } else {
-            session()->setFlashdata('error', 'Data Stock Barang Gagal di Tambah !!!');
+            session()->setFlashdata('error', 'Gagal di Tambah !!!');
         }
         return redirect()->to('/owner/stock');
     }
@@ -259,9 +259,9 @@ class Owner extends BaseController
         $success = $stock->updateData($data, $id);
         
         if($success){
-            session()->setFlashdata('message', 'Data Stock Barang Berhasil di Update !!!');
+            session()->setFlashdata('message', 'Berhasil di Update !!!');
         } else {
-            session()->setFlashdata('error', 'Data Stock Barang Gagal di Update !!!');
+            session()->setFlashdata('error', 'Gagal di Update !!!');
         }
 
         return redirect()->to('/owner/stock');
@@ -469,7 +469,7 @@ class Owner extends BaseController
                         'keterangan' => $keterangan[$i]
                     ]);
 
-                session()->setFlashdata('message', "$jumlahData Data Barang Masuk Berhasil di Tambah !!!");
+                session()->setFlashdata('message', "$jumlahData Data Berhasil di Tambah !!!");
             }
         }
 
@@ -515,9 +515,9 @@ class Owner extends BaseController
         $updateStock = $stock->updateData($dataStock, $idBarang);
 
         if($successUpdate & $updateStock){
-            session()->setFlashdata('message', 'Data Barang Masuk Berhasil di Update !!! & Data Stock Berhasil di Update');
+            session()->setFlashdata('message', 'Berhasil di Update !!!');
         } else {
-            session()->setFlashdata('error', 'Data Barang Masuk Gagal di Update !!!');
+            session()->setFlashdata('error', 'Gagal di Update !!!');
         }
 
         return redirect()->to('/owner/masuk');
@@ -662,9 +662,9 @@ class Owner extends BaseController
                             'total_harga_keluar' => $qtyKeluar[$i] * $hargaSatuan[$i],
                             'keterangan' => $keterangan[$i]
                         ]);
-                    session()->setFlashdata('message', "$jumlahData Data Barang Keluar Berhasil di Tambah !!!");
+                    session()->setFlashdata('message', "$jumlahData Data Berhasil di Tambah !!!");
                 } else if($rowStock[$i] < $qtyKeluar[$i]){
-                    session()->setFlashdata('error', "Data Barang Keluar Gagal di Tambah (Karena QTY Stock < QTY Keluar) !!!");
+                    session()->setFlashdata('error', "Gagal di Tambah !!!");
                 }
             }
 
@@ -722,10 +722,10 @@ class Owner extends BaseController
             $updateStock = $stock->updateData($dataStock, $idBarang);
             
             if($successUpdate & $updateStock){
-                session()->setFlashdata('message', 'Data Barang Keluar Berhasil di Update !!! & Data Stock Barang Berhasil di Update');
+                session()->setFlashdata('message', 'Berhasil di Update !!!');
             }
         } else {
-            session()->setFlashdata('error', 'Data Barang Keluar Gagal di Update !!!');
+            session()->setFlashdata('error', 'Gagal di Update !!!');
         }
 
         return redirect()->to('/owner/keluar');
@@ -934,9 +934,9 @@ class Owner extends BaseController
                         'keterangan' => $keterangan[$i]
                     ]);
 
-                    session()->setFlashdata('message', "$jumlahData Data Retur Barang Berhasil di Tambah !!!");
+                    session()->setFlashdata('message', "$jumlahData Data Berhasil di Tambah !!!");
                 } else if($rowStock[$i] < $qtyRetur[$i]){
-                    session()->setFlashdata('error', "Data Barang Keluar Gagal di Tambah (Karena QTY Stock < QTY Retur) !!!");
+                    session()->setFlashdata('error', "Gagal di Tambah !!!");
                 }
                
             }
@@ -996,10 +996,10 @@ class Owner extends BaseController
             $updateStock = $stock->updateData($dataStock, $idBarang);
             
             if($successUpdate & $updateStock){
-                session()->setFlashdata('message', 'Data Retur Barang Berhasil di Update !!! & Data Stock Barang Berhasil di Update');
+                session()->setFlashdata('message', 'Berhasil di Update !!!');
             }
         } else if($rowStock['qty_stock'] < $stockReturBarangBaru) {
-            session()->setFlashdata('error', 'Data Retur Barang Gagal di Update (QTY Stock < QTY Retur) !!!');
+            session()->setFlashdata('error', 'Gagal di Update !!!');
         }
 
         return redirect()->to('/owner/retur');

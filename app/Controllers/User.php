@@ -251,7 +251,7 @@ class User extends BaseController
                         'keterangan' => $keterangan[$i]
                     ]);
 
-                session()->setFlashdata('message', "$jumlahData Data Barang Masuk Berhasil di Tambah !!!");
+                session()->setFlashdata('message', "$jumlahData Data Berhasil di Tambah !!!");
             }
         }
 
@@ -297,9 +297,9 @@ class User extends BaseController
         $updateStock = $stock->updateData($dataStock, $idBarang);
 
         if($successUpdate & $updateStock){
-            session()->setFlashdata('message', 'Data Barang Masuk Berhasil di Update !!! & Data Stock Berhasil di Update');
+            session()->setFlashdata('message', 'Berhasil di Update !!!');
         } else {
-            session()->setFlashdata('error', 'Data Barang Masuk Gagal di Update !!!');
+            session()->setFlashdata('error', 'Gagal di Update !!!');
         }
 
         return redirect()->to('/user/masuk');
@@ -444,9 +444,9 @@ class User extends BaseController
                             'total_harga_keluar' => $qtyKeluar[$i] * $hargaSatuan[$i],
                             'keterangan' => $keterangan[$i]
                         ]);
-                    session()->setFlashdata('message', "$jumlahData Data Barang Keluar Berhasil di Tambah !!!");
+                    session()->setFlashdata('message', "$jumlahData Data Berhasil di Tambah !!!");
                 } else if($rowStock[$i] < $qtyKeluar[$i]){
-                    session()->setFlashdata('error', "Data Barang Keluar Gagal di Tambah (Karena QTY Stock < QTY Keluar) !!!");
+                    session()->setFlashdata('error', "Gagal di Tambah !!!");
                 }
             }
 
@@ -504,10 +504,10 @@ class User extends BaseController
             $updateStock = $stock->updateData($dataStock, $idBarang);
             
             if($successUpdate & $updateStock){
-                session()->setFlashdata('message', 'Data Barang Keluar Berhasil di Update !!! & Data Stock Barang Berhasil di Update');
+                session()->setFlashdata('message', 'Berhasil di Update !!!');
             }
         } else {
-            session()->setFlashdata('error', 'Data Barang Keluar Gagal di Update !!!');
+            session()->setFlashdata('error', 'Gagal di Update !!!');
         }
 
         return redirect()->to('/user/keluar');
@@ -716,9 +716,9 @@ class User extends BaseController
                         'keterangan' => $keterangan[$i]
                     ]);
 
-                    session()->setFlashdata('message', "$jumlahData Data Retur Barang Berhasil di Tambah !!!");
+                    session()->setFlashdata('message', "$jumlahData Data Berhasil di Tambah !!!");
                 } else if($rowStock[$i] < $qtyRetur[$i]){
-                    session()->setFlashdata('error', "Data Barang Keluar Gagal di Tambah (Karena QTY Stock < QTY Retur) !!!");
+                    session()->setFlashdata('error', "Gagal di Tambah !!!");
                 }
                
             }
@@ -778,10 +778,10 @@ class User extends BaseController
             $updateStock = $stock->updateData($dataStock, $idBarang);
             
             if($successUpdate & $updateStock){
-                session()->setFlashdata('message', 'Data Retur Barang Berhasil di Update !!! & Data Stock Barang Berhasil di Update');
+                session()->setFlashdata('message', 'Berhasil di Update !!!');
             }
         } else if($rowStock['qty_stock'] < $stockReturBarangBaru) {
-            session()->setFlashdata('error', 'Data Retur Barang Gagal di Update (QTY Stock < QTY Retur) !!!');
+            session()->setFlashdata('error', 'Gagal di Update !!!');
         }
 
         return redirect()->to('/user/retur');

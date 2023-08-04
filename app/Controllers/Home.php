@@ -2,8 +2,6 @@
 
 namespace App\Controllers;
 
-use PHPUnit\Framework\Constraint\IsEqualIgnoringCase;
-
 class Home extends BaseController
 {
     public function index()
