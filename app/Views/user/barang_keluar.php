@@ -65,7 +65,7 @@
             <span>Dashboard</span></a
           >
         </li>
-
+        
         <!-- Divider -->
         <hr class="sidebar-divider" />
 
@@ -257,7 +257,41 @@
                           <?= ucwords($klr['nama_barang']); ?>
                         </td>
                         <td>
-                          <?= ucwords($klr['kategori']); ?>
+                          <?php if($stk['kategori'] == "bumbu") :?>
+                            Bumbu Masakan
+                          <?php endif; ?>
+
+                          <?php if($stk['kategori'] == "makanan_instan") :?>
+                            Makanan Instan
+                          <?php endif; ?>
+
+                          <?php if($stk['kategori'] == "makanan_ringan") :?>
+                            Makanan Ringan
+                          <?php endif; ?>
+
+                          <?php if($stk['kategori'] == "minuman") :?>
+                            Minuman
+                          <?php endif; ?>
+
+                          <?php if($stk['kategori'] == "sembako") :?>
+                            Sembako
+                          <?php endif; ?>
+
+                          <?php if($stk['kategori'] == "perlengkapan_mandi") :?>
+                            Perlengkapan Mandi
+                          <?php endif; ?>
+
+                          <?php if($stk['kategori'] == "perlengkapan_mencuci") :?>
+                            Perlengkapan Mencuci
+                          <?php endif; ?>
+
+                          <?php if($stk['kategori'] == "obat") :?>
+                            Obat - Obatan
+                          <?php endif; ?>
+
+                          <?php if($stk['kategori'] == "lain_lain") :?>
+                            Lain Lain
+                          <?php endif; ?>
                         </td>
                         <td>
                           <?= $klr['keterangan']; ?>
@@ -590,12 +624,12 @@
                     name="idBarang"
                     id="idBarang"
                   >
-                  <option></option>
+                  <option value="">-- Pilih Nama Barang --</option>
                   <?php foreach ($stock as $stk) : ?>
                     <option value="<?= $stk['id_barang']; ?>">
                       <?= ucwords($stk['nama_barang']); ?>
                     </option>
-                    <?php endforeach; ?>
+                  <?php endforeach; ?>
                   </select>
                 </div>
               </div>
@@ -608,15 +642,16 @@
                       name="kategoriBarang"
                       id="kategoriBarang"
                     >
-                      <option></option>
-                      <option>Sembako</option>
-                      <option>Makanan Ringan</option>
-                      <option>Minuman</option>
-                      <option>Perlengkapan Mandi & Mencuci</option>
-                      <option>Perlengkapan Rumah Tangga</option>
-                      <option>Obat - Obatan</option>
-                      <option>Bumbu Dapur</option>
-                      <option>Makanan Instan</option>
+                    <option value="">-- Pilih Kategori Barang --</option>
+                    <option value="bumbu">Bumbu</option>
+                    <option value="makanan_instan">Makanan Instan</option>
+                    <option value="makanan_ringan">Makanan Ringan</option>
+                    <option value="minuman">Minuman</option>
+                    <option value="perlengkapan_mandi">Perlengkapan Mandi</option>
+                    <option value="perlengkapan_rumah">Perlengkapan Rumah</option>
+                    <option value="sembako">Sembako</option>
+                    <option value="obat">Obat - Obatan</option>
+                    <option value="lain_lain">Lain - Lain</option>
                   </select>
                 </div>
               </div>

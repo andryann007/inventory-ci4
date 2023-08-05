@@ -224,7 +224,7 @@
           </button>
         </div>
 
-        <?php if(session()->get('tipe_akun') == "Owner") :?>
+        <?php if(session()->get('tipe_akun') == "owner") :?>
         <form action='/owner/update_profile' method="post">
 
           <div class="modal-body">
@@ -338,7 +338,7 @@
         </form>
         <?php endif;?>
         
-        <?php if(session()->get('tipe_akun') == "Admin") :?>
+        <?php if(session()->get('tipe_akun') == "admin") :?>
         <form action='/admin/update_profile' method="post">
 
           <div class="modal-body">
@@ -451,7 +451,7 @@
         </form>
         <?php endif;?>
 
-        <?php if(session()->get('tipe_akun') == "User") :?>
+        <?php if(session()->get('tipe_akun') == "user") :?>
         <form action='/user/update_profile' method="post">
 
           <div class="modal-body">
@@ -589,9 +589,9 @@
             Select <b>"Logout"</b> below if you are ready to leave !!!
           </div>
           <div class="modal-footer">
-            <a class="btn btn-danger" href="<?php if(session()->get('tipe_akun') == "Owner"){
+            <a class="btn btn-danger" href="<?php if(session()->get('tipe_akun') == "owner"){
                 echo site_url('/owner/logout');
-              } else if(session()->get('tipe_akun') == "Admin"){
+              } else if(session()->get('tipe_akun') == "admin"){
                 echo site_url('/admin/logout');
               } else {
                 echo site_url('/user/logout');

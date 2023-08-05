@@ -39,12 +39,12 @@ class Home extends BaseController
 
                 session() -> set($dataSesi);
                 
-                if($dataAkun['tipe_akun'] == "Owner"){
+                if($dataAkun['tipe_akun'] == "owner"){
                     session()->set('logged_in', true);
                     return redirect() -> to('owner');
                 } 
                 
-                else if ($dataAkun['tipe_akun'] == "Admin"){
+                else if ($dataAkun['tipe_akun'] == "admin"){
                     session()->set('logged_in', true);
                     return redirect() -> to('admin');
                 } else {

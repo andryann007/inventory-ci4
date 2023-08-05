@@ -31,9 +31,9 @@ class Admin extends BaseController
     public function index(){
         if(!session()->has("logged_in")){
             return redirect()->to('home');
-        } else if(session()->get('tipe_akun') == "Owner"){
+        } else if(session()->get('tipe_akun') == "owner"){
             return redirect()->to('owner');
-        } else if(session()->get('tipe_akun') == "User"){
+        } else if(session()->get('tipe_akun') == "user"){
             return redirect()->to('user');
         } else {
             $data = [
@@ -52,9 +52,9 @@ class Admin extends BaseController
     public function supplier(){
         if(!session()->has("logged_in")){
             return redirect()->to('home');
-        } else if(session()->get('tipe_akun') == "Owner"){
+        } else if(session()->get('tipe_akun') == "owner"){
             return redirect()->to('owner');
-        } else if(session()->get('tipe_akun') == "User"){
+        } else if(session()->get('tipe_akun') == "user"){
             return redirect()->to('user');
         } else {
             $data = [
@@ -111,9 +111,9 @@ class Admin extends BaseController
     public function stock(){
         if(!session()->has("logged_in")){
             return redirect()->to('home');
-        } else if(session()->get('tipe_akun') == "Owner"){
+        } else if(session()->get('tipe_akun') == "owner"){
             return redirect()->to('owner');
-        } else if(session()->get('tipe_akun') == "User"){
+        } else if(session()->get('tipe_akun') == "user"){
             return redirect()->to('user');
         } else {
             $kategori = $this->request->getPost('kategoriBarang');
@@ -207,9 +207,9 @@ class Admin extends BaseController
     public function masuk(){
         if(!session()->has("logged_in")){
             return redirect()->to('home');
-        } else if(session()->get('tipe_akun') == "Owner"){
+        } else if(session()->get('tipe_akun') == "owner"){
             return redirect()->to('owner');
-        } else if(session()->get('tipe_akun') == "User"){
+        } else if(session()->get('tipe_akun') == "user"){
             return redirect()->to('user');
         } else {
             $tglMulai = $this->request->getPost('tglMulai');
@@ -358,9 +358,9 @@ class Admin extends BaseController
     public function tambah_barang_masuk(){
         if(!session()->has("logged_in")){
             return redirect()->to('home');
-        } else if(session()->get('tipe_akun') == "Owner"){
+        } else if(session()->get('tipe_akun') == "owner"){
             return redirect()->to('owner');
-        } else if(session()->get('tipe_akun') == "User"){
+        } else if(session()->get('tipe_akun') == "user"){
             return redirect()->to('user');
         } else {
             $data = [
@@ -400,7 +400,7 @@ class Admin extends BaseController
                 $dataStock[$i] = array(
                     'qty_stock' => $stockBaru[$i],
                     'total_harga' => $totalHargaBaru[$i],
-                    'status' => "Tersedia"
+                    'status' => "tersedia"
                 );
 
                 $stock->updateData($dataStock[$i], $idBarang[$i]);
@@ -461,7 +461,7 @@ class Admin extends BaseController
             $dataStock = array(
                 'qty_stock' => "0",
                 'total_harga' => $totalHargaBaru,
-                'status' => "Habis"
+                'status' => "habis"
             );
         } else {
             $dataStock = array(
@@ -485,9 +485,9 @@ class Admin extends BaseController
     public function keluar(){
         if(!session()->has("logged_in")){
             return redirect()->to('home');
-        } else if(session()->get('tipe_akun') == "Owner"){
+        } else if(session()->get('tipe_akun') == "owner"){
             return redirect()->to('owner');
-        } else if(session()->get('tipe_akun') == "User"){
+        } else if(session()->get('tipe_akun') == "user"){
             return redirect()->to('user');
         } else {
             $tglMulai = $this->request->getPost('tglMulai');
@@ -563,9 +563,9 @@ class Admin extends BaseController
     public function tambah_barang_keluar(){
         if(!session()->has("logged_in")){
             return redirect()->to('home');
-        } else if(session()->get('tipe_akun') == "Owner"){
+        } else if(session()->get('tipe_akun') == "owner"){
             return redirect()->to('owner');
-        } else if(session()->get('tipe_akun') == "User"){
+        } else if(session()->get('tipe_akun') == "user"){
             return redirect()->to('user');
         } else {
             $data = [
@@ -604,7 +604,7 @@ class Admin extends BaseController
                     $dataStock[$i] = array(
                         'qty_stock' => 0,
                         'total_harga' => $totalHargaBaru[$i],
-                        'status' => "Habis"
+                        'status' => "habis"
                     );
                 } else {
                     $dataStock[$i] = array(
@@ -687,9 +687,9 @@ class Admin extends BaseController
     public function retur(){
         if(!session()->has("logged_in")){
             return redirect()->to('home');
-        } else if(session()->get('tipe_akun') == "Owner"){
+        } else if(session()->get('tipe_akun') == "owner"){
             return redirect()->to('owner');
-        } else if(session()->get('tipe_akun') == "User"){
+        } else if(session()->get('tipe_akun') == "user"){
             return redirect()->to('user');
         } else {
             $tglMulai = $this->request->getPost('tglMulai');
@@ -838,9 +838,9 @@ class Admin extends BaseController
     public function tambah_retur_barang(){
         if(!session()->has("logged_in")){
             return redirect()->to('home');
-        } else if(session()->get('tipe_akun') == "Owner"){
+        } else if(session()->get('tipe_akun') == "owner"){
             return redirect()->to('owner');
-        } else if(session()->get('tipe_akun') == "User"){
+        } else if(session()->get('tipe_akun') == "user"){
             return redirect()->to('user');
         } else {
             $data = [
@@ -880,7 +880,7 @@ class Admin extends BaseController
                 $dataStock[$i] = array(
                     'qty_stock' => $stockBaru[$i],
                     'total_harga' => $totalHargaBaru[$i],
-                    'status' => "Tersedia"
+                    'status' => "tersedia"
                 );
 
                 if($rowStock[$i] >= $qtyRetur[$i]){
@@ -947,7 +947,7 @@ class Admin extends BaseController
             $dataStock = array(
                 'qty_stock' => "0",
                 'total_harga' => $totalHargaBaru,
-                'status' => "Habis"
+                'status' => "habis"
             );
         } else {
             $dataStock = array(
@@ -973,9 +973,9 @@ class Admin extends BaseController
     public function laporan_masuk(){
         if(!session()->has("logged_in")){
             return redirect()->to('home');
-        } else if(session()->get('tipe_akun') == "Owner"){
+        } else if(session()->get('tipe_akun') == "owner"){
             return redirect()->to('owner');
-        } else if(session()->get('tipe_akun') == "User"){
+        } else if(session()->get('tipe_akun') == "user"){
             return redirect()->to('user');
         } else {
             $tglMulai = $this->request->getPost('tglMulai');
@@ -1124,9 +1124,9 @@ class Admin extends BaseController
     public function laporan_keluar(){
         if(!session()->has("logged_in")){
             return redirect()->to('home');
-        } else if(session()->get('tipe_akun') == "Owner"){
+        } else if(session()->get('tipe_akun') == "owner"){
             return redirect()->to('owner');
-        } else if(session()->get('tipe_akun') == "User"){
+        } else if(session()->get('tipe_akun') == "user"){
             return redirect()->to('user');
         } else {
             $tglMulai = $this->request->getPost('tglMulai');
@@ -1202,9 +1202,9 @@ class Admin extends BaseController
     public function laporan_retur(){
         if(!session()->has("logged_in")){
             return redirect()->to('home');
-        } else if(session()->get('tipe_akun') == "Owner"){
+        } else if(session()->get('tipe_akun') == "owner"){
             return redirect()->to('owner');
-        } else if(session()->get('tipe_akun') == "User"){
+        } else if(session()->get('tipe_akun') == "user"){
             return redirect()->to('user');
         } else {
             $tglMulai = $this->request->getPost('tglMulai');

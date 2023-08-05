@@ -93,7 +93,43 @@
                         echo date_format($date_keluar, "d F Y"); ?>
                 </td>
                 <td><?= $klr['nama_barang'];?></td>
-                <td><?= $klr['kategori'];?></td>
+                <td>
+                    <?php if($klr['kategori'] == "bumbu") :?>
+                    Bumbu Masakan
+                    <?php endif; ?>
+
+                    <?php if($klr['kategori'] == "makanan_instan") :?>
+                    Makanan Instan
+                    <?php endif; ?>
+
+                    <?php if($klr['kategori'] == "makanan_ringan") :?>
+                    Makanan Ringan
+                    <?php endif; ?>
+
+                    <?php if($klr['kategori'] == "minuman") :?>
+                    Minuman
+                    <?php endif; ?>
+
+                    <?php if($klr['kategori'] == "sembako") :?>
+                    Sembako
+                    <?php endif; ?>
+
+                    <?php if($klr['kategori'] == "perlengkapan_mandi") :?>
+                    Perlengkapan Mandi
+                    <?php endif; ?>
+
+                    <?php if($klr['kategori'] == "perlengkapan_mencuci") :?>
+                    Perlengkapan Mencuci
+                    <?php endif; ?>
+
+                    <?php if($klr['kategori'] == "obat") :?>
+                    Obat - Obatan
+                    <?php endif; ?>
+
+                    <?php if($klr['kategori'] == "lain_lain") :?>
+                    Lain Lain
+                    <?php endif; ?>
+                </td>
                 <td><?= $klr['keterangan'];?></td>
                 <td><?= "Rp. " . number_format($klr['harga_satuan_keluar'], 2, ',', '.');?></td>
                 <td><?= $klr['qty_keluar'];?></td>

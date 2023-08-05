@@ -94,7 +94,43 @@
                 </td>
                 <td><?= $rtr['nama_barang'];?></td>
                 <td><?= $rtr['nama_supplier'];?></td>
-                <td><?= $rtr['kategori'];?></td>
+                <td>
+                    <?php if($stk['kategori'] == "bumbu") :?>
+                    Bumbu Masakan
+                    <?php endif; ?>
+
+                    <?php if($stk['kategori'] == "makanan_instan") :?>
+                    Makanan Instan
+                    <?php endif; ?>
+
+                    <?php if($stk['kategori'] == "makanan_ringan") :?>
+                    Makanan Ringan
+                    <?php endif; ?>
+
+                    <?php if($stk['kategori'] == "minuman") :?>
+                    Minuman
+                    <?php endif; ?>
+
+                    <?php if($stk['kategori'] == "sembako") :?>
+                    Sembako
+                    <?php endif; ?>
+
+                    <?php if($stk['kategori'] == "perlengkapan_mandi") :?>
+                    Perlengkapan Mandi
+                    <?php endif; ?>
+
+                    <?php if($stk['kategori'] == "perlengkapan_mencuci") :?>
+                    Perlengkapan Mencuci
+                    <?php endif; ?>
+
+                    <?php if($stk['kategori'] == "obat") :?>
+                    Obat - Obatan
+                    <?php endif; ?>
+
+                    <?php if($stk['kategori'] == "lain_lain") :?>
+                    Lain Lain
+                    <?php endif; ?>
+                </td>
                 <td><?= $rtr['keterangan'];?></td>
                 <td><?= "Rp. " . number_format($rtr['harga_satuan'], 2, ',', '.');?></td>
                 <td><?= $rtr['qty_retur'];?></td>

@@ -276,7 +276,17 @@
                           <?= $a['telp']; ?>
                         </td>
                         <td>
-                          <?= ucwords($a['tipe_akun']); ?>
+                          <?php if($a['tipe_akun'] == "owner") :?>
+                            Owner
+                          <?php endif; ?>
+
+                          <?php if($a['tipe_akun'] == "admin") :?>
+                            Admin
+                          <?php endif; ?>
+
+                          <?php if($a['tipe_akun'] == "user") :?>
+                            User
+                          <?php endif; ?>
                         </td>
                         <td
                           class="d-sm-flex justify-content-between align-items-center"
@@ -583,9 +593,9 @@
                     id="tipeAkunUser"
                     required
                   >
-                    <option>Owner</option>
-                    <option>Admin</option>
-                    <option>User</option>
+                    <option value="owner">Owner</option>
+                    <option value="admin">Admin</option>
+                    <option value="user">User</option>
                   </select>
                 </div>
               </div>
@@ -725,9 +735,9 @@
                     id="tipeAkunUser"
                     required
                   >
-                    <option>Owner</option>
-                    <option>Admin</option>
-                    <option>User</option>
+                    <option value="owner">Owner</option>
+                    <option value="admin">Admin</option>
+                    <option value="user">User</option>
                   </select>
                 </div>
               </div>
