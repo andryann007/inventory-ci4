@@ -168,7 +168,7 @@ class Home extends BaseController
                         // Send Password Reset Message To User Email
                         $this->emailSMTP->setFrom("andryancoolz@gmail.com", "Andryan");
                         $this->emailSMTP->setTo($email);
-                        $this->emailSMTP->setSubject("Password Reset Token");
+                        $this->emailSMTP->setSubject("Reset Password Successful");
                         $this->emailSMTP->setMessage("Hi, <b>{$recipientsName}</b> We're want to inform you that you're successfully reset your password.<br>
                         Now You Can Use Your New Password to Login.<br><br><br><br>
                         Thanks & Regards<br>
