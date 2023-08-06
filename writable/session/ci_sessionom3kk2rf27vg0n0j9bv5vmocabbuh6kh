@@ -1,0 +1,39 @@
+__ci_last_regenerate|i:1691259140;_ci_previous_url|s:42:"http://localhost:8080/home/forget_password";error|s:1600:"Exit status code: 1<br>Unable to open a socket to Sendmail. Please check settings.<br>Unable to send email using Sendmail. Your server might not be configured to send mail using this method.<br><pre>Date: Sat, 5 Aug 2023 18:08:59 +0000
+From: &lt;andryancoolz@gmail.com&gt;
+Return-Path: &lt;andryancoolz@gmail.com&gt;
+To: s31190080@student.ubm.ac.id
+Subject: =?UTF-8?Q?Password=20Reset=20Token?=
+Reply-To: &lt;andryancoolz@gmail.com&gt;
+User-Agent: CodeIgniter
+X-Sender: andryancoolz@gmail.com
+X-Mailer: CodeIgniter
+X-Priority: 3 (Normal)
+Message-ID: &lt;64ce903b187a07.62407234@gmail.com&gt;
+Mime-Version: 1.0
+
+
+Content-Type: multipart/alternative; boundary=&quot;B_ALT_64ce903b187f45.61164064&quot;
+
+This is a multi-part message in MIME format.
+Your email application may not support this format.
+
+--B_ALT_64ce903b187f45.61164064
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Hi, We&#039;re sending you this email because you requested a password reset.
+Here is your token to reset your password wSFL6bpyp9SA. To reset your
+password go to link below : http://localhost:8080/home/reset_password.
+Thanks &amp; Regards Andryan
+
+
+--B_ALT_64ce903b187f45.61164064
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+Hi, We&#039;re sending you this email because you requested a password reset. He=
+re is your token to reset your password wSFL6bpyp9SA. To reset your passwor=
+d go to link below : http://localhost:8080/home/reset_password. Thanks &amp; Re=
+gards Andryan
+
+--B_ALT_64ce903b187f45.61164064--</pre>";__ci_vars|a:1:{s:5:"error";s:3:"new";}

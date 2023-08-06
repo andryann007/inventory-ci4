@@ -65,7 +65,7 @@
             <span>Dashboard</span></a
           >
         </li>
-        
+
         <!-- Divider -->
         <hr class="sidebar-divider" />
 
@@ -257,39 +257,39 @@
                           <?= ucwords($klr['nama_barang']); ?>
                         </td>
                         <td>
-                          <?php if($stk['kategori'] == "bumbu") :?>
+                          <?php if($klr['kategori'] == "bumbu") :?>
                             Bumbu Masakan
                           <?php endif; ?>
 
-                          <?php if($stk['kategori'] == "makanan_instan") :?>
+                          <?php if($klr['kategori'] == "makanan_instan") :?>
                             Makanan Instan
                           <?php endif; ?>
 
-                          <?php if($stk['kategori'] == "makanan_ringan") :?>
+                          <?php if($klr['kategori'] == "makanan_ringan") :?>
                             Makanan Ringan
                           <?php endif; ?>
 
-                          <?php if($stk['kategori'] == "minuman") :?>
+                          <?php if($klr['kategori'] == "minuman") :?>
                             Minuman
                           <?php endif; ?>
 
-                          <?php if($stk['kategori'] == "sembako") :?>
+                          <?php if($klr['kategori'] == "sembako") :?>
                             Sembako
                           <?php endif; ?>
 
-                          <?php if($stk['kategori'] == "perlengkapan_mandi") :?>
+                          <?php if($klr['kategori'] == "perlengkapan_mandi") :?>
                             Perlengkapan Mandi
                           <?php endif; ?>
 
-                          <?php if($stk['kategori'] == "perlengkapan_mencuci") :?>
+                          <?php if($klr['kategori'] == "perlengkapan_mencuci") :?>
                             Perlengkapan Mencuci
                           <?php endif; ?>
 
-                          <?php if($stk['kategori'] == "obat") :?>
+                          <?php if($klr['kategori'] == "obat") :?>
                             Obat - Obatan
                           <?php endif; ?>
 
-                          <?php if($stk['kategori'] == "lain_lain") :?>
+                          <?php if($klr['kategori'] == "lain_lain") :?>
                             Lain Lain
                           <?php endif; ?>
                         </td>
@@ -371,10 +371,18 @@
     <script src="<?= base_url(); ?>/js/sweetalert2.all.min.js"></script>
 
     <script>
-      <?php if(session()->get('message')) :?>
+      <?php if(session()->get('outcoming_message')) :?>
         Swal.fire(
           'Data Barang Keluar',
-          '<?= session()->getFlashdata('message');?>',
+          '<?= session()->getFlashdata('outcoming_message');?>',
+          'success'
+        )
+      <?php endif; ?>
+
+      <?php if(session()->get('filter_outcoming_message')) :?>
+        Swal.fire(
+          'Data Barang Keluar',
+          '<?= session()->getFlashdata('filter_outcoming_message');?>',
           'success'
         )
       <?php endif; ?>

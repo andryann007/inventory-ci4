@@ -286,39 +286,39 @@
                           <?= ucwords($rtr['nama_supplier']); ?>
                         </td>
                         <td>
-                          <?php if($stk['kategori'] == "bumbu") :?>
+                          <?php if($rtr['kategori'] == "bumbu") :?>
                             Bumbu Masakan
                           <?php endif; ?>
 
-                          <?php if($stk['kategori'] == "makanan_instan") :?>
+                          <?php if($rtr['kategori'] == "makanan_instan") :?>
                             Makanan Instan
                           <?php endif; ?>
 
-                          <?php if($stk['kategori'] == "makanan_ringan") :?>
+                          <?php if($rtr['kategori'] == "makanan_ringan") :?>
                             Makanan Ringan
                           <?php endif; ?>
 
-                          <?php if($stk['kategori'] == "minuman") :?>
+                          <?php if($rtr['kategori'] == "minuman") :?>
                             Minuman
                           <?php endif; ?>
 
-                          <?php if($stk['kategori'] == "sembako") :?>
+                          <?php if($rtr['kategori'] == "sembako") :?>
                             Sembako
                           <?php endif; ?>
 
-                          <?php if($stk['kategori'] == "perlengkapan_mandi") :?>
+                          <?php if($rtr['kategori'] == "perlengkapan_mandi") :?>
                             Perlengkapan Mandi
                           <?php endif; ?>
 
-                          <?php if($stk['kategori'] == "perlengkapan_mencuci") :?>
+                          <?php if($rtr['kategori'] == "perlengkapan_mencuci") :?>
                             Perlengkapan Mencuci
                           <?php endif; ?>
 
-                          <?php if($stk['kategori'] == "obat") :?>
+                          <?php if($rtr['kategori'] == "obat") :?>
                             Obat - Obatan
                           <?php endif; ?>
 
-                          <?php if($stk['kategori'] == "lain_lain") :?>
+                          <?php if($rtr['kategori'] == "lain_lain") :?>
                             Lain Lain
                           <?php endif; ?>
                         </td>
@@ -401,10 +401,18 @@
     <script src="<?= base_url(); ?>/js/sweetalert2.all.min.js"></script>
 
     <script>
-      <?php if(session()->get('message')) :?>
+      <?php if(session()->get('returning_message')) :?>
         Swal.fire(
           'Data Retur Barang',
-          '<?= session()->getFlashdata('message');?>',
+          '<?= session()->getFlashdata('returning_message');?>',
+          'success'
+        )
+      <?php endif; ?>
+
+      <?php if(session()->get('filter_returning_message')) :?>
+        Swal.fire(
+          'Data Retur Barang',
+          '<?= session()->getFlashdata('filter_returning_message');?>',
           'success'
         )
       <?php endif; ?>

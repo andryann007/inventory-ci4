@@ -26,6 +26,8 @@
     <!-- Custom styles for this template-->
     <link href="<?= base_url(); ?>/css/sb-admin-2.min.css" rel="stylesheet">
 
+    <!-- Sweet Alert 2 Library-->
+    <link href="<?= base_url(); ?>/css/sweetalert2.min.css" rel="stylesheet" />
 </head>
 
 <body class="bg-gradient-dark">
@@ -37,7 +39,7 @@
 
             <div class="col-xl-10 col-lg-12 col-md-9">
 
-                <div class="card o-hidden border-0 shadow-lg d-flex my-5">
+                <div class="card o-hidden border-0 shadow-lg d-flex mx-auto my-5">
                     <div class="card-body p-0">
                         <!-- Nested Row within Card Body -->
                         <div class="row">
@@ -50,27 +52,23 @@
                                         <h1 class="h4 text-gray-900 mb-4">Login to Inventory System</h1>
                                     </div>
                                     <form class="user" method="POST">
-                                        <?php if(session() -> getFlashdata('error')){
-                                        ?> 
-                                            <div class="alert alert-danger">
-                                                <?php echo session() -> getFlashdata('error'); ?>
-                                            </div>
-                                        <?php 
-                                            };
-                                         ?>
                                         <div class="form-group">
                                             <input type="text" name="username" class="form-control form-control-user"
                                                 id="inputUsername" aria-describedby="usernameHelp"
-                                                placeholder="Enter Username">
+                                                placeholder="Enter Username..." required>
                                         </div>
                                         <div class="form-group">
                                             <input type="password" name="password" class="form-control form-control-user"
-                                                id="inputPassword" placeholder="Password">
+                                                id="inputPassword" placeholder="Password..." required>
                                         </div>
                                         <div class="mb-3">
                                             <input type="submit" name="btnLogin" class="btn btn-primary btn-user btn-block" value="Login">
                                         </div>
                                     </form>
+                                    <hr>
+                                    <div class="text-center">
+                                        <a class="small" href="/home/forget_password">Forget Password ? Click Here !!!</a>
+                                    </div>
                                 </div>
                             </div>
                             
@@ -93,6 +91,27 @@
 
     <!-- Custom scripts for all pages-->
     <script src="<?= base_url(); ?>/js/sb-admin-2.min.js"></script>
+
+    <script src="<?= base_url(); ?>/js/sweetalert2.all.min.js"></script>
+
+    <script>
+        <?php if(session()->get('message')) :?>
+            Swal.fire(
+                'Berhasil Logout',
+                '<?= session()->getFlashdata('message');?>',
+                'success'
+            )
+        <?php endif; ?>
+
+        <?php if(session()->get('error')) :?>
+            Swal.fire({
+            icon: 'error',
+            title: 'Gagal Login',
+            text: '<?= session()->getFlashdata('error');?>',
+            footer: 'Anda Gagal Login, Coba Lagi !!!'
+            })
+        <?php endif; ?>
+    </script>
 
 </body>
 

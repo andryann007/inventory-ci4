@@ -27,6 +27,9 @@
 
   <!-- template table bootstrap 4 -->
   <link href="<?= base_url(); ?>/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" />
+
+  <!-- Sweet Alert 2Library-->
+  <link href="<?= base_url(); ?>/css/sweetalert2.min.css" rel="stylesheet" />
 </head>
 
 <body id="page-top">
@@ -157,28 +160,6 @@
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">Dashboard Admin</h1>
           </div>
-
-          <!-- Notifikasi Alert Jika Data Akun Berhasil di Tambah / Edit / Hapus -->
-          <?php if(session()->get('message')) :?>
-            <div class="alert alert-success alert-dismissible">
-              <button type="button" class="close" data-dismiss="alert">
-                &times;
-              </button>
-              Perhatian !!! 
-              <strong><?= session()->getFlashdata('message'); ?> </strong>
-            </div>
-          <?php endif; ?>
-
-          <!-- Notifikasi Alert Jika Data Akun Gagal di Tambah / Edit / Hapus -->
-          <?php if(session()->get('error')) :?>
-            <div class="alert alert-danger alert-dismissible">
-              <button type="button" class="close" data-dismiss="alert">
-                &times;
-              </button>
-              Perhatian !!! 
-              <strong><?= session()->getFlashdata('error'); ?> </strong>
-            </div>
-          <?php endif; ?>
 
           <!-- Notifikasi Alert Jika Stock Barang Habis -->
           <?php foreach ($stock as $stk) : ?>
@@ -348,6 +329,18 @@
   <script src="<?= base_url(); ?>/vendor/datatables/jquery.dataTables.min.js"></script>
   <script src="<?= base_url(); ?>/vendor/datatables/dataTables.bootstrap4.min.js"></script>
   <script src="<?= base_url(); ?>/js/demo/datatables-demo.js"></script>
+
+  <script src="<?= base_url(); ?>/js/sweetalert2.all.min.js"></script>
+
+  <script>
+    <?php if(session()->get('message')) :?>
+      Swal.fire(
+        'Berhasil Login',
+        '<?= session()->getFlashdata('message');?>',
+        'success'
+      )
+    <?php endif; ?>
+  </script>
 
   <script type="text/javascript">
       $(document).ready(function(){

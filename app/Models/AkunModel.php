@@ -12,6 +12,10 @@ class AkunModel extends Model{
         -> get()->getResultArray();
     }
 
+    public function getUsername(){
+        return $this->db->table('data_user')->get('username');
+    }
+
     public function saveData($data){
         $query = $this->db->table('data_user')->insert($data);
         return $query;

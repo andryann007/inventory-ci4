@@ -33,7 +33,7 @@
       rel="stylesheet"
     />
 
-    <!-- Sweet Alert 2Library-->
+    <!-- Sweet Alert 2 Library-->
     <link href="<?= base_url(); ?>/css/sweetalert2.min.css" rel="stylesheet" />
   </head>
 

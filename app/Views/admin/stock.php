@@ -395,10 +395,18 @@
     <script src="<?= base_url(); ?>/js/sweetalert2.all.min.js"></script>
 
     <script>
-      <?php if(session()->get('message')) :?>
+      <?php if(session()->get('stock_message')) :?>
         Swal.fire(
           'Data Stock Barang',
-          '<?= session()->getFlashdata('message');?>',
+          '<?= session()->getFlashdata('stock_message');?>',
+          'success'
+        )
+      <?php endif; ?>
+
+      <?php if(session()->get('filter_stock_message')) :?>
+        Swal.fire(
+          'Data Stock Barang',
+          '<?= session()->getFlashdata('filter_stock_message');?>',
           'success'
         )
       <?php endif; ?>
