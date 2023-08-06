@@ -162,6 +162,19 @@ class Home extends BaseController
                             'reset_token' => ""
                         );
                         $ModelAkun -> updateData($data, $dataAkun['id_user']);
+
+                        $recipientsName = $dataAkun['nama_lengkap'];
+    
+                        // Send Password Reset Message To User Email
+                        $this->emailSMTP->setFrom("andryancoolz@gmail.com", "Andryan");
+                        $this->emailSMTP->setTo($email);
+                        $this->emailSMTP->setSubject("Password Reset Token");
+                        $this->emailSMTP->setMessage("Hi, <b>{$recipientsName}</b> We're want to inform you that you're successfully reset your password.<br>
+                        Now You Can Use Your New Password to Login.<br><br><br><br>
+                        Thanks & Regards<br>
+                        Andryan");
+                        $this->emailSMTP->send();
+
                         session() -> setFlashdata('reset_password_message', 'Berhasil Mereset Password & Reset Token !!!');
                     } else {
                         session()->setFlashdata('reset_password_error', 'Password & Password Konfirmasi Tidak Sama !!!');

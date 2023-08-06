@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 05, 2023 at 10:12 AM
+-- Generation Time: Aug 06, 2023 at 12:21 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.1.12
 
@@ -128,7 +128,8 @@ INSERT INTO `data_barang_masuk` (`id_masuk`, `id_barang`, `id_supplier`, `tgl_ma
 (10, 6, 3, '2023-08-03', 5, 24000, 120000, '-'),
 (11, 1, 1, '2023-08-04', 2, 2500, 5000, '-'),
 (12, 1, 1, '2023-08-04', 12, 2500, 30000, '-'),
-(13, 1, 1, '2023-08-04', 2, 2500, 5000, '-');
+(13, 1, 1, '2023-08-04', 2, 2500, 5000, '-'),
+(14, 1, 1, '2023-08-05', 2, 2500, 5000, '-');
 
 -- --------------------------------------------------------
 
@@ -180,7 +181,7 @@ CREATE TABLE `data_stock` (
 --
 
 INSERT INTO `data_stock` (`id_barang`, `nama_barang`, `kategori`, `qty_stock`, `harga_satuan`, `total_harga`, `status`) VALUES
-(1, 'Royco Ayam & Sapi (12 Sachet)', 'bumbu', 31, 6500, 201500, 'tersedia'),
+(1, 'Royco Ayam & Sapi (12 Sachet)', 'bumbu', 33, 6500, 214500, 'tersedia'),
 (2, 'Masako Ayam & Sapi (12 sachet)', 'bumbu', 10, 5500, 55000, 'habis'),
 (3, 'Mamasuka Kentucky (210 gr)', 'bumbu', 5, 5000, 25000, 'tersedia'),
 (4, 'Mamasuka Tepung Goreng Tempe 100gr', 'bumbu', 20, 2000, 40000, 'tersedia'),
@@ -245,17 +246,18 @@ CREATE TABLE `data_user` (
   `password` varchar(12) NOT NULL,
   `telp` varchar(12) NOT NULL,
   `alamat` varchar(255) NOT NULL,
-  `tipe_akun` enum('owner','admin','user') NOT NULL
+  `tipe_akun` enum('owner','admin','user') NOT NULL,
+  `reset_token` varchar(12) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `data_user`
 --
 
-INSERT INTO `data_user` (`id_user`, `nama_lengkap`, `email`, `username`, `password`, `telp`, `alamat`, `tipe_akun`) VALUES
-(1, 'Andryan', 's31190080@student.ubm.ac.id', 'andryan', '12345678', '085675xxxx8', 'Jln Hidup Baru gg L no 65', 'owner'),
-(2, 'Admin', 'admin@gmail.com', 'admin', '12345678', '-', 'Jln. H', 'admin'),
-(3, 'User', 'user@gmail.com', 'user', '12345678', '-', '', 'user');
+INSERT INTO `data_user` (`id_user`, `nama_lengkap`, `email`, `username`, `password`, `telp`, `alamat`, `tipe_akun`, `reset_token`) VALUES
+(1, 'Andryan', 's31190080@student.ubm.ac.id', 'andryan', '12345678', '085675xxxx8', 'Jln Hidup Baru gg L no 65', 'owner', 'OTdEiFWvqdzo'),
+(2, 'Admin', 'admin@gmail.com', 'admin', '12345678', '-', 'Jln. H', 'admin', ''),
+(3, 'User', 'user@gmail.com', 'user', '12345678', '-', '', 'user', '');
 
 --
 -- Indexes for dumped tables
@@ -311,7 +313,7 @@ ALTER TABLE `data_barang_keluar`
 -- AUTO_INCREMENT for table `data_barang_masuk`
 --
 ALTER TABLE `data_barang_masuk`
-  MODIFY `id_masuk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id_masuk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `data_retur_barang`
