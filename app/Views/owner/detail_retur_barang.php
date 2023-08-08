@@ -341,6 +341,10 @@
                     </tr>
                     <?php endforeach;?>
                     </tbody>
+                    <tr>
+                        <td colspan="3" align="center"><b>Total Harga</b></td>
+                        <td colspan="3" align="center"><b><?= "Rp. ". number_format($grand_total, 2, ',', '.'); ?></b></td>
+                    </tr>
                 </table>
                 </div>
             </div>

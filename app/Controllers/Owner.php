@@ -435,7 +435,8 @@ class Owner extends BaseController
                 'no_faktur' => $noFaktur,
                 'nama_supplier' => $namaSupplier,
                 'nama_lengkap' => $namaUser,
-                'tgl_masuk' => $tglMasuk
+                'tgl_masuk' => $tglMasuk,
+                'grand_total' => $this->masukModel->getDetailTotalHarga($idMasuk)
             ];
 
             $filterData = $data;
@@ -651,7 +652,8 @@ class Owner extends BaseController
                 'id_keluar' => $idKeluar,
                 'no_faktur' => $noFaktur,
                 'nama_lengkap' => $namaUser,
-                'tgl_keluar' => $tglKeluar
+                'tgl_keluar' => $tglKeluar,
+                'grand_total' => $this->keluarModel->getDetailTotalHarga($idKeluar)
             ];
 
             $filterData = $data;
@@ -937,12 +939,13 @@ class Owner extends BaseController
                 'no_faktur' => $noFaktur,
                 'nama_supplier' => $namaSupplier,
                 'nama_lengkap' => $namaUser,
-                'tgl_retur' => $tglRetur
+                'tgl_retur' => $tglRetur,
+                'grand_total' => $this->returModel->getDetailTotalHarga($idRetur)
             ];
 
             $filterData = $data;
 
-            return view('owner/detail_retur', $filterData);
+            return view('owner/detail_retur_barang', $filterData);
         }
     }
 

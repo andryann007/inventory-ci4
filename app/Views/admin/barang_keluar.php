@@ -256,8 +256,8 @@
                         <th>No</th>
                         <th>No Faktur</th>
                         <th>Tgl Keluar</th>
-                        <th>QTY Barang</th>
                         <th>Petugas</th>
+                        <th>Jenis Transaksi</th>
                         <th class="text-center">Aksi</th>
                       </tr>
                     </thead>
@@ -277,10 +277,10 @@
                             echo date_format($date_keluar, "d F Y"); ?>
                         </td>
                         <td>
-                          <?= ""; ?>
+                          <?= $klr['nama_lengkap']; ?>
                         </td>
                         <td>
-                          <?= $klr['nama_lengkap']; ?>
+                          Transaksi Barang Keluar
                         </td>
                         <td
                           class="d-sm-flex justify-content-around align-items-center"

@@ -266,8 +266,8 @@
                         <th>No Faktur</th>
                         <th>Nama Supplier</th>
                         <th>Tgl Masuk</th>
-                        <th>QTY Barang</th>
                         <th>Petugas</th>
+                        <th>Jenis Transaksi</th>
                         <th class="text-center">Aksi</th>
                       </tr>
                     </thead>
@@ -290,10 +290,10 @@
                             echo date_format($date_masuk, "d F Y"); ?>
                         </td>
                         <td>
-                          <?= ""; ?>
+                          <?= $msk['nama_lengkap']; ?>
                         </td>
                         <td>
-                          <?= $msk['nama_lengkap']; ?>
+                          Transaksi Barang Masuk
                         </td>
                         <td
                           class="d-sm-flex justify-content-around align-items-center"

@@ -26,6 +26,16 @@ class MasukModel extends Model{
         return $query;
     }
 
+    public function getDetailTotalHarga($id){
+        $query = $this->db->table('detail_barang_masuk')
+        -> selectSum('total_harga_masuk', 'grand_total')
+        -> join('data_barang_masuk', 'data_barang_masuk.id_masuk = detail_barang_masuk.id_masuk', 'inner')
+        -> where('data_barang_masuk.id_masuk =', $id)
+        -> get() -> getRow() -> grand_total;
+
+        return $query;
+    }
+
     public function getReportData(){
         $query = $this->db->table('data_barang_masuk')
         -> join('data_user', 'data_user.id_user = data_barang_masuk.id_user')

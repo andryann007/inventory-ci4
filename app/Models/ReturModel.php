@@ -26,6 +26,16 @@ class ReturModel extends Model{
         return $query;
     }
 
+    public function getDetailTotalHarga($id){
+        $query = $this->db->table('detail_retur_barang')
+        -> selectSum('total_harga_retur', 'grand_total')
+        -> join('data_retur_barang', 'data_retur_barang.id_retur = detail_retur_barang.id_retur', 'inner')
+        -> where('data_retur_barang.id_retur =', $id)
+        -> get() -> getRow() -> grand_total;
+
+        return $query;
+    }
+
     public function getReportData(){
         $query = $this->db->table('data_retur_barang')
         -> join('data_user', 'data_user.id_user = data_retur_barang.id_user')
