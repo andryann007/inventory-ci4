@@ -157,34 +157,32 @@
             <div
               class="d-sm-flex align-items-center justify-content-between mb-4"
             >
-              <h2 class="h3 mb-0 text-gray-800 col-md-7">
-                Laporan Retur Barang
-              </h2>
+              <h2 class="h3 mb-0 text-gray-800 col-md-7">Laporan Retur Barang</h2>
 
-              <button
-                type="button"
+              <a
+                role="button"
                 class="btn btn-success btn-sm"
                 data-toggle="modal"
-                data-target="#printReturModal"
+                data-target="#printReturning"
               >
-                <i class="fas fa-print"></i>
+                <i class="fas fa-plus"></i>
                 Print Data
-              </button>
+              </a>
 
               <button
                 type="button"
                 class="btn btn-primary btn-sm"
                 data-toggle="modal"
-                data-target="#filterReturModal"
+                data-target="#filterReturningModal"
               >
                 <i class="fas fa-filter"></i>
                 Filter Data
               </button>
 
               <a
-                href="<?php echo site_url('/user/laporan_retur');?>"
-                class="btn btn-dark btn-sm"
                 role="button"
+                class="btn btn-dark btn-sm"
+                href="<?php echo site_url('/user/laporan_retur');?>"
                 ><i class="fas fa-eye"></i> View All Data</a
               >
             </div>
@@ -234,23 +232,25 @@
                     <thead class="thead-dark">
                       <tr>
                         <th>No</th>
-                        <th>Tgl Retur</th>
-                        <th>Nama Barang</th>
+                        <th>No Faktur</th>
+                        <th>Tgl Masuk</th>
                         <th>Nama Supplier</th>
+                        <th>Nama Barang</th>
                         <th>Kategori</th>
-                        <th>Keterangan</th>
-                        <th>Harga/Pcs</th>
-                        <th>QTY</th>
+                        <th>QTY Barang</th>
+                        <th>Harga Satuan</th>
                         <th>Total Harga</th>
                       </tr>
                     </thead>
                     <tbody>
                     <?php $i =1; ?>
                       <?php foreach ($retur as $rtr) : ?>
-                        
                       <tr>
                         <td>
                           <?= $i++; ?>
+                        </td>
+                        <td>
+                          <?= $rtr['no_faktur']; ?>
                         </td>
                         <td>
                           <?php
@@ -258,13 +258,13 @@
                             echo date_format($date_retur, "d F Y"); ?>
                         </td>
                         <td>
+                          <?= $rtr['nama_supplier']; ?>
+                        </td>
+                        <td>
                           <?= $rtr['nama_barang']; ?>
                         </td>
                         <td>
-                          <?= ucwords($rtr['nama_supplier']); ?>
-                        </td>
-                        <td>
-                          <?php if($rtr['kategori'] == "bumbu") :?>
+                        <?php if($rtr['kategori'] == "bumbu") :?>
                             Bumbu Masakan
                           <?php endif; ?>
 
@@ -301,13 +301,10 @@
                           <?php endif; ?>
                         </td>
                         <td>
-                          <?= $rtr['keterangan']; ?>
+                        <?= $rtr['qty_retur']; ?>
                         </td>
                         <td>
                           <?= "Rp. " . number_format($rtr['harga_satuan_retur'], 2, ',', '.'); ?>
-                        </td>
-                        <td>
-                          <?= $rtr['qty_retur']; ?>
                         </td>
                         <td>
                           <?= "Rp. " . number_format($rtr['total_harga_retur'], 2, ',', '.'); ?>
@@ -357,18 +354,18 @@
     <script src="<?= base_url(); ?>/js/sweetalert2.all.min.js"></script>
 
     <script>
-      <?php if(session()->get('all_returning_report')) :?>
+      <?php if(session()->get('returning_message')) :?>
         Swal.fire(
-          'Laporan Retur Barang',
-          '<?= session()->getFlashdata('all_returning_report');?>',
+          'Data Retur Barang',
+          '<?= session()->getFlashdata('returning_message');?>',
           'success'
         )
       <?php endif; ?>
 
-      <?php if(session()->get('filter_returning_report')) :?>
+      <?php if(session()->get('filter_returning_message')) :?>
         Swal.fire(
-          'Laporan Retur Barang',
-          '<?= session()->getFlashdata('filter_returning_report');?>',
+          'Data Retur Barang',
+          '<?= session()->getFlashdata('filter_returning_message');?>',
           'success'
         )
       <?php endif; ?>
@@ -376,7 +373,7 @@
       <?php if(session()->get('error')) :?>
         Swal.fire({
           icon: 'error',
-          title: 'Laporan Retur Barang',
+          title: 'Data Retur Barang',
           text: '<?= session()->getFlashdata('error');?>',
           footer: 'Dikarenakan QTY Stock < QTY Retur'
         })
@@ -428,10 +425,10 @@
     </script>
   </body>
 
-  <!-- Filter Data Modal -->
-  <div
+ <!-- Filter Data Modal -->
+ <div
     class="modal fade"
-    id="filterReturModal"
+    id="filterReturningModal"
     tabindex="-1"
     aria-labelledby="filterModalLabel"
     aria-hidden="true"
@@ -440,7 +437,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="filterModalLabel">
-            Filter Laporan Retur Barang
+            Filter Data Retur Barang
           </h5>
           <button
             type="button"
@@ -451,7 +448,7 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-          <form action='/user/laporan_retur' method="post">
+          <form action='/user/retur' method="post">
           <div class="modal-body">
             <label for="namaBarang">Filter Data by <b>Range of Date</b></label>
             <div class="row">
@@ -471,66 +468,41 @@
               </div>
             </div>
 
-            <div class="form-group">
-              <label for="idSupplier">Filter Data by <b>Nama Supplier</b></label>
-                <select
-                  class="form-control"
-                  name="idSupplier"
-                  id="idSupplier"
-                >
-                <option value="">-- Pilih Nama Supplier --</option>
-                <?php foreach ($supplier as $spy) : ?>
-                  <option value="<?= $spy['id_supplier']; ?>">
-                    <?= ucwords($spy['nama_supplier']); ?>
-                  </option>
-                <?php endforeach; ?>
-                </select>
-            </div>
-
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
-                  <label for="idBarang">Filter Data by <b>Nama Barang</b></label>
-                    <select
-                      class="form-control"
-                      name="idBarang"
-                      id="idBarang"
-                    >
-                    <option value="">-- Pilih Nama Barang --</option>
-                    <?php foreach ($stock as $stk) : ?>
-                      <option value="<?= $stk['id_barang']; ?>">
-                        <?= ucwords($stk['nama_barang']); ?>
-                      </option>
-                      <?php endforeach; ?>
-                    
-                    </select>
-                </div>
-              </div>
-
-              <div class="col-md-6">
-                <label for="idBarang">Filter Data by <b>Kategori</b> :</label>
-                <div class="form-group">
-                    <select
-                      class="form-control"
-                      name="kategoriBarang"
-                      id="kategoriBarang"
-                    >
-                      <option value="">-- Pilih Kategori Barang --</option>
-                      <option value="bumbu">Bumbu</option>
-                      <option value="makanan_instan">Makanan Instan</option>
-                      <option value="makanan_ringan">Makanan Ringan</option>
-                      <option value="minuman">Minuman</option>
-                      <option value="perlengkapan_mandi">Perlengkapan Mandi</option>
-                      <option value="perlengkapan_rumah">Perlengkapan Rumah</option>
-                      <option value="sembako">Sembako</option>
-                      <option value="obat">Obat - Obatan</option>
-                      <option value="lain_lain">Lain - Lain</option>
+                  <label for="idSupplier">Filter Data by <b>Nama Supplier</b> :</label>
+                  <select
+                    class="form-control"
+                    name="idSupplier"
+                    id="idSupplier"
+                  >
+                  <option value="">-- Pilih Nama Supplier --</option>
+                  <?php foreach ($supplier as $spy) : ?>
+                    <option value="<?= $spy['id_supplier']; ?>">
+                      <?= ucwords($spy['nama_supplier']); ?>
+                    </option>
+                  <?php endforeach; ?>
                   </select>
                 </div>
               </div>
 
-              <div class="col-md-12">
-                <label for="keterangan"><b>Note :</b> Untuk Filter Data by <b>Nama Barang / Kategori</b>, Silahkan Pilih Salah Satu !!! (Tidak Bisa Keduanya)</label>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="idUser">Filter Data by <b>Nama Petugas</b> :</label>
+                  <select
+                    class="form-control"
+                    name="idUser"
+                    id="idUser"
+                  >
+                  <option value="">-- Pilih Nama Petugas --</option>
+                  <?php foreach ($user as $usr) : ?>
+                    <option value="<?= $usr['id_user']; ?>">
+                      <?= ucwords($usr['nama_lengkap']); ?>
+                    </option>
+                  <?php endforeach; ?>
+                  </select>
+                </div>
               </div>
             </div>
           </div>
@@ -539,7 +511,7 @@
             <button type="button" class="btn btn-danger" data-dismiss="modal">
               <i class="fas fa-trash"></i> Batal
             </button>
-            <button type="submit" class="btn btn-primary" name="filterStock">
+            <button type="submit" class="btn btn-primary" name="filterOutcoming">
               <i class="fas fa-filter"></i> Filter
             </button>
           </div>
@@ -548,135 +520,7 @@
     </div>
   </div>
 
-  <!-- Print Data Modal -->
-  <div
-    class="modal fade"
-    id="printReturModal"
-    tabindex="-1"
-    aria-labelledby="printModalLabel"
-    aria-hidden="true"
-  >
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="printModalLabel">
-            Print Laporan Retur Barang
-          </h5>
-          <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="Close"
-          >
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-          <form action='/user/print_retur' method="post">
-          <div class="modal-body">
-            <label for="namaBarang">Print Data by <b>Range of Date</b></label>
-            <div class="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <input type="date" 
-                    name="tglMulai" 
-                    class="form-control" />
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <input type="date" 
-                    name="tglSelesai" 
-                    class="form-control" />
-                </div>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="idSupplier">Print Data by <b>Nama Supplier</b></label>
-                <select
-                  class="form-control"
-                  name="idSupplier"
-                  id="idSupplier"
-                >
-                <option></option>
-                <?php foreach ($supplier as $spy) : ?>
-                  <option value="<?= $spy['id_supplier']; ?>">
-                    <?= ucwords($spy['nama_supplier']); ?>
-                  </option>
-                <?php endforeach; ?>
-                </select>
-            </div>
-
-            <div class="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="idBarang">Print Data by <b>Nama Barang</b></label>
-                    <select
-                      class="form-control"
-                      name="idBarang"
-                      id="idBarang"
-                    >
-                    <option></option>
-                    <?php foreach ($stock as $stk) : ?>
-                      <option value="<?= $stk['id_barang']; ?>">
-                        <?= ucwords($stk['nama_barang']); ?>
-                      </option>
-                      <?php endforeach; ?>
-                    
-                    </select>
-                </div>
-              </div>
-
-              <div class="col-md-6">
-                <label for="idBarang">Print Data by <b>Kategori</b> :</label>
-                <div class="form-group">
-                    <select
-                      class="form-control"
-                      name="kategoriBarang"
-                      id="kategoriBarang"
-                    >
-                      <option></option>
-                      <option>Sembako</option>
-                      <option>Makanan Ringan</option>
-                      <option>Minuman</option>
-                      <option>Perlengkapan Mandi & Mencuci</option>
-                      <option>Perlengkapan Rumah Tangga</option>
-                      <option>Obat - Obatan</option>
-                      <option>Bumbu Dapur</option>
-                      <option>Makanan Instan</option>
-                  </select>
-                </div>
-              </div>
-
-              <div class="col-md-12">
-                <label for="keterangan"><b>Note :</b> 1. Untuk Filter Data by <b>Nama Barang / Kategori</b>, Silahkan Pilih Salah Satu !!! (Tidak Bisa Keduanya)</label>
-              </div>
-
-              <div class="col-md-12">
-                <label for="keterangan"><b>Note :</b> 2. Jika Tidak Ada Filter, Maka Laporan Retur Barang akan di <b>Print Semua !!!</b></label>
-              </div>
-
-              <div class="col-md-12">
-                <label for="keterangan"><b>Note :</b> 3. Jika Hasil Laporan Kosong, Maka <b>Tidak Ada Data Yang Memenuhi Kriteria Filter !!!</b></label>
-              </div>
-              
-            </div>
-          </div>
-
-          <div class="d-sm-flex modal-footer mb-4">
-            <button type="button" class="btn btn-danger" data-dismiss="modal">
-              <i class="fas fa-trash"></i> Batal
-            </button>
-            <button type="submit" class="btn btn-success" name="printRetur">
-              <i class="fas fa-print"></i> Print
-            </button>
-          </div>
-          </form>
-      </div>
-    </div>
-  </div>
-
-  <!-- Logout Modal -->
+  <!-- Logout Modal-->
   <div
     class="modal fade"
     id="logoutModal"

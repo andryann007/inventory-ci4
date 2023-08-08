@@ -31,14 +31,14 @@
     <!-- Custom styles for this template-->
     <link href="<?= base_url(); ?>/css/sb-admin-2.min.css" rel="stylesheet" />
 
+    <!-- Sweet Alert 2 Library-->
+    <link href="<?= base_url(); ?>/css/sweetalert2.min.css" rel="stylesheet" />
+
     <!-- template table bootstrap 4 -->
     <link
       href="<?= base_url(); ?>/vendor/datatables/dataTables.bootstrap4.min.css"
       rel="stylesheet"
     />
-
-    <!-- Sweet Alert 2 Library-->
-    <link href="<?= base_url(); ?>/css/sweetalert2.min.css" rel="stylesheet" />
   </head>
 
   <body id="page-top">
@@ -72,7 +72,7 @@
         <!-- Heading Data Master -->
         <div class="sidebar-heading">Data Master</div>
 
-        <!-- Nav Item - Data Supplier -->
+        <!-- Nav Item - Data Customer -->
         <li class="nav-item">
           <a class="nav-link" href="/admin/supplier">
             <i class="fas fa-truck"></i>
@@ -94,8 +94,8 @@
         <!-- Heading Data Master -->
         <div class="sidebar-heading">Data Transaksi</div>
 
-        <!-- Nav Item - Data Barang Masuk -->
-        <li class="nav-item">
+       <!-- Nav Item - Data Barang Masuk -->
+       <li class="nav-item">
           <a class="nav-link" href="/admin/masuk">
             <i class="fas fa-arrow-left"></i>
             <span>Data Barang Masuk</span></a
@@ -179,19 +179,17 @@
             <div
               class="d-sm-flex align-items-center justify-content-between mb-4"
             >
-              <h2 class="h3 mb-0 text-gray-800 col-md-7">
-                Laporan Barang Keluar
-              </h2>
+              <h2 class="h3 mb-0 text-gray-800 col-md-7">Laporan Barang Keluar</h2>
 
-              <button
-                type="button"
+              <a
+                role="button"
                 class="btn btn-success btn-sm"
                 data-toggle="modal"
-                data-target="#printOutcomingModal"
+                data-target="#printOutcoming"
               >
-                <i class="fas fa-print"></i>
+                <i class="fas fa-plus"></i>
                 Print Data
-              </button>
+              </a>
 
               <button
                 type="button"
@@ -204,9 +202,9 @@
               </button>
 
               <a
-                href="<?php echo site_url('/admin/laporan_keluar');?>"
-                class="btn btn-dark btn-sm"
                 role="button"
+                class="btn btn-dark btn-sm"
+                href="<?php echo site_url('/admin/laporan_keluar');?>"
                 ><i class="fas fa-eye"></i> View All Data</a
               >
             </div>
@@ -256,12 +254,12 @@
                     <thead class="thead-dark">
                       <tr>
                         <th>No</th>
+                        <th>No Faktur</th>
                         <th>Tgl Keluar</th>
                         <th>Nama Barang</th>
                         <th>Kategori</th>
-                        <th>Keterangan</th>
-                        <th>Harga/Pcs</th>
-                        <th>QTY</th>
+                        <th>QTY Barang</th>
+                        <th>Harga Satuan</th>
                         <th>Total Harga</th>
                       </tr>
                     </thead>
@@ -273,15 +271,18 @@
                           <?= $i++; ?>
                         </td>
                         <td>
+                          <?= $klr['no_faktur']; ?>
+                        </td>
+                        <td>
                           <?php
                             $date_keluar = date_create($klr['tgl_keluar']); 
                             echo date_format($date_keluar, "d F Y"); ?>
                         </td>
                         <td>
-                          <?= ucwords($klr['nama_barang']); ?>
+                          <?= $klr['nama_barang']; ?>
                         </td>
                         <td>
-                          <?php if($klr['kategori'] == "bumbu") :?>
+                        <?php if($klr['kategori'] == "bumbu") :?>
                             Bumbu Masakan
                           <?php endif; ?>
 
@@ -318,13 +319,10 @@
                           <?php endif; ?>
                         </td>
                         <td>
-                          <?= $klr['keterangan']; ?>
+                        <?= $klr['qty_keluar']; ?>
                         </td>
                         <td>
                           <?= "Rp. " . number_format($klr['harga_satuan_keluar'], 2, ',', '.'); ?>
-                        </td>
-                        <td>
-                          <?= $klr['qty_keluar']; ?>
                         </td>
                         <td>
                           <?= "Rp. " . number_format($klr['total_harga_keluar'], 2, ',', '.'); ?>
@@ -374,18 +372,18 @@
     <script src="<?= base_url(); ?>/js/sweetalert2.all.min.js"></script>
 
     <script>
-      <?php if(session()->get('all_outcoming_report')) :?>
+      <?php if(session()->get('outcoming_message')) :?>
         Swal.fire(
-          'Laporan Barang Keluar',
-          '<?= session()->getFlashdata('all_outcoming_report');?>',
+          'Data Barang Keluar',
+          '<?= session()->getFlashdata('outcoming_message');?>',
           'success'
         )
       <?php endif; ?>
 
-      <?php if(session()->get('filter_outcoming_report')) :?>
+      <?php if(session()->get('filter_outcoming_message')) :?>
         Swal.fire(
-          'Laporan Barang Keluar',
-          '<?= session()->getFlashdata('filter_outcoming_report');?>',
+          'Data Barang Keluar',
+          '<?= session()->getFlashdata('filter_outcoming_message');?>',
           'success'
         )
       <?php endif; ?>
@@ -393,13 +391,25 @@
       <?php if(session()->get('error')) :?>
         Swal.fire({
           icon: 'error',
-          title: 'Laporan Barang Keluar',
+          title: 'Data Barang Keluar',
           text: '<?= session()->getFlashdata('error');?>',
           footer: 'Dikarenakan QTY Stock < QTY Keluar'
         })
       <?php endif; ?>
     </script>
 
+    <script type="text/javascript">
+      $(document).on('click', '#btnProfile', function(){
+        $('.modal-body #idUser').val($(this).data('id'));
+        $('.modal-body #namaUser').val($(this).data('nama'));
+        $('.modal-body #emailUser').val($(this).data('email'));
+        $('.modal-body #username').val($(this).data('username'));
+        $('.modal-body #passUser').val($(this).data('password'));
+        $('.modal-body #telpUser').val($(this).data('telp'));
+        $('.modal-body #alamatUser').val($(this).data('alamat'));
+        $('.modal-body #tipeAkunUser').val($(this).data('tipe'));
+      })
+    </script>
 
     <script type="text/javascript">
       $(document).ready(function(){
@@ -432,22 +442,18 @@
       });
     </script>
 
-    <script type="text/javascript">
-      $(document).on('click', '#btnProfile', function(){
-        $('.modal-body #idUser').val($(this).data('id'));
-        $('.modal-body #namaUser').val($(this).data('nama'));
-        $('.modal-body #emailUser').val($(this).data('email'));
-        $('.modal-body #username').val($(this).data('username'));
-        $('.modal-body #passUser').val($(this).data('password'));
-        $('.modal-body #telpUser').val($(this).data('telp'));
-        $('.modal-body #alamatUser').val($(this).data('alamat'));
-        $('.modal-body #tipeAkunUser').val($(this).data('tipe'));
+    <script>
+      $(document).on('click', '#btnEdit', function(){ 
+        $('.modal-body #idKeluar').val($(this).data('id_keluar'));
+        $('.modal-body #noFaktur').val($(this).data('no_faktur'));
+        $('.modal-body #tglOutcoming').val($(this).data('tgl_keluar'));
+        $('.modal-body #idUser').val($(this).data('id_user'));
       })
     </script>
   </body>
-  
-  <!-- Filter Data Modal -->
-  <div
+
+   <!-- Filter Data Modal -->
+   <div
     class="modal fade"
     id="filterOutcomingModal"
     tabindex="-1"
@@ -458,7 +464,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="filterModalLabel">
-            Filter Laporan Barang Keluar
+            Filter Data Barang Keluar
           </h5>
           <button
             type="button"
@@ -469,9 +475,9 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-          <form action='/admin/laporan_keluar' method="post">
+          <form action='/admin/keluar' method="post">
           <div class="modal-body">
-            <label for="namaBarang">Filter Data by <b>Range of Date</b></label>
+            <label for="tglMulai">Filter Data by <b>Range of Date</b></label>
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
@@ -491,49 +497,22 @@
 
             <div class="row">
               <div class="col-md-6">
-                <label for="namaBarang">Filter Data by <b>Nama Barang</b> :</label>
                 <div class="form-group">
+                  <label for="idUser">Filter Data by <b>Nama Petugas</b> :</label>
                   <select
                     class="form-control"
-                    name="idBarang"
-                    id="idBarang"
+                    name="idUser"
+                    id="idUser"
                   >
-                  <option value="">-- Pilih Nama Barang --</option>
-                  <?php foreach ($stock as $stk) : ?>
-                    <option value="<?= $stk['id_barang']; ?>">
-                      <?= ucwords($stk['nama_barang']); ?>
+                  <option value="">-- Pilih Nama Petugas --</option>
+                  <?php foreach ($user as $usr) : ?>
+                    <option value="<?= $usr['id_user']; ?>">
+                      <?= ucwords($usr['nama_lengkap']); ?>
                     </option>
-                    <?php endforeach; ?>
+                  <?php endforeach; ?>
                   </select>
                 </div>
               </div>
-
-              <div class="col-md-6">
-                <label for="idBarang">Filter Data by <b>Kategori</b> :</label>
-                <div class="form-group">
-                    <select
-                      class="form-control"
-                      name="kategoriBarang"
-                      id="kategoriBarang"
-                    >
-                      <option value="">-- Pilih Kategori Barang --</option>
-                      <option value="bumbu">Bumbu</option>
-                      <option value="makanan_instan">Makanan Instan</option>
-                      <option value="makanan_ringan">Makanan Ringan</option>
-                      <option value="minuman">Minuman</option>
-                      <option value="perlengkapan_mandi">Perlengkapan Mandi</option>
-                      <option value="perlengkapan_rumah">Perlengkapan Rumah</option>
-                      <option value="sembako">Sembako</option>
-                      <option value="obat">Obat - Obatan</option>
-                      <option value="lain_lain">Lain - Lain</option>
-                  </select>
-                </div>
-              </div>
-
-              <div class="col-md-12">
-                <label for="keterangan"><b>Note :</b> Untuk Filter Data by <b>Nama Barang / Kategori</b>, Silahkan Pilih Salah Satu !!! (Tidak Bisa Keduanya)</label>
-              </div>
-
             </div>
           </div>
 
@@ -550,148 +529,37 @@
     </div>
   </div>
 
-  <!-- Print Data Modal -->
-  <div
-    class="modal fade"
-    id="printOutcomingModal"
-    tabindex="-1"
-    aria-labelledby="printModalLabel"
-    aria-hidden="true"
-  >
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="printModalLabel">
-            Print Laporan Barang Keluar
-          </h5>
-          <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="Close"
-          >
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-          <form action='/admin/print_keluar' method="post">
-          <div class="modal-body">
-            <label for="namaBarang">Print Data by <b>Range of Date</b></label>
-            <div class="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <input type="date" 
-                    name="tglMulai" 
-                    class="form-control" />
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <input type="date" 
-                    name="tglSelesai" 
-                    class="form-control" />
-                </div>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col-md-6">
-                <label for="namaBarang">Print Data by <b>Nama Barang</b> :</label>
-                <div class="form-group">
-                  <select
-                    class="form-control"
-                    name="idBarang"
-                    id="idBarang"
-                  >
-                  <option></option>
-                  <?php foreach ($stock as $stk) : ?>
-                    <option value="<?= $stk['id_barang']; ?>">
-                      <?= ucwords($stk['nama_barang']); ?>
-                    </option>
-                    <?php endforeach; ?>
-                  </select>
-                </div>
-              </div>
-
-              <div class="col-md-6">
-                <label for="idBarang">Print Data by <b>Kategori</b> :</label>
-                <div class="form-group">
-                    <select
-                      class="form-control"
-                      name="kategoriBarang"
-                      id="kategoriBarang"
-                    >
-                      <option></option>
-                      <option>Sembako</option>
-                      <option>Makanan Ringan</option>
-                      <option>Minuman</option>
-                      <option>Perlengkapan Mandi & Mencuci</option>
-                      <option>Perlengkapan Rumah Tangga</option>
-                      <option>Obat - Obatan</option>
-                      <option>Bumbu Dapur</option>
-                      <option>Makanan Instan</option>
-                  </select>
-                </div>
-              </div>
-
-              <div class="col-md-12">
-                <label for="keterangan"><b>Note :</b> 1. Untuk Filter Data by <b>Nama Barang / Kategori</b>, Silahkan Pilih Salah Satu !!! (Tidak Bisa Keduanya)</label>
-              </div>
-
-              <div class="col-md-12">
-                <label for="keterangan"><b>Note :</b> 2. Jika Tidak Ada Filter, Maka Laporan Barang Keluar akan di <b>Print Semua !!!</b></label>
-              </div>
-
-              <div class="col-md-12">
-                <label for="keterangan"><b>Note :</b> 3. Jika Hasil Laporan Kosong, Maka <b>Tidak Ada Data Yang Memenuhi Kriteria Filter !!!</b></label>
-              </div>
-
-            </div>
-          </div>
-
-          <div class="d-sm-flex modal-footer mb-4">
-            <button type="button" class="btn btn-danger" data-dismiss="modal">
-              <i class="fas fa-trash"></i> Batal
-            </button>
-            <button type="submit" class="btn btn-success" name="printOutcoming">
-              <i class="fas fa-print"></i> Print
-            </button>
-          </div>
-          </form>
-      </div>
-    </div>
-  </div>
-
   <!-- Logout Modal-->
   <div
-    class="modal fade"
-    id="logoutModal"
-    tabindex="-1"
-    role="dialog"
-    aria-labelledby="exampleModalLabel"
-    aria-hidden="true"
-  >
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-          <button
-            class="close"
-            type="button"
-            data-dismiss="modal"
-            aria-label="Close"
-          >
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          Select <b>"Logout"</b> below if you are ready to leave !!!
-        </div>
-        <div class="modal-footer">
-          <a class="btn btn-danger" href="<?php echo site_url('/admin/logout');?>">
-            <i class="fas fa-power-off"></i> Logout
-          </a>
+      class="modal fade"
+      id="logoutModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+            <button
+              class="close"
+              type="button"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            Select <b>"Logout"</b> below if you are ready to leave !!!
+          </div>
+          <div class="modal-footer">
+            <a class="btn btn-danger" href="<?php echo site_url('/admin/logout');?>">
+              <i class="fas fa-power-off"></i> Logout
+            </a>
+          </div>
         </div>
       </div>
-    </div>
   </div>
 </html>

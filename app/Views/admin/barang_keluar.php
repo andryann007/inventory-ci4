@@ -184,7 +184,8 @@
               <a
                 role="button"
                 class="btn btn-success btn-sm"
-                href="/admin/tambah_barang_keluar"
+                data-toggle="modal"
+                data-target="#addOutcoming"
               >
                 <i class="fas fa-plus"></i>
                 Tambah Data
@@ -253,13 +254,10 @@
                     <thead class="thead-dark">
                       <tr>
                         <th>No</th>
+                        <th>No Faktur</th>
                         <th>Tgl Keluar</th>
-                        <th>Nama Barang</th>
-                        <th>Kategori</th>
-                        <th>Keterangan</th>
-                        <th>Harga/Pcs</th>
-                        <th>QTY</th>
-                        <th>Total Harga</th>
+                        <th>QTY Barang</th>
+                        <th>Petugas</th>
                         <th class="text-center">Aksi</th>
                       </tr>
                     </thead>
@@ -271,82 +269,81 @@
                           <?= $i++; ?>
                         </td>
                         <td>
+                          <?= $klr['no_faktur']; ?>
+                        </td>
+                        <td>
                           <?php
                             $date_keluar = date_create($klr['tgl_keluar']); 
                             echo date_format($date_keluar, "d F Y"); ?>
                         </td>
                         <td>
-                          <?= ucwords($klr['nama_barang']); ?>
+                          <?= ""; ?>
                         </td>
                         <td>
-                          <?php if($klr['kategori'] == "bumbu") :?>
-                            Bumbu Masakan
-                          <?php endif; ?>
-
-                          <?php if($klr['kategori'] == "makanan_instan") :?>
-                            Makanan Instan
-                          <?php endif; ?>
-
-                          <?php if($klr['kategori'] == "makanan_ringan") :?>
-                            Makanan Ringan
-                          <?php endif; ?>
-
-                          <?php if($klr['kategori'] == "minuman") :?>
-                            Minuman
-                          <?php endif; ?>
-
-                          <?php if($klr['kategori'] == "sembako") :?>
-                            Sembako
-                          <?php endif; ?>
-
-                          <?php if($klr['kategori'] == "perlengkapan_mandi") :?>
-                            Perlengkapan Mandi
-                          <?php endif; ?>
-
-                          <?php if($klr['kategori'] == "perlengkapan_mencuci") :?>
-                            Perlengkapan Mencuci
-                          <?php endif; ?>
-
-                          <?php if($klr['kategori'] == "obat") :?>
-                            Obat - Obatan
-                          <?php endif; ?>
-
-                          <?php if($klr['kategori'] == "lain_lain") :?>
-                            Lain Lain
-                          <?php endif; ?>
-                        </td>
-                        <td>
-                          <?= $klr['keterangan']; ?>
-                        </td>
-                        <td>
-                          <?= "Rp. " . number_format($klr['harga_satuan_keluar'], 2, ',', '.'); ?>
-                        </td>
-                        <td>
-                          <?= $klr['qty_keluar']; ?>
-                        </td>
-                        <td>
-                          <?= "Rp. " . number_format($klr['total_harga_keluar'], 2, ',', '.'); ?>
+                          <?= $klr['nama_lengkap']; ?>
                         </td>
                         <td
                           class="d-sm-flex justify-content-around align-items-center"
                         >
-
                           <button
                             type="button"
                             id="btnEdit"
-                            class="btn btn-warning mr-2"
+                            class="btn btn-warning"
                             data-toggle="modal"
-                            data-target="#editOutcomingModal"
+                            data-target="#editOutcoming"
                             data-id_keluar="<?= $klr['id_keluar'];?>"
-                            data-id_barang="<?= $klr['id_barang'];?>"
+                            data-no_faktur="<?= $klr['no_faktur'];?>"
+                            data-id_user="<?= $klr['id_user'];?>"
                             data-tgl_keluar="<?= $klr['tgl_keluar'];?>"
-                            data-qty_keluar="<?= $klr['qty_keluar'];?>"
-                            data-harga="<?= $klr['harga_satuan_keluar'];?>"
-                            data-total_harga="<?= $klr['total_harga_keluar'];?>"
-                            data-keterangan="<?= $klr['keterangan'];?>"
                           >
                             <i class="fas fa-edit"></i>
                           </button>
+                          <form action="/admin/detail_keluar" method="post">
+                            <input
+                              type="hidden"
+                              name="idKeluar"
+                              id="idKeluar"
+                              class="form-control"
+                              value="<?= $klr['id_keluar'];?>"
+                              required
+                            />
+
+                            <input
+                              type="hidden"
+                              name="noFaktur"
+                              id="noFaktur"
+                              class="form-control"
+                              value="<?= $klr['no_faktur'];?>"
+                              required
+                            />
+
+                            <input
+                              type="hidden"
+                              name="namaUser"
+                              id="namaUser"
+                              class="form-control"
+                              value="<?= $klr['nama_lengkap'];?>"
+                              required
+                            />
+
+                            <input
+                              type="hidden"
+                              name="tglKeluar"
+                              id="tglKeluar"
+                              class="form-control"
+                              value="<?= $klr['tgl_keluar'];?>"
+                              required
+                            />
+
+                            <button
+                              type="submit"
+                              id="btnInfo"
+                              class="btn btn-info"
+                              href="/admin/detail_barang_keluar"
+                            >
+                              <i class="fas fa-info-circle"></i>
+                            </button>
+                          </form>
                         </td>
                       </tr>
                       <?php endforeach;?>
@@ -464,21 +461,116 @@
     </script>
 
     <script>
-      $(document).on('click', '#btnEdit', function(){
+      $(document).on('click', '#btnEdit', function(){ 
         $('.modal-body #idKeluar').val($(this).data('id_keluar'));
-        $('.modal-body #namaBarang').val($(this).data('id_barang'));
+        $('.modal-body #noFaktur').val($(this).data('no_faktur'));
         $('.modal-body #tglOutcoming').val($(this).data('tgl_keluar'));
-        $('.modal-body #jumlahBarang').val($(this).data('qty_keluar'));
-        $('.modal-body #hargaSatuan').val($(this).data('harga'));
-        $('.modal-body #keterangan').val($(this).data('keterangan'));
+        $('.modal-body #idUser').val($(this).data('id_user'));
       })
     </script>
   </body>
+
+  <!-- Add Data Modal -->
+  <div
+    class="modal fade"
+    id="addOutcoming"
+    tabindex="-1"
+    aria-labelledby="addModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addModalLabel">
+            Tambah Data Barang Keluar
+          </h5>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="/admin/save_keluar" method="post">
+          <div class="modal-body">
+            <input
+              type="hidden"
+              name="idKeluar"
+              id="idKeluar"
+              class="form-control"
+              required
+            />
+
+            <div class="form-group">
+              <label for="noFaktur">No Faktur</label>
+              <input
+                type="text"
+                name="noFaktur"
+                id="noFaktur"
+                placeholder="No Faktur Barang Keluar"
+                class="form-control"
+                required
+                maxlength="16"
+              />
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="tanggalOutcoming">Tanggal Keluar</label>
+                  <input
+                    type="date"
+                    name="tglOutcoming"
+                    id="tglOutcoming"
+                    class="form-control"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="idUser">Nama Petugas</label>
+                    <select
+                      class="form-control"
+                      name="idUser"
+                      id="idUser"
+                      required
+                    >
+                    <?php foreach ($user as $usr) : ?>
+                      <option value="<?= $usr['id_user']; ?>">
+                        <?= ucwords($usr['nama_lengkap']); ?>
+                      </option>
+                    <?php endforeach; ?>
+                    </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-sm-flex modal-footer mb-4">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">
+              <i class="fas fa-trash"></i> Batal
+            </button>
+            <button
+              type="submit"
+              class="btn btn-success"
+              name="addOutcomingGoods"
+            >
+              <i class="fas fa-plus"></i> Tambah
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
   
   <!-- Edit Data Modal -->
   <div
     class="modal fade"
-    id="editOutcomingModal"
+    id="editOutcoming"
     tabindex="-1"
     aria-labelledby="editModalLabel"
     aria-hidden="true"
@@ -508,10 +600,23 @@
               required
             />
 
+            <div class="form-group">
+              <label for="noFaktur">No Faktur</label>
+              <input
+                type="text"
+                name="noFaktur"
+                id="noFaktur"
+                placeholder="No Faktur Barang Keluar"
+                class="form-control"
+                required
+                maxlength="16"
+              />
+            </div>
+
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
-                  <label for="tanggalOutcoming">Tanggal Keluar</label>
+                  <label for="tglOutcoming">Tanggal Keluar</label>
                   <input
                     type="date"
                     name="tglOutcoming"
@@ -524,64 +629,21 @@
 
               <div class="col-md-6">
                 <div class="form-group">
-                  <label for="namaBarang">Nama Barang</label>
+                  <label for="idUser">Nama Petugas</label>
                     <select
                       class="form-control"
-                      name="namaBarang"
-                      id="namaBarang"
+                      name="idUser"
+                      id="idUser"
                       required
                     >
-                    <?php foreach ($stock as $stk) : ?>
-                      <option value="<?= $stk['id_barang']; ?>">
-                        <?= ucwords($stk['nama_barang']); ?>
+                    <?php foreach ($user as $usr) : ?>
+                      <option value="<?= $usr['id_user']; ?>">
+                        <?= ucwords($usr['nama_lengkap']); ?>
                       </option>
                     <?php endforeach; ?>
                     </select>
                 </div>
               </div>
-            </div>
-
-            <div class="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="jumlahBarang">Jumlah Barang</label>
-                  <input
-                    type="number"
-                    min="0"
-                    name="jumlahBarang"
-                    id="jumlahBarang"
-                    class="form-control"
-                    required
-                  />
-                </div>
-              </div>
-              
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="hargaSatuan">Harga Barang Satuan</label>
-                  <input
-                    type="number"
-                    min="0"
-                    name="hargaSatuan"
-                    id="hargaSatuan"
-                    class="form-control"
-                    required
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div class="form-group">
-                <label for="keterangan">Keterangan</label>
-                <input
-                  type="textarea"
-                  min="0"
-                  name="keterangan"
-                  id="keterangan"
-                  placeholder="Ket. Barang Keluar"
-                  class="form-control"
-                  required
-                />
             </div>
           </div>
 
@@ -627,7 +689,7 @@
         </div>
           <form action='/admin/keluar' method="post">
           <div class="modal-body">
-            <label for="namaBarang">Filter Data by <b>Range of Date</b></label>
+            <label for="tglMulai">Filter Data by <b>Range of Date</b></label>
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
@@ -647,57 +709,22 @@
 
             <div class="row">
               <div class="col-md-6">
-                <label for="namaBarang">Filter Data by <b>Nama Barang</b> :</label>
                 <div class="form-group">
+                  <label for="idUser">Filter Data by <b>Nama Petugas</b> :</label>
                   <select
                     class="form-control"
-                    name="idBarang"
-                    id="idBarang"
+                    name="idUser"
+                    id="idUser"
                   >
-                  <option value="">-- Pilih Nama Barang --</option>
-                  <?php foreach ($stock as $stk) : ?>
-                    <option value="<?= $stk['id_barang']; ?>">
-                      <?= ucwords($stk['nama_barang']); ?>
+                  <option value="">-- Pilih Nama Petugas --</option>
+                  <?php foreach ($user as $usr) : ?>
+                    <option value="<?= $usr['id_user']; ?>">
+                      <?= ucwords($usr['nama_lengkap']); ?>
                     </option>
                   <?php endforeach; ?>
                   </select>
                 </div>
               </div>
-
-              <div class="col-md-6">
-                <label for="idBarang">Filter Data by <b>Kategori</b> :</label>
-                <div class="form-group">
-                    <select
-                      class="form-control"
-                      name="kategoriBarang"
-                      id="kategoriBarang"
-                    >
-                    <option value="">-- Pilih Kategori Barang --</option>
-                    <option value="bumbu">Bumbu</option>
-                    <option value="makanan_instan">Makanan Instan</option>
-                    <option value="makanan_ringan">Makanan Ringan</option>
-                    <option value="minuman">Minuman</option>
-                    <option value="perlengkapan_mandi">Perlengkapan Mandi</option>
-                    <option value="perlengkapan_rumah">Perlengkapan Rumah</option>
-                    <option value="sembako">Sembako</option>
-                    <option value="obat">Obat - Obatan</option>
-                    <option value="lain_lain">Lain - Lain</option>
-                  </select>
-                </div>
-              </div>
-
-              <div class="col-md-12">
-                <label for="keterangan"><b>Note :</b> 1. Untuk Filter Data by <b>Nama Barang / Kategori</b>, Silahkan Pilih Salah Satu !!! (Tidak Bisa Keduanya)</label>
-              </div>
-
-              <div class="col-md-12">
-                <label for="keterangan"><b>Note :</b> 2. Jika Tidak Ada Filter, Maka Data Barang Keluar akan di <b>Tampilkan Semua !!!</b></label>
-              </div>
-
-              <div class="col-md-12">
-                <label for="keterangan"><b>Note :</b> 3. Jika Tampilan Data Kosong, Maka <b>Tidak Ada Data Yang Memenuhi Kriteria Filter !!!</b></label>
-              </div>
-
             </div>
           </div>
 

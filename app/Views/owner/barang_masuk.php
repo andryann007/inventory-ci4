@@ -193,7 +193,8 @@
               <a
                 role="button"
                 class="btn btn-success btn-sm"
-                href="/owner/tambah_barang_masuk"
+                data-toggle="modal"
+                data-target="#addIncoming"
               >
                 <i class="fas fa-plus"></i>
                 Tambah Data
@@ -211,11 +212,10 @@
 
               <a
                 role="button"
-                href="<?php echo site_url('/owner/masuk');?>"
                 class="btn btn-dark btn-sm"
+                href="<?php echo site_url('/owner/masuk');?>"
                 ><i class="fas fa-eye"></i> View All Data</a
               >
-
             </div>
 
             <!-- DataTales Example -->
@@ -263,105 +263,110 @@
                     <thead class="thead-dark">
                       <tr>
                         <th>No</th>
-                        <th>Tgl Masuk</th>
-                        <th>Nama Barang</th>
+                        <th>No Faktur</th>
                         <th>Nama Supplier</th>
-                        <th>Kategori</th>
-                        <th>Keterangan</th>
-                        <th>Harga/Pcs</th>
-                        <th>QTY</th>
-                        <th>Total Harga</th>
+                        <th>Tgl Masuk</th>
+                        <th>QTY Barang</th>
+                        <th>Petugas</th>
                         <th class="text-center">Aksi</th>
                       </tr>
                     </thead>
                     <tbody>
                     <?php $i =1; ?>
                       <?php foreach ($masuk as $msk) : ?>
-                        
                       <tr>
                         <td>
                           <?= $i++; ?>
                         </td>
                         <td>
-                          <?php $date_masuk = date_create($msk['tgl_masuk']); 
+                          <?= $msk['no_faktur']; ?>
+                        </td>
+                        <td>
+                          <?= $msk['nama_supplier']; ?>
+                        </td>
+                        <td>
+                          <?php
+                            $date_masuk = date_create($msk['tgl_masuk']); 
                             echo date_format($date_masuk, "d F Y"); ?>
                         </td>
                         <td>
-                          <?= $msk['nama_barang']; ?>
+                          <?= ""; ?>
                         </td>
                         <td>
-                          <?= ucwords($msk['nama_supplier']); ?>
-                        </td>
-                        <td>
-                          <?php if($msk['kategori'] == "bumbu") :?>
-                            Bumbu Masakan
-                          <?php endif; ?>
-
-                          <?php if($msk['kategori'] == "makanan_instan") :?>
-                            Makanan Instan
-                          <?php endif; ?>
-
-                          <?php if($msk['kategori'] == "makanan_ringan") :?>
-                            Makanan Ringan
-                          <?php endif; ?>
-
-                          <?php if($msk['kategori'] == "minuman") :?>
-                            Minuman
-                          <?php endif; ?>
-
-                          <?php if($msk['kategori'] == "sembako") :?>
-                            Sembako
-                          <?php endif; ?>
-
-                          <?php if($msk['kategori'] == "perlengkapan_mandi") :?>
-                            Perlengkapan Mandi
-                          <?php endif; ?>
-
-                          <?php if($msk['kategori'] == "perlengkapan_mencuci") :?>
-                            Perlengkapan Mencuci
-                          <?php endif; ?>
-
-                          <?php if($msk['kategori'] == "obat") :?>
-                            Obat - Obatan
-                          <?php endif; ?>
-
-                          <?php if($msk['kategori'] == "lain_lain") :?>
-                            Lain Lain
-                          <?php endif; ?>
-                        </td>
-                        <td>
-                          <?= $msk['keterangan']; ?>
-                        </td>
-                        <td>
-                          <?= "Rp. " . number_format($msk['harga_satuan_masuk'], 2, ',', '.'); ?>
-                        </td>
-                        <td>
-                          <?= $msk['qty_masuk']; ?>
-                        </td>
-                        <td>
-                          <?= "Rp. " . number_format($msk['total_harga_masuk'], 2, ',', '.'); ?>
+                          <?= $msk['nama_lengkap']; ?>
                         </td>
                         <td
                           class="d-sm-flex justify-content-around align-items-center"
                         >
-
                           <button
                             type="button"
-                            class="btn btn-warning mr-2"
                             id="btnEdit"
+                            class="btn btn-warning"
                             data-toggle="modal"
-                            data-target="#editIncomingModal"
+                            data-target="#editIncoming"
                             data-id_masuk="<?= $msk['id_masuk'];?>"
-                            data-id_barang="<?= $msk['id_barang'];?>"
+                            data-no_faktur="<?= $msk['no_faktur'];?>"
                             data-id_supplier="<?= $msk['id_supplier'];?>"
+                            data-id_user="<?= $msk['id_user'];?>"
                             data-tgl_masuk="<?= $msk['tgl_masuk'];?>"
-                            data-qty_masuk="<?= $msk['qty_masuk'];?>"
-                            data-harga="<?= $msk['harga_satuan_masuk'];?>"
-                            data-total_harga="<?= $msk['total_harga_masuk'];?>"
-                            data-keterangan="<?= $msk['keterangan'];?>"
                           >
                             <i class="fas fa-edit"></i>
                           </button>
+                          <form action="/owner/detail_masuk" method="post">
+                            <input
+                              type="hidden"
+                              name="idMasuk"
+                              id="idMasuk"
+                              class="form-control"
+                              value="<?= $msk['id_masuk'];?>"
+                              required
+                            />
+
+                            <input
+                              type="hidden"
+                              name="noFaktur"
+                              id="noFaktur"
+                              class="form-control"
+                              value="<?= $msk['no_faktur'];?>"
+                              required
+                            />
+
+                            <input
+                              type="hidden"
+                              name="namaSupplier"
+                              id="namaSupplier"
+                              class="form-control"
+                              value="<?= $msk['nama_supplier'];?>"
+                              required
+                            />
+
+                            <input
+                              type="hidden"
+                              name="namaUser"
+                              id="namaUser"
+                              class="form-control"
+                              value="<?= $msk['nama_lengkap'];?>"
+                              required
+                            />
+
+                            <input
+                              type="hidden"
+                              name="tglMasuk"
+                              id="tglMasuk"
+                              class="form-control"
+                              value="<?= $msk['tgl_masuk'];?>"
+                              required
+                            />
+
+                            <button
+                              type="submit"
+                              id="btnInfo"
+                              class="btn btn-info"
+                              href="/owner/detail_barang_masuk"
+                            >
+                              <i class="fas fa-info-circle"></i>
+                            </button>
+                          </form>
                         </td>
                       </tr>
                       <?php endforeach;?>
@@ -479,22 +484,139 @@
     </script>
 
     <script>
-      $(document).on('click', '#btnEdit', function(){
+      $(document).on('click', '#btnEdit', function(){ 
         $('.modal-body #idMasuk').val($(this).data('id_masuk'));
-        $('.modal-body #namaBarang').val($(this).data('id_barang'));
-        $('.modal-body #namaSupplier').val($(this).data('id_supplier'));
+        $('.modal-body #noFaktur').val($(this).data('no_faktur'));
+        $('.modal-body #idSupplier').val($(this).data('id_supplier'));
         $('.modal-body #tglIncoming').val($(this).data('tgl_masuk'));
-        $('.modal-body #jumlahBarang').val($(this).data('qty_masuk'));
-        $('.modal-body #hargaSatuan').val($(this).data('harga'));
-        $('.modal-body #keterangan').val($(this).data('keterangan'));
+        $('.modal-body #idUser').val($(this).data('id_user'));
       })
     </script>
   </body>
   
+  <!-- Add Data Modal -->
+  <div
+    class="modal fade"
+    id="addIncoming"
+    tabindex="-1"
+    aria-labelledby="addModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addModalLabel">
+            Tambah Data Barang Masuk
+          </h5>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="/owner/save_masuk" method="post">
+          <div class="modal-body">
+            <input
+              type="hidden"
+              name="idMasuk"
+              id="idMasuk"
+              class="form-control"
+              required
+            />
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="noFaktur">No Faktur</label>
+                  <input
+                    type="text"
+                    name="noFaktur"
+                    id="noFaktur"
+                    placeholder="No Faktur Barang Keluar"
+                    class="form-control"
+                    required
+                    maxlength="16"
+                  />
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="idSupplier">Nama Petugas</label>
+                  <select
+                    class="form-control"
+                    name="idSupplier"
+                    id="idSupplier"
+                    required
+                  >
+                  <?php foreach ($supplier as $spy) : ?>
+                    <option value="<?= $spy['id_supplier']; ?>">
+                      <?= ucwords($spy['nama_supplier']); ?>
+                    </option>
+                  <?php endforeach; ?>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="tanggalIncoming">Tanggal Masuk</label>
+                  <input
+                    type="date"
+                    name="tglIncoming"
+                    id="tglIncoming"
+                    class="form-control"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="idUser">Nama Petugas</label>
+                    <select
+                      class="form-control"
+                      name="idUser"
+                      id="idUser"
+                      required
+                    >
+                    <?php foreach ($user as $usr) : ?>
+                      <option value="<?= $usr['id_user']; ?>">
+                        <?= ucwords($usr['nama_lengkap']); ?>
+                      </option>
+                    <?php endforeach; ?>
+                    </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-sm-flex modal-footer mb-4">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">
+              <i class="fas fa-trash"></i> Batal
+            </button>
+            <button
+              type="submit"
+              class="btn btn-success"
+              name="addIncomingGoods"
+            >
+              <i class="fas fa-plus"></i> Tambah
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
   <!-- Edit Data Modal -->
   <div
     class="modal fade"
-    id="editIncomingModal"
+    id="editIncoming"
     tabindex="-1"
     aria-labelledby="editModalLabel"
     aria-hidden="true"
@@ -516,13 +638,48 @@
         </div>
         <form action="/owner/update_masuk" method="post">
           <div class="modal-body">
-           <input
+            <input
               type="hidden"
               name="idMasuk"
               id="idMasuk"
               class="form-control"
               required
             />
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="noFaktur">No Faktur</label>
+                  <input
+                    type="text"
+                    name="noFaktur"
+                    id="noFaktur"
+                    placeholder="No Faktur Barang Keluar"
+                    class="form-control"
+                    required
+                    maxlength="16"
+                  />
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="idSupplier">Nama Supplier</label>
+                  <select
+                    class="form-control"
+                    name="idSupplier"
+                    id="idSupplier"
+                    required
+                  >
+                  <?php foreach ($supplier as $spy) : ?>
+                    <option value="<?= $spy['id_supplier']; ?>">
+                      <?= ucwords($spy['nama_supplier']); ?>
+                    </option>
+                  <?php endforeach; ?>
+                  </select>
+                </div>
+              </div>
+            </div>
 
             <div class="row">
               <div class="col-md-6">
@@ -540,80 +697,21 @@
 
               <div class="col-md-6">
                 <div class="form-group">
-                  <label for="namaSupplier">Nama Supplier</label>
-                  <select
-                    class="form-control"
-                    name="namaSupplier"
-                    id="namaSupplier"
-                    required
-                  >
-                  <?php foreach ($supplier as $s) : ?>
-                    <option value="<?= $s['id_supplier']; ?>">
-                      <?= ucwords($s['nama_supplier']); ?>
-                    </option>
-                  <?php endforeach; ?>
-                  </select>
+                  <label for="idUser">Nama Petugas</label>
+                    <select
+                      class="form-control"
+                      name="idUser"
+                      id="idUser"
+                      required
+                    >
+                    <?php foreach ($user as $usr) : ?>
+                      <option value="<?= $usr['id_user']; ?>">
+                        <?= ucwords($usr['nama_lengkap']); ?>
+                      </option>
+                    <?php endforeach; ?>
+                    </select>
                 </div>
               </div>
-            </div>
-
-            <div class="form-group">
-              <label for="namaBarang">Nama Barang</label>
-              <select
-                class="form-control"
-                name="namaBarang"
-                id="namaBarang"
-                required
-              >
-              <?php foreach ($stock as $stk) : ?>
-                <option value="<?= $stk['id_barang']; ?>">
-                  <?= ucwords($stk['nama_barang']); ?>
-                </option>
-              <?php endforeach; ?>
-              </select>
-            </div>
-
-            <div class="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="jumlahBarang">Jumlah Barang</label>
-                  <input
-                    type="number"
-                    min="0"
-                    name="jumlahBarang"
-                    id="jumlahBarang"
-                    class="form-control"
-                    required
-                  />
-                </div>
-              </div>
-
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="hargaSatuan">Harga Barang Satuan</label>
-                  <input
-                    type="number"
-                    min="0"
-                    name="hargaSatuan"
-                    id="hargaSatuan"
-                    class="form-control"
-                    required
-                  />
-                </div>
-              </div>
-            </div>
-            
-            <div class="form-group">
-              <label for="keterangan">Keterangan</label>
-              <input
-                type="textarea"
-                min="0"
-                name="keterangan"
-                id="keterangan"
-                placeholder="Ket. Barang Masuk"
-                class="form-control"
-                required
-              />
             </div>
           </div>
 
@@ -677,74 +775,41 @@
               </div>
             </div>
 
-            <div class="form-group">
-              <label for="idSupplier">Filter Data by <b>Nama Supplier</b></label>
-                <select
-                  class="form-control"
-                  name="idSupplier"
-                  id="idSupplier"
-                >
-                <option value="">-- Pilih Nama Supplier --</option>
-                <?php foreach ($supplier as $spy) : ?>
-                  <option value="<?= $spy['id_supplier']; ?>">
-                    <?= ucwords($spy['nama_supplier']); ?>
-                  </option>
-                <?php endforeach; ?>
-                </select>
-            </div>
-
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
-                  <label for="idBarang">Filter Data by <b>Nama Barang</b></label>
-                    <select
-                      class="form-control"
-                      name="idBarang"
-                      id="idBarang"
-                    >
-                    <option value="">-- Pilih Nama Barang --</option>
-                    <?php foreach ($stock as $stk) : ?>
-                      <option value="<?= $stk['id_barang']; ?>">
-                        <?= ucwords($stk['nama_barang']); ?>
-                      </option>
-                      <?php endforeach; ?>
-                    
-                    </select>
-                </div>
-              </div>
-
-              <div class="col-md-6">
-                <label for="idBarang">Filter Data by <b>Kategori</b> :</label>
-                <div class="form-group">
-                    <select
-                      class="form-control"
-                      name="kategoriBarang"
-                      id="kategoriBarang"
-                    >
-                    <option value="">-- Pilih Kategori Barang --</option>
-                    <option value="bumbu">Bumbu</option>
-                    <option value="makanan_instan">Makanan Instan</option>
-                    <option value="makanan_ringan">Makanan Ringan</option>
-                    <option value="minuman">Minuman</option>
-                    <option value="perlengkapan_mandi">Perlengkapan Mandi</option>
-                    <option value="perlengkapan_rumah">Perlengkapan Rumah</option>
-                    <option value="sembako">Sembako</option>
-                    <option value="obat">Obat - Obatan</option>
-                    <option value="lain_lain">Lain - Lain</option>
+                  <label for="idSupplier">Filter Data by <b>Nama Supplier</b> :</label>
+                  <select
+                    class="form-control"
+                    name="idSupplier"
+                    id="idSupplier"
+                  >
+                  <option value="">-- Pilih Nama Supplier --</option>
+                  <?php foreach ($supplier as $spy) : ?>
+                    <option value="<?= $spy['id_supplier']; ?>">
+                      <?= ucwords($spy['nama_supplier']); ?>
+                    </option>
+                  <?php endforeach; ?>
                   </select>
                 </div>
               </div>
 
-              <div class="col-md-12">
-                <label for="keterangan"><b>Note :</b> 1. Untuk Filter Data by <b>Nama Barang / Kategori</b>, Silahkan Pilih Salah Satu !!! (Tidak Bisa Keduanya)</label>
-              </div>
-
-              <div class="col-md-12">
-                <label for="keterangan"><b>Note :</b> 2. Jika Tidak Ada Filter, Maka Data Barang Masuk akan di <b>Tampilkan Semua !!!</b></label>
-              </div>
-
-              <div class="col-md-12">
-                <label for="keterangan"><b>Note :</b> 3. Jika Tampilan Data Kosong, Maka <b>Tidak Ada Data Yang Memenuhi Kriteria Filter !!!</b></label>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="idUser">Filter Data by <b>Nama Petugas</b> :</label>
+                  <select
+                    class="form-control"
+                    name="idUser"
+                    id="idUser"
+                  >
+                  <option value="">-- Pilih Nama Petugas --</option>
+                  <?php foreach ($user as $usr) : ?>
+                    <option value="<?= $usr['id_user']; ?>">
+                      <?= ucwords($usr['nama_lengkap']); ?>
+                    </option>
+                  <?php endforeach; ?>
+                  </select>
+                </div>
               </div>
             </div>
           </div>
@@ -753,7 +818,7 @@
             <button type="button" class="btn btn-danger" data-dismiss="modal">
               <i class="fas fa-trash"></i> Batal
             </button>
-            <button type="submit" class="btn btn-primary" name="filterStock">
+            <button type="submit" class="btn btn-primary" name="filterOutcoming">
               <i class="fas fa-filter"></i> Filter
             </button>
           </div>
