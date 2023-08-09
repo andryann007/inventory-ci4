@@ -182,32 +182,15 @@
             >
               <h2 class="h3 mb-0 text-gray-800 col-md-7">Data Barang Masuk</h2>
 
-              <a
-                role="button"
+              <button
+                type="button"
                 class="btn btn-success btn-sm"
                 data-toggle="modal"
                 data-target="#addIncoming"
               >
                 <i class="fas fa-plus"></i>
                 Tambah Data
-              </a>
-
-              <button
-                type="button"
-                class="btn btn-primary btn-sm"
-                data-toggle="modal"
-                data-target="#filterIncomingModal"
-              >
-                <i class="fas fa-filter"></i>
-                Filter Data
               </button>
-
-              <a
-                role="button"
-                class="btn btn-dark btn-sm"
-                href="<?php echo site_url('/admin/masuk');?>"
-                ><i class="fas fa-eye"></i> View All Data</a
-              >
             </div>
 
             <!-- DataTales Example -->
@@ -720,101 +703,6 @@
             </button>
           </div>
         </form>
-      </div>
-    </div>
-  </div>
-
-  <!-- Filter Data Modal -->
-  <div
-    class="modal fade"
-    id="filterIncomingModal"
-    tabindex="-1"
-    aria-labelledby="filterModalLabel"
-    aria-hidden="true"
-  >
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="filterModalLabel">
-            Filter Data Barang Masuk
-          </h5>
-          <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="Close"
-          >
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-          <form action='/admin/masuk' method="post">
-          <div class="modal-body">
-            <label for="namaBarang">Filter Data by <b>Range of Date</b></label>
-            <div class="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <input type="date" 
-                    name="tglMulai" 
-                    class="form-control" />
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <input type="date" 
-                    name="tglSelesai" 
-                    class="form-control" />
-                </div>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="idSupplier">Filter Data by <b>Nama Supplier</b> :</label>
-                  <select
-                    class="form-control"
-                    name="idSupplier"
-                    id="idSupplier"
-                  >
-                  <option value="">-- Pilih Nama Supplier --</option>
-                  <?php foreach ($supplier as $spy) : ?>
-                    <option value="<?= $spy['id_supplier']; ?>">
-                      <?= ucwords($spy['nama_supplier']); ?>
-                    </option>
-                  <?php endforeach; ?>
-                  </select>
-                </div>
-              </div>
-
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="idUser">Filter Data by <b>Nama Petugas</b> :</label>
-                  <select
-                    class="form-control"
-                    name="idUser"
-                    id="idUser"
-                  >
-                  <option value="">-- Pilih Nama Petugas --</option>
-                  <?php foreach ($user as $usr) : ?>
-                    <option value="<?= $usr['id_user']; ?>">
-                      <?= ucwords($usr['nama_lengkap']); ?>
-                    </option>
-                  <?php endforeach; ?>
-                  </select>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="d-sm-flex modal-footer mb-4">
-            <button type="button" class="btn btn-danger" data-dismiss="modal">
-              <i class="fas fa-trash"></i> Batal
-            </button>
-            <button type="submit" class="btn btn-primary" name="filterOutcoming">
-              <i class="fas fa-filter"></i> Filter
-            </button>
-          </div>
-          </form>
       </div>
     </div>
   </div>

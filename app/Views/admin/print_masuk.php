@@ -70,80 +70,37 @@
         <thead class="thead-dark">
             <tr>
                 <th>No</th>
+                <th>No Faktur</th>
                 <th>Tgl Masuk</th>
-                <th>Nama Barang</th>
                 <th>Nama Supplier</th>
-                <th>Kategori</th>
-                <th>Keterangan</th>
+                <th>Nama Barang</th>
+                <th>QTY Masuk</th>
                 <th>Harga/Pcs</th>
-                <th>QTY</th>
                 <th>Total Harga</th>
             </tr>
         </thead>
-        <?php 
-            if(isset($masuk)){
-                $i = 1;
-                foreach($masuk as $msk) :
-        ?>
         <tbody>
+            <?php $i =1; ?>
+            <?php foreach ($masuk as $msk) : ?>
             <tr>
                 <td><?= $i++;?></td>
+                <td><?= $msk['no_faktur'];?></td>
                 <td>
-                    <?php $date_masuk = date_create($msk['tgl_masuk']); 
-                        echo date_format($date_masuk, "d F Y"); ?></td>
-                <td><?= $msk['nama_barang'];?></td>
-                <td><?= $msk['nama_supplier'];?></td>
-                <td>
-                    <?php if($msk['kategori'] == "bumbu") :?>
-                    Bumbu Masakan
-                    <?php endif; ?>
-
-                    <?php if($msk['kategori'] == "makanan_instan") :?>
-                    Makanan Instan
-                    <?php endif; ?>
-
-                    <?php if($msk['kategori'] == "makanan_ringan") :?>
-                    Makanan Ringan
-                    <?php endif; ?>
-
-                    <?php if($msk['kategori'] == "minuman") :?>
-                    Minuman
-                    <?php endif; ?>
-
-                    <?php if($msk['kategori'] == "sembako") :?>
-                    Sembako
-                    <?php endif; ?>
-
-                    <?php if($msk['kategori'] == "perlengkapan_mandi") :?>
-                    Perlengkapan Mandi
-                    <?php endif; ?>
-
-                    <?php if($msk['kategori'] == "perlengkapan_mencuci") :?>
-                    Perlengkapan Mencuci
-                    <?php endif; ?>
-
-                    <?php if($msk['kategori'] == "obat") :?>
-                    Obat - Obatan
-                    <?php endif; ?>
-
-                    <?php if($msk['kategori'] == "lain_lain") :?>
-                    Lain Lain
-                    <?php endif; ?>
+                    <?php
+                        $date_masuk = date_create($msk['tgl_masuk']); 
+                        echo date_format($date_masuk, "d F Y"); ?>
                 </td>
-                <td><?= $msk['keterangan'];?></td>
-                <td><?= "Rp. " . number_format($msk['harga_satuan_masuk'], 2, ',', '.');?></td>
+                <td><?= $msk['nama_supplier'];?></td>
+                <td><?= $msk['nama_barang'];?></td>
                 <td><?= $msk['qty_masuk'];?></td>
-                <td><?= "Rp. " . number_format($msk['total_harga_masuk'], 2, ',', '.');?></td>
+                <td><?= "Rp. " . number_format($msk['harga_satuan_masuk'], 2, ',', '.');?></td>
+                <td><?= "Rp. " . number_format(($msk['total_harga_masuk']), 2, ',', '.');?></td>
             </tr>
-            
+            <?php endforeach; ?>
         </tbody>
-        <?php 
-            endforeach;
-            }
-        ?>
         <tr>
             <td colspan="6" align="center"><b>Total Harga</b></td>
-            <td colspan="3" align="center"><b><?= "Rp. ". number_format($grand_total, 2, ',', '.'); ?></b></td>
+            <td colspan="2" align="center"><b><?= "Rp. ". number_format($grand_total, 2, ',', '.'); ?></b></td>
         </tr>
     </table>
     <br>

@@ -96,9 +96,10 @@ class KeluarModel extends Model{
         return $query;
     }
 
-    public function filterRangeOfDate($tglMulai, $tglSelesai){
-        $query = $this->db->table('data_barang_keluar')
-        -> join('data_user', 'data_user.id_user = data_barang_keluar.id_user')
+    public function filterTanggalKeluar($tglMulai, $tglSelesai){
+        $query = $this->db->table('detail_barang_keluar')
+        -> join('data_stock', 'data_stock.id_barang = detail_barang_keluar.id_barang')
+        -> join('data_barang_keluar', 'data_barang_keluar.id_keluar = detail_barang_keluar.id_keluar', 'inner')
         -> select('*')
         -> where('tgl_keluar >=', $tglMulai) -> where('tgl_keluar <=', $tglSelesai)
         -> get()->getResultArray();
@@ -106,22 +107,24 @@ class KeluarModel extends Model{
         return $query;
     }
 
-    public function filterPetugas($idUser){
-        $query = $this->db->table('data_barang_keluar')
-        -> join('data_user', 'data_user.id_user = data_barang_keluar.id_user')
+    public function filterBarang($idBarang){
+        $query = $this->db->table('detail_barang_keluar')
+        -> join('data_stock', 'data_stock.id_barang = detail_barang_keluar.id_barang')
+        -> join('data_barang_keluar', 'data_barang_keluar.id_keluar = detail_barang_keluar.id_keluar', 'inner')
         -> select('*')
-        -> where('data_barang_keluar.id_user', $idUser)
+        -> where('detail_barang_keluar.id_barang', $idBarang)
         -> get()->getResultArray();
 
         return $query;
     }
 
-    public function filterAll($tglMulai, $tglSelesai, $idUser){
-        $query = $this->db->table('data_barang_keluar')
-        -> join('data_user', 'data_user.id_user = data_barang_keluar.id_user')
+    public function filterAll($tglMulai, $tglSelesai, $idBarang){
+        $query = $this->db->table('detail_barang_keluar')
+        -> join('data_stock', 'data_stock.id_barang = detail_barang_keluar.id_barang')
+        -> join('data_barang_keluar', 'data_barang_keluar.id_keluar = detail_barang_keluar.id_keluar', 'inner')
         -> select('*')
         -> where('tgl_keluar >=', $tglMulai) -> where('tgl_keluar <=', $tglSelesai)
-        -> where('data_barang_keluar.id_user', $idUser)
+        -> where('detail_barang_keluar.id_barang', $idBarang)
         -> get()->getResultArray();
 
         return $query;
@@ -141,50 +144,47 @@ class KeluarModel extends Model{
         return $this->db->table('data_barang_keluar')->get()->getNumRows();
     }
 
-    public function grandTotalPerDate($tglMulai, $tglSelesai){
-        $query = $this->db->table('data_barang_keluar');
-        $query -> join('data_stock', 'data_stock.id_barang = data_barang_keluar.id_barang');
-        $query->select('SUM(total_harga_keluar) AS grand_total');
-        $query->where('tgl_keluar >=', $tglMulai) -> where('tgl_keluar <=', $tglSelesai);
-        return $query->get()->getRow()->grand_total;
+    public function grandTotalPerTanggal($tglMulai, $tglSelesai){
+        $query = $this->db->table('detail_barang_keluar')
+        -> join('data_stock', 'data_stock.id_barang = detail_barang_keluar.id_barang')
+        -> join('data_barang_keluar', 'data_barang_keluar.id_keluar = detail_barang_keluar.id_keluar', 'inner')
+        -> selectSum('total_harga_keluar', 'grand_total')
+        -> where('tgl_keluar >=', $tglMulai) -> where('tgl_keluar <=', $tglSelesai)
+        -> get() -> getRow() -> grand_total;
+        
+        return $query;
     }
 
     public function grandTotalPerBarang($idBarang){
-        $query = $this->db->table('data_barang_keluar');
-        $query -> join('data_stock', 'data_stock.id_barang = data_barang_keluar.id_barang');
-        $query->select('SUM(total_harga_keluar) AS grand_total');
-        $query->where('data_barang_keluar.id_barang', $idBarang);
-        return $query->get()->getRow()->grand_total;
+        $query = $this->db->table('detail_barang_keluar')
+        -> join('data_stock', 'data_stock.id_barang = detail_barang_keluar.id_barang')
+        -> join('data_barang_keluar', 'data_barang_keluar.id_keluar = detail_barang_keluar.id_keluar', 'inner')
+        -> selectSum('total_harga_keluar', 'grand_total')
+        -> where('detail_barang_keluar.id_barang', $idBarang)
+        -> get() -> getRow() -> grand_total;
+
+        return $query;
     }
 
-    public function grandTotalPerKategori($kategori){
-        $query = $this->db->table('data_barang_keluar');
-        $query -> join('data_stock', 'data_stock.id_barang = data_barang_keluar.id_barang');
-        $query->select('SUM(total_harga_keluar) AS grand_total');
-        $query->where('kategori', $kategori);
-        return $query->get()->getRow()->grand_total;
-    }
+    public function grandTotalAllFilter($tglMulai, $tglSelesai, $idBarang){
+        $query = $this->db->table('detail_barang_masuk')
+        -> join('data_stock', 'data_stock.id_barang = detail_barang_masuk.id_barang')
+        -> join('data_barang_masuk', 'data_barang_masuk.id_masuk = detail_barang_masuk.id_masuk', 'inner')
+        -> selectSum('total_harga_masuk', 'grand_total')
+        -> where('tgl_masuk >=', $tglMulai) -> where('tgl_masuk <=', $tglSelesai)
+        -> where('detail_barang_masuk.id_barang', $idBarang)
+        -> get() -> getRow() -> grand_total;
 
-    public function grandTotalPerDateBarang($tglMulai, $tglSelesai, $idBarang){
-        $query = $this->db->table('data_barang_keluar');
-        $query -> join('data_stock', 'data_stock.id_barang = data_barang_keluar.id_barang');
-        $query->select('SUM(total_harga_keluar) AS grand_total');
-        $query->where('tgl_keluar >=', $tglMulai) -> where('tgl_keluar <=', $tglSelesai);
-        $query->where('data_barang_keluar.id_barang', $idBarang);
-        return $query->get()->getRow()->grand_total;
-    }
-
-    public function grandTotalPerDateKategori($tglMulai, $tglSelesai, $kategori){
-        $query = $this->db->table('data_barang_keluar');
-        $query -> join('data_stock', 'data_stock.id_barang = data_barang_keluar.id_barang');
-        $query->select('SUM(total_harga_keluar) AS grand_total');
-        $query->where('tgl_keluar >=', $tglMulai) -> where('tgl_keluar <=', $tglSelesai);
-        $query->where('kategori', $kategori);
-        return $query->get()->getRow()->grand_total;
+        return $query;
     }
 
     public function grandTotalAll(){
-        $query = $this->db->query('SELECT SUM(total_harga_keluar) AS grand_total FROM data_barang_keluar');
-        return $query->getRow()->grand_total;
+        $query = $this->db->table('detail_barang_masuk')
+        -> join('data_stock', 'data_stock.id_barang = detail_barang_masuk.id_barang')
+        -> join('data_barang_masuk', 'data_barang_masuk.id_masuk = detail_barang_masuk.id_masuk', 'inner')
+        -> selectSum('total_harga_masuk', 'grand_total')
+        -> get() -> getRow() -> grand_total;
+        
+        return $query;
     }
 }

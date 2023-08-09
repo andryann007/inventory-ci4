@@ -20,6 +20,7 @@ class MasukModel extends Model{
         $query = $this->db->table('detail_barang_masuk')
         -> join('data_stock', 'data_stock.id_barang = detail_barang_masuk.id_barang')
         -> join('data_barang_masuk', 'data_barang_masuk.id_masuk = detail_barang_masuk.id_masuk', 'inner')
+        -> join('data_supplier', 'data_supplier.id_supplier = data_barang_masuk.id_supplier')
         -> where('data_barang_masuk.id_masuk =', $id)
         -> get()->getResultArray();
 
@@ -99,9 +100,10 @@ class MasukModel extends Model{
         return $query;
     }
 
-    public function filterRangeOfDate($tglMulai, $tglSelesai){
-        $query = $this->db->table('data_barang_masuk')
-        -> join('data_user', 'data_user.id_user = data_barang_masuk.id_user')
+    public function filterTanggalMasuk($tglMulai, $tglSelesai){
+        $query = $this->db->table('detail_barang_masuk')
+        -> join('data_stock', 'data_stock.id_barang = detail_barang_masuk.id_barang')
+        -> join('data_barang_masuk', 'data_barang_masuk.id_masuk = detail_barang_masuk.id_masuk', 'inner')
         -> join('data_supplier', 'data_supplier.id_supplier = data_barang_masuk.id_supplier')
         -> select('*')
         -> where('tgl_masuk >=', $tglMulai) -> where('tgl_masuk <=', $tglSelesai)
@@ -110,43 +112,47 @@ class MasukModel extends Model{
         return $query;
     }
 
-    public function filterPetugas($idUser){
-        $query = $this->db->table('data_barang_masuk')
-        -> join('data_user', 'data_user.id_user = data_barang_masuk.id_user')
+    public function filterBarang($idBarang){
+        $query = $this->db->table('detail_barang_masuk')
+        -> join('data_stock', 'data_stock.id_barang = detail_barang_masuk.id_barang')
+        -> join('data_barang_masuk', 'data_barang_masuk.id_masuk = detail_barang_masuk.id_masuk', 'inner')
         -> join('data_supplier', 'data_supplier.id_supplier = data_barang_masuk.id_supplier')
         -> select('*')
-        -> where('data_barang_masuk.id_user', $idUser)
-        -> get() -> getResultArray();
+        -> where('detail_barang_masuk.id_barang', $idBarang)
+        -> get()->getResultArray();
 
         return $query;
     }
 
     public function filterSupplier($idSupplier){
-        $query = $this->db->table('data_barang_masuk')
-        -> join('data_user', 'data_user.id_user = data_barang_masuk.id_user')
+        $query = $this->db->table('detail_barang_masuk')
+        -> join('data_stock', 'data_stock.id_barang = detail_barang_masuk.id_barang')
+        -> join('data_barang_masuk', 'data_barang_masuk.id_masuk = detail_barang_masuk.id_masuk', 'inner')
         -> join('data_supplier', 'data_supplier.id_supplier = data_barang_masuk.id_supplier')
         -> select('*')
         -> where('data_barang_masuk.id_supplier', $idSupplier)
-        -> get() -> getResultArray();
+        -> get()->getResultArray();
 
         return $query;
     }
 
-    public function filterTanggalPetugas($tglMulai, $tglSelesai, $idUser){
-        $query = $this->db->table('data_barang_masuk')
-        -> join('data_user', 'data_user.id_user = data_barang_masuk.id_user')
+    public function filterTanggalBarang($tglMulai, $tglSelesai, $idBarang){
+        $query = $this->db->table('detail_barang_masuk')
+        -> join('data_stock', 'data_stock.id_barang = detail_barang_masuk.id_barang')
+        -> join('data_barang_masuk', 'data_barang_masuk.id_masuk = detail_barang_masuk.id_masuk', 'inner')
         -> join('data_supplier', 'data_supplier.id_supplier = data_barang_masuk.id_supplier')
         -> select('*')
         -> where('tgl_masuk >=', $tglMulai) -> where('tgl_masuk <=', $tglSelesai)
-        -> where('data_barang_masuk.id_user', $idUser)
+        -> where('detail_barang_masuk.id_barang', $idBarang)
         -> get()->getResultArray();
 
         return $query;
     }
 
     public function filterTanggalSupplier($tglMulai, $tglSelesai, $idSupplier){
-        $query = $this->db->table('data_barang_masuk')
-        -> join('data_user', 'data_user.id_user = data_barang_masuk.id_user')
+        $query = $this->db->table('detail_barang_masuk')
+        -> join('data_stock', 'data_stock.id_barang = detail_barang_masuk.id_barang')
+        -> join('data_barang_masuk', 'data_barang_masuk.id_masuk = detail_barang_masuk.id_masuk', 'inner')
         -> join('data_supplier', 'data_supplier.id_supplier = data_barang_masuk.id_supplier')
         -> select('*')
         -> where('tgl_masuk >=', $tglMulai) -> where('tgl_masuk <=', $tglSelesai)
@@ -156,14 +162,28 @@ class MasukModel extends Model{
         return $query;
     }
 
-    public function filterAll($tglMulai, $tglSelesai, $idUser, $idSupplier){
-        $query = $this->db->table('data_barang_masuk')
-        -> join('data_user', 'data_user.id_user = data_barang_masuk.id_user')
+    public function filterBarangSupplier($idBarang, $idSupplier){
+        $query = $this->db->table('detail_barang_masuk')
+        -> join('data_stock', 'data_stock.id_barang = detail_barang_masuk.id_barang')
+        -> join('data_barang_masuk', 'data_barang_masuk.id_masuk = detail_barang_masuk.id_masuk', 'inner')
+        -> join('data_supplier', 'data_supplier.id_supplier = data_barang_masuk.id_supplier')
+        -> select('*')
+        -> where('data_barang_masuk.id_supplier', $idSupplier)
+        -> where('detail_barang_masuk.id_barang', $idBarang)
+        -> get()->getResultArray();
+
+        return $query;
+    }
+
+    public function filterAll($tglMulai, $tglSelesai, $idSupplier, $idBarang){
+        $query = $this->db->table('detail_barang_masuk')
+        -> join('data_stock', 'data_stock.id_barang = detail_barang_masuk.id_barang')
+        -> join('data_barang_masuk', 'data_barang_masuk.id_masuk = detail_barang_masuk.id_masuk', 'inner')
         -> join('data_supplier', 'data_supplier.id_supplier = data_barang_masuk.id_supplier')
         -> select('*')
         -> where('tgl_masuk >=', $tglMulai) -> where('tgl_masuk <=', $tglSelesai)
-        -> where('data_barang_masuk.id_user', $idUser)
         -> where('data_barang_masuk.id_supplier', $idSupplier)
+        -> where('detail_barang_masuk.id_barang', $idBarang)
         -> get()->getResultArray();
 
         return $query;
@@ -186,116 +206,103 @@ class MasukModel extends Model{
         return $query;
     }
 
-    public function grandTotalPerDate($tglMulai, $tglSelesai){
-        $query = $this->db->table('data_barang_masuk');
-        $query -> join('data_stock', 'data_stock.id_barang = data_barang_masuk.id_barang');
-        $query -> join('data_supplier', 'data_supplier.id_supplier = data_barang_masuk.id_supplier');
-        $query->select('SUM(total_harga_masuk) AS grand_total');
-        $query->where('tgl_masuk >=', $tglMulai) -> where('tgl_masuk <=', $tglSelesai);
-        return $query->get()->getRow()->grand_total;
+    public function grandTotalPerTanggal($tglMulai, $tglSelesai){
+        $query = $this->db->table('detail_barang_masuk')
+        -> join('data_stock', 'data_stock.id_barang = detail_barang_masuk.id_barang')
+        -> join('data_barang_masuk', 'data_barang_masuk.id_masuk = detail_barang_masuk.id_masuk', 'inner')
+        -> join('data_supplier', 'data_supplier.id_supplier = data_barang_masuk.id_supplier')
+        -> selectSum('total_harga_masuk', 'grand_total')
+        -> where('tgl_masuk >=', $tglMulai) -> where('tgl_masuk <=', $tglSelesai)
+        -> get() -> getRow() -> grand_total;
+        
+        return $query;
     }
 
     public function grandTotalPerBarang($idBarang){
-        $query = $this->db->table('data_barang_masuk');
-        $query -> join('data_stock', 'data_stock.id_barang = data_barang_masuk.id_barang');
-        $query -> join('data_supplier', 'data_supplier.id_supplier = data_barang_masuk.id_supplier');
-        $query->select('SUM(total_harga_masuk) AS grand_total');
-        $query->where('data_barang_masuk.id_barang', $idBarang);
-        return $query->get()->getRow()->grand_total;
-    }
+        $query = $this->db->table('detail_barang_masuk')
+        -> join('data_stock', 'data_stock.id_barang = detail_barang_masuk.id_barang')
+        -> join('data_barang_masuk', 'data_barang_masuk.id_masuk = detail_barang_masuk.id_masuk', 'inner')
+        -> join('data_supplier', 'data_supplier.id_supplier = data_barang_masuk.id_supplier')
+        -> selectSum('total_harga_masuk', 'grand_total')
+        -> where('detail_barang_masuk.id_barang', $idBarang)
+        -> get() -> getRow() -> grand_total;
 
-    public function grandTotalPerKategori($kategori){
-        $query = $this->db->table('data_barang_masuk');
-        $query -> join('data_stock', 'data_stock.id_barang = data_barang_masuk.id_barang');
-        $query -> join('data_supplier', 'data_supplier.id_supplier = data_barang_masuk.id_supplier');
-        $query->select('SUM(total_harga_masuk) AS grand_total');
-        $query->where('kategori', $kategori);
-        return $query->get()->getRow()->grand_total;
+        return $query;
     }
 
     public function grandTotalPerSupplier($idSupplier){
-        $query = $this->db->table('data_barang_masuk');
-        $query -> join('data_stock', 'data_stock.id_barang = data_barang_masuk.id_barang');
-        $query -> join('data_supplier', 'data_supplier.id_supplier = data_barang_masuk.id_supplier');
-        $query->select('SUM(total_harga_masuk) AS grand_total');
-        $query->where('data_barang_masuk.id_supplier', $idSupplier);
-        return $query->get()->getRow()->grand_total;
+        $query = $this->db->table('detail_barang_masuk')
+        -> join('data_stock', 'data_stock.id_barang = detail_barang_masuk.id_barang')
+        -> join('data_barang_masuk', 'data_barang_masuk.id_masuk = detail_barang_masuk.id_masuk', 'inner')
+        -> join('data_supplier', 'data_supplier.id_supplier = data_barang_masuk.id_supplier')
+        -> selectSum('total_harga_masuk', 'grand_total')
+        -> where('data_barang_masuk.id_supplier', $idSupplier)
+        -> get() -> getRow() -> grand_total;
+
+        return $query;
     }
 
-    public function grandTotalPerDateBarang($tglMulai, $tglSelesai, $idBarang){
-        $query = $this->db->table('data_barang_masuk');
-        $query -> join('data_stock', 'data_stock.id_barang = data_barang_masuk.id_barang');
-        $query -> join('data_supplier', 'data_supplier.id_supplier = data_barang_masuk.id_supplier');
-        $query->select('SUM(total_harga_masuk) AS grand_total');
-        $query->where('tgl_masuk >=', $tglMulai) -> where('tgl_masuk <=', $tglSelesai);
-        $query->where('data_barang_masuk.id_barang', $idBarang);
-        return $query->get()->getRow()->grand_total;
-    }
+    public function grandTotalPerTanggalBarang($tglMulai, $tglSelesai, $idBarang){
+        $query = $this->db->table('detail_barang_masuk')
+        -> join('data_stock', 'data_stock.id_barang = detail_barang_masuk.id_barang')
+        -> join('data_barang_masuk', 'data_barang_masuk.id_masuk = detail_barang_masuk.id_masuk', 'inner')
+        -> join('data_supplier', 'data_supplier.id_supplier = data_barang_masuk.id_supplier')
+        -> selectSum('total_harga_masuk', 'grand_total')
+        -> where('tgl_masuk >=', $tglMulai) -> where('tgl_masuk <=', $tglSelesai)
+        -> where('detail_barang_masuk.id_barang', $idBarang)
+        -> get() -> getRow() -> grand_total;
 
-    public function grandTotalPerDateKategori($tglMulai, $tglSelesai, $kategori){
-        $query = $this->db->table('data_barang_masuk');
-        $query -> join('data_stock', 'data_stock.id_barang = data_barang_masuk.id_barang');
-        $query -> join('data_supplier', 'data_supplier.id_supplier = data_barang_masuk.id_supplier');
-        $query->select('SUM(total_harga_masuk) AS grand_total');
-        $query->where('tgl_masuk >=', $tglMulai) -> where('tgl_masuk <=', $tglSelesai);
-        $query->where('kategori', $kategori);
-        return $query->get()->getRow()->grand_total;
+        return $query;
     }
     
-    public function grandTotalPerDateSupplier($tglMulai, $tglSelesai, $idSupplier){
-        $query = $this->db->table('data_barang_masuk');
-        $query -> join('data_stock', 'data_stock.id_barang = data_barang_masuk.id_barang');
-        $query -> join('data_supplier', 'data_supplier.id_supplier = data_barang_masuk.id_supplier');
-        $query->select('SUM(total_harga_masuk) AS grand_total');
-        $query->where('tgl_masuk >=', $tglMulai) -> where('tgl_masuk <=', $tglSelesai);
-        $query->where('data_barang_masuk.id_supplier', $idSupplier);
-        return $query->get()->getRow()->grand_total;
+    public function grandTotalPerTanggalSupplier($tglMulai, $tglSelesai, $idSupplier){
+        $query = $this->db->table('detail_barang_masuk')
+        -> join('data_stock', 'data_stock.id_barang = detail_barang_masuk.id_barang')
+        -> join('data_barang_masuk', 'data_barang_masuk.id_masuk = detail_barang_masuk.id_masuk', 'inner')
+        -> join('data_supplier', 'data_supplier.id_supplier = data_barang_masuk.id_supplier')
+        -> selectSum('total_harga_masuk', 'grand_total')
+        -> where('tgl_masuk >=', $tglMulai) -> where('tgl_masuk <=', $tglSelesai)
+        -> where('data_barang_masuk.id_supplier', $idSupplier)
+        -> get() -> getRow() -> grand_total;
+
+        return $query;
     }
 
     public function grandTotalPerBarangSupplier($idBarang, $idSupplier){
-        $query = $this->db->table('data_barang_masuk');
-        $query -> join('data_stock', 'data_stock.id_barang = data_barang_masuk.id_barang');
-        $query -> join('data_supplier', 'data_supplier.id_supplier = data_barang_masuk.id_supplier');
-        $query->select('SUM(total_harga_masuk) AS grand_total');
-        $query->where('data_barang_masuk.id_barang', $idBarang);
-        $query->where('data_barang_masuk.id_supplier', $idSupplier);
-        return $query->get()->getRow()->grand_total;
+        $query = $this->db->table('detail_barang_masuk')
+        -> join('data_stock', 'data_stock.id_barang = detail_barang_masuk.id_barang')
+        -> join('data_barang_masuk', 'data_barang_masuk.id_masuk = detail_barang_masuk.id_masuk', 'inner')
+        -> join('data_supplier', 'data_supplier.id_supplier = data_barang_masuk.id_supplier')
+        -> selectSum('total_harga_masuk', 'grand_total')
+        -> where('detail_barang_masuk.id_barang', $idBarang)
+        -> where('data_barang_masuk.id_supplier', $idSupplier)
+        -> get() -> getRow() -> grand_total;
+
+        return $query;
     }
 
-    public function grandTotalPerKategoriSupplier($kategori, $idSupplier){
-        $query = $this->db->table('data_barang_masuk');
-        $query -> join('data_stock', 'data_stock.id_barang = data_barang_masuk.id_barang');
-        $query -> join('data_supplier', 'data_supplier.id_supplier = data_barang_masuk.id_supplier');
-        $query->select('SUM(total_harga_masuk) AS grand_total');
-        $query->where('kategori', $kategori);
-        $query->where('data_barang_masuk.id_supplier', $idSupplier);
-        return $query->get()->getRow()->grand_total;
-    }
+    public function grandTotalAllFilter($tglMulai, $tglSelesai, $idSupplier, $idBarang){
+        $query = $this->db->table('detail_barang_masuk')
+        -> join('data_stock', 'data_stock.id_barang = detail_barang_masuk.id_barang')
+        -> join('data_barang_masuk', 'data_barang_masuk.id_masuk = detail_barang_masuk.id_masuk', 'inner')
+        -> join('data_supplier', 'data_supplier.id_supplier = data_barang_masuk.id_supplier')
+        -> selectSum('total_harga_masuk', 'grand_total')
+        -> where('tgl_masuk >=', $tglMulai) -> where('tgl_masuk <=', $tglSelesai)
+        -> where('detail_barang_masuk.id_barang', $idBarang)
+        -> where('data_barang_masuk.id_supplier', $idSupplier)
+        -> get() -> getRow() -> grand_total;
 
-    public function grandTotalPerDateBarangSupplier($tglMulai, $tglSelesai, $idBarang, $idSupplier){
-        $query = $this->db->table('data_barang_masuk');
-        $query -> join('data_stock', 'data_stock.id_barang = data_barang_masuk.id_barang');
-        $query -> join('data_supplier', 'data_supplier.id_supplier = data_barang_masuk.id_supplier');
-        $query->select('SUM(total_harga_masuk) AS grand_total');
-        $query->where('tgl_masuk >=', $tglMulai) -> where('tgl_masuk <=', $tglSelesai);
-        $query->where('data_barang_masuk.id_barang', $idBarang);
-        $query->where('data_barang_masuk.id_supplier', $idSupplier);
-        return $query->get()->getRow()->grand_total;
-    }
-
-    public function grandTotalPerDateKategoriSupplier($tglMulai, $tglSelesai, $kategori, $idSupplier){
-        $query = $this->db->table('data_barang_masuk');
-        $query -> join('data_stock', 'data_stock.id_barang = data_barang_masuk.id_barang');
-        $query -> join('data_supplier', 'data_supplier.id_supplier = data_barang_masuk.id_supplier');
-        $query->select('SUM(total_harga_masuk) AS grand_total');
-        $query->where('tgl_masuk >=', $tglMulai) -> where('tgl_masuk <=', $tglSelesai);
-        $query->where('kategori', $kategori);
-        $query->where('data_barang_masuk.id_supplier', $idSupplier);
-        return $query->get()->getRow()->grand_total;
+        return $query;
     }
 
     public function grandTotalAll(){
-        $query = $this->db->query('SELECT SUM(total_harga_masuk) AS grand_total FROM data_barang_masuk');
-        return $query->getRow()->grand_total;
+        $query = $this->db->table('detail_barang_masuk')
+        -> join('data_stock', 'data_stock.id_barang = detail_barang_masuk.id_barang')
+        -> join('data_barang_masuk', 'data_barang_masuk.id_masuk = detail_barang_masuk.id_masuk', 'inner')
+        -> join('data_supplier', 'data_supplier.id_supplier = data_barang_masuk.id_supplier')
+        -> selectSum('total_harga_masuk', 'grand_total')
+        -> get() -> getRow() -> grand_total;
+
+        return $query;
     }
 }

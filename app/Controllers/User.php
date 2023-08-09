@@ -298,7 +298,7 @@ class User extends BaseController
             'total_harga' => (((int)$rowStock['qty_stock'] - (int)$rowMasuk['qty_masuk']) + (int)$stockBarangMasukBaru) * (int)$rowStock['harga_satuan']
         );
         
-        $successUpdate = $masuk->updateData($dataMasuk, $idMasuk);
+        $successUpdate = $masuk->updateDetailData($dataMasuk, $idMasuk, $idBarang);
         $updateStock = $stock->updateData($dataStock, $idBarang);
 
         if($successUpdate & $updateStock){
@@ -813,7 +813,7 @@ class User extends BaseController
             'total_harga' => (((int)$rowStock['qty_stock'] - (int)$rowRetur['qty_retur']) + (int)$stockBarangReturBaru) * (int)$rowStock['harga_satuan']
         );
         
-        $successUpdate = $retur->updateData($dataRetur, $idRetur);
+        $successUpdate = $retur->updateDetailData($dataRetur, $idRetur, $idBarang);
         $updateStock = $stock->updateData($dataStock, $idBarang);
 
         if($successUpdate & $updateStock){

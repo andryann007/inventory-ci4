@@ -73,7 +73,7 @@
         <div class="sidebar-heading">Data Master</div>
 
         <!-- Nav Item - Data Akun -->
-        <li class="nav-item">
+        <li class="nav-item active">
           <a class="nav-link" href="/owner/akun">
             <i class="fas fa-id-card"></i>
             <span>Data Akun</span></a
@@ -189,32 +189,15 @@
             >
               <h2 class="h3 mb-0 text-gray-800 col-md-7">Data Barang Keluar</h2>
 
-              <a
-                role="button"
+              <button
+                type="button"
                 class="btn btn-success btn-sm"
                 data-toggle="modal"
                 data-target="#addOutcoming"
               >
                 <i class="fas fa-plus"></i>
                 Tambah Data
-              </a>
-
-              <button
-                type="button"
-                class="btn btn-primary btn-sm"
-                data-toggle="modal"
-                data-target="#filterOutcomingModal"
-              >
-                <i class="fas fa-filter"></i>
-                Filter Data
               </button>
-
-              <a
-                role="button"
-                class="btn btn-dark btn-sm"
-                href="<?php echo site_url('/owner/keluar');?>"
-                ><i class="fas fa-eye"></i> View All Data</a
-              >
             </div>
 
             <!-- DataTales Example -->
@@ -668,83 +651,6 @@
             </button>
           </div>
         </form>
-      </div>
-    </div>
-  </div>
-
-   <!-- Filter Data Modal -->
-   <div
-    class="modal fade"
-    id="filterOutcomingModal"
-    tabindex="-1"
-    aria-labelledby="filterModalLabel"
-    aria-hidden="true"
-  >
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="filterModalLabel">
-            Filter Data Barang Keluar
-          </h5>
-          <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="Close"
-          >
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-          <form action='/owner/keluar' method="post">
-          <div class="modal-body">
-            <label for="tglMulai">Filter Data by <b>Range of Date</b></label>
-            <div class="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <input type="date" 
-                    name="tglMulai" 
-                    class="form-control" />
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <input type="date" 
-                    name="tglSelesai" 
-                    class="form-control" />
-                </div>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="idUser">Filter Data by <b>Nama Petugas</b> :</label>
-                  <select
-                    class="form-control"
-                    name="idUser"
-                    id="idUser"
-                  >
-                  <option value="">-- Pilih Nama Petugas --</option>
-                  <?php foreach ($user as $usr) : ?>
-                    <option value="<?= $usr['id_user']; ?>">
-                      <?= ucwords($usr['nama_lengkap']); ?>
-                    </option>
-                  <?php endforeach; ?>
-                  </select>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="d-sm-flex modal-footer mb-4">
-            <button type="button" class="btn btn-danger" data-dismiss="modal">
-              <i class="fas fa-trash"></i> Batal
-            </button>
-            <button type="submit" class="btn btn-primary" name="filterOutcoming">
-              <i class="fas fa-filter"></i> Filter
-            </button>
-          </div>
-          </form>
       </div>
     </div>
   </div>
