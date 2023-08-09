@@ -99,7 +99,6 @@
         <!-- Divider -->
         <hr class="sidebar-divider" />
 
-       
         <!-- Heading Data Master -->
         <div class="sidebar-heading">Data Transaksi</div>
 
@@ -270,9 +269,33 @@
             <!-- DataTales Example -->
             <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">
-                Detail Retur Barang
-                </h6><br>
+              <div class="d-sm-flex align-items-center justify-content-between">
+                <div class="col-md-10">
+                  <h6 class="m-0 font-weight-bold text-primary">
+                  Detail Retur Barang
+                  </h6><br>
+                </div>
+
+                <div class="col-md-1">
+                  <form action="/owner/print_retur" method="post">
+                    <input
+                        type="hidden"
+                        name="idCetakRetur"
+                        id="idCetakRetur"
+                        class="form-control"
+                        value="<?= $id_retur;?>"
+                        required
+                    />
+                    <button
+                        type="submit"
+                        class="btn btn-success btn-sm btnPrint"
+                    >
+                        <i class="fas fa-print"></i>
+                        Cetak
+                    </button>
+                  </form>
+                </div>
+              </div>
 
                 <h6 class="m-0 font-weight-bold text-dark">No Faktur : <?= $no_faktur;?></h6>
                 <h6 class="m-0 font-weight-bold text-dark">Tanggal Transaksi : <?= $tgl_retur;?></h6>

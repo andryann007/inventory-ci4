@@ -90,7 +90,6 @@
 
         <!-- Divider -->
         <hr class="sidebar-divider" />
-
        
         <!-- Heading Data Master -->
         <div class="sidebar-heading">Data Transaksi</div>

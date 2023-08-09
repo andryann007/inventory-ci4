@@ -70,80 +70,37 @@
         <thead class="thead-dark">
             <tr>
                 <th>No</th>
+                <th>No Faktur</th>
                 <th>Tgl Retur</th>
-                <th>Nama Barang</th>
                 <th>Nama Supplier</th>
-                <th>Kategori</th>
-                <th>Keterangan</th>
+                <th>Nama Barang</th>
+                <th>QTY Retur</th>
                 <th>Harga/Pcs</th>
-                <th>QTY</th>
                 <th>Total Harga</th>
             </tr>
         </thead>
-        <?php 
-            if(isset($retur)){
-                $i = 1;
-                foreach($retur as $rtr) :
-        ?>
         <tbody>
+            <?php $i =1; ?>
+            <?php foreach ($retur as $rtr) : ?>
             <tr>
                 <td><?= $i++;?></td>
-                <td><?php
+                <td><?= $rtr['no_faktur'];?></td>
+                <td>
+                    <?php
                         $date_retur = date_create($rtr['tgl_retur']); 
                         echo date_format($date_retur, "d F Y"); ?>
                 </td>
-                <td><?= $rtr['nama_barang'];?></td>
                 <td><?= $rtr['nama_supplier'];?></td>
-                <td>
-                    <?php if($rtr['kategori'] == "bumbu") :?>
-                    Bumbu Masakan
-                    <?php endif; ?>
-
-                    <?php if($rtr['kategori'] == "makanan_instan") :?>
-                    Makanan Instan
-                    <?php endif; ?>
-
-                    <?php if($rtr['kategori'] == "makanan_ringan") :?>
-                    Makanan Ringan
-                    <?php endif; ?>
-
-                    <?php if($rtr['kategori'] == "minuman") :?>
-                    Minuman
-                    <?php endif; ?>
-
-                    <?php if($rtr['kategori'] == "sembako") :?>
-                    Sembako
-                    <?php endif; ?>
-
-                    <?php if($rtr['kategori'] == "perlengkapan_mandi") :?>
-                    Perlengkapan Mandi
-                    <?php endif; ?>
-
-                    <?php if($rtr['kategori'] == "perlengkapan_mencuci") :?>
-                    Perlengkapan Mencuci
-                    <?php endif; ?>
-
-                    <?php if($rtr['kategori'] == "obat") :?>
-                    Obat - Obatan
-                    <?php endif; ?>
-
-                    <?php if($rtr['kategori'] == "lain_lain") :?>
-                    Lain Lain
-                    <?php endif; ?>
-                </td>
-                <td><?= $rtr['keterangan'];?></td>
-                <td><?= "Rp. " . number_format($rtr['harga_satuan'], 2, ',', '.');?></td>
+                <td><?= $rtr['nama_barang'];?></td>
                 <td><?= $rtr['qty_retur'];?></td>
-                <td><?= "Rp. " . number_format($rtr['harga_satuan'] * $rtr['qty_retur'], 2, ',', '.');?></td>
+                <td><?= "Rp. " . number_format($rtr['harga_satuan_retur'], 2, ',', '.');?></td>
+                <td><?= "Rp. " . number_format(($rtr['total_harga_retur']), 2, ',', '.');?></td>
             </tr>
+            <?php endforeach; ?>
         </tbody>
-        <?php 
-            endforeach;
-            }
-        ?>
         <tr>
             <td colspan="6" align="center"><b>Total Harga</b></td>
-            <td colspan="3" align="center"><b><?= "Rp. ". number_format($grand_total, 2, ',', '.'); ?></b></td>
+            <td colspan="2" align="center"><b><?= "Rp. ". number_format($grand_total, 2, ',', '.'); ?></b></td>
         </tr>
     </table>
     <br>

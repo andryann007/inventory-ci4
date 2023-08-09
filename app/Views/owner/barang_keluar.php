@@ -73,7 +73,7 @@
         <div class="sidebar-heading">Data Master</div>
 
         <!-- Nav Item - Data Akun -->
-        <li class="nav-item active">
+        <li class="nav-item">
           <a class="nav-link" href="/owner/akun">
             <i class="fas fa-id-card"></i>
             <span>Data Akun</span></a

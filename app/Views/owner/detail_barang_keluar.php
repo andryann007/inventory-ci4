@@ -72,8 +72,8 @@
         <!-- Heading Data Master -->
         <div class="sidebar-heading">Data Master</div>
 
-        <!-- Nav Item - Data Akun -->
-        <li class="nav-item">
+         <!-- Nav Item - Data Akun -->
+         <li class="nav-item">
           <a class="nav-link" href="/owner/akun">
             <i class="fas fa-id-card"></i>
             <span>Data Akun</span></a
@@ -209,7 +209,6 @@
                 <i class="fas fa-save"></i>
                 Simpan Data
               </button>
-
             </div>
 
             <div class="card shadow mb-4">
@@ -271,9 +270,32 @@
             <!-- DataTales Example -->
             <div class="card shadow mb-4">
               <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">
-                  Detail Barang Keluar
-                </h6><br>
+                <div class="d-sm-flex align-items-center justify-content-between">
+                    <div class="col-md-10">
+                        <h6 class="m-0 font-weight-bold text-primary">
+                            Detail Barang Keluar
+                        </h6><br>
+                    </div>
+                    <div class="col-md-1">
+                        <form action="/owner/print_keluar" method="post">
+                        <input
+                            type="hidden"
+                            name="idCetakKeluar"
+                            id="idCetakKeluar"
+                            class="form-control"
+                            value="<?= $id_keluar;?>"
+                            required
+                        />
+                        <button
+                            type="submit"
+                            class="btn btn-success btn-sm btnPrint"
+                        >
+                            <i class="fas fa-print"></i>
+                            Cetak
+                        </button>
+                        </form>
+                    </div>
+                </div>
 
                 <h6 class="m-0 font-weight-bold text-dark">No Faktur : <?= $no_faktur;?></h6>
                 <h6 class="m-0 font-weight-bold text-dark">Tanggal Transaksi : <?= $tgl_keluar;?></h6>

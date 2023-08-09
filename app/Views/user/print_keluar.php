@@ -70,79 +70,35 @@
         <thead class="thead-dark">
             <tr>
                 <th>No</th>
+                <th>No Faktur</th>
                 <th>Tgl Keluar</th>
                 <th>Nama Barang</th>
-                <th>Kategori</th>
-                <th>Keterangan</th>
+                <th>QTY Keluar</th>
                 <th>Harga/Pcs</th>
-                <th>QTY</th>
                 <th>Total Harga</th>
             </tr>
         </thead>
-        <?php 
-            if(isset($keluar)){
-                $i = 1;
-                foreach($keluar as $klr) :
-        ?>
         <tbody>
+            <?php $i =1; ?>
+            <?php foreach ($keluar as $klr) : ?>
             <tr>
                 <td><?= $i++;?></td>
+                <td><?= $klr['no_faktur']++;?></td>
                 <td>
                     <?php
                         $date_keluar = date_create($klr['tgl_keluar']); 
                         echo date_format($date_keluar, "d F Y"); ?>
                 </td>
                 <td><?= $klr['nama_barang'];?></td>
-                <td>
-                    <?php if($klr['kategori'] == "bumbu") :?>
-                    Bumbu Masakan
-                    <?php endif; ?>
-
-                    <?php if($klr['kategori'] == "makanan_instan") :?>
-                    Makanan Instan
-                    <?php endif; ?>
-
-                    <?php if($klr['kategori'] == "makanan_ringan") :?>
-                    Makanan Ringan
-                    <?php endif; ?>
-
-                    <?php if($klr['kategori'] == "minuman") :?>
-                    Minuman
-                    <?php endif; ?>
-
-                    <?php if($klr['kategori'] == "sembako") :?>
-                    Sembako
-                    <?php endif; ?>
-
-                    <?php if($klr['kategori'] == "perlengkapan_mandi") :?>
-                    Perlengkapan Mandi
-                    <?php endif; ?>
-
-                    <?php if($klr['kategori'] == "perlengkapan_mencuci") :?>
-                    Perlengkapan Mencuci
-                    <?php endif; ?>
-
-                    <?php if($klr['kategori'] == "obat") :?>
-                    Obat - Obatan
-                    <?php endif; ?>
-
-                    <?php if($klr['kategori'] == "lain_lain") :?>
-                    Lain Lain
-                    <?php endif; ?>
-                </td>
-                <td><?= $klr['keterangan'];?></td>
-                <td><?= "Rp. " . number_format($klr['harga_satuan_keluar'], 2, ',', '.');?></td>
                 <td><?= $klr['qty_keluar'];?></td>
+                <td><?= "Rp. " . number_format($klr['harga_satuan_keluar'], 2, ',', '.');?></td>
                 <td><?= "Rp. " . number_format(($klr['total_harga_keluar']), 2, ',', '.');?></td>
             </tr>
+            <?php endforeach; ?>
         </tbody>
-        <?php 
-            endforeach;
-            }
-        ?>
         <tr>
             <td colspan="5" align="center"><b>Total Harga</b></td>
-            <td colspan="3" align="center"><b><?= "Rp. ". number_format($grand_total, 2, ',', '.'); ?></b></td>
+            <td colspan="2" align="center"><b><?= "Rp. ". number_format($grand_total, 2, ',', '.'); ?></b></td>
         </tr>
     </table>
     <br>

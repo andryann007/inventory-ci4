@@ -159,32 +159,33 @@
             >
               <h2 class="h3 mb-0 text-gray-800 col-md-7">Laporan Retur Barang</h2>
 
-              <a
-                role="button"
+              <button
+                type="button"
                 class="btn btn-success btn-sm"
                 data-toggle="modal"
                 data-target="#printReturning"
               >
-                <i class="fas fa-plus"></i>
+                <i class="fas fa-print"></i>
                 Print Data
-              </a>
+              </button>
 
               <button
                 type="button"
                 class="btn btn-primary btn-sm"
                 data-toggle="modal"
-                data-target="#filterReturningModal"
+                data-target="#filterReturning"
               >
                 <i class="fas fa-filter"></i>
                 Filter Data
               </button>
 
-              <a
-                role="button"
-                class="btn btn-dark btn-sm"
-                href="<?php echo site_url('/user/laporan_retur');?>"
-                ><i class="fas fa-eye"></i> View All Data</a
-              >
+              <form action='/user/laporan_retur' method="post">
+                <button
+                  type="submit"
+                  class="btn btn-dark btn-sm"
+                  ><i class="fas fa-eye"></i> View All Data</button
+                >
+              </form>
             </div>
 
             <!-- DataTales Example -->
@@ -356,7 +357,7 @@
     <script>
       <?php if(session()->get('returning_message')) :?>
         Swal.fire(
-          'Data Retur Barang',
+          'Laporan Retur Barang',
           '<?= session()->getFlashdata('returning_message');?>',
           'success'
         )
@@ -364,7 +365,7 @@
 
       <?php if(session()->get('filter_returning_message')) :?>
         Swal.fire(
-          'Data Retur Barang',
+          'Laporan Retur Barang',
           '<?= session()->getFlashdata('filter_returning_message');?>',
           'success'
         )
@@ -373,7 +374,7 @@
       <?php if(session()->get('error')) :?>
         Swal.fire({
           icon: 'error',
-          title: 'Data Retur Barang',
+          title: 'Laporan Retur Barang',
           text: '<?= session()->getFlashdata('error');?>',
           footer: 'Dikarenakan QTY Stock < QTY Retur'
         })
@@ -428,15 +429,15 @@
  <!-- Filter Data Modal -->
  <div
     class="modal fade"
-    id="filterReturningModal"
+    id="filterReturning"
     tabindex="-1"
-    aria-labelledby="filterModalLabel"
+    aria-labelledby="filterLabel"
     aria-hidden="true"
   >
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="filterModalLabel">
+          <h5 class="modal-title" id="filterLabel">
             Filter Data Retur Barang
           </h5>
           <button
@@ -448,7 +449,7 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-          <form action='/user/retur' method="post">
+          <form action='/user/laporan_retur' method="post">
           <div class="modal-body">
             <label for="namaBarang">Filter Data by <b>Range of Date</b></label>
             <div class="row">
@@ -471,11 +472,11 @@
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
-                  <label for="idSupplier">Filter Data by <b>Nama Supplier</b> :</label>
+                  <label for="namaSupplier">Filter Data by <b>Nama Supplier</b> :</label>
                   <select
                     class="form-control"
-                    name="idSupplier"
-                    id="idSupplier"
+                    name="namaSupplier"
+                    id="namaSupplier"
                   >
                   <option value="">-- Pilih Nama Supplier --</option>
                   <?php foreach ($supplier as $spy) : ?>
@@ -489,21 +490,26 @@
 
               <div class="col-md-6">
                 <div class="form-group">
-                  <label for="idUser">Filter Data by <b>Nama Petugas</b> :</label>
+                  <label for="namaBarang">Filter Data by <b>Nama Barang</b> :</label>
                   <select
                     class="form-control"
-                    name="idUser"
-                    id="idUser"
+                    name="namaBarang"
+                    id="namaBarang"
                   >
-                  <option value="">-- Pilih Nama Petugas --</option>
-                  <?php foreach ($user as $usr) : ?>
-                    <option value="<?= $usr['id_user']; ?>">
-                      <?= ucwords($usr['nama_lengkap']); ?>
+                  <option value="">-- Pilih Nama Barang --</option>
+                  <?php foreach ($stock as $stk) : ?>
+                    <option value="<?= $stk['id_barang']; ?>">
+                      <?= ucwords($stk['nama_barang']); ?>
                     </option>
                   <?php endforeach; ?>
                   </select>
                 </div>
               </div>
+              
+              <div class="col-md-12">
+                <label for="keterangan"><b>Note :</b> Filter Dapat Dilakukan Satu - Satu / Semua !!!</label>
+              </div>
+
             </div>
           </div>
 
@@ -511,8 +517,109 @@
             <button type="button" class="btn btn-danger" data-dismiss="modal">
               <i class="fas fa-trash"></i> Batal
             </button>
-            <button type="submit" class="btn btn-primary" name="filterOutcoming">
+            <button type="submit" class="btn btn-primary" name="filterReturning">
               <i class="fas fa-filter"></i> Filter
+            </button>
+          </div>
+          </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Print Data Modal -->
+ <div
+    class="modal fade"
+    id="printReturning"
+    tabindex="-1"
+    aria-labelledby="printLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="printLabel">
+            Print Data Retur Barang
+          </h5>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+          <form action='/user/print_retur' method="post">
+          <div class="modal-body">
+            <label for="namaBarang">Print Data <b>Filter Range of Date</b></label>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <input type="date" 
+                    name="tglMulai" 
+                    class="form-control" />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <input type="date" 
+                    name="tglSelesai" 
+                    class="form-control" />
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="namaSupplier">Print Data <b>Filter Nama Supplier</b> :</label>
+                  <select
+                    class="form-control"
+                    name="namaSupplier"
+                    id="namaSupplier"
+                  >
+                  <option value="">-- Pilih Nama Supplier --</option>
+                  <?php foreach ($supplier as $spy) : ?>
+                    <option value="<?= $spy['id_supplier']; ?>">
+                      <?= ucwords($spy['nama_supplier']); ?>
+                    </option>
+                  <?php endforeach; ?>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="namaBarang">Print Data <b>Filter Nama Barang</b> :</label>
+                  <select
+                    class="form-control"
+                    name="namaBarang"
+                    id="namaBarang"
+                  >
+                  <option value="">-- Pilih Nama Barang --</option>
+                  <?php foreach ($stock as $stk) : ?>
+                    <option value="<?= $stk['id_barang']; ?>">
+                      <?= ucwords($stk['nama_barang']); ?>
+                    </option>
+                  <?php endforeach; ?>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-md-12">
+                <label for="keterangan"><b>Note :</b> Filter Dapat Dilakukan Satu - Satu / Semua, Untuk Opsi Filter Print Bersifat Optional (Tidak Wajib).<br>
+                 Jika Tidak Ada Filter, Maka Laporan Retur Barang akan di <b>Print Semua !!!</b></label>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="d-sm-flex modal-footer mb-4">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">
+              <i class="fas fa-trash"></i> Batal
+            </button>
+            <button type="submit" class="btn btn-success" name="printReturning">
+              <i class="fas fa-print"></i> Print
             </button>
           </div>
           </form>

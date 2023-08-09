@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 08, 2023 at 06:42 AM
+-- Generation Time: Aug 09, 2023 at 10:12 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.1.12
 
@@ -64,7 +64,8 @@ CREATE TABLE `data_barang_masuk` (
 --
 
 INSERT INTO `data_barang_masuk` (`id_masuk`, `id_user`, `id_supplier`, `tgl_masuk`, `no_faktur`) VALUES
-(1, 1, 1, '2023-08-08', 'IDM_00001');
+(1, 1, 1, '2023-08-08', 'IDM_00001'),
+(2, 2, 2, '2023-08-08', 'IDM_00002');
 
 -- --------------------------------------------------------
 
@@ -108,16 +109,16 @@ CREATE TABLE `data_stock` (
 --
 
 INSERT INTO `data_stock` (`id_barang`, `nama_barang`, `kategori`, `qty_stock`, `harga_satuan`, `total_harga`, `status`) VALUES
-(1, 'Royco Ayam & Sapi (12 Sachet)', 'bumbu', 20, 6500, 130000, 'tersedia'),
-(2, 'Masako Ayam & Sapi (12 sachet)', 'bumbu', 9, 5500, 49500, 'habis'),
-(3, 'Mamasuka Kentucky (210 gr)', 'bumbu', 5, 5000, 25000, 'tersedia'),
+(1, 'Royco Ayam & Sapi (12 Sachet)', 'bumbu', 22, 6500, 143000, 'tersedia'),
+(2, 'Masako Ayam & Sapi (12 sachet)', 'bumbu', 10, 5500, 55000, 'tersedia'),
+(3, 'Mamasuka Kentucky (210 gr)', 'bumbu', 15, 5000, 75000, 'tersedia'),
 (4, 'Mamasuka Tepung Goreng Tempe 100gr', 'bumbu', 15, 2000, 30000, 'tersedia'),
-(5, 'Aqua Air Mineral 1 Dus (600 ml)', 'minuman', 14, 50000, 700000, 'tersedia'),
-(6, 'Le Minerale 600 ml (1 Dus)', 'minuman', 8, 50000, 400000, 'tersedia'),
+(5, 'Aqua Air Mineral 1 Dus (600 ml)', 'minuman', 15, 50000, 750000, 'tersedia'),
+(6, 'Le Minerale 600 ml (1 Dus)', 'minuman', 18, 50000, 900000, 'tersedia'),
 (7, 'Coca Cola 390 ml (1 Dus)', 'minuman', 11, 65000, 715000, 'tersedia'),
-(8, 'Indomie Goreng 1 Dus (40 pcs)', 'makanan_instan', 9, 125000, 1125000, 'tersedia'),
-(9, 'Indomie Soto Ayam 1 Dus (40 pcs)', 'makanan_instan', 9, 125000, 1125000, 'tersedia'),
-(10, 'Indomie Kari Ayam 1 Dus (40 pcs)', 'makanan_instan', 9, 125000, 1125000, 'tersedia'),
+(8, 'Indomie Goreng 1 Dus (40 pcs)', 'makanan_instan', 19, 125000, 2375000, 'tersedia'),
+(9, 'Indomie Soto Ayam 1 Dus (40 pcs)', 'makanan_instan', 19, 125000, 2375000, 'tersedia'),
+(10, 'Indomie Kari Ayam 1 Dus (40 pcs)', 'makanan_instan', 19, 125000, 2375000, 'tersedia'),
 (11, 'Sedaap Mie Goreng 1 Dus (40 Pcs)', 'sembako', 14, 122000, 1708000, 'tersedia'),
 (12, 'Sedaap Mie Soto 1 Dus (40 Pcs)', 'sembako', 10, 122000, 1220000, 'tersedia'),
 (13, 'Better Sandwich Biscuit (20 pcs)', 'makanan_ringan', 14, 18000, 252000, 'tersedia'),
@@ -206,7 +207,7 @@ CREATE TABLE `detail_barang_keluar` (
 --
 
 INSERT INTO `detail_barang_keluar` (`id_keluar`, `id_barang`, `qty_keluar`, `harga_satuan_keluar`, `total_harga_keluar`, `keterangan`) VALUES
-(1, 5, 2, 24000, 24000, '-'),
+(1, 5, 1, 24000, 24000, '-'),
 (1, 14, 1, 50000, 50000, '-'),
 (1, 1, 2, 2500, 5000, '-'),
 (1, 4, 2, 6000, 12000, '-'),
@@ -251,7 +252,9 @@ INSERT INTO `detail_barang_masuk` (`id_masuk`, `id_barang`, `qty_masuk`, `harga_
 (1, 1, 12, 12000, 144000, '-'),
 (1, 5, 1, 55000, 55000, '-'),
 (1, 7, 10, 50000, 500000, '-'),
-(1, 6, 1, 45000, 45000, '-');
+(1, 6, 1, 45000, 45000, '-'),
+(2, 1, 2, 12000, 24000, '-'),
+(2, 8, 1, 100000, 100000, '-');
 
 -- --------------------------------------------------------
 
@@ -358,7 +361,7 @@ ALTER TABLE `data_barang_keluar`
 -- AUTO_INCREMENT for table `data_barang_masuk`
 --
 ALTER TABLE `data_barang_masuk`
-  MODIFY `id_masuk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_masuk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `data_retur_barang`
