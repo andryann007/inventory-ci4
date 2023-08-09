@@ -8,7 +8,7 @@ class ReturModel extends Model{
     protected $primaryKey = 'id_retur';
 
     public function getData(){
-        $query = $this->db->table('data_retur_barang')
+        $query = $this -> db -> table('data_retur_barang')
         -> join('data_user', 'data_user.id_user = data_retur_barang.id_user')
         -> join('data_supplier', 'data_supplier.id_supplier = data_retur_barang.id_supplier')
         -> get()->getResultArray();
@@ -17,7 +17,7 @@ class ReturModel extends Model{
     }
 
     public function getDetailData($id){
-        $query = $this->db->table('detail_retur_barang')
+        $query = $this -> db -> table('detail_retur_barang')
         -> join('data_stock', 'data_stock.id_barang = detail_retur_barang.id_barang')
         -> join('data_retur_barang', 'data_retur_barang.id_retur = detail_retur_barang.id_retur', 'inner')
         -> join('data_supplier', 'data_supplier.id_supplier = data_retur_barang.id_supplier')
@@ -28,7 +28,7 @@ class ReturModel extends Model{
     }
 
     public function getDetailTotalHarga($id){
-        $query = $this->db->table('detail_retur_barang')
+        $query = $this -> db -> table('detail_retur_barang')
         -> selectSum('total_harga_retur', 'grand_total')
         -> join('data_retur_barang', 'data_retur_barang.id_retur = detail_retur_barang.id_retur', 'inner')
         -> where('data_retur_barang.id_retur =', $id)
@@ -38,7 +38,7 @@ class ReturModel extends Model{
     }
 
     public function getReportData(){
-        $query = $this->db->table('data_retur_barang')
+        $query = $this -> db -> table('data_retur_barang')
         -> join('data_user', 'data_user.id_user = data_retur_barang.id_user')
         -> join('data_supplier', 'data_supplier.id_supplier = data_retur_barang.id_supplier')
         -> join('detail_retur_barang', 'detail_retur_barang.id_retur = data_retur_barang.id_retur')
@@ -49,7 +49,7 @@ class ReturModel extends Model{
     }
 
     public function getReturQty($idRetur){
-        $query = $this->db->table('detail_retur_barang')
+        $query = $this -> db -> table('detail_retur_barang')
         -> join('data_stock', 'data_stock.id_barang = detail_retur_barang.id_barang')
         -> select('*')
         -> where('id_retur', $idRetur)
@@ -59,7 +59,7 @@ class ReturModel extends Model{
     }
 
     public function getStockQty($idBarang){
-        $query = $this->db->table('data_stock')
+        $query = $this -> db -> table('data_stock')
         -> select('*')
         -> where('id_barang =', $idBarang)
         -> get()-> getRowArray();
@@ -68,7 +68,7 @@ class ReturModel extends Model{
     }
 
     public function saveData($data){
-        $query = $this->db->table('data_retur_barang')
+        $query = $this -> db -> table('data_retur_barang')
         -> join('data_user', 'data_user.id_user = data_retur_barang.id_user')
         -> join('data_supplier', 'data_supplier.id_supplier = data_retur_barang.id_supllier')
         -> insert($data);
@@ -77,7 +77,7 @@ class ReturModel extends Model{
     }
 
     public function saveDetailData($data){
-        $query = $this->db->table('detail_retur_barang')
+        $query = $this -> db -> table('detail_retur_barang')
         -> join('data_stock', 'data_stock.id_barang = detail_retur_barang.id_barang')
         -> join('data_retur_barang', 'data_retur_barang.id_retur = detail_retur_barang.id_retur', 'inner')
         -> insert($data);
@@ -86,7 +86,7 @@ class ReturModel extends Model{
     }
 
     public function updateData($data, $idRetur){
-        $query = $this->db->table('data_retur_barang') 
+        $query = $this -> db -> table('data_retur_barang') 
         -> join('data_user', 'data_user.id_user = data_retur_barang.id_user')
         -> update($data, array('id_retur' => $idRetur));
 
@@ -94,14 +94,14 @@ class ReturModel extends Model{
     }
 
     public function updateDetailData($data, $idRetur, $idBarang){
-        $query = $this->db->table('detail_retur_barang')
+        $query = $this -> db -> table('detail_retur_barang')
         -> update($data, array('id_retur' => $idRetur, 'id_barang' => $idBarang));
         
         return $query;
     }
 
     public function filterTanggalRetur($tglMulai, $tglSelesai){
-        $query = $this->db->table('detail_retur_barang')
+        $query = $this -> db -> table('detail_retur_barang')
         -> join('data_stock', 'data_stock.id_barang = detail_retur_barang.id_barang')
         -> join('data_retur_barang', 'data_retur_barang.id_retur = detail_retur_barang.id_retur', 'inner')
         -> join('data_supplier', 'data_supplier.id_supplier = data_retur_barang.id_supplier')
@@ -113,7 +113,7 @@ class ReturModel extends Model{
     }
 
     public function filterBarang($idBarang){
-        $query = $this->db->table('detail_retur_barang')
+        $query = $this -> db -> table('detail_retur_barang')
         -> join('data_stock', 'data_stock.id_barang = detail_retur_barang.id_barang')
         -> join('data_retur_barang', 'data_retur_barang.id_retur = detail_retur_barang.id_retur', 'inner')
         -> join('data_supplier', 'data_supplier.id_supplier = data_retur_barang.id_supplier')
@@ -125,7 +125,7 @@ class ReturModel extends Model{
     }
 
     public function filterSupplier($idSupplier){
-        $query = $this->db->table('detail_retur_barang')
+        $query = $this -> db -> table('detail_retur_barang')
         -> join('data_stock', 'data_stock.id_barang = detail_retur_barang.id_barang')
         -> join('data_retur_barang', 'data_retur_barang.id_retur = detail_retur_barang.id_retur', 'inner')
         -> join('data_supplier', 'data_supplier.id_supplier = data_retur_barang.id_supplier')
@@ -137,7 +137,7 @@ class ReturModel extends Model{
     }
 
     public function filterTanggalBarang($tglMulai, $tglSelesai, $idBarang){
-        $query = $this->db->table('detail_retur_barang')
+        $query = $this -> db -> table('detail_retur_barang')
         -> join('data_stock', 'data_stock.id_barang = detail_retur_barang.id_barang')
         -> join('data_retur_barang', 'data_retur_barang.id_retur = detail_retur_barang.id_retur', 'inner')
         -> join('data_supplier', 'data_supplier.id_supplier = data_retur_barang.id_supplier')
@@ -150,7 +150,7 @@ class ReturModel extends Model{
     }
 
     public function filterTanggalSupplier($tglMulai, $tglSelesai, $idSupplier){
-        $query = $this->db->table('detail_retur_barang')
+        $query = $this -> db -> table('detail_retur_barang')
         -> join('data_stock', 'data_stock.id_barang = detail_retur_barang.id_barang')
         -> join('data_retur_barang', 'data_retur_barang.id_retur = detail_retur_barang.id_retur', 'inner')
         -> join('data_supplier', 'data_supplier.id_supplier = data_retur_barang.id_supplier')
@@ -163,7 +163,7 @@ class ReturModel extends Model{
     }
 
     public function filterBarangSupplier($idBarang, $idSupplier){
-        $query = $this->db->table('detail_retur_barang')
+        $query = $this -> db -> table('detail_retur_barang')
         -> join('data_stock', 'data_stock.id_barang = detail_retur_barang.id_barang')
         -> join('data_retur_barang', 'data_retur_barang.id_retur = detail_retur_barang.id_retur', 'inner')
         -> join('data_supplier', 'data_supplier.id_supplier = data_retur_barang.id_supplier')
@@ -176,7 +176,7 @@ class ReturModel extends Model{
     }
 
     public function filterAll($tglMulai, $tglSelesai, $idSupplier, $idBarang){
-        $query = $this->db->table('detail_retur_barang')
+        $query = $this -> db -> table('detail_retur_barang')
         -> join('data_stock', 'data_stock.id_barang = detail_retur_barang.id_barang')
         -> join('data_retur_barang', 'data_retur_barang.id_retur = detail_retur_barang.id_retur', 'inner')
         -> join('data_supplier', 'data_supplier.id_supplier = data_retur_barang.id_supplier')
@@ -190,7 +190,7 @@ class ReturModel extends Model{
     }
 
     public function totalQTYRetur($idRetur){ 
-        $query = $this->db->table('data_retur_barang')
+        $query = $this -> db -> table('data_retur_barang')
         -> join('detail_retur_barang', 'detail_retur_barang.id_retur = data_retur_barang.id_retur')
         -> select('SUM(qty_retur) AS total_qty_retur')
         -> where('data_retur_barang.id_retur =', $idRetur)
@@ -200,11 +200,14 @@ class ReturModel extends Model{
     }
 
     public function qty_retur(){
-        return $this->db->table('data_retur_barang')->get()->getNumRows();
+        $query = $this -> db -> table('data_retur_barang')
+        -> get() -> getNumRows();
+
+        return $query;
     }
     
     public function grandTotalPerTanggal($tglMulai, $tglSelesai){
-        $query = $this->db->table('detail_retur_barang')
+        $query = $this -> db -> table('detail_retur_barang')
         -> join('data_stock', 'data_stock.id_barang = detail_retur_barang.id_barang')
         -> join('data_retur_barang', 'data_retur_barang.id_retur = detail_retur_barang.id_retur', 'inner')
         -> join('data_supplier', 'data_supplier.id_supplier = data_retur_barang.id_supplier')
@@ -216,7 +219,7 @@ class ReturModel extends Model{
     }
 
     public function grandTotalPerBarang($idBarang){
-        $query = $this->db->table('detail_retur_barang')
+        $query = $this -> db -> table('detail_retur_barang')
         -> join('data_stock', 'data_stock.id_barang = detail_retur_barang.id_barang')
         -> join('data_retur_barang', 'data_retur_barang.id_retur = detail_retur_barang.id_retur', 'inner')
         -> join('data_supplier', 'data_supplier.id_supplier = data_retur_barang.id_supplier')
@@ -228,7 +231,7 @@ class ReturModel extends Model{
     }
 
     public function grandTotalPerSupplier($idSupplier){
-        $query = $this->db->table('detail_retur_barang')
+        $query = $this -> db -> table('detail_retur_barang')
         -> join('data_stock', 'data_stock.id_barang = detail_retur_barang.id_barang')
         -> join('data_retur_barang', 'data_retur_barang.id_retur = detail_retur_barang.id_retur', 'inner')
         -> join('data_supplier', 'data_supplier.id_supplier = data_retur_barang.id_supplier')
@@ -240,7 +243,7 @@ class ReturModel extends Model{
     }
 
     public function grandTotalPerTanggalBarang($tglMulai, $tglSelesai, $idBarang){
-        $query = $this->db->table('detail_retur_barang')
+        $query = $this -> db -> table('detail_retur_barang')
         -> join('data_stock', 'data_stock.id_barang = detail_retur_barang.id_barang')
         -> join('data_retur_barang', 'data_retur_barang.id_retur = detail_retur_barang.id_retur', 'inner')
         -> join('data_supplier', 'data_supplier.id_supplier = data_retur_barang.id_supplier')
@@ -253,7 +256,7 @@ class ReturModel extends Model{
     }
     
     public function grandTotalPerTanggalSupplier($tglMulai, $tglSelesai, $idSupplier){
-        $query = $this->db->table('detail_retur_barang')
+        $query = $this -> db -> table('detail_retur_barang')
         -> join('data_stock', 'data_stock.id_barang = detail_retur_barang.id_barang')
         -> join('data_retur_barang', 'data_retur_barang.id_retur = detail_retur_barang.id_retur', 'inner')
         -> join('data_supplier', 'data_supplier.id_supplier = data_retur_barang.id_supplier')
@@ -266,7 +269,7 @@ class ReturModel extends Model{
     }
 
     public function grandTotalPerBarangSupplier($idBarang, $idSupplier){
-        $query = $this->db->table('detail_retur_barang')
+        $query = $this -> db -> table('detail_retur_barang')
         -> join('data_stock', 'data_stock.id_barang = detail_retur_barang.id_barang')
         -> join('data_retur_barang', 'data_retur_barang.id_retur = detail_retur_barang.id_retur', 'inner')
         -> join('data_supplier', 'data_supplier.id_supplier = data_retur_barang.id_supplier')
@@ -279,7 +282,7 @@ class ReturModel extends Model{
     }
 
     public function grandTotalAllFilter($tglMulai, $tglSelesai, $idSupplier, $idBarang){
-        $query = $this->db->table('detail_retur_barang')
+        $query = $this -> db -> table('detail_retur_barang')
         -> join('data_stock', 'data_stock.id_barang = detail_retur_barang.id_barang')
         -> join('data_retur_barang', 'data_retur_barang.id_retur = detail_retur_barang.id_retur', 'inner')
         -> join('data_supplier', 'data_supplier.id_supplier = data_retur_barang.id_supplier')
@@ -293,7 +296,7 @@ class ReturModel extends Model{
     }
 
     public function grandTotalAll(){
-        $query = $this->db->table('detail_retur_barang')
+        $query = $this -> db -> table('detail_retur_barang')
         -> join('data_stock', 'data_stock.id_barang = detail_retur_barang.id_barang')
         -> join('data_retur_barang', 'data_retur_barang.id_retur = detail_retur_barang.id_retur', 'inner')
         -> join('data_supplier', 'data_supplier.id_supplier = data_retur_barang.id_supplier')

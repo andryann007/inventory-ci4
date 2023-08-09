@@ -660,6 +660,7 @@
                     name="jumlahBarang"
                     id="jumlahBarang"
                     class="form-control"
+                    min="0"
                     required
                   />
                 </div>

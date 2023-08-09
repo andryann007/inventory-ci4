@@ -17,22 +17,19 @@ class Home extends BaseController
 
     public function index()
     {
-        $ModelAkun = new \App\Models\AkunModel();
         $login = $this -> request -> getPost('btnLogin');
 
         if($login){
             $username = $this -> request -> getPost('username');
             $password = $this -> request -> getPost('password');
 
-            $dataAkun = $ModelAkun -> where("username", $username) -> first();
+            $dataAkun = $this->akunModel -> where("username", $username) -> first();
 
-            if($username != $dataAkun['username']) :
-                $err = "Username Tidak Terdaftar !!!";
-            endif;
-
-            if($password != $dataAkun['password']) :
+            if(!$dataAkun) {
+                $err = "Username & Password Tidak Valid !!!";
+            } else if($password != $dataAkun['password']){
                 $err = "Password Tidak Sesuai !!!";
-            endif;
+            }
             
             if(empty($err)){
                 $dataSesi = [

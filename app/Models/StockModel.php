@@ -8,51 +8,75 @@ class StockModel extends Model{
     protected $primaryKey = 'id_barang';
 
     public function getData(){
-        return $this->db->table('data_stock')
+        $query = $this -> db -> table('data_stock')
         -> get()->getResultArray();
+
+        return $query;
     }
 
     public function saveData($data){
-        $query = $this->db->table('data_stock')->insert($data);
+        $query = $this -> db -> table('data_stock')
+        -> insert($data);
+
         return $query;
     }
 
     public function updateData($data, $id){
-        $query = $this->db->table('data_stock')->update($data, array('id_barang' => $id));
+        $query = $this -> db -> table('data_stock')
+        -> update($data, array('id_barang' => $id));
+        
         return $query;
     }
 
     public function filterCategory($kategori){
-        $query = $this->db->table('data_stock');
-        $query->select('*');
-        $query->where('kategori', $kategori);
-        return $query->get()->getResultArray();
+        $query = $this -> db -> table('data_stock')
+        -> select('*')
+        -> where('kategori', $kategori)
+        -> get()->getResultArray();
+
+        return $query;
     }
 
     public function filterStatus($status){
-        $query = $this->db->table('data_stock');
-        $query->select('*');
-        $query->where('status', $status);
-        return $query->get()->getResultArray();
+        $query = $this -> db -> table('data_stock')
+        -> select('*')
+        -> where('status', $status)
+        -> get() -> getResultArray();
+
+        return $query;
     }
 
     public function filterCategoryStatus($kategori, $status){
-        $query = $this->db->table('data_stock');
-        $query->select('*');
-        $query->where('kategori', $kategori);
-        $query->where('status', $status);
-        return $query->get()->getResultArray();
+        $query = $this -> db -> table('data_stock')
+        -> select('*')
+        -> where('kategori', $kategori)
+        -> where('status', $status)
+        -> get() -> getResultArray();
+
+        return $query;
     }
 
     public function qty_stock(){
-        return $this->db->table('data_stock')->get()->getNumRows();
+        $query = $this -> db -> table('data_stock')
+        -> get() -> getNumRows();
+
+        return $query;
     }
 
     public function stock_habis(){
-        return $this->db->table('data_stock')->where('`qty_stock` < 1')->get()->getResultArray();
+        $query = $this -> db -> table('data_stock')
+        -> where('qty_stock =', 0)
+        -> get() -> getResultArray();
+
+        return $query;
     }
     
     public function stock_sedikit(){
-        return $this->db->table('data_stock')->where('`qty_stock` < 10 & `qty_stock` > 1')->get()->getResultArray();
+        $query = $this -> db -> table('data_stock')
+        -> where('qty_stock <', 10)
+        -> where('qty_stock >', 0)
+        -> get() -> getResultArray();
+
+        return $query;
     }
 }

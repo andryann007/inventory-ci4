@@ -8,7 +8,7 @@ class MasukModel extends Model{
     protected $primaryKey = 'id_masuk';
 
     public function getData(){
-        $query = $this->db->table('data_barang_masuk')
+        $query = $this -> db -> table('data_barang_masuk')
         -> join('data_user', 'data_user.id_user = data_barang_masuk.id_user')
         -> join('data_supplier', 'data_supplier.id_supplier = data_barang_masuk.id_supplier')
         -> get()->getResultArray();
@@ -17,7 +17,7 @@ class MasukModel extends Model{
     }
 
     public function getDetailData($id){
-        $query = $this->db->table('detail_barang_masuk')
+        $query = $this -> db -> table('detail_barang_masuk')
         -> join('data_stock', 'data_stock.id_barang = detail_barang_masuk.id_barang')
         -> join('data_barang_masuk', 'data_barang_masuk.id_masuk = detail_barang_masuk.id_masuk', 'inner')
         -> join('data_supplier', 'data_supplier.id_supplier = data_barang_masuk.id_supplier')
@@ -28,7 +28,7 @@ class MasukModel extends Model{
     }
 
     public function getDetailTotalHarga($id){
-        $query = $this->db->table('detail_barang_masuk')
+        $query = $this -> db -> table('detail_barang_masuk')
         -> selectSum('total_harga_masuk', 'grand_total')
         -> join('data_barang_masuk', 'data_barang_masuk.id_masuk = detail_barang_masuk.id_masuk', 'inner')
         -> where('data_barang_masuk.id_masuk =', $id)
@@ -38,7 +38,7 @@ class MasukModel extends Model{
     }
 
     public function getReportData(){
-        $query = $this->db->table('data_barang_masuk')
+        $query = $this -> db -> table('data_barang_masuk')
         -> join('data_user', 'data_user.id_user = data_barang_masuk.id_user')
         -> join('data_supplier', 'data_supplier.id_supplier = data_barang_masuk.id_supplier')
         -> join('detail_barang_masuk', 'detail_barang_masuk.id_masuk = data_barang_masuk.id_masuk')
@@ -49,7 +49,7 @@ class MasukModel extends Model{
     }
 
     public function getMasukQty($idMasuk){
-        $query = $this->db->table('detail_barang_masuk')
+        $query = $this -> db -> table('detail_barang_masuk')
         -> join('data_stock', 'data_stock.id_barang = detail_barang_masuk.id_barang')
         -> select('*')
         -> where('id_masuk', $idMasuk)
@@ -59,7 +59,7 @@ class MasukModel extends Model{
     }
 
     public function getStockQty($idBarang){
-        $query = $this->db->table('data_stock')
+        $query = $this -> db -> table('data_stock')
         -> select('*')
         -> where('id_barang =', $idBarang)
         -> get()-> getRowArray();
@@ -68,7 +68,7 @@ class MasukModel extends Model{
     }
 
     public function saveData($data){
-        $query = $this->db->table('data_barang_masuk')
+        $query = $this -> db -> table('data_barang_masuk')
         -> join('data_user', 'data_user.id_user = data_barang_masuk.id_user')
         -> join('data_supplier', 'data_supplier.id_supplier = data_barang_masuk.id_supllier')
         -> insert($data);
@@ -77,7 +77,7 @@ class MasukModel extends Model{
     }
 
     public function saveDetailData($data){
-        $query = $this->db->table('detail_barang_masuk')
+        $query = $this -> db -> table('detail_barang_masuk')
         -> join('data_stock', 'data_stock.id_barang = detail_barang_masuk.id_barang')
         -> join('data_barang_masuk', 'data_barang_masuk.id_masuk = detail_barang_masuk.id_masuk', 'inner')
         -> insert($data);
@@ -86,7 +86,7 @@ class MasukModel extends Model{
     }
 
     public function updateData($data, $idMasuk){
-        $query = $this->db->table('data_barang_masuk') 
+        $query = $this -> db -> table('data_barang_masuk') 
         -> join('data_user', 'data_user.id_user = data_barang_masuk.id_user')
         -> update($data, array('id_masuk' => $idMasuk));
 
@@ -94,14 +94,14 @@ class MasukModel extends Model{
     }
 
     public function updateDetailData($data, $idMasuk, $idBarang){
-        $query = $this->db->table('detail_barang_masuk')
+        $query = $this -> db -> table('detail_barang_masuk')
         -> update($data, array('id_masuk' => $idMasuk, 'id_barang' => $idBarang));
         
         return $query;
     }
 
     public function filterTanggalMasuk($tglMulai, $tglSelesai){
-        $query = $this->db->table('detail_barang_masuk')
+        $query = $this -> db -> table('detail_barang_masuk')
         -> join('data_stock', 'data_stock.id_barang = detail_barang_masuk.id_barang')
         -> join('data_barang_masuk', 'data_barang_masuk.id_masuk = detail_barang_masuk.id_masuk', 'inner')
         -> join('data_supplier', 'data_supplier.id_supplier = data_barang_masuk.id_supplier')
@@ -113,7 +113,7 @@ class MasukModel extends Model{
     }
 
     public function filterBarang($idBarang){
-        $query = $this->db->table('detail_barang_masuk')
+        $query = $this -> db -> table('detail_barang_masuk')
         -> join('data_stock', 'data_stock.id_barang = detail_barang_masuk.id_barang')
         -> join('data_barang_masuk', 'data_barang_masuk.id_masuk = detail_barang_masuk.id_masuk', 'inner')
         -> join('data_supplier', 'data_supplier.id_supplier = data_barang_masuk.id_supplier')
@@ -125,7 +125,7 @@ class MasukModel extends Model{
     }
 
     public function filterSupplier($idSupplier){
-        $query = $this->db->table('detail_barang_masuk')
+        $query = $this -> db -> table('detail_barang_masuk')
         -> join('data_stock', 'data_stock.id_barang = detail_barang_masuk.id_barang')
         -> join('data_barang_masuk', 'data_barang_masuk.id_masuk = detail_barang_masuk.id_masuk', 'inner')
         -> join('data_supplier', 'data_supplier.id_supplier = data_barang_masuk.id_supplier')
@@ -137,7 +137,7 @@ class MasukModel extends Model{
     }
 
     public function filterTanggalBarang($tglMulai, $tglSelesai, $idBarang){
-        $query = $this->db->table('detail_barang_masuk')
+        $query = $this -> db -> table('detail_barang_masuk')
         -> join('data_stock', 'data_stock.id_barang = detail_barang_masuk.id_barang')
         -> join('data_barang_masuk', 'data_barang_masuk.id_masuk = detail_barang_masuk.id_masuk', 'inner')
         -> join('data_supplier', 'data_supplier.id_supplier = data_barang_masuk.id_supplier')
@@ -150,7 +150,7 @@ class MasukModel extends Model{
     }
 
     public function filterTanggalSupplier($tglMulai, $tglSelesai, $idSupplier){
-        $query = $this->db->table('detail_barang_masuk')
+        $query = $this -> db -> table('detail_barang_masuk')
         -> join('data_stock', 'data_stock.id_barang = detail_barang_masuk.id_barang')
         -> join('data_barang_masuk', 'data_barang_masuk.id_masuk = detail_barang_masuk.id_masuk', 'inner')
         -> join('data_supplier', 'data_supplier.id_supplier = data_barang_masuk.id_supplier')
@@ -163,7 +163,7 @@ class MasukModel extends Model{
     }
 
     public function filterBarangSupplier($idBarang, $idSupplier){
-        $query = $this->db->table('detail_barang_masuk')
+        $query = $this -> db -> table('detail_barang_masuk')
         -> join('data_stock', 'data_stock.id_barang = detail_barang_masuk.id_barang')
         -> join('data_barang_masuk', 'data_barang_masuk.id_masuk = detail_barang_masuk.id_masuk', 'inner')
         -> join('data_supplier', 'data_supplier.id_supplier = data_barang_masuk.id_supplier')
@@ -176,7 +176,7 @@ class MasukModel extends Model{
     }
 
     public function filterAll($tglMulai, $tglSelesai, $idSupplier, $idBarang){
-        $query = $this->db->table('detail_barang_masuk')
+        $query = $this -> db -> table('detail_barang_masuk')
         -> join('data_stock', 'data_stock.id_barang = detail_barang_masuk.id_barang')
         -> join('data_barang_masuk', 'data_barang_masuk.id_masuk = detail_barang_masuk.id_masuk', 'inner')
         -> join('data_supplier', 'data_supplier.id_supplier = data_barang_masuk.id_supplier')
@@ -190,7 +190,7 @@ class MasukModel extends Model{
     }
 
     public function totalQTYMasuk($idMasuk){ 
-        $query = $this->db->table('data_barang_masuk')
+        $query = $this -> db -> table('data_barang_masuk')
         -> join('detail_barang_masuk', 'detail_barang_masuk.id_masuk = data_barang_masuk.id_masuk')
         -> select('SUM(qty_masuk) AS total_qty_masuk')
         -> where('data_barang_masuk.id_masuk =', $idMasuk)
@@ -200,14 +200,14 @@ class MasukModel extends Model{
     }
 
     public function qty_masuk(){
-        $query = $this->db->table('data_barang_masuk')
+        $query = $this -> db -> table('data_barang_masuk')
         -> get()->getNumRows();
 
         return $query;
     }
 
     public function grandTotalPerTanggal($tglMulai, $tglSelesai){
-        $query = $this->db->table('detail_barang_masuk')
+        $query = $this -> db -> table('detail_barang_masuk')
         -> join('data_stock', 'data_stock.id_barang = detail_barang_masuk.id_barang')
         -> join('data_barang_masuk', 'data_barang_masuk.id_masuk = detail_barang_masuk.id_masuk', 'inner')
         -> join('data_supplier', 'data_supplier.id_supplier = data_barang_masuk.id_supplier')
@@ -219,7 +219,7 @@ class MasukModel extends Model{
     }
 
     public function grandTotalPerBarang($idBarang){
-        $query = $this->db->table('detail_barang_masuk')
+        $query = $this -> db -> table('detail_barang_masuk')
         -> join('data_stock', 'data_stock.id_barang = detail_barang_masuk.id_barang')
         -> join('data_barang_masuk', 'data_barang_masuk.id_masuk = detail_barang_masuk.id_masuk', 'inner')
         -> join('data_supplier', 'data_supplier.id_supplier = data_barang_masuk.id_supplier')
@@ -231,7 +231,7 @@ class MasukModel extends Model{
     }
 
     public function grandTotalPerSupplier($idSupplier){
-        $query = $this->db->table('detail_barang_masuk')
+        $query = $this -> db -> table('detail_barang_masuk')
         -> join('data_stock', 'data_stock.id_barang = detail_barang_masuk.id_barang')
         -> join('data_barang_masuk', 'data_barang_masuk.id_masuk = detail_barang_masuk.id_masuk', 'inner')
         -> join('data_supplier', 'data_supplier.id_supplier = data_barang_masuk.id_supplier')
@@ -243,7 +243,7 @@ class MasukModel extends Model{
     }
 
     public function grandTotalPerTanggalBarang($tglMulai, $tglSelesai, $idBarang){
-        $query = $this->db->table('detail_barang_masuk')
+        $query = $this -> db -> table('detail_barang_masuk')
         -> join('data_stock', 'data_stock.id_barang = detail_barang_masuk.id_barang')
         -> join('data_barang_masuk', 'data_barang_masuk.id_masuk = detail_barang_masuk.id_masuk', 'inner')
         -> join('data_supplier', 'data_supplier.id_supplier = data_barang_masuk.id_supplier')
@@ -256,7 +256,7 @@ class MasukModel extends Model{
     }
     
     public function grandTotalPerTanggalSupplier($tglMulai, $tglSelesai, $idSupplier){
-        $query = $this->db->table('detail_barang_masuk')
+        $query = $this -> db -> table('detail_barang_masuk')
         -> join('data_stock', 'data_stock.id_barang = detail_barang_masuk.id_barang')
         -> join('data_barang_masuk', 'data_barang_masuk.id_masuk = detail_barang_masuk.id_masuk', 'inner')
         -> join('data_supplier', 'data_supplier.id_supplier = data_barang_masuk.id_supplier')
@@ -269,7 +269,7 @@ class MasukModel extends Model{
     }
 
     public function grandTotalPerBarangSupplier($idBarang, $idSupplier){
-        $query = $this->db->table('detail_barang_masuk')
+        $query = $this -> db -> table('detail_barang_masuk')
         -> join('data_stock', 'data_stock.id_barang = detail_barang_masuk.id_barang')
         -> join('data_barang_masuk', 'data_barang_masuk.id_masuk = detail_barang_masuk.id_masuk', 'inner')
         -> join('data_supplier', 'data_supplier.id_supplier = data_barang_masuk.id_supplier')
@@ -282,7 +282,7 @@ class MasukModel extends Model{
     }
 
     public function grandTotalAllFilter($tglMulai, $tglSelesai, $idSupplier, $idBarang){
-        $query = $this->db->table('detail_barang_masuk')
+        $query = $this -> db -> table('detail_barang_masuk')
         -> join('data_stock', 'data_stock.id_barang = detail_barang_masuk.id_barang')
         -> join('data_barang_masuk', 'data_barang_masuk.id_masuk = detail_barang_masuk.id_masuk', 'inner')
         -> join('data_supplier', 'data_supplier.id_supplier = data_barang_masuk.id_supplier')
@@ -296,7 +296,7 @@ class MasukModel extends Model{
     }
 
     public function grandTotalAll(){
-        $query = $this->db->table('detail_barang_masuk')
+        $query = $this -> db -> table('detail_barang_masuk')
         -> join('data_stock', 'data_stock.id_barang = detail_barang_masuk.id_barang')
         -> join('data_barang_masuk', 'data_barang_masuk.id_masuk = detail_barang_masuk.id_masuk', 'inner')
         -> join('data_supplier', 'data_supplier.id_supplier = data_barang_masuk.id_supplier')

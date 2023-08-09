@@ -8,7 +8,7 @@ class KeluarModel extends Model{
     protected $primaryKey = 'id_keluar';
 
     public function getData(){
-        $query = $this->db->table('data_barang_keluar')
+        $query = $this -> db -> table('data_barang_keluar')
         -> join('data_user', 'data_user.id_user = data_barang_keluar.id_user', 'inner')
         -> get()->getResultArray();
 
@@ -16,7 +16,7 @@ class KeluarModel extends Model{
     }
 
     public function getDetailData($id){
-        $query = $this->db->table('detail_barang_keluar')
+        $query = $this -> db -> table('detail_barang_keluar')
         -> join('data_stock', 'data_stock.id_barang = detail_barang_keluar.id_barang')
         -> join('data_barang_keluar', 'data_barang_keluar.id_keluar = detail_barang_keluar.id_keluar', 'inner')
         -> where('data_barang_keluar.id_keluar =', $id)
@@ -26,7 +26,7 @@ class KeluarModel extends Model{
     }
 
     public function getDetailTotalHarga($id){
-        $query = $this->db->table('detail_barang_keluar')
+        $query = $this -> db -> table('detail_barang_keluar')
         -> selectSum('total_harga_keluar', 'grand_total')
         -> join('data_barang_keluar', 'data_barang_keluar.id_keluar = detail_barang_keluar.id_keluar', 'inner')
         -> where('data_barang_keluar.id_keluar =', $id)
@@ -36,7 +36,7 @@ class KeluarModel extends Model{
     }
 
     public function getReportData(){
-        $query = $this->db->table('data_barang_keluar')
+        $query = $this -> db -> table('data_barang_keluar')
         -> join('data_user', 'data_user.id_user = data_barang_keluar.id_user', 'inner')
         -> join('detail_barang_keluar', 'detail_barang_keluar.id_keluar = data_barang_keluar.id_keluar')
         -> join('data_stock', 'data_stock.id_barang = detail_barang_keluar.id_barang')
@@ -46,7 +46,7 @@ class KeluarModel extends Model{
     }
 
     public function getKeluarQty($idKeluar){
-        $query = $this->db->table('data_barang_keluar')
+        $query = $this -> db -> table('data_barang_keluar')
         -> join('detail_barang_keluar', 'data_barang_keluar.id_keluar = detail_barang_keluar.id_keluar')
         -> selectSum('qty_keluar', 'total_qty_keluar')
         -> where('id_keluar', $idKeluar)
@@ -56,7 +56,7 @@ class KeluarModel extends Model{
     }
 
     public function getStockQty($idBarang){
-        $query = $this->db->table('data_stock')
+        $query = $this -> db -> table('data_stock')
         -> select('*')
         -> where('id_barang =', $idBarang)
         -> get()-> getRowArray();
@@ -65,7 +65,7 @@ class KeluarModel extends Model{
     }
 
     public function saveData($data){
-        $query = $this->db->table('data_barang_keluar')
+        $query = $this -> db -> table('data_barang_keluar')
         -> join('data_user', 'data_user.id_user = data_barang_keluar.id_user')
         -> insert($data);
 
@@ -73,7 +73,7 @@ class KeluarModel extends Model{
     }
 
     public function saveDetailData($data){
-        $query = $this->db->table('detail_barang_keluar')
+        $query = $this -> db -> table('detail_barang_keluar')
         -> join('data_stock', 'data_stock.id_barang = detail_barang_keluar.id_barang')
         -> join('data_barang_keluar', 'data_barang_keluar.id_keluar = detail_barang_keluar.id_keluar', 'inner')
         -> insert($data);
@@ -82,7 +82,7 @@ class KeluarModel extends Model{
     }
 
     public function updateData($data, $id){
-        $query = $this->db->table('data_barang_keluar') 
+        $query = $this -> db -> table('data_barang_keluar') 
         -> join('data_user', 'data_user.id_user = data_barang_keluar.id_user')
         -> update($data, array('id_keluar' => $id));
 
@@ -90,14 +90,14 @@ class KeluarModel extends Model{
     }
 
     public function updateDetailData($data, $idKeluar, $idBarang){
-        $query = $this->db->table('detail_barang_keluar')
+        $query = $this -> db -> table('detail_barang_keluar')
         -> update($data, array('id_keluar' => $idKeluar, 'id_barang' => $idBarang));
 
         return $query;
     }
 
     public function filterTanggalKeluar($tglMulai, $tglSelesai){
-        $query = $this->db->table('detail_barang_keluar')
+        $query = $this -> db -> table('detail_barang_keluar')
         -> join('data_stock', 'data_stock.id_barang = detail_barang_keluar.id_barang')
         -> join('data_barang_keluar', 'data_barang_keluar.id_keluar = detail_barang_keluar.id_keluar', 'inner')
         -> select('*')
@@ -108,7 +108,7 @@ class KeluarModel extends Model{
     }
 
     public function filterBarang($idBarang){
-        $query = $this->db->table('detail_barang_keluar')
+        $query = $this -> db -> table('detail_barang_keluar')
         -> join('data_stock', 'data_stock.id_barang = detail_barang_keluar.id_barang')
         -> join('data_barang_keluar', 'data_barang_keluar.id_keluar = detail_barang_keluar.id_keluar', 'inner')
         -> select('*')
@@ -119,7 +119,7 @@ class KeluarModel extends Model{
     }
 
     public function filterAll($tglMulai, $tglSelesai, $idBarang){
-        $query = $this->db->table('detail_barang_keluar')
+        $query = $this -> db -> table('detail_barang_keluar')
         -> join('data_stock', 'data_stock.id_barang = detail_barang_keluar.id_barang')
         -> join('data_barang_keluar', 'data_barang_keluar.id_keluar = detail_barang_keluar.id_keluar', 'inner')
         -> select('*')
@@ -131,7 +131,7 @@ class KeluarModel extends Model{
     }
 
     public function totalQTYKeluar($idKeluar){ 
-        $query = $this->db->table('data_barang_keluar')
+        $query = $this -> db -> table('data_barang_keluar')
         -> join('detail_barang_keluar', 'detail_barang_keluar.id_keluar = data_barang_keluar.id_keluar')
         -> select('SUM(qty_keluar) AS total_qty_keluar')
         -> where('data_barang_keluar.id_keluar =', $idKeluar)
@@ -141,11 +141,14 @@ class KeluarModel extends Model{
     }
 
     public function qty_keluar(){
-        return $this->db->table('data_barang_keluar')->get()->getNumRows();
+        $query = $this -> db -> table('data_barang_keluar')
+        -> get() -> getNumRows();
+
+        return $query;
     }
 
     public function grandTotalPerTanggal($tglMulai, $tglSelesai){
-        $query = $this->db->table('detail_barang_keluar')
+        $query = $this -> db -> table('detail_barang_keluar')
         -> join('data_stock', 'data_stock.id_barang = detail_barang_keluar.id_barang')
         -> join('data_barang_keluar', 'data_barang_keluar.id_keluar = detail_barang_keluar.id_keluar', 'inner')
         -> selectSum('total_harga_keluar', 'grand_total')
@@ -156,7 +159,7 @@ class KeluarModel extends Model{
     }
 
     public function grandTotalPerBarang($idBarang){
-        $query = $this->db->table('detail_barang_keluar')
+        $query = $this -> db -> table('detail_barang_keluar')
         -> join('data_stock', 'data_stock.id_barang = detail_barang_keluar.id_barang')
         -> join('data_barang_keluar', 'data_barang_keluar.id_keluar = detail_barang_keluar.id_keluar', 'inner')
         -> selectSum('total_harga_keluar', 'grand_total')
@@ -167,7 +170,7 @@ class KeluarModel extends Model{
     }
 
     public function grandTotalAllFilter($tglMulai, $tglSelesai, $idBarang){
-        $query = $this->db->table('detail_barang_masuk')
+        $query = $this -> db -> table('detail_barang_masuk')
         -> join('data_stock', 'data_stock.id_barang = detail_barang_masuk.id_barang')
         -> join('data_barang_masuk', 'data_barang_masuk.id_masuk = detail_barang_masuk.id_masuk', 'inner')
         -> selectSum('total_harga_masuk', 'grand_total')
@@ -179,7 +182,7 @@ class KeluarModel extends Model{
     }
 
     public function grandTotalAll(){
-        $query = $this->db->table('detail_barang_masuk')
+        $query = $this -> db -> table('detail_barang_masuk')
         -> join('data_stock', 'data_stock.id_barang = detail_barang_masuk.id_barang')
         -> join('data_barang_masuk', 'data_barang_masuk.id_masuk = detail_barang_masuk.id_masuk', 'inner')
         -> selectSum('total_harga_masuk', 'grand_total')

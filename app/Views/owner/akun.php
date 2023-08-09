@@ -637,7 +637,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="editModalLabel">Edit Data Akun</h5>
+          <h5 class="modal-title" id="editModalLabel">Edit Password User</h5>
           <button
             type="button"
             class="close"
@@ -667,7 +667,7 @@
                     name="namaUser"
                     id="namaUser"
                     class="form-control"
-                    required
+                    readonly
                   />
                 </div>
 
@@ -678,7 +678,7 @@
                     name="username"
                     id="username"
                     class="form-control"
-                    required
+                    readonly
                   />
                 </div>
               </div>
@@ -691,7 +691,7 @@
                     name="emailUser"
                     id="emailUser"
                     class="form-control"
-                    required
+                    readonly
                   />
                 </div>
 
@@ -718,10 +718,11 @@
                 <div class="form-group">
                   <label for="telp">No. Telp</label>
                   <input
-                    type="textarea"
+                    type="text"
                     name="telpUser"
                     id="telpUser"
                     class="form-control"
+                    readonly
                   />
                 </div>
               </div>
@@ -729,16 +730,13 @@
               <div class="col-md-6">
                 <div class="form-group">
                   <label for="tipeAkun">Tipe Akun</label>
-                  <select
-                    class="form-control"
+                  <input
+                    type="text"
                     name="tipeAkunUser"
                     id="tipeAkunUser"
-                    required
-                  >
-                    <option value="owner">Owner</option>
-                    <option value="admin">Admin</option>
-                    <option value="user">User</option>
-                  </select>
+                    class="form-control"
+                    readonly
+                  />
                 </div>
               </div>
             </div>
@@ -750,6 +748,7 @@
                 name="alamatUser"
                 id="alamatUser"
                 class="form-control"
+                readonly
               />
             </div>
             

@@ -8,21 +8,30 @@ class SupplierModel extends Model{
     protected $primaryKey = 'id_supplier';
 
     public function getData(){
-        return $this->db->table('data_supplier')
-        -> get()->getResultArray();
+        $query = $this -> db -> table('data_supplier')
+        -> get() -> getResultArray();
+
+        return $query;
     }
 
     public function saveData($data){
-        $query = $this->db->table('data_supplier')->insert($data);
+        $query = $this -> db -> table('data_supplier')
+        -> insert($data);
+
         return $query;
     }
 
     public function updateData($data, $id){
-        $query = $this->db->table('data_supplier')->update($data, array('id_supplier' => $id));
+        $query = $this -> db -> table('data_supplier')
+        -> update($data, array('id_supplier' => $id));
+
         return $query;
     }
 
     public function qty_supplier(){
-        return $this->db->table('data_supplier')->get()->getNumRows();
+        $query = $this -> db -> table('data_supplier')
+        -> get() -> getNumRows();
+
+        return $query;
     }
 }
