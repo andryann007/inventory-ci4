@@ -188,7 +188,7 @@
             <div
               class="d-sm-flex align-items-center justify-content-between mb-4"
             >
-              <h2 class="h3 mb-0 text-gray-800 col-md-7">Data Barang Masuk</h2>
+              <h2 class="h3 mb-0 text-gray-800 col-md-7">Data Retur Barang</h2>
 
               <button
                 type="button"
