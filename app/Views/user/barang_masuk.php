@@ -497,7 +497,7 @@
 
               <div class="col-md-6">
                 <div class="form-group">
-                  <label for="idSupplier">Nama Petugas</label>
+                  <label for="idSupplier">Nama Supplier</label>
                   <select
                     class="form-control"
                     name="idSupplier"
