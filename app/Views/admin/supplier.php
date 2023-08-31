@@ -78,45 +78,47 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form action='/admin/save_supplier' method="post">
-        <div class="modal-body">
-          <input type="hidden" name="idSupplier" id="idSupplier" class="form-control" required />
 
-          <div class="form-group">
-            <label for="namaSupplier">Nama Supplier</label>
-            <input type="text" name="namaSupplier" id="namaSupplier" class="form-control" required />
-          </div>
+      <?= form_open('/admin/save_supplier'); ?>
+      <?= csrf_field(); ?>
+      <div class="modal-body">
+        <input type="hidden" name="idSupplier" id="idSupplier" class="form-control" required />
 
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="telpSupplier">No. Telp Supplier</label>
-                <input type="telp" name="telpSupplier" id="telpSupplier" class="form-control" required />
-              </div>
-            </div>
+        <div class="form-group">
+          <label for="namaSupplier">Nama Supplier</label>
+          <input type="text" name="namaSupplier" id="namaSupplier" class="form-control" required />
+        </div>
 
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="emailSupplier">Email Supplier</label>
-                <input type="email" name="emailSupplier" id="emailSupplier" class="form-control" />
-              </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="telpSupplier">No. Telp Supplier</label>
+              <input type="telp" name="telpSupplier" id="telpSupplier" class="form-control" required />
             </div>
           </div>
 
-          <div class="form-group">
-            <label for="alamatSupplier">Alamat Supplier</label>
-            <input type="text" name="alamatSupplier" id="alamatSupplier" class="form-control" required />
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="emailSupplier">Email Supplier</label>
+              <input type="email" name="emailSupplier" id="emailSupplier" class="form-control" />
+            </div>
           </div>
         </div>
-        <div class="d-sm-flex modal-footer mb-4">
-          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
-            <i class="fas fa-trash"></i> Batal
-          </button>
-          <button type="submit" class="btn btn-primary" name="addNewSupplier">
-            <i class="fas fa-plus"></i> Tambah
-          </button>
+
+        <div class="form-group">
+          <label for="alamatSupplier">Alamat Supplier</label>
+          <input type="text" name="alamatSupplier" id="alamatSupplier" class="form-control" required />
         </div>
-      </form>
+      </div>
+      <div class="d-sm-flex modal-footer mb-4">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+          <i class="fas fa-trash"></i> Batal
+        </button>
+        <button type="submit" class="btn btn-primary" name="addNewSupplier">
+          <i class="fas fa-plus"></i> Tambah
+        </button>
+      </div>
+      <?= form_close(); ?>
     </div>
   </div>
 </div>
@@ -132,45 +134,46 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form action='/admin/update_supplier' method="post">
-        <div class="modal-body">
-          <input type="hidden" name="idSupplier" id="idSupplier" class="form-control" required />
+      <?= form_open('/admin/update_supplier'); ?>
+      <?= csrf_field(); ?>
+      <div class="modal-body">
+        <input type="hidden" name="idSupplier" id="idSupplier" class="form-control" required />
 
-          <div class="form-group">
-            <label for="namaSupplier">Nama Supplier</label>
-            <input type="text" name="namaSupplier" id="namaSupplier" class="form-control" required />
-          </div>
+        <div class="form-group">
+          <label for="namaSupplier">Nama Supplier</label>
+          <input type="text" name="namaSupplier" id="namaSupplier" class="form-control" required />
+        </div>
 
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="telpSupplier">No. Telp Supplier</label>
-                <input type="telp" name="telpSupplier" id="telpSupplier" class="form-control" required />
-              </div>
-            </div>
-
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="emailSupplier">Email Supplier</label>
-                <input type="email" name="emailSupplier" id="emailSupplier" class="form-control" />
-              </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="telpSupplier">No. Telp Supplier</label>
+              <input type="telp" name="telpSupplier" id="telpSupplier" class="form-control" required />
             </div>
           </div>
 
-          <div class="form-group">
-            <label for="alamatSupplier">Alamat Supplier</label>
-            <input type="text" name="alamatSupplier" id="alamatSupplier" class="form-control" required />
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="emailSupplier">Email Supplier</label>
+              <input type="email" name="emailSupplier" id="emailSupplier" class="form-control" />
+            </div>
           </div>
         </div>
-        <div class="d-sm-flex modal-footer mb-4">
-          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
-            <i class="fas fa-trash"></i> Batal
-          </button>
-          <button type="submit" class="btn btn-warning" name="addNewSupplier">
-            <i class="fas fa-edit"></i> Edit
-          </button>
+
+        <div class="form-group">
+          <label for="alamatSupplier">Alamat Supplier</label>
+          <input type="text" name="alamatSupplier" id="alamatSupplier" class="form-control" required />
         </div>
-      </form>
+      </div>
+      <div class="d-sm-flex modal-footer mb-4">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+          <i class="fas fa-trash"></i> Batal
+        </button>
+        <button type="submit" class="btn btn-warning" name="addNewSupplier">
+          <i class="fas fa-edit"></i> Edit
+        </button>
+      </div>
+      <?= form_close(); ?>
     </div>
   </div>
 </div>

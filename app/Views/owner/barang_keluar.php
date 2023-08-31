@@ -96,47 +96,48 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form action="/owner/save_keluar" method="post">
-        <div class="modal-body">
-          <input type="hidden" name="idKeluar" id="idKeluar" class="form-control" required />
+      <?= form_open('/owner/save_keluar'); ?>
+      <?= csrf_field(); ?>
+      <div class="modal-body">
+        <input type="hidden" name="idKeluar" id="idKeluar" class="form-control" required />
 
-          <div class="form-group">
-            <label for="noFaktur">No Faktur</label>
-            <input type="text" name="noFaktur" id="noFaktur" placeholder="No Faktur Barang Keluar" class="form-control" required maxlength="16" />
+        <div class="form-group">
+          <label for="noFaktur">No Faktur</label>
+          <input type="text" name="noFaktur" id="noFaktur" placeholder="No Faktur Barang Keluar" class="form-control" required maxlength="16" />
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="tanggalOutcoming">Tanggal Keluar</label>
+              <input type="date" name="tglOutcoming" id="tglOutcoming" class="form-control" required />
+            </div>
           </div>
 
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="tanggalOutcoming">Tanggal Keluar</label>
-                <input type="date" name="tglOutcoming" id="tglOutcoming" class="form-control" required />
-              </div>
-            </div>
-
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="idUser">Nama Petugas</label>
-                <select class="form-control" name="idUser" id="idUser" required>
-                  <?php foreach ($user as $usr) : ?>
-                    <option value="<?= $usr['id_user']; ?>">
-                      <?= ucwords($usr['nama_lengkap']); ?>
-                    </option>
-                  <?php endforeach; ?>
-                </select>
-              </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="idUser">Nama Petugas</label>
+              <select class="form-control" name="idUser" id="idUser" required>
+                <?php foreach ($user as $usr) : ?>
+                  <option value="<?= $usr['id_user']; ?>">
+                    <?= ucwords($usr['nama_lengkap']); ?>
+                  </option>
+                <?php endforeach; ?>
+              </select>
             </div>
           </div>
         </div>
+      </div>
 
-        <div class="d-sm-flex modal-footer mb-4">
-          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
-            <i class="fas fa-trash"></i> Batal
-          </button>
-          <button type="submit" class="btn btn-success" name="addOutcomingGoods">
-            <i class="fas fa-plus"></i> Tambah
-          </button>
-        </div>
-      </form>
+      <div class="d-sm-flex modal-footer mb-4">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+          <i class="fas fa-trash"></i> Batal
+        </button>
+        <button type="submit" class="btn btn-success" name="addOutcomingGoods">
+          <i class="fas fa-plus"></i> Tambah
+        </button>
+      </div>
+      <?= form_close(); ?>
     </div>
   </div>
 </div>
@@ -153,47 +154,48 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form action="/owner/update_keluar" method="post">
-        <div class="modal-body">
-          <input type="hidden" name="idKeluar" id="idKeluar" class="form-control" required />
+      <?= form_open('/owner/update_keluar'); ?>
+      <?= csrf_field(); ?>
+      <div class="modal-body">
+        <input type="hidden" name="idKeluar" id="idKeluar" class="form-control" required />
 
-          <div class="form-group">
-            <label for="noFaktur">No Faktur</label>
-            <input type="text" name="noFaktur" id="noFaktur" placeholder="No Faktur Barang Keluar" class="form-control" required maxlength="16" />
+        <div class="form-group">
+          <label for="noFaktur">No Faktur</label>
+          <input type="text" name="noFaktur" id="noFaktur" placeholder="No Faktur Barang Keluar" class="form-control" required maxlength="16" />
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="tglOutcoming">Tanggal Keluar</label>
+              <input type="date" name="tglOutcoming" id="tglOutcoming" class="form-control" required />
+            </div>
           </div>
 
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="tglOutcoming">Tanggal Keluar</label>
-                <input type="date" name="tglOutcoming" id="tglOutcoming" class="form-control" required />
-              </div>
-            </div>
-
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="idUser">Nama Petugas</label>
-                <select class="form-control" name="idUser" id="idUser" required>
-                  <?php foreach ($user as $usr) : ?>
-                    <option value="<?= $usr['id_user']; ?>">
-                      <?= ucwords($usr['nama_lengkap']); ?>
-                    </option>
-                  <?php endforeach; ?>
-                </select>
-              </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="idUser">Nama Petugas</label>
+              <select class="form-control" name="idUser" id="idUser" required>
+                <?php foreach ($user as $usr) : ?>
+                  <option value="<?= $usr['id_user']; ?>">
+                    <?= ucwords($usr['nama_lengkap']); ?>
+                  </option>
+                <?php endforeach; ?>
+              </select>
             </div>
           </div>
         </div>
+      </div>
 
-        <div class="d-sm-flex modal-footer mb-4">
-          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
-            <i class="fas fa-trash"></i> Batal
-          </button>
-          <button type="submit" class="btn btn-warning" name="editOutcomingGoods">
-            <i class="fas fa-edit"></i> Edit
-          </button>
-        </div>
-      </form>
+      <div class="d-sm-flex modal-footer mb-4">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+          <i class="fas fa-trash"></i> Batal
+        </button>
+        <button type="submit" class="btn btn-warning" name="editOutcomingGoods">
+          <i class="fas fa-edit"></i> Edit
+        </button>
+      </div>
+      <?= form_close(); ?>
     </div>
   </div>
 </div>

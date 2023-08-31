@@ -102,78 +102,77 @@
         </button>
       </div>
 
-      <?php $validation = \Config\Services::validation(); ?>
+      <?= form_open('/owner/save_akun'); ?>
+      <?= csrf_field(); ?>
 
-      <form action='/owner/save_akun' method="post">
-
-        <div class="modal-body">
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="namaUser">Nama Lengkap</label>
-                <input type="text" name="namaUser" id="namaUser" class="form-control" required />
-              </div>
-
-              <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" name="username" id="username" class="form-control" required />
-              </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="namaUser">Nama Lengkap</label>
+              <input type="text" name="namaUser" id="namaUser" class="form-control" required />
             </div>
 
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="emailUser">Email</label>
-                <input type="email" name="emailUser" id="emailUser" class="form-control" required />
-              </div>
+            <div class="form-group">
+              <label for="username">Username</label>
+              <input type="text" name="username" id="username" class="form-control" required />
+            </div>
+          </div>
 
-              <div class="form-group">
-                <label for="passUser">Password</label>
-                <div class="input-group" id="passwordVisibility1">
-                  <input type="password" name="passUser" id="passUser" class="form-control" required />
-                  <div class="input-group-append">
-                    <button class="btn btn-outline-secondary toggle-password" type="button" id="togglePassword1">
-                      <i class="fas fa-eye"></i>
-                    </button>
-                  </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="emailUser">Email</label>
+              <input type="email" name="emailUser" id="emailUser" class="form-control" required />
+            </div>
+
+            <div class="form-group">
+              <label for="passUser">Password</label>
+              <div class="input-group" id="passwordVisibility1">
+                <input type="password" name="passUser" id="passUser" class="form-control" required />
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary toggle-password" type="button" id="togglePassword1">
+                    <i class="fas fa-eye"></i>
+                  </button>
                 </div>
               </div>
             </div>
+          </div>
 
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="telp">No. Telp</label>
-                <input type="textarea" name="telpUser" id="telpUser" class="form-control" />
-              </div>
-            </div>
-
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="tipeAkun">Tipe Akun</label>
-                <select class="form-control" name="tipeAkunUser" id="tipeAkunUser" required>
-                  <option value="owner">Owner</option>
-                  <option value="admin">Admin</option>
-                  <option value="user">User</option>
-                </select>
-              </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="telp">No. Telp</label>
+              <input type="textarea" name="telpUser" id="telpUser" class="form-control" />
             </div>
           </div>
 
-          <div class="form-group">
-            <label for="alamat">Alamat Lengkap</label>
-            <input type="textarea" name="alamatUser" id="alamatUser" class="form-control" />
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="tipeAkun">Tipe Akun</label>
+              <select class="form-control" name="tipeAkunUser" id="tipeAkunUser" required>
+                <option value="owner">Owner</option>
+                <option value="admin">Admin</option>
+                <option value="user">User</option>
+              </select>
+            </div>
           </div>
-
         </div>
 
-        <div class="d--sm-flex modal-footer mb-4">
-          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
-            <i class="fas fa-trash"></i> Batal
-          </button>
-          <button type="submit" class="btn btn-primary" name="addNewAccount">
-            <i class="fas fa-plus"></i> Tambah
-          </button>
+        <div class="form-group">
+          <label for="alamat">Alamat Lengkap</label>
+          <input type="textarea" name="alamatUser" id="alamatUser" class="form-control" />
         </div>
-      </form>
+
+      </div>
+
+      <div class="d--sm-flex modal-footer mb-4">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+          <i class="fas fa-trash"></i> Batal
+        </button>
+        <button type="submit" class="btn btn-primary" name="addNewAccount">
+          <i class="fas fa-plus"></i> Tambah
+        </button>
+      </div>
+      <?= form_close(); ?>
     </div>
   </div>
 </div>
@@ -189,74 +188,75 @@
         </button>
       </div>
 
-      <form action='/owner/update_akun' method="post">
+      <?= form_open('/owner/update_akun'); ?>
+      <?= csrf_field(); ?>
 
-        <div class="modal-body">
-          <input type="hidden" id="idUser" name="idUser" class="form-control" />
+      <div class="modal-body">
+        <input type="hidden" id="idUser" name="idUser" class="form-control" />
 
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="namaUser">Nama Lengkap</label>
-                <input type="text" name="namaUser" id="namaUser" class="form-control" readonly />
-              </div>
-
-              <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" name="username" id="username" class="form-control" readonly />
-              </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="namaUser">Nama Lengkap</label>
+              <input type="text" name="namaUser" id="namaUser" class="form-control" readonly />
             </div>
 
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="emailUser">Email</label>
-                <input type="email" name="emailUser" id="emailUser" class="form-control" readonly />
-              </div>
+            <div class="form-group">
+              <label for="username">Username</label>
+              <input type="text" name="username" id="username" class="form-control" readonly />
+            </div>
+          </div>
 
-              <div class="form-group">
-                <label for="passUser">Password</label>
-                <div class="input-group" id="passwordVisibility2">
-                  <input type="password" name="passUser" id="passUser" class="form-control" required />
-                  <div class="input-group-append">
-                    <button class="btn btn-outline-secondary toggle-password" type="button" id="togglePassword2">
-                      <i class="fas fa-eye"></i>
-                    </button>
-                  </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="emailUser">Email</label>
+              <input type="email" name="emailUser" id="emailUser" class="form-control" readonly />
+            </div>
+
+            <div class="form-group">
+              <label for="passUser">Password</label>
+              <div class="input-group" id="passwordVisibility2">
+                <input type="password" name="passUser" id="passUser" class="form-control" required />
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary toggle-password" type="button" id="togglePassword2">
+                    <i class="fas fa-eye"></i>
+                  </button>
                 </div>
               </div>
             </div>
+          </div>
 
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="telp">No. Telp</label>
-                <input type="text" name="telpUser" id="telpUser" class="form-control" readonly />
-              </div>
-            </div>
-
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="tipeAkun">Tipe Akun</label>
-                <input type="text" name="tipeAkunUser" id="tipeAkunUser" class="form-control" readonly />
-              </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="telp">No. Telp</label>
+              <input type="text" name="telpUser" id="telpUser" class="form-control" readonly />
             </div>
           </div>
 
-          <div class="form-group">
-            <label for="alamat">Alamat Lengkap</label>
-            <input type="textarea" name="alamatUser" id="alamatUser" class="form-control" readonly />
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="tipeAkun">Tipe Akun</label>
+              <input type="text" name="tipeAkunUser" id="tipeAkunUser" class="form-control" readonly />
+            </div>
           </div>
-
         </div>
 
-        <div class="d--sm-flex modal-footer mb-4">
-          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
-            <i class="fas fa-trash"></i> Batal
-          </button>
-          <button type="submit" class="btn btn-warning" name="editAccount">
-            <i class="fas fa-edit"></i> Edit
-          </button>
+        <div class="form-group">
+          <label for="alamat">Alamat Lengkap</label>
+          <input type="textarea" name="alamatUser" id="alamatUser" class="form-control" readonly />
         </div>
-      </form>
+
+      </div>
+
+      <div class="d--sm-flex modal-footer mb-4">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+          <i class="fas fa-trash"></i> Batal
+        </button>
+        <button type="submit" class="btn btn-warning" name="editAccount">
+          <i class="fas fa-edit"></i> Edit
+        </button>
+      </div>
+      <?= form_close(); ?>
     </div>
   </div>
 </div>

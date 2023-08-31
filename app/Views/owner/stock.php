@@ -137,70 +137,71 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form action='/owner/save_stock' method="post">
-        <div class="modal-body">
-          <input type="hidden" name="idBarang" id="idBarang" class="form-control" />
+      <?= form_open('/owner/save_stock'); ?>
+      <?= csrf_field(); ?>
+      <div class="modal-body">
+        <input type="hidden" name="idBarang" id="idBarang" class="form-control" />
 
-          <div class="form-group">
-            <label for="namaBarang">Nama Barang</label>
-            <input type="text" name="namaBarang" id="namaBarang" class="form-control" required />
-          </div>
+        <div class="form-group">
+          <label for="namaBarang">Nama Barang</label>
+          <input type="text" name="namaBarang" id="namaBarang" class="form-control" required />
+        </div>
 
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="jumlahBarang">Jumlah Barang</label>
-                <input type="number" name="jumlahBarang" id="jumlahBarang" class="form-control" required />
-              </div>
-            </div>
-
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="hargaSatuan">Harga Satuan</label>
-                <input type="number" name="hargaSatuan" id="hargaSatuan" class="form-control" required />
-              </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="jumlahBarang">Jumlah Barang</label>
+              <input type="number" name="jumlahBarang" id="jumlahBarang" class="form-control" required />
             </div>
           </div>
 
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="kategoriBarang">Kategori Barang</label>
-                <select class="form-control" name="kategoriBarang" id="kategoriBarang">
-                  <option value="bumbu">Bumbu</option>
-                  <option value="makanan_instan">Makanan Instan</option>
-                  <option value="makanan_ringan">Makanan Ringan</option>
-                  <option value="minuman">Minuman</option>
-                  <option value="perlengkapan_mandi">Perlengkapan Mandi</option>
-                  <option value="perlengkapan_rumah">Perlengkapan Rumah</option>
-                  <option value="sembako">Sembako</option>
-                  <option value="obat">Obat - Obatan</option>
-                  <option value="lain_lain">Lain - Lain</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="status">Status Barang</label>
-                <select class="form-control" name="status" id="status">
-                  <option value="tersedia">Tersedia</option>
-                  <option value="habis">Habis</option>
-                </select>
-              </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="hargaSatuan">Harga Satuan</label>
+              <input type="number" name="hargaSatuan" id="hargaSatuan" class="form-control" required />
             </div>
           </div>
         </div>
 
-        <div class="d-sm-flex modal-footer mb-4">
-          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
-            <i class="fas fa-trash"></i> Batal
-          </button>
-          <button type="submit" class="btn btn-primary" name="addStock">
-            <i class="fas fa-plus"></i> Tambah
-          </button>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="kategoriBarang">Kategori Barang</label>
+              <select class="form-control" name="kategoriBarang" id="kategoriBarang">
+                <option value="bumbu">Bumbu</option>
+                <option value="makanan_instan">Makanan Instan</option>
+                <option value="makanan_ringan">Makanan Ringan</option>
+                <option value="minuman">Minuman</option>
+                <option value="perlengkapan_mandi">Perlengkapan Mandi</option>
+                <option value="perlengkapan_rumah">Perlengkapan Rumah</option>
+                <option value="sembako">Sembako</option>
+                <option value="obat">Obat - Obatan</option>
+                <option value="lain_lain">Lain - Lain</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="status">Status Barang</label>
+              <select class="form-control" name="status" id="status">
+                <option value="tersedia">Tersedia</option>
+                <option value="habis">Habis</option>
+              </select>
+            </div>
+          </div>
         </div>
-      </form>
+      </div>
+
+      <div class="d-sm-flex modal-footer mb-4">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+          <i class="fas fa-trash"></i> Batal
+        </button>
+        <button type="submit" class="btn btn-primary" name="addStock">
+          <i class="fas fa-plus"></i> Tambah
+        </button>
+      </div>
+      <?= form_close(); ?>
     </div>
   </div>
 </div>
@@ -217,70 +218,71 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form action='/owner/update_stock' method="post">
-        <div class="modal-body">
-          <input type="hidden" name="idBarang" id="idBarang" class="form-control" />
+      <?= form_open('/owner/update_stock'); ?>
+      <?= csrf_field(); ?>
+      <div class="modal-body">
+        <input type="hidden" name="idBarang" id="idBarang" class="form-control" />
 
-          <div class="form-group">
-            <label for="namaBarang">Nama Barang</label>
-            <input type="text" name="namaBarang" id="namaBarang" class="form-control" required />
-          </div>
+        <div class="form-group">
+          <label for="namaBarang">Nama Barang</label>
+          <input type="text" name="namaBarang" id="namaBarang" class="form-control" required />
+        </div>
 
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="jumlahBarang">Jumlah Barang</label>
-                <input type="number" name="jumlahBarang" id="jumlahBarang" class="form-control" min="0" required />
-              </div>
-            </div>
-
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="hargaSatuan">Harga Satuan</label>
-                <input type="number" name="hargaSatuan" id="hargaSatuan" class="form-control" required />
-              </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="jumlahBarang">Jumlah Barang</label>
+              <input type="number" name="jumlahBarang" id="jumlahBarang" class="form-control" min="0" required />
             </div>
           </div>
 
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="kategoriBarang">Kategori Barang</label>
-                <select class="form-control" name="kategoriBarang" id="kategoriBarang">
-                  <option value="bumbu">Bumbu</option>
-                  <option value="makanan_instan">Makanan Instan</option>
-                  <option value="makanan_ringan">Makanan Ringan</option>
-                  <option value="minuman">Minuman</option>
-                  <option value="perlengkapan_mandi">Perlengkapan Mandi</option>
-                  <option value="perlengkapan_rumah">Perlengkapan Rumah</option>
-                  <option value="sembako">Sembako</option>
-                  <option value="obat">Obat - Obatan</option>
-                  <option value="lain_lain">Lain - Lain</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="status">Status Barang</label>
-                <select class="form-control" name="status" id="status">
-                  <option value="tersedia">Tersedia</option>
-                  <option value="habis">Habis</option>
-                </select>
-              </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="hargaSatuan">Harga Satuan</label>
+              <input type="number" name="hargaSatuan" id="hargaSatuan" class="form-control" required />
             </div>
           </div>
         </div>
 
-        <div class="d-sm-flex modal-footer mb-4">
-          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
-            <i class="fas fa-trash"></i> Batal
-          </button>
-          <button type="submit" class="btn btn-warning" name="editStock">
-            <i class="fas fa-edit"></i> Edit
-          </button>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="kategoriBarang">Kategori Barang</label>
+              <select class="form-control" name="kategoriBarang" id="kategoriBarang">
+                <option value="bumbu">Bumbu</option>
+                <option value="makanan_instan">Makanan Instan</option>
+                <option value="makanan_ringan">Makanan Ringan</option>
+                <option value="minuman">Minuman</option>
+                <option value="perlengkapan_mandi">Perlengkapan Mandi</option>
+                <option value="perlengkapan_rumah">Perlengkapan Rumah</option>
+                <option value="sembako">Sembako</option>
+                <option value="obat">Obat - Obatan</option>
+                <option value="lain_lain">Lain - Lain</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="status">Status Barang</label>
+              <select class="form-control" name="status" id="status">
+                <option value="tersedia">Tersedia</option>
+                <option value="habis">Habis</option>
+              </select>
+            </div>
+          </div>
         </div>
-      </form>
+      </div>
+
+      <div class="d-sm-flex modal-footer mb-4">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+          <i class="fas fa-trash"></i> Batal
+        </button>
+        <button type="submit" class="btn btn-warning" name="editStock">
+          <i class="fas fa-edit"></i> Edit
+        </button>
+      </div>
+      <?= form_close(); ?>
     </div>
   </div>
 </div>
@@ -297,44 +299,45 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form action='/owner/stock' method="post">
-        <div class="modal-body">
+      <?= form_open('/owner/stock'); ?>
+      <?= csrf_field(); ?>
+      <div class="modal-body">
 
-          <div class="form-group">
-            <label for="kategoriBarang">Filter Data by <b>Kategori</b></label>
-            <select class="form-control" name="kategoriBarang" id="kategoriBarang">
-              <option value="">-- Pilih Kategori Barang --</option>
-              <option value="bumbu">Bumbu</option>
-              <option value="makanan_instan">Makanan Instan</option>
-              <option value="makanan_ringan">Makanan Ringan</option>
-              <option value="minuman">Minuman</option>
-              <option value="perlengkapan_mandi">Perlengkapan Mandi</option>
-              <option value="perlengkapan_rumah">Perlengkapan Rumah</option>
-              <option value="sembako">Sembako</option>
-              <option value="obat">Obat - Obatan</option>
-              <option value="lain_lain">Lain - Lain</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label for="status">Filter Data by <b>Status<b></label>
-            <select class="form-control" name="status" id="status">
-              <option value="">-- Pilih Status Barang --</option>
-              <option value="tersedia">Tersedia</option>
-              <option value="habis">Habis</option>
-            </select>
-          </div>
+        <div class="form-group">
+          <label for="kategoriBarang">Filter Data by <b>Kategori</b></label>
+          <select class="form-control" name="kategoriBarang" id="kategoriBarang">
+            <option value="">-- Pilih Kategori Barang --</option>
+            <option value="bumbu">Bumbu</option>
+            <option value="makanan_instan">Makanan Instan</option>
+            <option value="makanan_ringan">Makanan Ringan</option>
+            <option value="minuman">Minuman</option>
+            <option value="perlengkapan_mandi">Perlengkapan Mandi</option>
+            <option value="perlengkapan_rumah">Perlengkapan Rumah</option>
+            <option value="sembako">Sembako</option>
+            <option value="obat">Obat - Obatan</option>
+            <option value="lain_lain">Lain - Lain</option>
+          </select>
         </div>
 
-        <div class="d-sm-flex modal-footer mb-4">
-          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
-            <i class="fas fa-trash"></i> Batal
-          </button>
-          <button type="submit" class="btn btn-primary" name="filterStock">
-            <i class="fas fa-filter"></i> Filter
-          </button>
+        <div class="form-group">
+          <label for="status">Filter Data by <b>Status<b></label>
+          <select class="form-control" name="status" id="status">
+            <option value="">-- Pilih Status Barang --</option>
+            <option value="tersedia">Tersedia</option>
+            <option value="habis">Habis</option>
+          </select>
         </div>
-      </form>
+      </div>
+
+      <div class="d-sm-flex modal-footer mb-4">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+          <i class="fas fa-trash"></i> Batal
+        </button>
+        <button type="submit" class="btn btn-primary" name="filterStock">
+          <i class="fas fa-filter"></i> Filter
+        </button>
+      </div>
+      <?= form_close(); ?>
     </div>
   </div>
 </div>

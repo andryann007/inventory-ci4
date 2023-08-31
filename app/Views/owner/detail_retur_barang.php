@@ -9,14 +9,14 @@
   <div style="justify-content: space-between; align-items: center; margin-bottom:10px;" class="d-none d-flex">
     <h3 class="text-gray-800 col-md-8">Detail Retur Barang</h3>
 
-    <a class="btn btn-danger btn-sm btnBack" href="/owner/retur">
+    <a class="btn btn-danger btn-md mr-2 btnBack" href="/owner/retur">
       <i class="fas fa-arrow-left"></i>
-      Kembali
+      <span class="d-none d-md-inline">Kembali</span>
     </a>
 
-    <button type="submit" class="btn btn-info btn-sm btnSave">
+    <button type="submit" class="btn btn-info btn-md btnSave">
       <i class="fas fa-save"></i>
-      Simpan Data
+      <span class="d-none d-md-inline">Simpan</span>
     </button>
 
   </div>
@@ -69,28 +69,25 @@
   <!-- DataTales Example -->
   <div class="card shadow mb-4">
     <div class="card-header py-3">
-      <div class="d-sm-flex align-items-center justify-content-between">
-        <div class="col-md-10">
-          <h6 class="m-0 font-weight-bold text-primary">
-            Detail Retur Barang
-          </h6><br>
-        </div>
+      <div style="justify-content: space-between; align-items: center;" class="d-none d-flex">
+        <h6 class="font-weight-bold text-primary col-md-8">
+          Detail Retur Barang
+        </h6>
 
-        <div class="col-md-1">
-          <form action="/owner/print_retur" method="post">
-            <input type="hidden" name="idCetakRetur" id="idCetakRetur" class="form-control" value="<?= $id_retur; ?>" required />
-            <button type="submit" class="btn btn-success btn-sm btnPrint">
-              <i class="fas fa-print"></i>
-              Cetak
-            </button>
-          </form>
-        </div>
+        <?= form_open('/owner/print_retur'); ?>
+        <?= csrf_field(); ?>
+        <input type="hidden" name="idCetakRetur" id="idCetakRetur" class="form-control" value="<?= $id_retur; ?>" required />
+        <button type="submit" class="btn btn-success btn-md btnPrint">
+          <i class="fas fa-print"></i>
+          <span class="d-none d-md-inline">Cetak</span>
+        </button>
+        <?= form_close(); ?>
       </div>
 
-      <h6 class="m-0 font-weight-bold text-dark">No Faktur : <?= $no_faktur; ?></h6>
-      <h6 class="m-0 font-weight-bold text-dark">Tanggal Transaksi : <?= $tgl_retur; ?></h6>
-      <h6 class="m-0 font-weight-bold text-dark">Nama Supplier : <?= $nama_supplier; ?></h6>
-      <h6 class="m-0 font-weight-bold text-dark">Nama Petugas : <?= $nama_lengkap; ?></h6>
+      <h6 class="font-weight-bold text-dark col-md-8 mt-3">No Faktur : <?= $no_faktur; ?></h6>
+      <h6 class="font-weight-bold text-dark col-md-8">Tanggal Transaksi : <?= $tgl_retur; ?></h6>
+      <h6 class="font-weight-bold text-dark col-md-8">Nama Supplier : <?= $nama_supplier; ?></h6>
+      <h6 class="font-weight-bold text-dark col-md-8">Nama Petugas : <?= $nama_lengkap; ?></h6>
     </div>
 
     <div class="card-body">
@@ -138,10 +135,17 @@
               </tr>
             <?php endforeach; ?>
           </tbody>
-          <tr>
-            <td colspan="3" align="center"><b>Total Harga</b></td>
-            <td colspan="3" align="center"><b><?= "Rp. " . number_format($grand_total, 2, ',', '.'); ?></b></td>
-          </tr>
+          <tfoot>
+            <tr>
+              <td colspan="3">
+                <h5 style="text-align: center;"><b>Total Harga</b></h5>
+              </td>
+              <td colspan="4"><b>
+                  <h5 style="text-align: center;"><?= "Rp. " . number_format($grand_total, 2, ',', '.'); ?>
+                </b></h5>
+              </td>
+            </tr>
+          </tfoot>
         </table>
       </div>
     </div>
@@ -160,52 +164,53 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form action="/owner/update_detail_retur" method="post">
-        <div class="modal-body">
-          <input type="hidden" name="idRetur" id="idRetur" class="form-control" value="<?= $id_retur; ?>" required />
+      <?= form_open('/owner/update_detail_retur'); ?>
+      <?= csrf_field(); ?>
+      <div class="modal-body">
+        <input type="hidden" name="idRetur" id="idRetur" class="form-control" value="<?= $id_retur; ?>" required />
 
-          <div class="form-group">
-            <label for="idBarang">Nama Barang</label>
-            <select class="form-control" name="idBarang" id="idBarang" required>
-              <?php foreach ($stock as $stk) : ?>
-                <option value="<?= $stk['id_barang']; ?>">
-                  <?= ucwords($stk['nama_barang']); ?>
-                </option>
-              <?php endforeach; ?>
-            </select>
-          </div>
+        <div class="form-group">
+          <label for="idBarang">Nama Barang</label>
+          <select class="form-control" name="idBarang" id="idBarang" required>
+            <?php foreach ($stock as $stk) : ?>
+              <option value="<?= $stk['id_barang']; ?>">
+                <?= ucwords($stk['nama_barang']); ?>
+              </option>
+            <?php endforeach; ?>
+          </select>
+        </div>
 
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="qtyRetur">QTY Retur</label>
-                <input type="number" min="0" name="qtyRetur" id="qtyRetur" class="form-control" required />
-              </div>
-            </div>
-
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="hargaSatuan">Harga Satuan</label>
-                <input type="number" min="0" name="hargaSatuan" id="hargaSatuan" class="form-control" required />
-              </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="qtyRetur">QTY Retur</label>
+              <input type="number" min="0" name="qtyRetur" id="qtyRetur" class="form-control" required />
             </div>
           </div>
 
-          <div class="form-group">
-            <label for="keterangan">Keterangan</label>
-            <input type="text" name="keterangan" id="keterangan" placeholder="Keterangan Retur Barang..." class="form-control" required maxlength="16" />
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="hargaSatuan">Harga Satuan</label>
+              <input type="number" min="0" name="hargaSatuan" id="hargaSatuan" class="form-control" required />
+            </div>
           </div>
         </div>
 
-        <div class="d-sm-flex modal-footer mb-4">
-          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
-            <i class="fas fa-trash"></i> Batal
-          </button>
-          <button type="submit" class="btn btn-warning" name="editReturningDetail">
-            <i class="fas fa-edit"></i> Edit
-          </button>
+        <div class="form-group">
+          <label for="keterangan">Keterangan</label>
+          <input type="text" name="keterangan" id="keterangan" placeholder="Keterangan Retur Barang..." class="form-control" required maxlength="16" />
         </div>
-      </form>
+      </div>
+
+      <div class="d-sm-flex modal-footer mb-4">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+          <i class="fas fa-trash"></i> Batal
+        </button>
+        <button type="submit" class="btn btn-warning" name="editReturningDetail">
+          <i class="fas fa-edit"></i> Edit
+        </button>
+      </div>
+      <?= form_close(); ?>
     </div>
   </div>
 </div>

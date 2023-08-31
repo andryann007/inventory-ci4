@@ -16,9 +16,10 @@
       <span class="d-none d-md-inline">Filter Data</span>
     </button>
 
-    <form action='/user/laporan_keluar' method="post">
-      <button type="submit" class="btn btn-dark btn-md"><i class="fas fa-eye"></i> <span class="d-none d-md-inline">All Data</span></button>
-    </form>
+    <?= form_open('/user/laporan_keluar'); ?>
+    <?= csrf_field(); ?>
+    <button type="submit" class="btn btn-dark btn-md"><i class="fas fa-eye"></i> <span class="d-none d-md-inline">All Data</span></button>
+    <?= form_close(); ?>
   </div>
 
   <!-- DataTales Example -->
@@ -131,48 +132,49 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form action='/user/laporan_keluar' method="post">
-        <div class="modal-body">
-          <label for="tglMulai">Filter Data by <b>Range of Date</b></label>
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-group">
-                <input type="date" name="tglMulai" class="form-control" />
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="form-group">
-                <input type="date" name="tglSelesai" class="form-control" />
-              </div>
+      <?= form_open('/user/laporan_keluar'); ?>
+      <?= csrf_field(); ?>
+      <div class="modal-body">
+        <label for="tglMulai">Filter Data by <b>Range of Date</b></label>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <input type="date" name="tglMulai" class="form-control" />
             </div>
           </div>
-
-          <div class="form-group">
-            <label for="namaBarang">Filter Data by <b>Nama Barang</b> :</label>
-            <select class="form-control" name="namaBarang" id="namaBarang">
-              <option value="">-- Pilih Nama Barang --</option>
-              <?php foreach ($stock as $stk) : ?>
-                <option value="<?= $stk['id_barang']; ?>">
-                  <?= ucwords($stk['nama_barang']); ?>
-                </option>
-              <?php endforeach; ?>
-            </select>
+          <div class="col-md-6">
+            <div class="form-group">
+              <input type="date" name="tglSelesai" class="form-control" />
+            </div>
           </div>
         </div>
 
-        <div class="col-md-12">
-          <label for="keterangan"><b>Note :</b> Filter Dapat Dilakukan Satu - Satu / Semua !!!</label>
+        <div class="form-group">
+          <label for="namaBarang">Filter Data by <b>Nama Barang</b> :</label>
+          <select class="form-control" name="namaBarang" id="namaBarang">
+            <option value="">-- Pilih Nama Barang --</option>
+            <?php foreach ($stock as $stk) : ?>
+              <option value="<?= $stk['id_barang']; ?>">
+                <?= ucwords($stk['nama_barang']); ?>
+              </option>
+            <?php endforeach; ?>
+          </select>
         </div>
+      </div>
 
-        <div class="d-sm-flex modal-footer mb-4">
-          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
-            <i class="fas fa-trash"></i> Batal
-          </button>
-          <button type="submit" class="btn btn-primary" name="filterOutcoming">
-            <i class="fas fa-filter"></i> Filter
-          </button>
-        </div>
-      </form>
+      <div class="col-md-12">
+        <label for="keterangan"><b>Note :</b> Filter Dapat Dilakukan Satu - Satu / Semua !!!</label>
+      </div>
+
+      <div class="d-sm-flex modal-footer mb-4">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+          <i class="fas fa-trash"></i> Batal
+        </button>
+        <button type="submit" class="btn btn-primary" name="filterOutcoming">
+          <i class="fas fa-filter"></i> Filter
+        </button>
+      </div>
+      <?= form_close(); ?>
     </div>
   </div>
 </div>
@@ -189,49 +191,50 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form action='/user/print_keluar' method="post">
-        <div class="modal-body">
-          <label for="tglMulai">Print Data <b>Filter Range of Date</b></label>
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-group">
-                <input type="date" name="tglMulai" class="form-control" />
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="form-group">
-                <input type="date" name="tglSelesai" class="form-control" />
-              </div>
+      <?= form_open('/user/print_keluar'); ?>
+      <?= csrf_field(); ?>
+      <div class="modal-body">
+        <label for="tglMulai">Print Data <b>Filter Range of Date</b></label>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <input type="date" name="tglMulai" class="form-control" />
             </div>
           </div>
-
-          <div class="form-group">
-            <label for="namaBarang">Print Data <b>Filter Nama Barang</b> :</label>
-            <select class="form-control" name="namaBarang" id="namaBarang">
-              <option value="">-- Pilih Nama Barang --</option>
-              <?php foreach ($stock as $stk) : ?>
-                <option value="<?= $stk['id_barang']; ?>">
-                  <?= ucwords($stk['nama_barang']); ?>
-                </option>
-              <?php endforeach; ?>
-            </select>
+          <div class="col-md-6">
+            <div class="form-group">
+              <input type="date" name="tglSelesai" class="form-control" />
+            </div>
           </div>
         </div>
 
-        <div class="col-md-12">
-          <label for="keterangan"><b>Note :</b> Filter Dapat Dilakukan Satu - Satu / Semua, Untuk Opsi Filter Print Bersifat Optional (Tidak Wajib).<br>
-            Jika Tidak Ada Filter, Maka Laporan Barang Keluar akan di <b>Print Semua !!!</b></label>
+        <div class="form-group">
+          <label for="namaBarang">Print Data <b>Filter Nama Barang</b> :</label>
+          <select class="form-control" name="namaBarang" id="namaBarang">
+            <option value="">-- Pilih Nama Barang --</option>
+            <?php foreach ($stock as $stk) : ?>
+              <option value="<?= $stk['id_barang']; ?>">
+                <?= ucwords($stk['nama_barang']); ?>
+              </option>
+            <?php endforeach; ?>
+          </select>
         </div>
+      </div>
 
-        <div class="d-sm-flex modal-footer mb-4">
-          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
-            <i class="fas fa-trash"></i> Batal
-          </button>
-          <button type="submit" class="btn btn-success" name="printOutcoming">
-            <i class="fas fa-print"></i> Print
-          </button>
-        </div>
-      </form>
+      <div class="col-md-12">
+        <label for="keterangan"><b>Note :</b> Filter Dapat Dilakukan Satu - Satu / Semua, Untuk Opsi Filter Print Bersifat Optional (Tidak Wajib).<br>
+          Jika Tidak Ada Filter, Maka Laporan Barang Keluar akan di <b>Print Semua !!!</b></label>
+      </div>
+
+      <div class="d-sm-flex modal-footer mb-4">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+          <i class="fas fa-trash"></i> Batal
+        </button>
+        <button type="submit" class="btn btn-success" name="printOutcoming">
+          <i class="fas fa-print"></i> Print
+        </button>
+      </div>
+      <?= form_close(); ?>
     </div>
   </div>
 </div>

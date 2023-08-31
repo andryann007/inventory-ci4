@@ -9,14 +9,14 @@
   <div style="justify-content: space-between; align-items: center; margin-bottom:10px;" class="d-none d-flex">
     <h3 class="text-gray-800 col-md-8">Detail Barang Masuk</h3>
 
-    <a class="btn btn-danger btn-sm btnBack" href="/user/masuk">
+    <a class="btn btn-danger btn-md mr-2 btnBack" href="/user/masuk">
       <i class="fas fa-arrow-left"></i>
-      Kembali
+      <span class="d-none d-md-inline">Kembali</span>
     </a>
 
-    <button type="submit" class="btn btn-info btn-sm btnSave">
+    <button type="submit" class="btn btn-info btn-md btnSave">
       <i class="fas fa-save"></i>
-      Simpan Data
+      <span class="d-none d-md-inline">Simpan</span>
     </button>
 
   </div>
@@ -69,28 +69,25 @@
   <!-- DataTales Example -->
   <div class="card shadow mb-4">
     <div class="card-header py-3">
-      <div class="d-sm-flex align-items-center justify-content-between">
-        <div class="col-md-10">
-          <h6 class="m-0 font-weight-bold text-primary">
-            Detail Barang Masuk
-          </h6><br>
-        </div>
+      <div style="justify-content: space-between; align-items: center;" class="d-none d-flex">
+        <h6 class="font-weight-bold text-primary col-md-8">
+          Detail Barang Masuk
+        </h6>
 
-        <div class="col-md-1">
-          <form action="/user/print_masuk" method="post">
-            <input type="hidden" name="idCetakMasuk" id="idCetakMasuk" class="form-control" value="<?= $id_masuk; ?>" required />
-            <button type="submit" class="btn btn-success btn-sm btnPrint">
-              <i class="fas fa-print"></i>
-              Cetak
-            </button>
-          </form>
-        </div>
+        <?= form_open('/user/print_masuk'); ?>
+        <?= csrf_field(); ?>
+        <input type="hidden" name="idCetakMasuk" id="idCetakMasuk" class="form-control" value="<?= $id_masuk; ?>" required />
+        <button type="submit" class="btn btn-success btn-md btnPrint">
+          <i class="fas fa-print"></i>
+          <span class="d-none d-md-inline">Cetak</span>
+        </button>
+        <?= form_close(); ?>
       </div>
 
-      <h6 class="m-0 font-weight-bold text-dark">No Faktur : <?= $no_faktur; ?></h6>
-      <h6 class="m-0 font-weight-bold text-dark">Tanggal Transaksi : <?= $tgl_masuk; ?></h6>
-      <h6 class="m-0 font-weight-bold text-dark">Nama Supplier : <?= $nama_supplier; ?></h6>
-      <h6 class="m-0 font-weight-bold text-dark">Nama Petugas : <?= $nama_lengkap; ?></h6>
+      <h6 class="font-weight-bold text-dark col-md-8 mt-3">No Faktur : <?= $no_faktur; ?></h6>
+      <h6 class="font-weight-bold text-dark col-md-8">Tanggal Transaksi : <?= $tgl_masuk; ?></h6>
+      <h6 class="font-weight-bold text-dark col-md-8">Nama Supplier : <?= $nama_supplier; ?></h6>
+      <h6 class="font-weight-bold text-dark col-md-8">Nama Petugas : <?= $nama_lengkap; ?></h6>
     </div>
 
     <div class="card-body">
@@ -138,10 +135,17 @@
               </tr>
             <?php endforeach; ?>
           </tbody>
-          <tr>
-            <td colspan="3" align="center"><b>Total Harga</b></td>
-            <td colspan="3" align="center"><b><?= "Rp. " . number_format($grand_total, 2, ',', '.'); ?></b></td>
-          </tr>
+          <tfoot>
+            <tr>
+              <td colspan="3">
+                <h5 style="text-align: center;"><b>Total Harga</b></h5>
+              </td>
+              <td colspan="4"><b>
+                  <h5 style="text-align: center;"><?= "Rp. " . number_format($grand_total, 2, ',', '.'); ?>
+                </b></h5>
+              </td>
+            </tr>
+          </tfoot>
         </table>
       </div>
     </div>
@@ -160,124 +164,53 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form action="/user/update_detail_masuk" method="post">
-        <div class="modal-body">
-          <input type="hidden" name="idMasuk" id="idMasuk" class="form-control" value="<?= $id_masuk; ?>" required />
+      <?= form_open('/user/update_detail_masuk'); ?>
+      <?= csrf_field(); ?>
+      <div class="modal-body">
+        <input type="hidden" name="idMasuk" id="idMasuk" class="form-control" value="<?= $id_masuk; ?>" required />
 
-          <div class="form-group">
-            <label for="idBarang">Nama Barang</label>
-            <select class="form-control" name="idBarang" id="idBarang" required>
-              <?php foreach ($stock as $stk) : ?>
-                <option value="<?= $stk['id_barang']; ?>">
-                  <?= ucwords($stk['nama_barang']); ?>
-                </option>
-              <?php endforeach; ?>
-            </select>
-          </div>
+        <div class="form-group">
+          <label for="idBarang">Nama Barang</label>
+          <select class="form-control" name="idBarang" id="idBarang" required>
+            <?php foreach ($stock as $stk) : ?>
+              <option value="<?= $stk['id_barang']; ?>">
+                <?= ucwords($stk['nama_barang']); ?>
+              </option>
+            <?php endforeach; ?>
+          </select>
+        </div>
 
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="qtyMasuk">QTY Masuk</label>
-                <input type="number" min="0" name="qtyMasuk" id="qtyMasuk" class="form-control" required />
-              </div>
-            </div>
-
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="hargaSatuan">Harga Satuan</label>
-                <input type="number" min="0" name="hargaSatuan" id="hargaSatuan" class="form-control" required />
-              </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="qtyMasuk">QTY Masuk</label>
+              <input type="number" min="0" name="qtyMasuk" id="qtyMasuk" class="form-control" required />
             </div>
           </div>
 
-          <div class="form-group">
-            <label for="keterangan">Keterangan</label>
-            <input type="text" name="keterangan" id="keterangan" placeholder="Keterangan Barang Masuk..." class="form-control" required maxlength="16" />
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="hargaSatuan">Harga Satuan</label>
+              <input type="number" min="0" name="hargaSatuan" id="hargaSatuan" class="form-control" required />
+            </div>
           </div>
         </div>
 
-        <div class="d-sm-flex modal-footer mb-4">
-          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
-            <i class="fas fa-trash"></i> Batal
-          </button>
-          <button type="submit" class="btn btn-warning" name="editIncomingDetail">
-            <i class="fas fa-edit"></i> Edit
-          </button>
+        <div class="form-group">
+          <label for="keterangan">Keterangan</label>
+          <input type="text" name="keterangan" id="keterangan" placeholder="Keterangan Barang Masuk..." class="form-control" required maxlength="16" />
         </div>
-      </form>
-    </div>
-  </div>
-</div>
+      </div>
 
-<!-- Filter Data Modal -->
-<div class="modal fade" id="filterIncomingModal" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="filterModalLabel">
-          Filter Data Barang Masuk
-        </h5>
-        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
+      <div class="d-sm-flex modal-footer mb-4">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+          <i class="fas fa-trash"></i> Batal
+        </button>
+        <button type="submit" class="btn btn-warning" name="editIncomingDetail">
+          <i class="fas fa-edit"></i> Edit
         </button>
       </div>
-      <form action='/user/masuk' method="post">
-        <div class="modal-body">
-          <label for="namaBarang">Filter Data by <b>Range of Date</b></label>
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-group">
-                <input type="date" name="tglMulai" class="form-control" />
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="form-group">
-                <input type="date" name="tglSelesai" class="form-control" />
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="idSupplier">Filter Data by <b>Nama Supplier</b> :</label>
-                <select class="form-control" name="idSupplier" id="idSupplier">
-                  <option value="">-- Pilih Nama Supplier --</option>
-                  <?php foreach ($supplier as $spy) : ?>
-                    <option value="<?= $spy['id_supplier']; ?>">
-                      <?= ucwords($spy['nama_supplier']); ?>
-                    </option>
-                  <?php endforeach; ?>
-                </select>
-              </div>
-            </div>
-
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="idUser">Filter Data by <b>Nama Petugas</b> :</label>
-                <select class="form-control" name="idUser" id="idUser">
-                  <option value="">-- Pilih Nama Petugas --</option>
-                  <?php foreach ($user as $usr) : ?>
-                    <option value="<?= $usr['id_user']; ?>">
-                      <?= ucwords($usr['nama_lengkap']); ?>
-                    </option>
-                  <?php endforeach; ?>
-                </select>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="d-sm-flex modal-footer mb-4">
-          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
-            <i class="fas fa-trash"></i> Batal
-          </button>
-          <button type="submit" class="btn btn-primary" name="filterOutcoming">
-            <i class="fas fa-filter"></i> Filter
-          </button>
-        </div>
-      </form>
+      <?= form_close(); ?>
     </div>
   </div>
 </div>

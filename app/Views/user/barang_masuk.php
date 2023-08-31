@@ -104,64 +104,65 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form action="/user/save_masuk" method="post">
-        <div class="modal-body">
-          <input type="hidden" name="idMasuk" id="idMasuk" class="form-control" required />
+      <?= form_open('/user/save_masuk'); ?>
+      <?= csrf_field(); ?>
+      <div class="modal-body">
+        <input type="hidden" name="idMasuk" id="idMasuk" class="form-control" required />
 
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="noFaktur">No Faktur</label>
-                <input type="text" name="noFaktur" id="noFaktur" placeholder="No Faktur Barang Keluar" class="form-control" required maxlength="16" />
-              </div>
-            </div>
-
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="idSupplier">Nama Supplier</label>
-                <select class="form-control" name="idSupplier" id="idSupplier" required>
-                  <?php foreach ($supplier as $spy) : ?>
-                    <option value="<?= $spy['id_supplier']; ?>">
-                      <?= ucwords($spy['nama_supplier']); ?>
-                    </option>
-                  <?php endforeach; ?>
-                </select>
-              </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="noFaktur">No Faktur</label>
+              <input type="text" name="noFaktur" id="noFaktur" placeholder="No Faktur Barang Keluar" class="form-control" required maxlength="16" />
             </div>
           </div>
 
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="tanggalIncoming">Tanggal Masuk</label>
-                <input type="date" name="tglIncoming" id="tglIncoming" class="form-control" required />
-              </div>
-            </div>
-
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="idUser">Nama Petugas</label>
-                <select class="form-control" name="idUser" id="idUser" required>
-                  <?php foreach ($user as $usr) : ?>
-                    <option value="<?= $usr['id_user']; ?>">
-                      <?= ucwords($usr['nama_lengkap']); ?>
-                    </option>
-                  <?php endforeach; ?>
-                </select>
-              </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="idSupplier">Nama Supplier</label>
+              <select class="form-control" name="idSupplier" id="idSupplier" required>
+                <?php foreach ($supplier as $spy) : ?>
+                  <option value="<?= $spy['id_supplier']; ?>">
+                    <?= ucwords($spy['nama_supplier']); ?>
+                  </option>
+                <?php endforeach; ?>
+              </select>
             </div>
           </div>
         </div>
 
-        <div class="d-sm-flex modal-footer mb-4">
-          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
-            <i class="fas fa-trash"></i> Batal
-          </button>
-          <button type="submit" class="btn btn-success" name="addIncomingGoods">
-            <i class="fas fa-plus"></i> Tambah
-          </button>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="tanggalIncoming">Tanggal Masuk</label>
+              <input type="date" name="tglIncoming" id="tglIncoming" class="form-control" required />
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="idUser">Nama Petugas</label>
+              <select class="form-control" name="idUser" id="idUser" required>
+                <?php foreach ($user as $usr) : ?>
+                  <option value="<?= $usr['id_user']; ?>">
+                    <?= ucwords($usr['nama_lengkap']); ?>
+                  </option>
+                <?php endforeach; ?>
+              </select>
+            </div>
+          </div>
         </div>
-      </form>
+      </div>
+
+      <div class="d-sm-flex modal-footer mb-4">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+          <i class="fas fa-trash"></i> Batal
+        </button>
+        <button type="submit" class="btn btn-success" name="addIncomingGoods">
+          <i class="fas fa-plus"></i> Tambah
+        </button>
+      </div>
+      <?= form_close(); ?>
     </div>
   </div>
 </div>
@@ -178,64 +179,65 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form action="/user/update_masuk" method="post">
-        <div class="modal-body">
-          <input type="hidden" name="idMasuk" id="idMasuk" class="form-control" required />
+      <?= form_open('/user/update_masuk'); ?>
+      <?= csrf_field(); ?>
+      <div class="modal-body">
+        <input type="hidden" name="idMasuk" id="idMasuk" class="form-control" required />
 
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="noFaktur">No Faktur</label>
-                <input type="text" name="noFaktur" id="noFaktur" placeholder="No Faktur Barang Keluar" class="form-control" required maxlength="16" />
-              </div>
-            </div>
-
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="idSupplier">Nama Supplier</label>
-                <select class="form-control" name="idSupplier" id="idSupplier" required>
-                  <?php foreach ($supplier as $spy) : ?>
-                    <option value="<?= $spy['id_supplier']; ?>">
-                      <?= ucwords($spy['nama_supplier']); ?>
-                    </option>
-                  <?php endforeach; ?>
-                </select>
-              </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="noFaktur">No Faktur</label>
+              <input type="text" name="noFaktur" id="noFaktur" placeholder="No Faktur Barang Keluar" class="form-control" required maxlength="16" />
             </div>
           </div>
 
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="tanggalIncoming">Tanggal Masuk</label>
-                <input type="date" name="tglIncoming" id="tglIncoming" class="form-control" required />
-              </div>
-            </div>
-
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="idUser">Nama Petugas</label>
-                <select class="form-control" name="idUser" id="idUser" required>
-                  <?php foreach ($user as $usr) : ?>
-                    <option value="<?= $usr['id_user']; ?>">
-                      <?= ucwords($usr['nama_lengkap']); ?>
-                    </option>
-                  <?php endforeach; ?>
-                </select>
-              </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="idSupplier">Nama Supplier</label>
+              <select class="form-control" name="idSupplier" id="idSupplier" required>
+                <?php foreach ($supplier as $spy) : ?>
+                  <option value="<?= $spy['id_supplier']; ?>">
+                    <?= ucwords($spy['nama_supplier']); ?>
+                  </option>
+                <?php endforeach; ?>
+              </select>
             </div>
           </div>
         </div>
 
-        <div class="d-sm-flex modal-footer mb-4">
-          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
-            <i class="fas fa-trash"></i> Batal
-          </button>
-          <button type="submit" class="btn btn-warning" name="editIncomingGoods">
-            <i class="fas fa-edit"></i> Edit
-          </button>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="tanggalIncoming">Tanggal Masuk</label>
+              <input type="date" name="tglIncoming" id="tglIncoming" class="form-control" required />
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="idUser">Nama Petugas</label>
+              <select class="form-control" name="idUser" id="idUser" required>
+                <?php foreach ($user as $usr) : ?>
+                  <option value="<?= $usr['id_user']; ?>">
+                    <?= ucwords($usr['nama_lengkap']); ?>
+                  </option>
+                <?php endforeach; ?>
+              </select>
+            </div>
+          </div>
         </div>
-      </form>
+      </div>
+
+      <div class="d-sm-flex modal-footer mb-4">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+          <i class="fas fa-trash"></i> Batal
+        </button>
+        <button type="submit" class="btn btn-warning" name="editIncomingGoods">
+          <i class="fas fa-edit"></i> Edit
+        </button>
+      </div>
+      <?= form_close(); ?>
     </div>
   </div>
 </div>

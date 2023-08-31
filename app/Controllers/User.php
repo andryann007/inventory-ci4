@@ -219,8 +219,8 @@ class User extends BaseController
         );
 
         $dataStock = array(
-            'qty_stock' => ((int)$rowStock['qty_stock'] - (int)$rowMasuk['qty_masuk']) + (int)$stockBarangMasukBaru,
-            'total_harga' => (((int)$rowStock['qty_stock'] - (int)$rowMasuk['qty_masuk']) + (int)$stockBarangMasukBaru) * (int)$rowStock['harga_satuan']
+            'qty_stock' => ((int)$rowStock['qty_stock'] - (int)$rowMasuk['total_qty_masuk']) + (int)$stockBarangMasukBaru,
+            'total_harga' => (((int)$rowStock['qty_stock'] - (int)$rowMasuk['total_qty_masuk']) + (int)$stockBarangMasukBaru) * (int)$rowStock['harga_satuan']
         );
 
         $successUpdate = $masuk->updateDetailData($dataMasuk, $idMasuk, $idBarang);
@@ -410,8 +410,8 @@ class User extends BaseController
             'keterangan' => $this->request->getPost('keterangan')
         );
 
-        $stockBaru = ($rowStock['qty_stock'] + $rowKeluar['qty_keluar']) - $stockBarangKeluarBaru;
-        $totalHargaBaru = (($rowStock['qty_stock'] + $rowKeluar['qty_keluar']) - $stockBarangKeluarBaru) * $rowStock['harga_satuan'];
+        $stockBaru = ($rowStock['qty_stock'] + $rowKeluar['total_qty_keluar']) - $stockBarangKeluarBaru;
+        $totalHargaBaru = (($rowStock['qty_stock'] + $rowKeluar['total_qty_keluar']) - $stockBarangKeluarBaru) * $rowStock['harga_satuan'];
 
         if ($stockBaru == 0) {
             $dataStock = array(
@@ -622,8 +622,8 @@ class User extends BaseController
         );
 
         $dataStock = array(
-            'qty_stock' => ((int)$rowStock['qty_stock'] - (int)$rowRetur['qty_retur']) + (int)$stockBarangReturBaru,
-            'total_harga' => (((int)$rowStock['qty_stock'] - (int)$rowRetur['qty_retur']) + (int)$stockBarangReturBaru) * (int)$rowStock['harga_satuan']
+            'qty_stock' => ((int)$rowStock['qty_stock'] - (int)$rowRetur['total_qty_retur']) + (int)$stockBarangReturBaru,
+            'total_harga' => (((int)$rowStock['qty_stock'] - (int)$rowRetur['total_qty_retur']) + (int)$stockBarangReturBaru) * (int)$rowStock['harga_satuan']
         );
 
         $successUpdate = $retur->updateDetailData($dataRetur, $idRetur, $idBarang);
