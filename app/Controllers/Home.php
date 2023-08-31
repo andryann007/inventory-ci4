@@ -17,21 +17,21 @@ class Home extends BaseController
 
     public function index()
     {
-        $login = $this -> request -> getPost('btnLogin');
+        $login = $this->request->getPost('btnLogin');
 
-        if($login){
-            $username = $this -> request -> getPost('username');
-            $password = $this -> request -> getPost('password');
+        if ($login) {
+            $username = $this->request->getPost('username');
+            $password = $this->request->getPost('password');
 
-            $dataAkun = $this->akunModel -> where("username", $username) -> first();
+            $dataAkun = $this->akunModel->where("username", $username)->first();
 
-            if(!$dataAkun) {
+            if (!$dataAkun) {
                 $err = "Username & Password Tidak Valid !!!";
-            } else if($password != $dataAkun['password']){
+            } else if ($password != $dataAkun['password']) {
                 $err = "Password Tidak Sesuai !!!";
             }
-            
-            if(empty($err)){
+
+            if (empty($err)) {
                 $dataSesi = [
                     'id_user' => $dataAkun['id_user'],
                     'nama_lengkap' => $dataAkun['nama_lengkap'],
@@ -43,60 +43,59 @@ class Home extends BaseController
                     'tipe_akun' => $dataAkun['tipe_akun']
                 ];
 
-                session() -> set($dataSesi);
-                
-                if($dataAkun['tipe_akun'] == "owner"){
+                session()->set($dataSesi);
+
+                if ($dataAkun['tipe_akun'] == "owner") {
                     session()->set('logged_in', true);
                     session()->setFlashdata('message', 'Berhasil Login Sebagai Owner !!!');
-                    return redirect() -> to('owner');
-                } 
-                
-                else if ($dataAkun['tipe_akun'] == "admin"){
+                    return redirect()->to('owner');
+                } else if ($dataAkun['tipe_akun'] == "admin") {
                     session()->set('logged_in', true);
                     session()->setFlashdata('message', 'Berhasil Login Sebagai Admin !!!');
-                    return redirect() -> to('admin');
+                    return redirect()->to('admin');
                 } else {
                     session()->set('logged_in', true);
                     session()->setFlashdata('message', 'Berhasil Login Sebagai User !!!');
-                    return redirect() -> to('user');
+                    return redirect()->to('user');
                 }
             }
-            
-            if($err){
-                session() -> setFlashData('error', $err);
+
+            if ($err) {
+                session()->setFlashData('error', $err);
             }
         }
         return view('auth/login');
     }
 
-    public function forget_password(){
+    public function forget_password()
+    {
         $ModelAkun = new \App\Models\AkunModel();
         $akun = new AkunModel();
 
-        $sendToken = $this -> request -> getPost('btnSendToken');
+        $sendToken = $this->request->getPost('btnSendToken');
 
-        if($sendToken){
-            $email = $this -> request -> getPost('email');
+        if ($sendToken) {
+            $email = $this->request->getPost('email');
             $akunData = $akun->where('email', $email)->first();
 
-            if($akunData){
-                if($email == $akunData['email']){
+            if ($akunData) {
+                if ($email == $akunData['email']) {
                     // Character That Been Use In Reset Token
                     $tokenCharacter = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
                     $pieces  = [];
                     $max = mb_strlen($tokenCharacter, '8bit') - 1;
-                    
+
                     // Generate Random 12 Reset Token
-                    for($i = 0; $i < 12; ++$i){
+                    for ($i = 0; $i < 12; ++$i) {
                         $pieces[] = $tokenCharacter[random_int(0, $max)];
                     }
-    
+
                     $resetToken = implode('', $pieces);
-    
+
                     $recipientsName = $akunData['nama_lengkap'];
-    
+
                     // Send Reset Token To User Email
-                    $this->emailSMTP->setFrom("andryancoolz@gmail.com", "Andryan");
+                    $this->emailSMTP->setFrom("andryanace@gmail.com", "Andryan");
                     $this->emailSMTP->setTo($email);
                     $this->emailSMTP->setSubject("Password Reset Token");
                     $this->emailSMTP->setMessage("Hi, <b>{$recipientsName}</b> We're sending you this email because you requested a password reset.<br>
@@ -113,57 +112,56 @@ class Home extends BaseController
                     );
                     $setNewResetToken = $ModelAkun->updateData($data, $akunData['id_user']);
 
-                    if($sendResetToken && $setNewResetToken){
-                    session() -> setFlashdata('forget_password_message', 'Berhasil Mengirim Reset Token & Update Reset Token !!!');
+                    if ($sendResetToken && $setNewResetToken) {
+                        session()->setFlashdata('forget_password_message', 'Berhasil Mengirim Reset Token & Update Reset Token !!!');
+                    } else {
+                        session()->setFlashdata('forget_password_error', 'Gagal Mengirim Reset Token !!!');
                     }
-    
-                    else{
-                        session() -> setFlashdata('forget_password_error', 'Gagal Mengirim Reset Token !!!');
-                    }
-                } 
+                }
             } else {
-                session() -> setFlashdata('forget_password_error', 'Email Tidak Terdaftar !!!');
+                session()->setFlashdata('forget_password_error', 'Email Tidak Terdaftar !!!');
             }
         }
         return view('auth/forget_password');
     }
 
-    public function reset_password(){
+    public function reset_password()
+    {
         $ModelAkun = new \App\Models\AkunModel();
 
-        $resetPassword = $this -> request -> getPost('btnResetPass');
+        $resetPassword = $this->request->getPost('btnResetPass');
 
-        if($resetPassword){
-            $email = $this -> request -> getPost('email');
-            $token = $this -> request -> getPost('token');
-            $password = $this -> request -> getPost('password');
-            $confirmPassword = $this -> request -> getPost('confirmPassword');
+        if ($resetPassword) {
+            $email = $this->request->getPost('email');
+            $token = $this->request->getPost('token');
+            $password = $this->request->getPost('password');
+            $confirmPassword = $this->request->getPost('confirmPassword');
 
-            $dataAkun = $ModelAkun -> where("email", $email) -> first();
+            $dataAkun = $ModelAkun->where("email", $email)->first();
 
-            if($email != $dataAkun['email']) :
+            if ($email != $dataAkun['email']) :
                 $err = "Email Tidak Terdaftar !!!";
-                session() -> setFlashData('reset_password_error', $err);
+                session()->setFlashData('reset_password_error', $err);
             endif;
 
-            if($token != $dataAkun['reset_token'] || $token == "") :
+            if ($token != $dataAkun['reset_token'] || $token == "") :
                 $err = "Reset Token Tidak Sesuai !!!";
-                session() -> setFlashData('reset_password_error', $err);
+                session()->setFlashData('reset_password_error', $err);
             endif;
 
-            if(empty($err)){
-                if($email == $dataAkun['email'] && $token == $dataAkun['reset_token']){
-                    if($password == $confirmPassword){
+            if (empty($err)) {
+                if ($email == $dataAkun['email'] && $token == $dataAkun['reset_token']) {
+                    if ($password == $confirmPassword) {
                         $data = array(
                             'password' => $password,
                             'reset_token' => ""
                         );
-                        $ModelAkun -> updateData($data, $dataAkun['id_user']);
+                        $ModelAkun->updateData($data, $dataAkun['id_user']);
 
                         $recipientsName = $dataAkun['nama_lengkap'];
-    
+
                         // Send Password Reset Message To User Email
-                        $this->emailSMTP->setFrom("andryancoolz@gmail.com", "Andryan");
+                        $this->emailSMTP->setFrom("andryanace@gmail.com", "Andryan");
                         $this->emailSMTP->setTo($email);
                         $this->emailSMTP->setSubject("Reset Password Successful");
                         $this->emailSMTP->setMessage("Hi, <b>{$recipientsName}</b> We're want to inform you that you're successfully reset your password.<br>
@@ -172,7 +170,7 @@ class Home extends BaseController
                         Andryan");
                         $this->emailSMTP->send();
 
-                        session() -> setFlashdata('reset_password_message', 'Berhasil Mereset Password & Reset Token !!!');
+                        session()->setFlashdata('reset_password_message', 'Berhasil Mereset Password & Reset Token !!!');
                     } else {
                         session()->setFlashdata('reset_password_error', 'Password & Password Konfirmasi Tidak Sama !!!');
                     }
